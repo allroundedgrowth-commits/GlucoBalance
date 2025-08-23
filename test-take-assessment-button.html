@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Assessment Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        h1 {
+            color: #007FFF;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007FFF;
+            padding-bottom: 5px;
+        }
+        .dashboard-frame {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+        .test-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .test-steps {
+            counter-reset: step-counter;
+        }
+        .test-steps li {
+            counter-increment: step-counter;
+            margin: 10px 0;
+            padding-left: 10px;
+        }
+        .test-steps li::before {
+            content: counter(step-counter) ". ";
+            font-weight: bold;
+            color: #007FFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Take Assessment Button Test</h1>
+    
+    <div class="test-container">
+        <h2>Test Instructions</h2>
+        <div class="test-instructions">
+            <strong>Manual Test Steps:</strong>
+            <ol class="test-steps">
+                <li>Wait for the app to load completely</li>
+                <li>Click the "Dashboard" button in the navigation to go to the dashboard</li>
+                <li>Look for the "Risk Status" card in the dashboard</li>
+                <li>Click the "📋 Take Assessment" button in the Risk Status card</li>
+                <li>Verify that the risk assessment questionnaire opens</li>
+                <li>Check that you can navigate through the assessment questions</li>
+            </ol>
+        </div>
+        <div id="test-results"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Live Dashboard Test</h2>
+        <div class="info">
+            <strong>Interactive Test:</strong> Use the dashboard below to test the "Take Assessment" button functionality.
+        </div>
+        <div class="dashboard-frame">
+            <iframe src="index.html" title="Dashboard Test"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function runAutomatedTests() {
+            const results = [];
+            
+            // Test 1: Check if Take Assessment button exists
+            const iframe = document.querySelector('iframe');
+            
+            iframe.onload = function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    
+                    // Test 1: Button existence
+                    const takeAssessmentBtn = iframeDoc.getElementById('take-assessment-btn');
+                    results.push({
+                        test: 'Take Assessment Button Existence',
+                        passed: !!takeAssessmentBtn,
+                        message: takeAssessmentBtn ? 
+                            'PASS: Take Assessment button found in DOM' : 
+                            'FAIL: Take Assessment button not found in DOM'
+                    });
+
+                    // Test 2: Button is clickable
+                    if (takeAssessmentBtn) {
+                        const isClickable = !takeAssessmentBtn.disabled && 
+                                          takeAssessmentBtn.style.pointerEvents !== 'none';
+                        results.push({
+                            test: 'Button Clickability',
+                            passed: isClickable,
+                            message: isClickable ? 
+                                'PASS: Button is clickable' : 
+                                'FAIL: Button is disabled or not clickable'
+                        });
+
+                        // Test 3: Button has proper text
+                        const hasCorrectText = takeAssessmentBtn.textContent.includes('Take Assessment');
+                        results.push({
+                            test: 'Button Text Content',
+                            passed: hasCorrectText,
+                            message: hasCorrectText ? 
+                                'PASS: Button has correct text content' : 
+                                'FAIL: Button text is incorrect'
+                        });
+                    }
+
+                    // Test 4: Check if showAssessment method exists
+                    const hasShowAssessment = iframe.contentWindow.glucoApp && 
+                                            typeof iframe.contentWindow.glucoApp.showAssessment === 'function';
+                    results.push({
+                        test: 'showAssessment Method Availability',
+                        passed: hasShowAssessment,
+                        message: hasShowAssessment ? 
+                            'PASS: showAssessment method is available' : 
+                            'FAIL: showAssessment method not found'
+                    });
+
+                    // Display results
+                    displayResults(results);
+                    
+                } catch (error) {
+                    console.error('Error running automated tests:', error);
+                    displayResults([{
+                        test: 'Automated Test Execution',
+                        passed: false,
+                        message: 'FAIL: Could not access iframe content due to security restrictions. Please test manually.'
+                    }]);
+                }
+            };
+        }
+
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('test-results');
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="test-result info">
+                        <strong>Note:</strong> Automated tests may be limited due to iframe security restrictions. 
+                        Please follow the manual test steps above.
+                    </div>
+                `;
+                return;
+            }
+
+            resultsContainer.innerHTML = results.map(result => 
+                `<div class="test-result ${result.passed ? 'pass' : 'fail'}">
+                    <strong>${result.test}:</strong> ${result.message}
+                </div>`
+            ).join('');
+
+            // Summary
+            const passedTests = results.filter(r => r.passed).length;
+            const totalTests = results.length;
+            
+            resultsContainer.innerHTML += `
+                <div class="test-result ${passedTests === totalTests ? 'pass' : 'fail'}">
+                    <strong>Automated Test Summary:</strong> ${passedTests}/${totalTests} tests passed
+                </div>
+            `;
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runAutomatedTests, 1000);
+        });
+    </script>
+</body>
+</html>

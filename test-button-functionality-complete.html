@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Button Functionality Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            border-left: 3px solid #007FFF;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 10000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        }
+        .test-header {
+            background: #007FFF;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 0;
+        }
+        .test-header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .test-controls {
+            margin-bottom: 20px;
+        }
+        .test-btn {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 12px;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        .test-btn.secondary {
+            background: #6c757d;
+        }
+        .test-results {
+            margin-top: 20px;
+        }
+        .test-section {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .test-section-header {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .test-item {
+            padding: 8px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-item:last-child {
+            border-bottom: none;
+        }
+        .test-name {
+            flex: 1;
+            font-size: 13px;
+        }
+        .test-status {
+            font-weight: bold;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .test-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .test-summary {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .summary-stat {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .console-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        .main-content {
+            margin-right: 370px;
+        }
+        .interactive-test {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .interactive-test h4 {
+            margin: 0 0 10px 0;
+            color: #856404;
+        }
+        .interactive-btn {
+            background: #ffc107;
+            color: #212529;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 3px;
+            font-size: 12px;
+        }
+        .interactive-btn:hover {
+            background: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Overlay -->
+    <div class="test-overlay">
+        <div class="test-header">
+            <h2>🧪 Button Tests</h2>
+        </div>
+        
+        <div class="test-controls">
+            <button class="test-btn" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-btn secondary" onclick="clearResults()">Clear</button>
+            <button class="test-btn secondary" onclick="toggleConsole()">Console</button>
+        </div>
+
+        <div class="test-summary" id="test-summary" style="display: none;">
+            <div class="summary-stat" id="passed-count">✅ Passed: 0</div>
+            <div class="summary-stat" id="failed-count">❌ Failed: 0</div>
+            <div class="summary-stat" id="success-rate">📈 Rate: 0%</div>
+        </div>
+
+        <div class="test-results" id="test-results">
+            <div class="test-section">
+                <div class="test-section-header">🔄 Ready to Test</div>
+                <div class="test-item">
+                    <div class="test-name">Click "Run All Tests" to begin</div>
+                    <div class="test-status test-pending">READY</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="console-output" id="console-output" style="display: none;"></div>
+
+        <div class="interactive-test">
+            <h4>🎯 Interactive Tests</h4>
+            <p style="font-size: 12px; margin: 5px 0;">Test buttons manually:</p>
+            <button class="interactive-btn" onclick="testNavDashboard()">Nav Dashboard</button>
+            <button class="interactive-btn" onclick="testNavSignup()">Nav Signup</button>
+            <button class="interactive-btn" onclick="testFeatureCard()">Feature Card</button>
+            <button class="interactive-btn" onclick="testMobileMenu()">Mobile Menu</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Include the main HTML structure from index.html -->
+        <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+            <!-- Landing Page -->
+            <div id="landing-page" class="page active">
+                <!-- Top Navigation Bar -->
+                <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                    <div class="container nav-container">
+                        <div class="logo">
+                            <h1>GlucoBalance</h1>
+                        </div>
+
+                        <!-- Desktop Menu -->
+                        <ul class="nav-menu" id="nav-menu">
+                            <li><a href="#features" class="nav-link">Features</a></li>
+                            <li><a href="#about" class="nav-link">About</a></li>
+                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                            <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                        </ul>
+
+                        <!-- Action Buttons -->
+                        <div class="nav-actions">
+                            <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                            <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                        </div>
+
+                        <!-- Mobile Menu Toggle -->
+                        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                            <span class="hamburger-line"></span>
+                            <span class="hamburger-line"></span>
+                            <span class="hamburger-line"></span>
+                        </button>
+                    </div>
+                </nav>
+
+                <header class="hero-section">
+                    <div class="container">
+                        <div class="hero-content">
+                            <div class="hero-badge">
+                                <span class="badge-icon">🏆</span>
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                            </div>
+                            <h1 class="hero-title">
+                                <span class="title-highlight">Prevent.</span>
+                                <span class="title-highlight">Support.</span>
+                                <span class="title-highlight">Thrive.</span>
+                                <br>
+                                <span class="title-main">with GlucoBalance</span>
+                            </h1>
+                            <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with AI-powered insights</p>
+
+                            <div class="hero-cta">
+                                <button class="hero-btn primary">
+                                    <span class="btn-icon">🎯</span>
+                                    Start Free Risk Assessment
+                                </button>
+                                <button class="hero-btn secondary">
+                                    <span class="btn-icon">📋</span>
+                                    Explore Features
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <main id="main-content" class="container">
+                    <section id="features" class="features-section" aria-label="App Features">
+                        <h2 class="section-title">Comprehensive Health Management</h2>
+                        <div class="features-grid">
+                            <div class="feature-card clickable" data-prefetch-module="risk-assessment" data-feature="risk-assessment">
+                                <div class="feature-icon">🎯</div>
+                                <h3>Risk Assessment</h3>
+                                <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                                <div class="card-arrow">→</div>
+                            </div>
+
+                            <div class="feature-card clickable" data-prefetch-module="nutrition-service" data-feature="nutrition">
+                                <div class="feature-icon">🍎</div>
+                                <h3>Nutrition Planning</h3>
+                                <p>Personalized meal plans adapted to your local cuisine</p>
+                                <div class="card-arrow">→</div>
+                            </div>
+
+                            <div class="feature-card clickable" data-prefetch-module="mental-health" data-feature="mental-health">
+                                <div class="feature-icon">💙</div>
+                                <h3>Mental Health</h3>
+                                <p>Daily mood tracking with AI-generated support</p>
+                                <div class="card-arrow">→</div>
+                            </div>
+
+                            <div class="feature-card clickable" data-prefetch-module="progress-dashboard" data-feature="progress">
+                                <div class="feature-icon">📊</div>
+                                <h3>Progress Tracking</h3>
+                                <p>Visual insights and comprehensive health reports</p>
+                                <div class="card-arrow">→</div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <!-- Footer -->
+                <footer class="footer" id="contact">
+                    <div class="container">
+                        <div class="footer-content">
+                            <div class="footer-section">
+                                <h4>Features</h4>
+                                <ul>
+                                    <li><a href="#" data-feature="risk-assessment">Risk Assessment</a></li>
+                                    <li><a href="#" data-feature="nutrition">Nutrition Planning</a></li>
+                                    <li><a href="#" data-feature="mental-health">Mental Health</a></li>
+                                    <li><a href="#" data-feature="progress">Progress Tracking</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="footer-section">
+                                <h4>Support</h4>
+                                <ul>
+                                    <li><a href="#" id="help-center-link">Help Center</a></li>
+                                    <li><a href="#" id="privacy-policy-link">Privacy Policy</a></li>
+                                    <li><a href="#" id="terms-link">Terms of Service</a></li>
+                                    <li><a href="#" id="contact-link">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+            <!-- Feature Detail Modal -->
+            <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Feature Details</h2>
+                        <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <!-- Dynamic content will be inserted here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                        <button class="btn-primary" id="modal-action">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+                <div class="mobile-menu-content">
+                    <ul class="mobile-nav-links">
+                        <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                    </ul>
+                    <div class="mobile-action-buttons">
+                        <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                        <button class="btn-primary mobile-signup">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/landing-page.js"></script>
+
+    <script>
+        let testResults = [];
+        let consoleMessages = [];
+
+        // Override console.log to capture messages
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            consoleMessages.push(args.join(' '));
+            updateConsoleOutput();
+        };
+
+        function updateConsoleOutput() {
+            const consoleOutput = document.getElementById('console-output');
+            consoleOutput.innerHTML = consoleMessages.slice(-50).map(msg => 
+                `<div>${msg}</div>`
+            ).join('');
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        function toggleConsole() {
+            const consoleOutput = document.getElementById('console-output');
+            consoleOutput.style.display = consoleOutput.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function clearResults() {
+            testResults = [];
+            consoleMessages = [];
+            updateTestDisplay();
+            updateConsoleOutput();
+            document.getElementById('test-summary').style.display = 'none';
+        }
+
+        function updateTestDisplay() {
+            const resultsContainer = document.getElementById('test-results');
+            
+            if (testResults.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="test-section">
+                        <div class="test-section-header">🔄 Ready to Test</div>
+                        <div class="test-item">
+                            <div class="test-name">Click "Run All Tests" to begin</div>
+                            <div class="test-status test-pending">READY</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group tests by category
+            const categories = {
+                'DOM Elements': [],
+                'Feature Cards': [],
+                'Footer Links': [],
+                'Modal Elements': [],
+                'Manager Methods': [],
+                'Event Listeners': [],
+                'Styling': [],
+                'Accessibility': []
+            };
+
+            testResults.forEach(test => {
+                let category = 'Other';
+                if (test.name.includes('Navigation') || test.name.includes('Hero') || test.name.includes('Mobile')) {
+                    category = 'DOM Elements';
+                } else if (test.name.includes('Card')) {
+                    category = 'Feature Cards';
+                } else if (test.name.includes('Footer')) {
+                    category = 'Footer Links';
+                } else if (test.name.includes('Modal')) {
+                    category = 'Modal Elements';
+                } else if (test.name.includes('Method:')) {
+                    category = 'Manager Methods';
+                } else if (test.name.includes('Click Handler')) {
+                    category = 'Event Listeners';
+                } else if (test.name.includes('Styling')) {
+                    category = 'Styling';
+                } else if (test.name.includes('Accessibility')) {
+                    category = 'Accessibility';
+                }
+
+                if (!categories[category]) categories[category] = [];
+                categories[category].push(test);
+            });
+
+            let html = '';
+            Object.entries(categories).forEach(([category, tests]) => {
+                if (tests.length > 0) {
+                    const passed = tests.filter(t => t.passed).length;
+                    const total = tests.length;
+                    html += `
+                        <div class="test-section">
+                            <div class="test-section-header">${category} (${passed}/${total})</div>
+                            ${tests.map(test => `
+                                <div class="test-item">
+                                    <div class="test-name">${test.name}</div>
+                                    <div class="test-status ${test.passed ? 'test-pass' : 'test-fail'}">
+                                        ${test.passed ? 'PASS' : 'FAIL'}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            });
+
+            resultsContainer.innerHTML = html;
+
+            // Update summary
+            const passed = testResults.filter(t => t.passed).length;
+            const failed = testResults.filter(t => !t.passed).length;
+            const total = passed + failed;
+            const rate = total > 0 ? ((passed / total) * 100).toFixed(1) : 0;
+
+            document.getElementById('passed-count').textContent = `✅ Passed: ${passed}`;
+            document.getElementById('failed-count').textContent = `❌ Failed: ${failed}`;
+            document.getElementById('success-rate').textContent = `📈 Rate: ${rate}%`;
+            document.getElementById('test-summary').style.display = 'block';
+        }
+
+        function addTest(name, passed, details = '') {
+            testResults.push({ name, passed, details, timestamp: new Date().toLocaleTimeString() });
+            updateTestDisplay();
+        }
+
+        async function runAllTests() {
+            clearResults();
+            console.log('🧪 Starting comprehensive button functionality tests...');
+
+            // Wait for manager to be ready
+            let attempts = 0;
+            while (!window.landingPageManager && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            if (!window.landingPageManager) {
+                addTest('LandingPageManager Initialization', false, 'Manager not found after 5 seconds');
+                return;
+            }
+
+            const manager = window.landingPageManager;
+            addTest('LandingPageManager Initialization', true, 'Manager initialized successfully');
+
+            // Test DOM elements
+            console.log('📋 Testing DOM Elements...');
+            addTest('Navigation Dashboard Button', !!document.getElementById('nav-dashboard-btn'));
+            addTest('Navigation Signup Button', !!document.getElementById('nav-signup-btn'));
+            addTest('Hero Risk Assessment Button', !!document.querySelector('.hero-btn.primary'));
+            addTest('Hero Explore Features Button', !!document.querySelector('.hero-btn.secondary'));
+            addTest('Mobile Menu Toggle', !!document.getElementById('mobile-menu-toggle'));
+            addTest('Mobile Dashboard Button', !!document.getElementById('mobile-dashboard-btn'));
+
+            // Test feature cards
+            console.log('🎯 Testing Feature Cards...');
+            const featureCards = document.querySelectorAll('.feature-card.clickable');
+            addTest('Feature Cards Count', featureCards.length === 4, `Found ${featureCards.length} cards`);
+            
+            const expectedFeatures = ['risk-assessment', 'nutrition', 'mental-health', 'progress'];
+            expectedFeatures.forEach(feature => {
+                const card = document.querySelector(`[data-feature="${feature}"]`);
+                addTest(`${feature} Card`, !!card);
+            });
+
+            // Test footer links
+            console.log('🔗 Testing Footer Links...');
+            const footerLinks = ['help-center-link', 'privacy-policy-link', 'terms-link', 'contact-link'];
+            footerLinks.forEach(linkId => {
+                const link = document.getElementById(linkId);
+                addTest(`Footer ${linkId}`, !!link);
+            });
+
+            // Test modal elements
+            console.log('📱 Testing Modal Elements...');
+            addTest('Feature Modal', !!document.getElementById('feature-modal'));
+            addTest('Modal Close Button', !!document.getElementById('modal-close'));
+            addTest('Modal Action Button', !!document.getElementById('modal-action'));
+
+            // Test manager methods
+            console.log('⚙️ Testing Manager Methods...');
+            const requiredMethods = [
+                'showDashboard', 'showSignup', 'handleFeatureCardClick', 
+                'showModal', 'closeModal', 'checkUserAuthentication',
+                'showSignupPage', 'hideLandingPage', 'showPage'
+            ];
+            
+            requiredMethods.forEach(method => {
+                const hasMethod = typeof manager[method] === 'function';
+                addTest(`Method: ${method}`, hasMethod);
+            });
+
+            // Test event listeners
+            console.log('👆 Testing Event Listeners...');
+            await testEventListeners(manager);
+
+            // Test styling
+            console.log('🎨 Testing Styling...');
+            featureCards.forEach((card, index) => {
+                const hasClickableClass = card.classList.contains('clickable');
+                const hasFeatureData = card.hasAttribute('data-feature');
+                addTest(`Feature Card ${index + 1} Styling`, hasClickableClass && hasFeatureData);
+            });
+
+            // Test accessibility
+            console.log('♿ Testing Accessibility...');
+            featureCards.forEach((card, index) => {
+                const hasTabIndex = card.hasAttribute('tabindex');
+                const hasRole = card.hasAttribute('role');
+                const hasAriaLabel = card.hasAttribute('aria-label');
+                addTest(`Feature Card ${index + 1} Accessibility`, hasTabIndex || hasRole || hasAriaLabel);
+            });
+
+            console.log('✅ All tests completed!');
+        }
+
+        async function testEventListeners(manager) {
+            // Test navigation dashboard button
+            const navDashboardBtn = document.getElementById('nav-dashboard-btn');
+            if (navDashboardBtn) {
+                let called = false;
+                const original = manager.showDashboard;
+                manager.showDashboard = function() { called = true; };
+                navDashboardBtn.click();
+                addTest('Dashboard Button Click Handler', called);
+                manager.showDashboard = original;
+            }
+
+            // Test navigation signup button
+            const navSignupBtn = document.getElementById('nav-signup-btn');
+            if (navSignupBtn) {
+                let called = false;
+                const original = manager.showSignup;
+                manager.showSignup = function() { called = true; };
+                navSignupBtn.click();
+                addTest('Signup Button Click Handler', called);
+                manager.showSignup = original;
+            }
+
+            // Test feature card
+            const riskCard = document.querySelector('[data-feature="risk-assessment"]');
+            if (riskCard) {
+                let called = false;
+                const original = manager.handleFeatureCardClick;
+                manager.handleFeatureCardClick = function() { called = true; };
+                riskCard.click();
+                addTest('Feature Card Click Handler', called);
+                manager.handleFeatureCardClick = original;
+            }
+        }
+
+        // Interactive test functions
+        function testNavDashboard() {
+            const btn = document.getElementById('nav-dashboard-btn');
+            if (btn) {
+                btn.style.background = '#28a745';
+                btn.click();
+                setTimeout(() => btn.style.background = '', 1000);
+                console.log('🎯 Tested navigation dashboard button');
+            }
+        }
+
+        function testNavSignup() {
+            const btn = document.getElementById('nav-signup-btn');
+            if (btn) {
+                btn.style.background = '#28a745';
+                btn.click();
+                setTimeout(() => btn.style.background = '', 1000);
+                console.log('📝 Tested navigation signup button');
+            }
+        }
+
+        function testFeatureCard() {
+            const card = document.querySelector('[data-feature="risk-assessment"]');
+            if (card) {
+                card.style.background = '#d4edda';
+                card.click();
+                setTimeout(() => card.style.background = '', 1000);
+                console.log('🎯 Tested risk assessment feature card');
+            }
+        }
+
+        function testMobileMenu() {
+            const toggle = document.getElementById('mobile-menu-toggle');
+            if (toggle) {
+                toggle.style.background = '#28a745';
+                toggle.click();
+                setTimeout(() => {
+                    toggle.style.background = '';
+                    toggle.click(); // Close it
+                }, 1000);
+                console.log('📱 Tested mobile menu toggle');
+            }
+        }
+
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 1500);
+        });
+    </script>
+</body>
+</html>

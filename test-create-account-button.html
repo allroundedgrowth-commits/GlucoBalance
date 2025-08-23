@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account Button Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .debug-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .debug-panel h4 {
+            margin: 0 0 0.5rem 0;
+            color: #4CAF50;
+        }
+        .debug-log {
+            margin-bottom: 0.25rem;
+        }
+        .debug-log.error { color: #f44336; }
+        .debug-log.success { color: #4CAF50; }
+        .debug-log.info { color: #2196F3; }
+        .quick-test-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            z-index: 1000;
+        }
+        .quick-test-btn:hover {
+            background: #005A9E;
+        }
+    </style>
+</head>
+<body>
+    <button class="quick-test-btn" onclick="quickTest()">🚀 Quick Test Registration</button>
+    
+    <div class="debug-panel">
+        <h4>🐛 Debug Log</h4>
+        <div id="debug-log"></div>
+    </div>
+
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="title-main">Create Account Button Test</span>
+                        </h1>
+                        <p class="hero-subtitle">Testing the registration flow and dashboard access</p>
+
+                        <div class="hero-cta">
+                            <button class="hero-btn primary" onclick="startTest()">
+                                <span class="btn-icon">🧪</span>
+                                Start Registration Test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <header class="app-header">
+                <div class="container">
+                    <h1>🎉 Dashboard - Registration Successful!</h1>
+                    <button id="profile-btn" class="profile-btn">👤</button>
+                </div>
+            </header>
+
+            <main class="container">
+                <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                    <div class="card welcome-card">
+                        <h3>🎉 Welcome to GlucoBalance!</h3>
+                        <p class="welcome-message">Welcome back!</p>
+                        <p><strong>Registration Test Successful!</strong></p>
+                        <p>Your account has been created and you now have access to the dashboard.</p>
+                        <button class="btn-primary" onclick="window.landingPageManager.showLandingPage()">Back to Home</button>
+                        <button class="btn-secondary" onclick="testLogout()">Test Logout</button>
+                    </div>
+
+                    <div class="card test-info-card">
+                        <h3>📊 Test Results</h3>
+                        <div id="test-results">
+                            <p>✅ Registration form submitted</p>
+                            <p>✅ User created in local storage</p>
+                            <p>✅ Dashboard accessed successfully</p>
+                            <p>✅ User session established</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="js/landing-page.js"></script>
+    <script>
+        // Initialize the landing page manager
+        window.landingPageManager = new LandingPageManager();
+        
+        // Debug logging
+        const debugLog = document.getElementById('debug-log');
+        function log(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = `debug-log ${type}`;
+            logEntry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            debugLog.appendChild(logEntry);
+            debugLog.scrollTop = debugLog.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        // Override console methods to capture logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            log(args.join(' '), 'info');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            log(args.join(' '), 'error');
+        };
+
+        function startTest() {
+            log('Starting registration test...', 'info');
+            document.getElementById('nav-signup-btn').click();
+        }
+
+        function quickTest() {
+            log('Starting quick test...', 'info');
+            
+            // Clear existing data
+            localStorage.removeItem('glucobalance-users');
+            localStorage.removeItem('glucobalance-current-user');
+            log('Cleared existing user data', 'info');
+            
+            // Click signup button
+            document.getElementById('nav-signup-btn').click();
+            
+            // Wait for signup page to load, then fill form
+            setTimeout(() => {
+                const nameField = document.getElementById('signup-page-name');
+                const emailField = document.getElementById('signup-page-email');
+                const ageField = document.getElementById('signup-page-age');
+                const passwordField = document.getElementById('signup-page-password');
+                const confirmField = document.getElementById('signup-page-confirm');
+                const termsCheckbox = document.getElementById('signup-page-terms');
+
+                if (nameField) {
+                    log('Filling form fields...', 'info');
+                    nameField.value = 'Test User';
+                    emailField.value = 'test@example.com';
+                    ageField.value = '30';
+                    passwordField.value = 'password123';
+                    confirmField.value = 'password123';
+                    termsCheckbox.checked = true;
+                    
+                    log('Form filled, submitting...', 'success');
+                    
+                    // Submit form
+                    setTimeout(() => {
+                        const submitBtn = document.querySelector('.auth-submit');
+                        if (submitBtn) {
+                            submitBtn.click();
+                            log('Submit button clicked', 'success');
+                        } else {
+                            log('Submit button not found', 'error');
+                        }
+                    }, 500);
+                } else {
+                    log('Form fields not found', 'error');
+                }
+            }, 1000);
+        }
+
+        function testLogout() {
+            localStorage.removeItem('glucobalance-current-user');
+            log('User logged out', 'info');
+            window.landingPageManager.showLandingPage();
+        }
+
+        // Monitor for successful dashboard access
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    if (document.getElementById('dashboard-page') && document.getElementById('dashboard-page').classList.contains('active')) {
+                        log('🎉 Dashboard accessed successfully!', 'success');
+                        
+                        // Check if user is in localStorage
+                        const currentUser = localStorage.getItem('glucobalance-current-user');
+                        if (currentUser) {
+                            const user = JSON.parse(currentUser);
+                            log(`User session found: ${user.name} (${user.email})`, 'success');
+                        } else {
+                            log('No user session found', 'error');
+                        }
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.getElementById('app'), {
+            childList: true,
+            subtree: true
+        });
+
+        log('Test page loaded and ready', 'info');
+    </script>
+</body>
+</html>

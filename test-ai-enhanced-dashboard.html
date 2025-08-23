@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced AI Dashboard Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Enhanced AI Dashboard Test Page -->
+        <div id="progress-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <h1>🤖 Enhanced AI Dashboard</h1>
+                    <p class="page-subtitle">Advanced AI-powered health insights with pattern recognition</p>
+                </div>
+            </header>
+            
+            <main class="container">
+                <div id="progress-dashboard-content">
+                    <!-- Test AI Insights Card -->
+                    <div class="dashboard-overview">
+                        <div class="dashboard-cards-grid">
+                            <div class="dashboard-card ai-insights-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                                    <div class="card-action">
+                                        <button class="btn-link refresh-insights" onclick="testEnhancedInsights()">
+                                            <span class="refresh-icon">🔄</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div id="ai-insights-content" class="ai-insights-content">
+                                        <!-- Test content will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Controls -->
+                    <div class="test-controls">
+                        <h3>Test Enhanced AI Features</h3>
+                        <div class="test-buttons">
+                            <button class="btn-primary" onclick="testFullInsights()">
+                                Test Full AI Insights
+                            </button>
+                            <button class="btn-secondary" onclick="testInsufficientData()">
+                                Test Insufficient Data
+                            </button>
+                            <button class="btn-secondary" onclick="testAIUnavailable()">
+                                Test AI Unavailable
+                            </button>
+                            <button class="btn-secondary" onclick="testFallbackInsights()">
+                                Test Fallback Insights
+                            </button>
+                            <button class="btn-secondary" onclick="testPatternRecognition()">
+                                Test Pattern Recognition
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/progress-dashboard.js"></script>
+    
+    <script>
+        // Test script for enhanced AI dashboard functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Enhanced AI Dashboard Test Page Loaded');
+            
+            // Initialize with test user
+            if (window.progressDashboard) {
+                window.progressDashboard.setCurrentUser('test-user-123');
+                
+                // Set up test data
+                setupTestData();
+            }
+        });
+
+        function setupTestData() {
+            // Mock comprehensive test data
+            window.progressDashboard.dashboardData = {
+                riskAssessments: [
+                    { riskScore: 12, createdAt: '2024-01-15', category: 'Increased' },
+                    { riskScore: 15, createdAt: '2024-01-01', category: 'High' },
+                    { riskScore: 18, createdAt: '2023-12-15', category: 'High' }
+                ],
+                moodEntries: [
+                    { mood: 4, date: '2024-01-15' },
+                    { mood: 3, date: '2024-01-14' },
+                    { mood: 4, date: '2024-01-13' },
+                    { mood: 5, date: '2024-01-12' },
+                    { mood: 3, date: '2024-01-11' },
+                    { mood: 4, date: '2024-01-10' },
+                    { mood: 4, date: '2024-01-09' },
+                    { mood: 3, date: '2024-01-08' },
+                    { mood: 4, date: '2024-01-07' },
+                    { mood: 5, date: '2024-01-06' }
+                ],
+                nutritionPlans: [
+                    { adherence: 85, createdAt: '2024-01-10', planType: '3-day' },
+                    { adherence: 78, createdAt: '2024-01-03', planType: '3-day' },
+                    { adherence: 92, createdAt: '2023-12-27', planType: '3-day' }
+                ],
+                progressMetrics: [],
+                summary: {
+                    latestRiskScore: 12,
+                    latestRiskCategory: 'Increased',
+                    averageMood: 3.8,
+                    moodTrend: 'Stable',
+                    totalAssessments: 3,
+                    totalMoodEntries: 10,
+                    nutritionAdherence: 85,
+                    streakDays: 10,
+                    improvementAreas: []
+                }
+            };
+        }
+
+        async function testFullInsights() {
+            console.log('Testing full AI insights...');
+            const container = document.getElementById('ai-insights-content');
+            
+            // Simulate AI-powered insights
+            container.innerHTML = `
+                <div class="ai-insights-content">
+                    <div class="data-quality-indicator">
+                        <div class="quality-header">
+                            <span class="quality-icon">📈</span>
+                            <span class="quality-label">Data Completeness</span>
+                            <span class="quality-score quality-high">85%</span>
+                        </div>
+                        <div class="quality-bar">
+                            <div class="quality-fill quality-high" style="width: 85%"></div>
+                        </div>
+                        <div class="quality-description">
+                            Good data quality. Continue tracking consistently for even better insights.
+                        </div>
+                    </div>
+                    
+                    <div class="insight-section">
+                        <h5>📊 Progress Analysis</h5>
+                        <p>Your health journey shows remarkable dedication and meaningful progress. You've maintained a 10-day tracking streak and completed 3 risk assessments, demonstrating consistent commitment to your health. Your risk score has improved from 18 to 12 over the past month, showing excellent progress in diabetes prevention. Your mood stability (average 3.8/5) provides a strong foundation for maintaining healthy habits.</p>
+                    </div>
+                    
+                    <div class="insight-section achievements-section">
+                        <h5>🏆 Your Achievements</h5>
+                        <div class="achievements-grid">
+                            <div class="achievement-badge">
+                                <span class="achievement-icon">🎯</span>
+                                <span class="achievement-text">Risk reduction champion</span>
+                            </div>
+                            <div class="achievement-badge">
+                                <span class="achievement-icon">🎯</span>
+                                <span class="achievement-text">1-week tracking habit</span>
+                            </div>
+                            <div class="achievement-badge">
+                                <span class="achievement-icon">🎯</span>
+                                <span class="achievement-text">Consistent healthy eater</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-section">
+                        <h5>💡 Personalized Recommendations</h5>
+                        <ul class="recommendations-list">
+                            <li>Continue your excellent risk reduction progress with regular physical activity</li>
+                            <li>Your nutrition adherence of 85% is outstanding - maintain this consistency</li>
+                            <li>Consider adding stress management techniques to support your stable mood</li>
+                            <li>Schedule a follow-up risk assessment in 2-3 weeks to track continued improvement</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="insight-section">
+                        <h5>🎯 Focus Areas</h5>
+                        <p>Focus on maintaining your current momentum in risk reduction and nutrition consistency. Your data shows you're successfully building sustainable healthy habits. Consider adding regular physical activity tracking to complement your excellent nutrition and mood monitoring.</p>
+                    </div>
+                    
+                    <div class="insight-section motivational-section">
+                        <h5>💪 Keep Going!</h5>
+                        <p class="motivational-message">Outstanding work! Your 6-point risk score improvement and 10-day tracking streak show real commitment to your health. You're building habits that will benefit you for years to come!</p>
+                    </div>
+                    
+                    <div class="insight-section pattern-insights">
+                        <h5>🔍 Pattern Recognition</h5>
+                        <div class="pattern-insights-grid">
+                            <div class="pattern-insight pattern-positive">
+                                <span class="pattern-icon">📉</span>
+                                <span class="pattern-text">Risk factors significantly improving</span>
+                            </div>
+                            <div class="pattern-insight pattern-positive">
+                                <span class="pattern-icon">😌</span>
+                                <span class="pattern-text">Excellent mood stability</span>
+                            </div>
+                            <div class="pattern-insight pattern-positive">
+                                <span class="pattern-icon">🍎</span>
+                                <span class="pattern-text">Outstanding nutrition consistency</span>
+                            </div>
+                            <div class="pattern-insight pattern-positive">
+                                <span class="pattern-icon">🎯</span>
+                                <span class="pattern-text">Highly engaged with health tracking</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-disclaimer">
+                        <small>💡 AI-generated insights based on your health data. Always consult healthcare professionals for medical advice.</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function testInsufficientData() {
+            console.log('Testing insufficient data scenario...');
+            const container = document.getElementById('ai-insights-content');
+            
+            container.innerHTML = `
+                <div class="insufficient-data-guidance">
+                    <div class="guidance-header">
+                        <span class="guidance-icon">🌱</span>
+                        <h5>Let's Build Your Health Profile</h5>
+                    </div>
+                    
+                    <div class="guidance-message">
+                        <p>Welcome to your health journey! You're taking the first important steps toward better health awareness. To unlock personalized AI insights and recommendations, let's start building your health profile with some basic tracking.</p>
+                    </div>
+                    
+                    <div class="next-steps">
+                        <h6>Recommended Next Steps:</h6>
+                        <div class="next-steps-grid">
+                            <button class="next-step-btn" onclick="alert('Take Risk Assessment')">
+                                <div class="step-icon">🎯</div>
+                                <div class="step-content">
+                                    <div class="step-title">Take Risk Assessment</div>
+                                    <div class="step-description">Get your diabetes risk score</div>
+                                </div>
+                            </button>
+                            
+                            <button class="next-step-btn" onclick="alert('Log Your Mood')">
+                                <div class="step-icon">💙</div>
+                                <div class="step-content">
+                                    <div class="step-title">Log Your Mood</div>
+                                    <div class="step-description">Track daily emotional wellbeing</div>
+                                </div>
+                            </button>
+                            
+                            <button class="next-step-btn" onclick="alert('Create Meal Plan')">
+                                <div class="step-icon">🍎</div>
+                                <div class="step-content">
+                                    <div class="step-title">Create Meal Plan</div>
+                                    <div class="step-description">Get personalized nutrition guidance</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-disclaimer">
+                        <small>💡 Complete more health tracking to unlock personalized AI insights!</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function testAIUnavailable() {
+            console.log('Testing AI unavailable scenario...');
+            const container = document.getElementById('ai-insights-content');
+            
+            container.innerHTML = `
+                <div class="ai-enable-prompt">
+                    <div class="ai-icon">🤖</div>
+                    <h5>Unlock AI-Powered Insights</h5>
+                    <p>Get personalized health analysis, pattern recognition, and tailored recommendations powered by AI.</p>
+                    
+                    <div class="ai-benefits">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📊</span>
+                            <span>Advanced progress analysis</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🎯</span>
+                            <span>Personalized recommendations</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔍</span>
+                            <span>Pattern recognition</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">💪</span>
+                            <span>Motivational insights</span>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-actions">
+                        <button class="btn-primary" onclick="alert('Enable AI Insights')">Enable AI Insights</button>
+                        <button class="btn-secondary" onclick="testFallbackInsights()">Continue Without AI</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function testFallbackInsights() {
+            console.log('Testing fallback insights...');
+            const container = document.getElementById('ai-insights-content');
+            
+            container.innerHTML = `
+                <div class="ai-insights-content fallback-insights">
+                    <div class="fallback-notice">
+                        <span class="notice-icon">⚠️</span>
+                        <span>AI insights temporarily unavailable - showing basic analysis</span>
+                    </div>
+                    
+                    <div class="data-quality-indicator">
+                        <div class="quality-header">
+                            <span class="quality-icon">📈</span>
+                            <span class="quality-label">Data Completeness</span>
+                            <span class="quality-score quality-high">85%</span>
+                        </div>
+                        <div class="quality-bar">
+                            <div class="quality-fill quality-high" style="width: 85%"></div>
+                        </div>
+                        <div class="quality-description">
+                            Good data quality. Continue tracking consistently for even better insights.
+                        </div>
+                    </div>
+                    
+                    <div class="insight-section">
+                        <h5>📊 Progress Analysis</h5>
+                        <p>Your health journey shows dedication and progress. You've earned multiple achievements, demonstrating consistent commitment to your health. Your 10-day tracking streak shows excellent consistency. Your risk factors are trending in a positive direction. Keep up the great work on your wellness journey!</p>
+                    </div>
+                    
+                    <div class="insight-section">
+                        <h5>💡 Recommendations</h5>
+                        <ul class="recommendations-list">
+                            <li>Maintain regular physical activity - aim for 150 minutes per week</li>
+                            <li>Continue monitoring your health metrics consistently</li>
+                            <li>Your tracking consistency is excellent - consider adding weekly progress reviews</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="upgrade-prompt">
+                        <button class="btn-link" onclick="testFullInsights()">
+                            🤖 Enable AI for Enhanced Insights
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function testPatternRecognition() {
+            console.log('Testing pattern recognition...');
+            const container = document.getElementById('ai-insights-content');
+            
+            // Show just the pattern insights section
+            container.innerHTML = `
+                <div class="insight-section pattern-insights">
+                    <h5>🔍 Pattern Recognition Demo</h5>
+                    <div class="pattern-insights-grid">
+                        <div class="pattern-insight pattern-positive">
+                            <span class="pattern-icon">📉</span>
+                            <span class="pattern-text">Risk factors significantly improving</span>
+                        </div>
+                        <div class="pattern-insight pattern-positive">
+                            <span class="pattern-icon">😌</span>
+                            <span class="pattern-text">Excellent mood stability</span>
+                        </div>
+                        <div class="pattern-insight pattern-neutral">
+                            <span class="pattern-icon">📅</span>
+                            <span class="pattern-text">Best mood days: Fridays</span>
+                        </div>
+                        <div class="pattern-insight pattern-warning">
+                            <span class="pattern-icon">🎭</span>
+                            <span class="pattern-text">Mood varies - consider stress management</span>
+                        </div>
+                        <div class="pattern-insight pattern-positive">
+                            <span class="pattern-icon">🍎</span>
+                            <span class="pattern-text">Outstanding nutrition consistency</span>
+                        </div>
+                        <div class="pattern-insight pattern-positive">
+                            <span class="pattern-icon">🚀</span>
+                            <span class="pattern-text">Health improvements accelerating</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function testEnhancedInsights() {
+            console.log('Refreshing enhanced insights...');
+            
+            // Simulate loading
+            const container = document.getElementById('ai-insights-content');
+            container.innerHTML = `
+                <div class="loading-insights">
+                    <div class="spinner"></div>
+                    <p>Generating personalized insights...</p>
+                </div>
+            `;
+            
+            // Show full insights after delay
+            setTimeout(() => {
+                testFullInsights();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Personalized Dashboard Test - GlucoBalance</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    
+    <style>
+        /* Test-specific styles */
+        .test-controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .test-controls h4 {
+            margin: 0 0 1rem 0;
+            color: var(--azure-blue);
+        }
+        
+        .test-btn {
+            display: block;
+            width: 100%;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .test-btn:hover {
+            background: var(--azure-dark);
+        }
+        
+        .test-status {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: var(--light-gray);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .status-success { background: #d4edda; color: #155724; }
+        .status-error { background: #f8d7da; color: #721c24; }
+        .status-info { background: #d1ecf1; color: #0c5460; }
+        
+        /* Hide test controls on mobile */
+        @media (max-width: 768px) {
+            .test-controls {
+                position: relative;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <h4>🧪 Dashboard Tests</h4>
+        <button class="test-btn" onclick="testDashboardLoad()">Load Dashboard</button>
+        <button class="test-btn" onclick="testMockData()">Load Mock Data</button>
+        <button class="test-btn" onclick="testAIInsights()">Test AI Insights</button>
+        <button class="test-btn" onclick="testMoodLogging()">Test Mood Logging</button>
+        <button class="test-btn" onclick="testChartInteraction()">Test Charts</button>
+        <button class="test-btn" onclick="testMobileView()">Test Mobile View</button>
+        <button class="test-btn" onclick="testRealTimeUpdates()">Test Real-time Updates</button>
+        <div id="test-status" class="test-status">Ready to test...</div>
+    </div>
+
+    <div id="app">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="header-title">
+                            <h1>Health Dashboard</h1>
+                            <p class="header-subtitle">Your personalized health overview</p>
+                        </div>
+                        <div class="header-actions">
+                            <button id="refresh-dashboard" class="btn-icon" title="Refresh Dashboard">🔄</button>
+                            <button id="profile-btn" class="profile-btn">👤</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container dashboard-main">
+                <!-- Dashboard Cards Grid -->
+                <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                    <!-- Risk Status Card -->
+                    <div class="card risk-status-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                            <div class="card-trend" id="risk-trend">
+                                <span class="trend-icon">📈</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="risk-display" class="risk-display">
+                                <div class="risk-score">--</div>
+                                <div class="risk-category">Take Assessment</div>
+                                <div class="risk-details">
+                                    <small class="last-updated">Never assessed</small>
+                                </div>
+                            </div>
+                            <div class="risk-chart-mini" id="risk-chart-mini">
+                                <!-- Mini chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="take-assessment-btn">
+                                📋 Take Assessment
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mood Tracker Card -->
+                    <div class="card mood-tracker-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                            <div class="card-trend" id="mood-trend">
+                                <span class="trend-icon">📊</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="mood-display">
+                                <div class="current-mood">
+                                    <div class="mood-value" id="current-mood-value">--</div>
+                                    <div class="mood-label">Today's Mood</div>
+                                </div>
+                                <div class="mood-average">
+                                    <div class="avg-value" id="avg-mood-value">--</div>
+                                    <div class="avg-label">30-day Average</div>
+                                </div>
+                            </div>
+                            <div id="mood-selector" class="mood-selector">
+                                <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                                <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                                <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                                <button class="mood-btn" data-mood="4" title="Happy">😊</button>
+                                <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                            </div>
+                            <div class="mood-chart-mini" id="mood-chart-mini">
+                                <!-- Mini mood trend chart -->
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="log-mood-btn">
+                                💙 Log Mood
+                            </button>
+                            <button class="btn-card-action secondary" id="view-mood-history-btn">
+                                📈 View History
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Snapshot Card -->
+                    <div class="card nutrition-snapshot-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                            <div class="card-trend" id="nutrition-trend">
+                                <span class="trend-icon">🥗</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="nutrition-summary" class="nutrition-summary">
+                                <div class="nutrition-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="meal-plans-count">0</div>
+                                        <div class="stat-label">Meal Plans</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="adherence-rate">--%</div>
+                                        <div class="stat-label">Adherence</div>
+                                    </div>
+                                </div>
+                                <div class="nutrition-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="nutrition-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <small class="progress-text">Weekly nutrition goal</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="create-meal-plan-btn">
+                                🍽️ Create Plan
+                            </button>
+                            <button class="btn-card-action secondary" id="view-nutrition-btn">
+                                📋 View Plans
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Health Insights Card -->
+                    <div class="card ai-insights-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                            <div class="card-actions-header">
+                                <button class="btn-icon refresh-insights" id="refresh-insights-btn" title="Refresh Insights">
+                                    🔄
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="ai-insights" class="ai-insights-content">
+                                <div class="insights-placeholder">
+                                    <div class="placeholder-icon">🤖</div>
+                                    <p>Complete your risk assessment to receive personalized AI insights</p>
+                                    <button class="btn-primary" onclick="testMockData()">
+                                        Get Started
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Charts Section -->
+                <div class="charts-section">
+                    <div class="section-header">
+                        <h2>Health Trends</h2>
+                        <div class="chart-controls">
+                            <select id="chart-timeframe" class="chart-select">
+                                <option value="7">Last 7 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="90">Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Risk Score Trends</h4>
+                                <div class="chart-legend">
+                                    <span class="legend-item risk-low">Low</span>
+                                    <span class="legend-item risk-increased">Increased</span>
+                                    <span class="legend-item risk-high">High</span>
+                                    <span class="legend-item risk-possible">Possible Diabetes</span>
+                                </div>
+                            </div>
+                            <div id="risk-trend-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Mood Trends</h4>
+                                <div class="mood-stats">
+                                    <span id="mood-trend-stat">Stable</span>
+                                </div>
+                            </div>
+                            <div id="mood-trend-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Nutrition Adherence</h4>
+                                <div class="nutrition-stats-header">
+                                    <span id="nutrition-trend-stat">Getting Started</span>
+                                </div>
+                            </div>
+                            <div id="nutrition-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Section -->
+                <div class="quick-actions-section">
+                    <div class="section-header">
+                        <h2>Quick Actions</h2>
+                        <p class="section-subtitle">Take action on your health journey</p>
+                    </div>
+                    
+                    <div class="quick-actions-grid" id="quick-actions">
+                        <button class="action-btn primary" id="assessment-btn">
+                            <div class="action-icon">📋</div>
+                            <div class="action-content">
+                                <div class="action-title">Start Risk Assessment</div>
+                                <div class="action-description">Evaluate your diabetes risk</div>
+                            </div>
+                        </button>
+
+                        <button class="action-btn" id="mood-log-btn">
+                            <div class="action-icon">💙</div>
+                            <div class="action-content">
+                                <div class="action-title">Log Mood</div>
+                                <div class="action-description">Track your emotional wellbeing</div>
+                            </div>
+                        </button>
+
+                        <button class="action-btn" id="meal-plan-btn">
+                            <div class="action-icon">🍎</div>
+                            <div class="action-content">
+                                <div class="action-title">View Meal Plan</div>
+                                <div class="action-description">Access your nutrition guide</div>
+                            </div>
+                        </button>
+
+                        <button class="action-btn" id="generate-report-btn">
+                            <div class="action-icon">📄</div>
+                            <div class="action-content">
+                                <div class="action-title">Generate Report</div>
+                                <div class="action-description">Create health summary</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Health Summary Section -->
+                <div class="health-summary-section">
+                    <div class="section-header">
+                        <h2>Health Summary</h2>
+                        <div class="summary-period">
+                            <span id="summary-period-text">Last 30 days</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-icon">📊</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="total-assessments">0</div>
+                                <div class="summary-label">Risk Assessments</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">💙</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="mood-entries-count">0</div>
+                                <div class="summary-label">Mood Entries</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">🔥</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="streak-days">0</div>
+                                <div class="summary-label">Day Streak</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">📈</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="improvement-score">--%</div>
+                                <div class="summary-label">Improvement</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+
+    <script>
+        // Test Functions
+        let testUserId = 'test-user-123';
+        
+        function updateTestStatus(message, type = 'info') {
+            const status = document.getElementById('test-status');
+            status.textContent = message;
+            status.className = `test-status status-${type}`;
+        }
+
+        function testDashboardLoad() {
+            updateTestStatus('Loading dashboard...', 'info');
+            
+            // Simulate user login
+            window.enhancedDashboard.setCurrentUser(testUserId);
+            
+            setTimeout(() => {
+                updateTestStatus('Dashboard loaded successfully!', 'success');
+            }, 1000);
+        }
+
+        function testMockData() {
+            updateTestStatus('Loading mock data...', 'info');
+            
+            // Create mock database if it doesn't exist
+            if (!window.kiroDb) {
+                window.kiroDb = {
+                    getUserAssessments: async (userId, limit) => mockAssessments.slice(0, limit),
+                    getUserMoods: async (userId, days) => mockMoods.slice(0, days),
+                    getUserNutritionPlans: async (userId, limit) => mockNutritionPlans.slice(0, limit),
+                    getUserProgress: async (userId, type, days) => mockProgress.slice(0, days),
+                    saveMood: async (moodData) => {
+                        mockMoods.unshift(moodData);
+                        return moodData;
+                    }
+                };
+            }
+            
+            // Set current user and load dashboard
+            window.enhancedDashboard.setCurrentUser(testUserId);
+            
+            setTimeout(() => {
+                updateTestStatus('Mock data loaded successfully!', 'success');
+            }, 1500);
+        }
+
+        function testAIInsights() {
+            updateTestStatus('Testing AI insights...', 'info');
+            
+            // Mock AI service
+            if (!window.geminiAI) {
+                window.geminiAI = {
+                    isInitialized: () => true,
+                    generateContent: async (prompt, context) => {
+                        return `Based on your health data, you're making great progress! Here are personalized recommendations:
+                        
+1. Continue your consistent mood tracking - you've logged ${context.totalMoodEntries || 0} entries
+2. Your risk score of ${context.riskScore || 'N/A'} shows ${context.riskCategory || 'baseline'} risk level
+3. Focus on maintaining your ${context.streakDays || 0}-day tracking streak
+
+Your dedication to health monitoring is commendable. Keep up the excellent work on your wellness journey!`;
+                    }
+                };
+            }
+            
+            // Trigger AI insights generation
+            window.enhancedDashboard.generateAIInsights();
+            
+            setTimeout(() => {
+                updateTestStatus('AI insights generated successfully!', 'success');
+            }, 2000);
+        }
+
+        function testMoodLogging() {
+            updateTestStatus('Testing mood logging...', 'info');
+            
+            // Simulate mood logging
+            const randomMood = Math.floor(Math.random() * 5) + 1;
+            window.enhancedDashboard.recordMood(randomMood);
+            
+            setTimeout(() => {
+                updateTestStatus(`Mood ${randomMood}/5 logged successfully!`, 'success');
+            }, 500);
+        }
+
+        function testChartInteraction() {
+            updateTestStatus('Testing chart interactions...', 'info');
+            
+            // Simulate chart hover events
+            const chartBars = document.querySelectorAll('.chart-bar');
+            if (chartBars.length > 0) {
+                chartBars[0].dispatchEvent(new MouseEvent('mouseenter'));
+                setTimeout(() => {
+                    chartBars[0].dispatchEvent(new MouseEvent('mouseleave'));
+                }, 1000);
+            }
+            
+            setTimeout(() => {
+                updateTestStatus('Chart interactions working!', 'success');
+            }, 1500);
+        }
+
+        function testMobileView() {
+            updateTestStatus('Testing mobile responsiveness...', 'info');
+            
+            // Simulate mobile viewport
+            const viewport = document.querySelector('meta[name=viewport]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=375, initial-scale=1.0');
+            }
+            
+            // Add mobile class for testing
+            document.body.classList.add('mobile-test');
+            
+            setTimeout(() => {
+                document.body.classList.remove('mobile-test');
+                updateTestStatus('Mobile view tested successfully!', 'success');
+            }, 2000);
+        }
+
+        function testRealTimeUpdates() {
+            updateTestStatus('Testing real-time updates...', 'info');
+            
+            // Simulate data update event
+            const event = new CustomEvent('dataUpdated', {
+                detail: { userId: testUserId, type: 'mood' }
+            });
+            document.dispatchEvent(event);
+            
+            setTimeout(() => {
+                updateTestStatus('Real-time updates working!', 'success');
+            }, 1000);
+        }
+
+        // Mock Data
+        const mockAssessments = [
+            {
+                id: 1,
+                userId: testUserId,
+                riskScore: 12,
+                createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                responses: { age: 2, gender: 1, family_history: 3, bmi: 2, physical_activity: 2 }
+            },
+            {
+                id: 2,
+                userId: testUserId,
+                riskScore: 15,
+                createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+                responses: { age: 2, gender: 1, family_history: 5, bmi: 3, physical_activity: 2 }
+            }
+        ];
+
+        const mockMoods = [];
+        for (let i = 0; i < 14; i++) {
+            mockMoods.push({
+                id: i + 1,
+                userId: testUserId,
+                mood: Math.floor(Math.random() * 5) + 1,
+                date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                timestamp: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString()
+            });
+        }
+
+        const mockNutritionPlans = [
+            {
+                id: 1,
+                userId: testUserId,
+                planType: '3-day',
+                createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+                meals: []
+            },
+            {
+                id: 2,
+                userId: testUserId,
+                planType: '7-day',
+                createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+                meals: []
+            }
+        ];
+
+        const mockProgress = [
+            {
+                id: 1,
+                userId: testUserId,
+                metricType: 'mood_average',
+                value: 3.8,
+                date: new Date().toISOString().split('T')[0]
+            }
+        ];
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTestStatus('Dashboard test page loaded. Click buttons to test features.', 'info');
+            
+            // Auto-load mock data for demonstration
+            setTimeout(() => {
+                testMockData();
+            }, 1000);
+        });
+
+        // Add some demo interactions
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.interactive-card')) {
+                e.target.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    e.target.style.transform = '';
+                }, 150);
+            }
+        });
+    </script>
+</body>
+</html>

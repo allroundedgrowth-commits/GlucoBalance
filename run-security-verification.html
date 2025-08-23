@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Verification - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .verification-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .verification-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .verification-header h1 {
+            color: #007FFF;
+            margin-bottom: 10px;
+        }
+        
+        .verification-status {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+        
+        .status-running {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .verification-output {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+        }
+        
+        .verification-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #0066CC;
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007FFF;
+        }
+        
+        .feature-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        
+        .feature-card p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007FFF, #40E0FF);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <div class="verification-header">
+            <h1>🔒 Security Implementation Verification</h1>
+            <p>Comprehensive testing of security measures and data protection features</p>
+        </div>
+
+        <div class="verification-controls">
+            <button id="run-verification" class="btn">Run Security Verification</button>
+            <button id="clear-output" class="btn">Clear Output</button>
+        </div>
+
+        <div id="verification-status" class="verification-status status-running" style="display: none;">
+            <span id="status-text">Initializing security verification...</span>
+        </div>
+
+        <div class="progress-bar" id="progress-container" style="display: none;">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🔐 Data Encryption</h3>
+                <p>AES-256 encryption for sensitive health data with secure key management and storage protection.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🛡️ Input Validation</h3>
+                <p>Comprehensive input sanitization, XSS prevention, SQL injection protection, and rate limiting.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔑 API Security</h3>
+                <p>Secure API key management with obfuscation, rotation tracking, and format validation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🛡️ Privacy Compliance</h3>
+                <p>GDPR-compliant consent management, data portability, right to erasure, and audit logging.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔗 Secure Integration</h3>
+                <p>End-to-end security across all services with middleware protection and secure communication.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Security Monitoring</h3>
+                <p>Real-time security validation, configuration checks, and comprehensive reporting.</p>
+            </div>
+        </div>
+
+        <div id="verification-output" class="verification-output"></div>
+    </div>
+
+    <!-- Include all security scripts -->
+    <script src="js/security.js"></script>
+    <script src="js/security-config.js"></script>
+    <script src="js/security-integration.js"></script>
+    <script src="js/privacy-ui.js"></script>
+    <script src="verify-security.js"></script>
+
+    <script>
+        let verificationRunning = false;
+
+        document.getElementById('run-verification').addEventListener('click', async () => {
+            if (verificationRunning) return;
+            
+            verificationRunning = true;
+            const button = document.getElementById('run-verification');
+            const statusDiv = document.getElementById('verification-status');
+            const statusText = document.getElementById('status-text');
+            const outputDiv = document.getElementById('verification-output');
+            const progressContainer = document.getElementById('progress-container');
+            const progressFill = document.getElementById('progress-fill');
+            
+            // Reset UI
+            button.disabled = true;
+            button.textContent = 'Running Verification...';
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'verification-status status-running';
+            progressContainer.style.display = 'block';
+            outputDiv.innerHTML = '';
+            
+            // Capture console output
+            const originalLog = console.log;
+            const originalError = console.error;
+            let progress = 0;
+            
+            console.log = function(...args) {
+                const message = args.join(' ');
+                outputDiv.innerHTML += message + '\n';
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+                
+                // Update progress based on test completion
+                if (message.includes('✅') || message.includes('❌')) {
+                    progress += 2;
+                    progressFill.style.width = Math.min(progress, 100) + '%';
+                }
+                
+                originalLog.apply(console, args);
+            };
+            
+            console.error = function(...args) {
+                const message = 'ERROR: ' + args.join(' ');
+                outputDiv.innerHTML += message + '\n';
+                outputDiv.scrollTop = outputDiv.scrollHeight;
+                originalError.apply(console, args);
+            };
+            
+            try {
+                statusText.textContent = 'Running security verification tests...';
+                
+                // Run the verification
+                const verification = new SecurityVerification();
+                const results = await verification.runVerification();
+                
+                // Update status based on results
+                if (results.overall === 'excellent' || results.overall === 'good') {
+                    statusDiv.className = 'verification-status status-success';
+                    statusText.textContent = '✅ Security verification completed successfully!';
+                } else {
+                    statusDiv.className = 'verification-status status-error';
+                    statusText.textContent = '⚠️ Security verification completed with issues.';
+                }
+                
+                progressFill.style.width = '100%';
+                
+            } catch (error) {
+                statusDiv.className = 'verification-status status-error';
+                statusText.textContent = '❌ Security verification failed: ' + error.message;
+                console.error('Verification error:', error);
+            } finally {
+                // Restore console
+                console.log = originalLog;
+                console.error = originalError;
+                
+                // Reset button
+                button.disabled = false;
+                button.textContent = 'Run Security Verification';
+                verificationRunning = false;
+            }
+        });
+
+        document.getElementById('clear-output').addEventListener('click', () => {
+            document.getElementById('verification-output').innerHTML = '';
+            document.getElementById('verification-status').style.display = 'none';
+            document.getElementById('progress-container').style.display = 'none';
+            document.getElementById('progress-fill').style.width = '0%';
+        });
+
+        // Auto-run verification on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('run-verification').click();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

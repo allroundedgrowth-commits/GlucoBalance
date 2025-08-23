@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Integration Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .test-section {
+            background: white;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 4px solid #007fff;
+        }
+        .success { border-left-color: #28a745; }
+        .error { border-left-color: #dc3545; }
+        .loading {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🤖 GlucoBalance AI Integration Test</h1>
+        
+        <div class="test-section">
+            <h3>AI Service Status</h3>
+            <div id="ai-status">Checking...</div>
+            <button id="init-ai" class="btn-primary">Initialize AI</button>
+        </div>
+
+        <div class="test-section">
+            <h3>Risk Explanation Test</h3>
+            <p>Testing AI-powered risk assessment explanation generation.</p>
+            <button id="test-risk-explanation" class="btn-primary">Test Risk Explanation</button>
+            <div id="risk-explanation-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Personalized Recommendations Test</h3>
+            <p>Testing AI-generated personalized health recommendations.</p>
+            <button id="test-recommendations" class="btn-primary">Test Recommendations</button>
+            <div id="recommendations-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Fallback Content Test</h3>
+            <p>Testing fallback content when AI is unavailable.</p>
+            <button id="test-fallback" class="btn-secondary">Test Fallback</button>
+            <div id="fallback-result"></div>
+        </div>
+    </div>
+
+    <script src="js/error-handler.js"></script>
+    <script src="js/ai.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize AI with the provided API key
+            const apiKey = 'AIzaSyDvMbUBFIrZFQjOOFih5ck_yEwHlXia2Js';
+            
+            function updateStatus() {
+                const status = window.aiService.getStatus();
+                const statusDiv = document.getElementById('ai-status');
+                statusDiv.innerHTML = `
+                    <div class="test-result ${status.available ? 'success' : 'error'}">
+                        <strong>Status:</strong> ${status.available ? '✅ Available' : '❌ Not Available'}<br>
+                        <strong>Source:</strong> ${status.source || 'None'}<br>
+                        <strong>Fallback Mode:</strong> ${status.fallbackMode ? 'Yes' : 'No'}
+                    </div>
+                `;
+            }
+
+            // Initialize AI
+            document.getElementById('init-ai').addEventListener('click', () => {
+                const success = window.geminiAI.initialize(apiKey, 'manual');
+                updateStatus();
+                if (success) {
+                    alert('✅ AI initialized successfully!');
+                } else {
+                    alert('❌ Failed to initialize AI');
+                }
+            });
+
+            // Test risk explanation
+            document.getElementById('test-risk-explanation').addEventListener('click', async () => {
+                const resultDiv = document.getElementById('risk-explanation-result');
+                resultDiv.innerHTML = '<div class="loading">🔄 Generating AI explanation...</div>';
+
+                const testData = {
+                    age: 3,
+                    gender: 1,
+                    family_history: 2,
+                    high_blood_pressure: 2,
+                    physical_activity: 2,
+                    bmi: 3,
+                    gestational_diabetes: 0,
+                    prediabetes: 0
+                };
+
+                try {
+                    const explanation = await window.aiService.getRiskExplanation(13, testData);
+                    resultDiv.innerHTML = `
+                        <div class="test-result success">
+                            <strong>✅ AI Explanation Generated:</strong><br>
+                            <div style="margin-top: 0.5rem; font-style: italic;">${explanation}</div>
+                        </div>
+                    `;
+                } catch (error) {
+                    resultDiv.innerHTML = `
+                        <div class="test-result error">
+                            <strong>❌ Error:</strong> ${error.message}
+                        </div>
+                    `;
+                }
+            });
+
+            // Test recommendations
+            document.getElementById('test-recommendations').addEventListener('click', async () => {
+                const resultDiv = document.getElementById('recommendations-result');
+                resultDiv.innerHTML = '<div class="loading">🔄 Generating recommendations...</div>';
+
+                const userData = {
+                    riskScore: 13,
+                    riskCategory: 'High',
+                    age: 55,
+                    hasHighBP: true,
+                    isInactive: true,
+                    hasWeightConcerns: true
+                };
+
+                try {
+                    const recommendations = await window.aiService.getPersonalizedRecommendations(userData);
+                    resultDiv.innerHTML = `
+                        <div class="test-result success">
+                            <strong>✅ Recommendations Generated:</strong><br>
+                            <div style="margin-top: 0.5rem; font-style: italic;">${recommendations}</div>
+                        </div>
+                    `;
+                } catch (error) {
+                    resultDiv.innerHTML = `
+                        <div class="test-result error">
+                            <strong>❌ Error:</strong> ${error.message}
+                        </div>
+                    `;
+                }
+            });
+
+            // Test fallback
+            document.getElementById('test-fallback').addEventListener('click', () => {
+                const resultDiv = document.getElementById('fallback-result');
+                
+                // Test fallback explanation
+                const fallbackExplanation = window.geminiAI.getFallbackResponse('risk', { riskScore: 13 });
+                
+                resultDiv.innerHTML = `
+                    <div class="test-result success">
+                        <strong>✅ Fallback Content:</strong><br>
+                        <div style="margin-top: 0.5rem; font-style: italic;">${fallbackExplanation}</div>
+                    </div>
+                `;
+            });
+
+            // Auto-initialize and check status
+            window.geminiAI.initialize(apiKey, 'environment');
+            updateStatus();
+        });
+    </script>
+</body>
+</html>

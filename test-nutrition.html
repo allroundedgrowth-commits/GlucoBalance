@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Nutrition Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="container">
+                <h1>🧪 Nutrition System Test</h1>
+                <p>Testing AI-powered nutrition planning and meal generation system</p>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="test-section">
+                <h2>Test Results</h2>
+                <div id="test-results" class="test-results">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Running nutrition system tests...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>Manual Test Interface</h2>
+                <div class="card meal-plan-generator">
+                    <div class="card-header">
+                        <h3><span class="icon">🤖</span> Generate Test Meal Plan</h3>
+                        <p>Test the nutrition planning system with different preferences</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="test-cuisine-select">Cultural Cuisine Preference</label>
+                        <select id="test-cuisine-select" class="form-control">
+                            <option value="general">General/Western</option>
+                            <option value="mediterranean">Mediterranean</option>
+                            <option value="asian">Asian</option>
+                            <option value="indian">Indian</option>
+                            <option value="mexican">Mexican</option>
+                            <option value="middle-eastern">Middle Eastern</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Dietary Restrictions</label>
+                        <div class="dietary-restrictions checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="vegetarian"> 
+                                <span class="checkmark"></span>
+                                Vegetarian
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="vegan"> 
+                                <span class="checkmark"></span>
+                                Vegan
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="gluten-free"> 
+                                <span class="checkmark"></span>
+                                Gluten-Free
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="dairy-free"> 
+                                <span class="checkmark"></span>
+                                Dairy-Free
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="test-generate-meal-plan" class="btn-primary">
+                            <span class="icon">✨</span> Generate Test Meal Plan
+                        </button>
+                        <button id="test-adherence" class="btn-secondary">
+                            <span class="icon">📊</span> Test Adherence Tracking
+                        </button>
+                        <button id="test-enhanced-features" class="btn-primary">
+                            <span class="icon">🚀</span> Test Enhanced Features
+                        </button>
+                    </div>
+                </div>
+
+                <div id="test-meal-plan-container" class="meal-plan-container">
+                    <div class="empty-state">
+                        <div class="empty-icon">🍽️</div>
+                        <h3>No Test Meal Plan Yet</h3>
+                        <p>Generate a test meal plan using the form above</p>
+                    </div>
+                </div>
+
+                <div id="enhanced-test-summary" class="enhanced-test-section">
+                    <!-- Enhanced test results will be displayed here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/nutrition-service.js"></script>
+    <script src="js/nutrition-ui.js"></script>
+    <script src="test-nutrition-enhanced.js"></script>
+
+    <script>
+        // Nutrition System Test Suite
+        class NutritionTestSuite {
+            constructor() {
+                this.testResults = [];
+                this.nutritionService = null;
+                this.init();
+            }
+
+            async init() {
+                await this.waitForServices();
+                await this.runTests();
+                this.setupManualTests();
+            }
+
+            async waitForServices() {
+                // Wait for services to be available
+                let attempts = 0;
+                while (!window.nutritionService && attempts < 10) {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    attempts++;
+                }
+                
+                if (window.nutritionService) {
+                    this.nutritionService = window.nutritionService;
+                    this.nutritionService.setCurrentUser('test-user-123');
+                } else {
+                    this.addTestResult('Service Initialization', false, 'Nutrition service not available');
+                }
+            }
+
+            async runTests() {
+                const resultsContainer = document.getElementById('test-results');
+                resultsContainer.innerHTML = '<h3>Running Tests...</h3>';
+
+                // Test 1: Service Initialization
+                this.testServiceInitialization();
+
+                // Test 2: Cultural Cuisines
+                this.testCulturalCuisines();
+
+                // Test 3: Dietary Restrictions
+                this.testDietaryRestrictions();
+
+                // Test 4: Meal Plan Generation (Fallback)
+                await this.testFallbackMealPlanGeneration();
+
+                // Test 5: Adherence Tracking
+                await this.testAdherenceTracking();
+
+                // Test 6: Storage and Retrieval
+                await this.testStorageAndRetrieval();
+
+                this.displayResults();
+            }
+
+            testServiceInitialization() {
+                const passed = this.nutritionService !== null;
+                this.addTestResult(
+                    'Service Initialization',
+                    passed,
+                    passed ? 'Nutrition service initialized successfully' : 'Failed to initialize nutrition service'
+                );
+            }
+
+            testCulturalCuisines() {
+                try {
+                    const cuisines = this.nutritionService.getSupportedCuisines();
+                    const expectedCuisines = ['general', 'mediterranean', 'asian', 'indian', 'mexican', 'middle-eastern'];
+                    const hasAllCuisines = expectedCuisines.every(cuisine => 
+                        cuisines.some(c => c.value === cuisine)
+                    );
+
+                    this.addTestResult(
+                        'Cultural Cuisines Support',
+                        hasAllCuisines,
+                        hasAllCuisines ? `All ${expectedCuisines.length} cuisines supported` : 'Missing expected cuisines'
+                    );
+                } catch (error) {
+                    this.addTestResult('Cultural Cuisines Support', false, error.message);
+                }
+            }
+
+            testDietaryRestrictions() {
+                try {
+                    const restrictions = this.nutritionService.getSupportedDietaryRestrictions();
+                    const expectedRestrictions = ['vegetarian', 'vegan', 'gluten-free', 'dairy-free'];
+                    const hasAllRestrictions = expectedRestrictions.every(restriction => 
+                        restrictions.some(r => r.value === restriction)
+                    );
+
+                    this.addTestResult(
+                        'Dietary Restrictions Support',
+                        hasAllRestrictions,
+                        hasAllRestrictions ? `All ${expectedRestrictions.length} restrictions supported` : 'Missing expected restrictions'
+                    );
+                } catch (error) {
+                    this.addTestResult('Dietary Restrictions Support', false, error.message);
+                }
+            }
+
+            async testFallbackMealPlanGeneration() {
+                try {
+                    const preferences = {
+                        cuisine: 'mediterranean',
+                        dietaryRestrictions: ['vegetarian'],
+                        days: 3
+                    };
+
+                    const result = await this.nutritionService.generateMealPlan(preferences);
+                    
+                    const isValid = result && 
+                                   (result.success || result.fallbackPlan) &&
+                                   result.mealPlan &&
+                                   result.mealPlan.days &&
+                                   result.mealPlan.days.length === 3;
+
+                    this.addTestResult(
+                        'Fallback Meal Plan Generation',
+                        isValid,
+                        isValid ? 'Generated 3-day meal plan successfully' : 'Failed to generate meal plan'
+                    );
+                } catch (error) {
+                    this.addTestResult('Fallback Meal Plan Generation', false, error.message);
+                }
+            }
+
+            async testAdherenceTracking() {
+                try {
+                    const testPlanId = 'test-plan-123';
+                    
+                    // Test updating adherence
+                    await this.nutritionService.updateMealAdherence(testPlanId, 1, 'breakfast', {
+                        completed: true,
+                        adherencePercentage: 100
+                    });
+
+                    // Test retrieving adherence
+                    const adherenceData = await this.nutritionService.getMealAdherence(testPlanId);
+                    const hasAdherenceData = adherenceData && adherenceData.day1 && adherenceData.day1.breakfast;
+
+                    // Test calculating overall adherence
+                    const overallAdherence = this.nutritionService.calculateOverallAdherence(adherenceData);
+                    const hasValidPercentage = typeof overallAdherence === 'number' && overallAdherence >= 0;
+
+                    const passed = hasAdherenceData && hasValidPercentage;
+                    this.addTestResult(
+                        'Adherence Tracking',
+                        passed,
+                        passed ? 'Adherence tracking working correctly' : 'Adherence tracking failed'
+                    );
+                } catch (error) {
+                    this.addTestResult('Adherence Tracking', false, error.message);
+                }
+            }
+
+            async testStorageAndRetrieval() {
+                try {
+                    // This test depends on database availability
+                    if (!window.kiroDb) {
+                        this.addTestResult('Storage and Retrieval', false, 'Database service not available');
+                        return;
+                    }
+
+                    const testPlan = {
+                        id: 'test-storage-plan',
+                        type: '3-day',
+                        cuisine: 'general',
+                        days: [{ day: 1, meals: { breakfast: [{ name: 'Test meal' }] } }]
+                    };
+
+                    // Test storage (this will use localStorage fallback if DB fails)
+                    await this.nutritionService.storeMealPlan(testPlan, { cuisine: 'general' });
+
+                    // Test retrieval
+                    const retrievedPlans = await this.nutritionService.getUserMealPlans(1);
+                    const hasRetrievedData = Array.isArray(retrievedPlans);
+
+                    this.addTestResult(
+                        'Storage and Retrieval',
+                        hasRetrievedData,
+                        hasRetrievedData ? 'Storage and retrieval working' : 'Failed to store/retrieve meal plans'
+                    );
+                } catch (error) {
+                    this.addTestResult('Storage and Retrieval', false, error.message);
+                }
+            }
+
+            addTestResult(testName, passed, message) {
+                this.testResults.push({
+                    name: testName,
+                    passed: passed,
+                    message: message,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            displayResults() {
+                const resultsContainer = document.getElementById('test-results');
+                const passedTests = this.testResults.filter(r => r.passed).length;
+                const totalTests = this.testResults.length;
+
+                let html = `
+                    <div class="test-summary">
+                        <h3>Test Summary: ${passedTests}/${totalTests} Passed</h3>
+                        <div class="test-score ${passedTests === totalTests ? 'all-passed' : 'some-failed'}">
+                            ${Math.round((passedTests / totalTests) * 100)}% Success Rate
+                        </div>
+                    </div>
+                    <div class="test-details">
+                `;
+
+                this.testResults.forEach(result => {
+                    html += `
+                        <div class="test-result ${result.passed ? 'passed' : 'failed'}">
+                            <div class="test-name">
+                                <span class="test-icon">${result.passed ? '✅' : '❌'}</span>
+                                ${result.name}
+                            </div>
+                            <div class="test-message">${result.message}</div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                resultsContainer.innerHTML = html;
+            }
+
+            setupManualTests() {
+                // Manual test for meal plan generation
+                document.getElementById('test-generate-meal-plan').addEventListener('click', async () => {
+                    const cuisineSelect = document.getElementById('test-cuisine-select');
+                    const dietaryCheckboxes = document.querySelectorAll('.dietary-restrictions input[type="checkbox"]:checked');
+                    
+                    const preferences = {
+                        cuisine: cuisineSelect.value,
+                        dietaryRestrictions: Array.from(dietaryCheckboxes).map(cb => cb.value),
+                        days: 3
+                    };
+
+                    const button = document.getElementById('test-generate-meal-plan');
+                    button.disabled = true;
+                    button.innerHTML = '<div class="spinner"></div> Generating...';
+
+                    try {
+                        const result = await this.nutritionService.generateMealPlan(preferences);
+                        this.displayTestMealPlan(result.mealPlan || result.fallbackPlan);
+                    } catch (error) {
+                        console.error('Manual test error:', error);
+                        alert('Test failed: ' + error.message);
+                    } finally {
+                        button.disabled = false;
+                        button.innerHTML = '<span class="icon">✨</span> Generate Test Meal Plan';
+                    }
+                });
+
+                // Manual test for adherence tracking
+                document.getElementById('test-adherence').addEventListener('click', () => {
+                    alert('Adherence tracking test: Check the console for detailed logs and try marking meals as completed in the generated meal plan.');
+                });
+
+                // Manual test for enhanced features
+                document.getElementById('test-enhanced-features').addEventListener('click', () => {
+                    console.log('🚀 Running enhanced nutrition features test...');
+                    new EnhancedNutritionTestSuite();
+                });
+            }
+
+            displayTestMealPlan(mealPlan) {
+                const container = document.getElementById('test-meal-plan-container');
+                if (!mealPlan) {
+                    container.innerHTML = '<div class="error">Failed to generate meal plan</div>';
+                    return;
+                }
+
+                let html = `
+                    <div class="test-meal-plan">
+                        <h3>Generated Test Meal Plan</h3>
+                        <div class="plan-info">
+                            <strong>Cuisine:</strong> ${mealPlan.cuisine || 'General'}<br>
+                            <strong>Restrictions:</strong> ${mealPlan.dietaryRestrictions?.join(', ') || 'None'}<br>
+                            <strong>Days:</strong> ${mealPlan.days?.length || 0}
+                        </div>
+                `;
+
+                if (mealPlan.days) {
+                    mealPlan.days.forEach(day => {
+                        html += `
+                            <div class="test-day">
+                                <h4>Day ${day.day}</h4>
+                                <div class="test-meals">
+                        `;
+                        
+                        Object.entries(day.meals).forEach(([mealType, meals]) => {
+                            html += `
+                                <div class="test-meal">
+                                    <strong>${mealType}:</strong>
+                                    <ul>
+                                        ${meals.map(meal => `<li>${meal.name || meal}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `;
+                        });
+                        
+                        html += '</div></div>';
+                    });
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+            }
+        }
+
+        // Initialize tests when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new NutritionTestSuite();
+        });
+    </script>
+
+    <style>
+        .test-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .test-results {
+            margin-top: 1rem;
+        }
+
+        .test-summary {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .test-score {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .test-score.all-passed {
+            color: #28a745;
+        }
+
+        .test-score.some-failed {
+            color: #dc3545;
+        }
+
+        .test-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid;
+        }
+
+        .test-result.passed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .test-result.failed {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .test-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .test-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .test-meal-plan {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--light-gray);
+        }
+
+        .plan-info {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .test-day {
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .test-meals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .test-meal {
+            background: var(--light-gray);
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+        }
+
+        .test-meal ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.25rem;
+        }
+
+        .test-meal li {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .enhanced-test-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .test-summary.enhanced {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .test-summary.enhanced h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .test-summary.enhanced .test-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .enhanced-test-section .test-result {
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            margin-bottom: 0.75rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .enhanced-test-section .test-result.passed {
+            border-left-color: #28a745;
+            background: rgba(40, 167, 69, 0.05);
+        }
+
+        .enhanced-test-section .test-result.failed {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.05);
+        }
+
+        .enhanced-test-section .test-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .enhanced-test-section .test-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Buttons Fix Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section h3 {
+            margin: 0 0 1rem 0;
+            color: #1e293b;
+        }
+        
+        .nutrition-card-demo {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .card-header {
+            padding: 1.5rem 1.5rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-actions {
+            padding: 1rem 1.5rem 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-card-action {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-card-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 127, 255, 0.3);
+        }
+        
+        .btn-card-action.secondary {
+            background: linear-gradient(135deg, #64748b, #475569);
+        }
+        
+        .nutrition-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #007FFF;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+        
+        .nutrition-progress {
+            margin-top: 1rem;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #10b981, #059669);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-align: center;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 127, 255, 0.3);
+        }
+        
+        .test-btn.success {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+        
+        .test-btn.warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+        }
+        
+        .test-log {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🍎 Nutrition Buttons Fix Test</h1>
+        <p>Testing the fixed nutrition card buttons functionality</p>
+    </div>
+
+    <div class="test-container">
+        <div class="test-section">
+            <h3>🍽️ Nutrition Snapshot Card Demo</h3>
+            <p>This is a replica of the nutrition card from the dashboard. Test the buttons below:</p>
+            
+            <div class="nutrition-card-demo">
+                <div class="card-header">
+                    <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                    <div class="card-trend">
+                        <span class="trend-icon">🥗</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="nutrition-summary">
+                        <div class="nutrition-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="meal-plans-count">0</div>
+                                <div class="stat-label">Meal Plans</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="adherence-rate">--%</div>
+                                <div class="stat-label">Adherence</div>
+                            </div>
+                        </div>
+                        <div class="nutrition-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="nutrition-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <small class="progress-text">Weekly nutrition goal</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-card-action" id="create-meal-plan-btn">
+                        🍽️ Create Plan
+                    </button>
+                    <button class="btn-card-action secondary" id="view-nutrition-btn">
+                        📋 View Plans
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Test Controls</h3>
+            <p>Use these buttons to test the nutrition functionality:</p>
+            
+            <div class="test-controls">
+                <button class="test-btn" onclick="testCreatePlan()">
+                    🍽️ Test Create Plan
+                </button>
+                <button class="test-btn" onclick="testViewPlans()">
+                    📋 Test View Plans
+                </button>
+                <button class="test-btn success" onclick="generateSamplePlans()">
+                    📈 Generate Sample Plans
+                </button>
+                <button class="test-btn warning" onclick="clearPlans()">
+                    🗑️ Clear Plans
+                </button>
+            </div>
+            
+            <div class="test-log" id="test-log">
+                <div>🍎 Nutrition Buttons Fix Test initialized</div>
+                <div>Ready to test nutrition functionality...</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>✅ Expected Behavior</h3>
+            <ul>
+                <li><strong>Create Plan Button:</strong> Should show a notification and create a new meal plan with sample meals</li>
+                <li><strong>View Plans Button:</strong> Should open a modal showing all existing meal plans</li>
+                <li><strong>If no plans exist:</strong> View Plans should automatically trigger Create Plan</li>
+                <li><strong>Plan Details:</strong> Should show detailed meal information and nutrition stats</li>
+                <li><strong>Plan Actions:</strong> Should allow viewing details and duplicating plans</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="enhanced-dashboard-redesign.js"></script>
+
+    <script>
+        // Test Framework
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('test-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️';
+            
+            logElement.innerHTML += `<div>[${timestamp}] ${icon} ${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function updateNutritionDisplay() {
+            if (window.enhancedDashboardRedesign && window.enhancedDashboardRedesign.dashboardData) {
+                const data = window.enhancedDashboardRedesign.dashboardData;
+                const plansCount = data.nutritionPlans ? data.nutritionPlans.length : 0;
+                const adherence = window.enhancedDashboardRedesign.calculateNutritionAdherence();
+                
+                document.getElementById('meal-plans-count').textContent = plansCount;
+                document.getElementById('adherence-rate').textContent = adherence ? `${Math.round(adherence)}%` : '--%';
+                document.getElementById('nutrition-progress-fill').style.width = `${adherence || 0}%`;
+                
+                log(`Updated display: ${plansCount} plans, ${Math.round(adherence || 0)}% adherence`, 'success');
+            }
+        }
+
+        function testCreatePlan() {
+            log('Testing Create Plan button...', 'info');
+            
+            if (window.enhancedDashboardRedesign) {
+                window.enhancedDashboardRedesign.createMealPlan();
+                log('Create Plan method called successfully', 'success');
+                
+                setTimeout(() => {
+                    updateNutritionDisplay();
+                }, 1000);
+            } else {
+                log('Enhanced Dashboard Redesign not available', 'error');
+            }
+        }
+
+        function testViewPlans() {
+            log('Testing View Plans button...', 'info');
+            
+            if (window.enhancedDashboardRedesign) {
+                window.enhancedDashboardRedesign.viewNutritionPlans();
+                log('View Plans method called successfully', 'success');
+            } else {
+                log('Enhanced Dashboard Redesign not available', 'error');
+            }
+        }
+
+        function generateSamplePlans() {
+            log('Generating sample nutrition plans...', 'info');
+            
+            if (window.enhancedDashboardRedesign) {
+                // Generate multiple sample plans
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        window.enhancedDashboardRedesign.createMealPlan();
+                    }, i * 500);
+                }
+                
+                log('Generated 3 sample meal plans', 'success');
+                
+                setTimeout(() => {
+                    updateNutritionDisplay();
+                }, 2000);
+            } else {
+                log('Enhanced Dashboard Redesign not available', 'error');
+            }
+        }
+
+        function clearPlans() {
+            log('Clearing all nutrition plans...', 'warning');
+            
+            const userId = window.enhancedDashboardRedesign?.currentUser;
+            if (userId) {
+                localStorage.removeItem(`nutrition-plans-${userId}`);
+                
+                if (window.enhancedDashboardRedesign) {
+                    window.enhancedDashboardRedesign.loadUserData();
+                }
+                
+                setTimeout(() => {
+                    updateNutritionDisplay();
+                }, 500);
+                
+                log('All nutrition plans cleared', 'success');
+            } else {
+                log('No user found to clear plans for', 'error');
+            }
+        }
+
+        // Set up button event listeners
+        document.getElementById('create-meal-plan-btn').addEventListener('click', testCreatePlan);
+        document.getElementById('view-nutrition-btn').addEventListener('click', testViewPlans);
+
+        // Initialize test
+        setTimeout(() => {
+            log('Nutrition Buttons Fix Test initialized', 'success');
+            
+            if (window.enhancedDashboardRedesign) {
+                log('Enhanced Dashboard Redesign is available', 'success');
+                updateNutritionDisplay();
+            } else {
+                log('Enhanced Dashboard Redesign not found', 'error');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

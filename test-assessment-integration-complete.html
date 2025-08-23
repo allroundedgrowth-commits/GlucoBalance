@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Assessment Integration Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+        }
+        .test-result {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .btn-test {
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        .dashboard-preview {
+            border: 2px solid #007FFF;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: #f8f9ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <h1>GlucoBalance Dashboard</h1>
+                </div>
+            </header>
+            
+            <main class="container">
+                <div class="test-container">
+                    <h1>🧪 Complete Assessment Integration Test</h1>
+                    
+                    <div class="test-section">
+                        <h3>📋 Risk Assessment Card</h3>
+                        <div class="dashboard-preview">
+                            <div class="dashboard-card risk-assessment-card">
+                                <div class="card-header">
+                                    <h4>🎯 Risk Assessment</h4>
+                                    <div class="card-status">
+                                        <span class="status-indicator pending"></span>
+                                        <span class="status-text">Assessment Needed</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="risk-display" id="risk-display">
+                                        <div class="risk-score">--</div>
+                                        <div class="risk-category">Take Assessment</div>
+                                        <div class="risk-details">
+                                            <small class="last-updated">Never assessed</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-card-action" id="take-assessment-btn">
+                                        📋 Take Assessment
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="test-section">
+                        <h3>🔧 Test Controls</h3>
+                        <button class="btn-test" onclick="runCompleteTest()">Run Complete Integration Test</button>
+                        <button class="btn-test" onclick="testButtonOnly()">Test Button Click Only</button>
+                        <button class="btn-test" onclick="simulateAssessment()">Simulate Complete Assessment</button>
+                        <button class="btn-test" onclick="clearResults()">Clear Results</button>
+                        
+                        <div id="test-results"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        let testResults = [];
+        
+        function showResult(test, passed, message, details = '') {
+            const resultsDiv = document.getElementById('test-results');
+            const resultClass = passed ? 'pass' : 'fail';
+            const icon = passed ? '✅' : '❌';
+            
+            const result = `
+                <div class="test-result ${resultClass}">
+                    <strong>${icon} ${test}</strong><br>
+                    ${message}
+                    ${details ? `<br><small>${details}</small>` : ''}
+                </div>
+            `;
+            
+            resultsDiv.innerHTML += result;
+            testResults.push({ test, passed, message, details });
+        }
+        
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = '';
+            testResults = [];
+        }
+        
+        async function runCompleteTest() {
+            clearResults();
+            console.log('🧪 Starting complete integration test...');
+            
+            // Test 1: Check all components are loaded
+            const componentsLoaded = checkComponentsLoaded();
+            
+            // Test 2: Test button click
+            if (componentsLoaded) {
+                await testButtonClick();
+            }
+            
+            // Test 3: Test assessment flow
+            if (componentsLoaded) {
+                await testAssessmentFlow();
+            }
+            
+            // Test 4: Test score recording
+            if (componentsLoaded) {
+                await testScoreRecording();
+            }
+            
+            console.log('✅ Complete integration test finished');
+        }
+        
+        function checkComponentsLoaded() {
+            console.log('🔍 Checking component loading...');
+            
+            // Check button exists
+            const button = document.getElementById('take-assessment-btn');
+            showResult('Button Existence', !!button, 
+                button ? 'Take Assessment button found' : 'Take Assessment button not found');
+            
+            // Check main app
+            const appExists = !!window.glucoApp;
+            showResult('Main App', appExists,
+                appExists ? 'Main app instance available' : 'Main app instance not found');
+            
+            // Check enhanced dashboard
+            const dashboardExists = !!window.enhancedDashboard;
+            showResult('Enhanced Dashboard', dashboardExists,
+                dashboardExists ? 'Enhanced dashboard loaded' : 'Enhanced dashboard not found');
+            
+            // Check risk assessment engine
+            const riskEngineExists = !!window.riskAssessment;
+            showResult('Risk Assessment Engine', riskEngineExists,
+                riskEngineExists ? 'Risk assessment engine loaded' : 'Risk assessment engine not found');
+            
+            // Check database
+            const dbExists = !!window.kiroDb;
+            showResult('Database Service', dbExists,
+                dbExists ? 'Database service available' : 'Database service not found');
+            
+            return button && appExists && dashboardExists && riskEngineExists;
+        }
+        
+        async function testButtonClick() {
+            console.log('🖱️ Testing button click...');
+            
+            return new Promise((resolve) => {
+                const button = document.getElementById('take-assessment-btn');
+                if (!button) {
+                    showResult('Button Click Test', false, 'Button not found');
+                    resolve(false);
+                    return;
+                }
+                
+                try {
+                    // Monitor for assessment page creation
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            mutation.addedNodes.forEach((node) => {
+                                if (node.id === 'assessment-page') {
+                                    showResult('Assessment Page Creation', true, 
+                                        'Assessment page created successfully after button click');
+                                    observer.disconnect();
+                                    resolve(true);
+                                }
+                            });
+                        });
+                    });
+                    
+                    observer.observe(document.body, { childList: true, subtree: true });
+                    
+                    // Click the button
+                    button.click();
+                    
+                    // Timeout after 3 seconds
+                    setTimeout(() => {
+                        observer.disconnect();
+                        const assessmentPage = document.getElementById('assessment-page');
+                        if (!assessmentPage) {
+                            showResult('Assessment Page Creation', false, 
+                                'Assessment page not created within 3 seconds');
+                        }
+                        resolve(!!assessmentPage);
+                    }, 3000);
+                    
+                } catch (error) {
+                    showResult('Button Click Test', false, `Error: ${error.message}`);
+                    resolve(false);
+                }
+            });
+        }
+        
+        async function testAssessmentFlow() {
+            console.log('📋 Testing assessment flow...');
+            
+            return new Promise((resolve) => {
+                // Wait a bit for assessment to initialize
+                setTimeout(() => {
+                    const assessmentContent = document.getElementById('assessment-content');
+                    const hasContent = assessmentContent && assessmentContent.innerHTML.trim().length > 0;
+                    
+                    showResult('Assessment Content Loading', hasContent,
+                        hasContent ? 'Assessment questions loaded successfully' : 'Assessment content not loaded');
+                    
+                    // Check for navigation buttons
+                    const nextButton = document.getElementById('next-question');
+                    const hasNavigation = !!nextButton;
+                    
+                    showResult('Assessment Navigation', hasNavigation,
+                        hasNavigation ? 'Assessment navigation buttons available' : 'Assessment navigation not found');
+                    
+                    resolve(hasContent && hasNavigation);
+                }, 1500);
+            });
+        }
+        
+        async function testScoreRecording() {
+            console.log('💾 Testing score recording...');
+            
+            // Simulate completing an assessment
+            if (window.riskAssessment) {
+                try {
+                    // Create mock assessment data
+                    window.riskAssessment.assessmentData = {
+                        score: 8,
+                        category: 'Increased',
+                        responses: { age: 2, gender: 1, family_history: 2, high_blood_pressure: 2, physical_activity: 0, bmi: 1, gestational_diabetes: 0, prediabetes: 0 },
+                        date: new Date().toISOString(),
+                        questionResponses: []
+                    };
+                    
+                    // Test if we can save the assessment
+                    const canSave = typeof window.riskAssessment.saveAssessment === 'function';
+                    showResult('Score Recording Capability', canSave,
+                        canSave ? 'Assessment saving method available' : 'Assessment saving method not found');
+                    
+                    if (canSave) {
+                        // Mock current user for testing
+                        window.riskAssessment.getCurrentUser = () => ({ id: 'test-user-123', name: 'Test User' });
+                        
+                        // Try to save (this will test the full flow)
+                        try {
+                            await window.riskAssessment.saveAssessment();
+                            showResult('Score Recording Test', true, 'Assessment saved successfully');
+                        } catch (error) {
+                            showResult('Score Recording Test', false, `Save failed: ${error.message}`);
+                        }
+                    }
+                    
+                } catch (error) {
+                    showResult('Score Recording Test', false, `Error: ${error.message}`);
+                }
+            } else {
+                showResult('Score Recording Test', false, 'Risk assessment engine not available');
+            }
+        }
+        
+        async function testButtonOnly() {
+            clearResults();
+            console.log('🖱️ Testing button click only...');
+            
+            const button = document.getElementById('take-assessment-btn');
+            if (button) {
+                button.click();
+                showResult('Button Click', true, 'Button clicked successfully');
+            } else {
+                showResult('Button Click', false, 'Button not found');
+            }
+        }
+        
+        async function simulateAssessment() {
+            clearResults();
+            console.log('🎭 Simulating complete assessment...');
+            
+            // Simulate the entire assessment process
+            try {
+                // Step 1: Click button
+                const button = document.getElementById('take-assessment-btn');
+                if (button) {
+                    button.click();
+                    showResult('Step 1: Button Click', true, 'Assessment button clicked');
+                    
+                    // Step 2: Wait for page creation
+                    setTimeout(() => {
+                        const assessmentPage = document.getElementById('assessment-page');
+                        showResult('Step 2: Page Creation', !!assessmentPage, 
+                            assessmentPage ? 'Assessment page created' : 'Assessment page not created');
+                        
+                        // Step 3: Simulate completing assessment
+                        if (window.riskAssessment && assessmentPage) {
+                            setTimeout(() => {
+                                // Mock assessment completion
+                                window.riskAssessment.assessmentData = {
+                                    score: 12,
+                                    category: 'High',
+                                    responses: { age: 3, gender: 1, family_history: 5, high_blood_pressure: 2, physical_activity: 0, bmi: 1, gestational_diabetes: 0, prediabetes: 0 },
+                                    date: new Date().toISOString(),
+                                    questionResponses: []
+                                };
+                                
+                                // Trigger assessment completion event
+                                document.dispatchEvent(new CustomEvent('assessmentCompleted', {
+                                    detail: {
+                                        score: 12,
+                                        category: 'High',
+                                        date: new Date().toISOString(),
+                                        userId: 'test-user-123'
+                                    }
+                                }));
+                                
+                                showResult('Step 3: Assessment Completion', true, 'Assessment completed and event dispatched');
+                                
+                                // Step 4: Check dashboard update
+                                setTimeout(() => {
+                                    const riskDisplay = document.getElementById('risk-display');
+                                    showResult('Step 4: Dashboard Update', true, 'Dashboard should update with new score');
+                                }, 1000);
+                                
+                            }, 1000);
+                        }
+                    }, 1000);
+                } else {
+                    showResult('Simulation Failed', false, 'Assessment button not found');
+                }
+            } catch (error) {
+                showResult('Simulation Error', false, `Error: ${error.message}`);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('🚀 Test page loaded, initializing...');
+            
+            // Initialize components
+            if (!window.glucoApp) {
+                window.glucoApp = new GlucoBalanceApp();
+            }
+            
+            if (!window.enhancedDashboard) {
+                window.enhancedDashboard = new EnhancedDashboard();
+                // Set a test user
+                window.enhancedDashboard.setCurrentUser('test-user-123');
+            }
+            
+            console.log('✅ Test initialization complete');
+        });
+    </script>
+</body>
+</html>

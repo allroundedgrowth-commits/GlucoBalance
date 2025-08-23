@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Notification System Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            color: #007FFF;
+            margin-bottom: 15px;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .test-btn {
+            padding: 8px 16px;
+            background: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .test-btn:hover {
+            background: #0066CC;
+        }
+        
+        .test-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .test-btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .test-results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-indicator.success {
+            background: #28a745;
+        }
+        
+        .status-indicator.error {
+            background: #dc3545;
+        }
+        
+        .status-indicator.warning {
+            background: #ffc107;
+        }
+        
+        .analytics-display {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .analytics-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .analytics-item strong {
+            color: #007FFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Enhanced Notification System Test</h1>
+        <p>Testing Task 16: Build adaptive notification system with engagement tracking</p>
+        
+        <!-- Requirement 8.4: Engagement Tracking -->
+        <div class="test-section">
+            <h3>🎯 Requirement 8.4: Engagement Tracking & AI Optimization</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testEngagementTracking()">Test Engagement Tracking</button>
+                <button class="test-btn" onclick="simulateUserInteractions()">Simulate User Interactions</button>
+                <button class="test-btn" onclick="testAIOptimization()">Test AI Optimization</button>
+                <button class="test-btn secondary" onclick="viewEngagementAnalytics()">View Analytics</button>
+            </div>
+            <div id="engagement-results" class="test-results"></div>
+        </div>
+        
+        <!-- Requirement 8.6: Preference Management -->
+        <div class="test-section">
+            <h3>⚙️ Requirement 8.6: Notification Preference Management</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testPreferenceManager()">Test Preference Manager</button>
+                <button class="test-btn" onclick="generateAIRecommendations()">Generate AI Recommendations</button>
+                <button class="test-btn" onclick="showPreferencesUI()">Show Preferences UI</button>
+                <button class="test-btn secondary" onclick="viewPreferenceAnalytics()">View Preference Analytics</button>
+            </div>
+            <div id="preference-results" class="test-results"></div>
+        </div>
+        
+        <!-- Requirement 8.7: Re-engagement System -->
+        <div class="test-section">
+            <h3>🔄 Requirement 8.7: Re-engagement System</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testReEngagementChecker()">Test Re-engagement Checker</button>
+                <button class="test-btn" onclick="simulateInactiveUser()">Simulate Inactive User</button>
+                <button class="test-btn" onclick="testReEngagementNotifications()">Test Re-engagement Notifications</button>
+                <button class="test-btn secondary" onclick="viewReEngagementStats()">View Re-engagement Stats</button>
+            </div>
+            <div id="reengagement-results" class="test-results"></div>
+        </div>
+        
+        <!-- AI-Powered Personalization -->
+        <div class="test-section">
+            <h3>🤖 AI-Powered Personalization</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testPersonalizedNotifications()">Test Personalized Notifications</button>
+                <button class="test-btn" onclick="testBehaviorAnalysis()">Test Behavior Analysis</button>
+                <button class="test-btn" onclick="testContentPersonalization()">Test Content Personalization</button>
+                <button class="test-btn secondary" onclick="viewPersonalizationData()">View Personalization Data</button>
+            </div>
+            <div id="personalization-results" class="test-results"></div>
+        </div>
+        
+        <!-- System Status -->
+        <div class="test-section">
+            <h3>📊 System Status</h3>
+            <div id="system-status">
+                <div class="analytics-item">
+                    <span class="status-indicator success"></span>
+                    <strong>Enhanced Notification Service:</strong> <span id="service-status">Loading...</span>
+                </div>
+                <div class="analytics-item">
+                    <span class="status-indicator success"></span>
+                    <strong>Engagement Tracker:</strong> <span id="tracker-status">Loading...</span>
+                </div>
+                <div class="analytics-item">
+                    <span class="status-indicator success"></span>
+                    <strong>Re-engagement Checker:</strong> <span id="reengagement-status">Loading...</span>
+                </div>
+                <div class="analytics-item">
+                    <span class="status-indicator success"></span>
+                    <strong>Preference Manager:</strong> <span id="preference-status">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include dependencies -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/notification-service-enhanced.js"></script>
+    <script src="js/notification-ui.js"></script>
+
+    <script>
+        // Test functions for Requirement 8.4: Engagement Tracking
+        async function testEngagementTracking() {
+            const results = document.getElementById('engagement-results');
+            results.innerHTML = 'Testing engagement tracking...\n';
+            
+            try {
+                // Test engagement recording
+                const testEngagement = {
+                    notificationId: 'test_' + Date.now(),
+                    action: 'clicked',
+                    timestamp: new Date().toISOString(),
+                    userId: 'test_user_1'
+                };
+                
+                await window.notificationService.trackNotificationEngagement(
+                    testEngagement.notificationId, 
+                    testEngagement.action,
+                    { notificationType: 'daily_assessment' }
+                );
+                
+                results.innerHTML += '✅ Engagement tracking successful\n';
+                
+                // Test analytics generation
+                const analytics = await window.notificationService.engagementTracker.getEngagementAnalytics('test_user_1');
+                results.innerHTML += `✅ Analytics generated: ${JSON.stringify(analytics, null, 2)}\n`;
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function simulateUserInteractions() {
+            const results = document.getElementById('engagement-results');
+            results.innerHTML = 'Simulating user interactions...\n';
+            
+            try {
+                const actions = ['sent', 'delivered', 'clicked', 'dismissed'];
+                const types = ['daily_assessment', 'daily_mood', 'weekly_nutrition_summary', 'motivational'];
+                
+                for (let i = 0; i < 10; i++) {
+                    const action = actions[Math.floor(Math.random() * actions.length)];
+                    const type = types[Math.floor(Math.random() * types.length)];
+                    
+                    await window.notificationService.trackNotificationEngagement(
+                        `sim_${Date.now()}_${i}`,
+                        action,
+                        { notificationType: type }
+                    );
+                    
+                    // Add small delay to simulate real interactions
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+                
+                results.innerHTML += '✅ Simulated 10 user interactions\n';
+                
+                // Show updated analytics
+                const analytics = await window.notificationService.engagementTracker.getEngagementAnalytics('test_user_1');
+                results.innerHTML += `📊 Updated Analytics:\n`;
+                results.innerHTML += `   Click Rate: ${analytics.clickRate}%\n`;
+                results.innerHTML += `   Total Notifications: ${analytics.totalNotifications}\n`;
+                results.innerHTML += `   Engagement Trend: ${analytics.engagementTrend}\n`;
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function testAIOptimization() {
+            const results = document.getElementById('engagement-results');
+            results.innerHTML = 'Testing AI optimization...\n';
+            
+            try {
+                // Simulate engagement that triggers optimization
+                const engagement = {
+                    notificationId: 'opt_test_' + Date.now(),
+                    action: 'clicked',
+                    timestamp: new Date().toISOString(),
+                    userId: 'test_user_1'
+                };
+                
+                await window.notificationService.optimizeNotificationTiming(engagement);
+                results.innerHTML += '✅ AI optimization triggered successfully\n';
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function viewEngagementAnalytics() {
+            const results = document.getElementById('engagement-results');
+            results.innerHTML = 'Loading engagement analytics...\n';
+            
+            try {
+                const analytics = await window.notificationService.engagementTracker.getEngagementAnalytics('test_user_1');
+                results.innerHTML = `📊 Engagement Analytics:\n${JSON.stringify(analytics, null, 2)}\n`;
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        // Test functions for Requirement 8.6: Preference Management
+        async function testPreferenceManager() {
+            const results = document.getElementById('preference-results');
+            results.innerHTML = 'Testing preference manager...\n';
+            
+            try {
+                const testPreferences = {
+                    dailyReminders: true,
+                    assessmentReminderTime: '10:00',
+                    moodReminderTime: '21:00',
+                    frequency: 'normal'
+                };
+                
+                await window.notificationService.preferenceManager.updateUserPreferences('test_user_1', testPreferences);
+                results.innerHTML += '✅ Preferences updated successfully\n';
+                
+                const savedPrefs = await window.notificationService.preferenceManager.getUserPreferences('test_user_1');
+                results.innerHTML += `✅ Preferences retrieved: ${JSON.stringify(savedPrefs, null, 2)}\n`;
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function generateAIRecommendations() {
+            const results = document.getElementById('preference-results');
+            results.innerHTML = 'Generating AI recommendations...\n';
+            
+            try {
+                const recommendations = await window.notificationService.preferenceManager.generatePersonalizedPreferences('test_user_1');
+                results.innerHTML += `🤖 AI Recommendations:\n${JSON.stringify(recommendations, null, 2)}\n`;
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        function showPreferencesUI() {
+            window.notificationUI.showNotificationPreferences();
+        }
+        
+        async function viewPreferenceAnalytics() {
+            const results = document.getElementById('preference-results');
+            results.innerHTML = 'Loading preference analytics...\n';
+            
+            try {
+                const analytics = await window.notificationService.preferenceManager.getPreferenceAnalytics('test_user_1');
+                results.innerHTML = `📊 Preference Analytics:\n${JSON.stringify(analytics, null, 2)}\n`;
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        // Test functions for Requirement 8.7: Re-engagement System
+        async function testReEngagementChecker() {
+            const results = document.getElementById('reengagement-results');
+            results.innerHTML = 'Testing re-engagement checker...\n';
+            
+            try {
+                await window.notificationService.reEngagementChecker.checkAllUsers();
+                results.innerHTML += '✅ Re-engagement check completed\n';
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function simulateInactiveUser() {
+            const results = document.getElementById('reengagement-results');
+            results.innerHTML = 'Simulating inactive user...\n';
+            
+            try {
+                // Create a mock inactive user
+                const inactiveUser = {
+                    id: 'inactive_user_' + Date.now(),
+                    name: 'Test Inactive User',
+                    email: 'inactive@test.com'
+                };
+                
+                // Simulate checking this user
+                await window.notificationService.reEngagementChecker.checkUserEngagement(inactiveUser);
+                results.innerHTML += '✅ Inactive user simulation completed\n';
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function testReEngagementNotifications() {
+            const results = document.getElementById('reengagement-results');
+            results.innerHTML = 'Testing re-engagement notifications...\n';
+            
+            try {
+                const testUser = { id: 'test_user_1', name: 'Test User' };
+                const rule = { days: 7, type: 'motivational_return', priority: 'medium' };
+                
+                await window.notificationService.reEngagementChecker.sendReEngagementNotification(testUser, rule, 7);
+                results.innerHTML += '✅ Re-engagement notification sent\n';
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function viewReEngagementStats() {
+            const results = document.getElementById('reengagement-results');
+            results.innerHTML = 'Loading re-engagement stats...\n';
+            
+            try {
+                const stats = await window.notificationService.reEngagementChecker.getReEngagementStats();
+                results.innerHTML = `📊 Re-engagement Stats:\n${JSON.stringify(stats, null, 2)}\n`;
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        // AI Personalization tests
+        async function testPersonalizedNotifications() {
+            const results = document.getElementById('personalization-results');
+            results.innerHTML = 'Testing personalized notifications...\n';
+            
+            try {
+                const notification = await window.notificationService.generatePersonalizedNotification('motivational', {
+                    userName: 'Test User',
+                    recentProgress: 'improving'
+                });
+                
+                results.innerHTML += `🤖 Generated Notification:\n`;
+                results.innerHTML += `   Title: ${notification.title}\n`;
+                results.innerHTML += `   Body: ${notification.body}\n`;
+                results.innerHTML += `   Personalization: ${notification.personalizationLevel}\n`;
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function testBehaviorAnalysis() {
+            const results = document.getElementById('personalization-results');
+            results.innerHTML = 'Testing behavior analysis...\n';
+            
+            try {
+                const patterns = await window.notificationService.engagementTracker.getBehaviorPatterns('test_user_1');
+                results.innerHTML += `📊 Behavior Patterns:\n${JSON.stringify(patterns, null, 2)}\n`;
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function testContentPersonalization() {
+            const results = document.getElementById('personalization-results');
+            results.innerHTML = 'Testing content personalization...\n';
+            
+            try {
+                const types = ['daily_assessment', 'daily_mood', 're_engagement'];
+                
+                for (const type of types) {
+                    const notification = await window.notificationService.generatePersonalizedNotification(type);
+                    results.innerHTML += `${type}: ${notification.title}\n`;
+                }
+                
+                results.innerHTML += '✅ Content personalization test completed\n';
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        async function viewPersonalizationData() {
+            const results = document.getElementById('personalization-results');
+            results.innerHTML = 'Loading personalization data...\n';
+            
+            try {
+                const analytics = await window.notificationService.engagementTracker.getEngagementAnalytics('test_user_1');
+                const patterns = await window.notificationService.engagementTracker.getBehaviorPatterns('test_user_1');
+                
+                results.innerHTML = `📊 Personalization Data:\n`;
+                results.innerHTML += `Analytics: ${JSON.stringify(analytics, null, 2)}\n`;
+                results.innerHTML += `Patterns: ${JSON.stringify(patterns, null, 2)}\n`;
+                
+            } catch (error) {
+                results.innerHTML += `❌ Error: ${error.message}\n`;
+            }
+        }
+        
+        // Initialize system status
+        async function updateSystemStatus() {
+            try {
+                document.getElementById('service-status').textContent = 
+                    window.notificationService?.initialized ? 'Initialized' : 'Not Initialized';
+                    
+                document.getElementById('tracker-status').textContent = 
+                    window.notificationService?.engagementTracker ? 'Active' : 'Inactive';
+                    
+                document.getElementById('reengagement-status').textContent = 
+                    window.notificationService?.reEngagementChecker ? 'Active' : 'Inactive';
+                    
+                document.getElementById('preference-status').textContent = 
+                    window.notificationService?.preferenceManager ? 'Active' : 'Inactive';
+                    
+            } catch (error) {
+                console.error('Failed to update system status:', error);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            setTimeout(updateSystemStatus, 1000);
+        });
+    </script>
+</body>
+</html>

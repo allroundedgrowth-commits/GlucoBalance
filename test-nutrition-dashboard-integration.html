@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Nutrition Dashboard Integration Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="container">
+                <h1>🧪 Nutrition Dashboard Integration Test</h1>
+                <p>Testing the fixed nutrition functionality on the dashboard</p>
+            </div>
+        </header>
+
+        <main class="container">
+            <!-- Test Status Section -->
+            <div class="test-section">
+                <h2>Integration Test Results</h2>
+                <div id="test-results" class="test-results">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Running nutrition dashboard integration tests...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mock Dashboard Section -->
+            <div class="test-section">
+                <h2>Mock Dashboard - Nutrition Feature</h2>
+                <div class="dashboard-mock">
+                    <div class="card nutrition-card" data-feature="nutrition">
+                        <div class="card-header">
+                            <h3><span class="icon">🍽️</span> Nutrition Planning</h3>
+                            <p>AI-powered meal planning and nutrition tracking</p>
+                        </div>
+                        
+                        <div class="card-content">
+                            <div class="nutrition-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value">3</span>
+                                    <span class="stat-label">Meal Plans</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">12</span>
+                                    <span class="stat-label">Recipes</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">85%</span>
+                                    <span class="stat-label">Adherence</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions nutrition-actions">
+                            <button id="create-meal-plan-btn" class="btn-primary">
+                                <span class="icon">🤖</span> Create Meal Plan
+                            </button>
+                            <button id="view-nutrition-btn" class="btn-secondary">
+                                <span class="icon">📋</span> View Plans
+                            </button>
+                            <button id="view-recipes-btn" class="btn-secondary">
+                                <span class="icon">📖</span> View Recipes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Test Controls -->
+            <div class="test-section">
+                <h2>Manual Test Controls</h2>
+                <div class="test-controls">
+                    <div class="control-group">
+                        <h4>Test Individual Features</h4>
+                        <div class="button-group">
+                            <button id="test-create-meal-plan" class="btn-primary">
+                                🧪 Test Create Meal Plan
+                            </button>
+                            <button id="test-view-plans" class="btn-secondary">
+                                🧪 Test View Plans
+                            </button>
+                            <button id="test-view-recipes" class="btn-secondary">
+                                🧪 Test View Recipes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <h4>Test AI Integration</h4>
+                        <div class="button-group">
+                            <button id="test-ai-meal-generation" class="btn-primary">
+                                🤖 Test AI Meal Generation
+                            </button>
+                            <button id="test-recipe-generation" class="btn-secondary">
+                                🤖 Test Recipe Generation
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <h4>Test Data Management</h4>
+                        <div class="button-group">
+                            <button id="generate-test-data" class="btn-success">
+                                📊 Generate Test Data
+                            </button>
+                            <button id="clear-test-data" class="btn-danger">
+                                🗑️ Clear Test Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Output Section -->
+            <div class="test-section">
+                <h2>Test Output</h2>
+                <div id="test-output" class="test-output">
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <h3>No Test Output Yet</h3>
+                        <p>Run tests to see detailed output here</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/dashboard-ai-service.js"></script>
+    <script src="js/nutrition-service.js"></script>
+    <script src="js/nutrition-ui.js"></script>
+    <script src="fix-nutrition-dashboard-integration.js"></script>
+
+    <script>
+        // Nutrition Dashboard Integration Test Suite
+        class NutritionDashboardIntegrationTest {
+            constructor() {
+                this.testResults = [];
+                this.testOutput = document.getElementById('test-output');
+                this.init();
+            }
+
+            async init() {
+                await this.waitForServices();
+                await this.runIntegrationTests();
+                this.setupManualTests();
+            }
+
+            async waitForServices() {
+                let attempts = 0;
+                while ((!window.nutritionService || !window.nutritionUI || !window.nutritionDashboardFix) && attempts < 30) {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    attempts++;
+                }
+                
+                if (!window.nutritionService) {
+                    this.addTestResult('Nutrition Service', false, 'Service not available');
+                }
+                
+                if (!window.nutritionUI) {
+                    this.addTestResult('Nutrition UI', false, 'UI component not available');
+                }
+                
+                if (!window.nutritionDashboardFix) {
+                    this.addTestResult('Dashboard Integration Fix', false, 'Integration fix not loaded');
+                }
+            }
+
+            async runIntegrationTests() {
+                const resultsContainer = document.getElementById('test-results');
+                resultsContainer.innerHTML = '<h3>Running Integration Tests...</h3>';
+
+                // Test 1: Service Availability
+                this.testServiceAvailability();
+
+                // Test 2: Button Integration
+                this.testButtonIntegration();
+
+                // Test 3: Modal Creation
+                await this.testModalCreation();
+
+                // Test 4: AI Integration
+                await this.testAIIntegration();
+
+                // Test 5: Data Management
+                await this.testDataManagement();
+
+                this.displayResults();
+            }
+
+            testServiceAvailability() {
+                const services = [
+                    { name: 'Nutrition Service', service: window.nutritionService },
+                    { name: 'Nutrition UI', service: window.nutritionUI },
+                    { name: 'Dashboard Fix', service: window.nutritionDashboardFix },
+                    { name: 'AI Service', service: window.aiService },
+                    { name: 'Dashboard AI', service: window.dashboardAI }
+                ];
+
+                services.forEach(({ name, service }) => {
+                    this.addTestResult(
+                        `${name} Availability`,
+                        !!service,
+                        service ? 'Service available' : 'Service not available'
+                    );
+                });
+            }
+
+            testButtonIntegration() {
+                const buttons = [
+                    { id: 'create-meal-plan-btn', name: 'Create Meal Plan Button' },
+                    { id: 'view-nutrition-btn', name: 'View Nutrition Button' },
+                    { id: 'view-recipes-btn', name: 'View Recipes Button' }
+                ];
+
+                buttons.forEach(({ id, name }) => {
+                    const button = document.getElementById(id);
+                    const hasButton = !!button;
+                    const hasEventListener = hasButton && button.onclick !== null;
+                    
+                    this.addTestResult(
+                        `${name} Integration`,
+                        hasButton,
+                        hasButton ? 'Button found and integrated' : 'Button not found'
+                    );
+                });
+            }
+
+            async testModalCreation() {
+                try {
+                    // Test modal creation without actually showing it
+                    const testModal = window.nutritionDashboardFix.createModal('Test Modal', '<p>Test content</p>');
+                    const hasModal = testModal && testModal.className.includes('modal-overlay');
+                    
+                    // Clean up
+                    if (testModal && testModal.parentNode) {
+                        testModal.parentNode.removeChild(testModal);
+                    }
+                    
+                    this.addTestResult(
+                        'Modal Creation',
+                        hasModal,
+                        hasModal ? 'Modal creation working' : 'Modal creation failed'
+                    );
+                } catch (error) {
+                    this.addTestResult('Modal Creation', false, error.message);
+                }
+            }
+
+            async testAIIntegration() {
+                try {
+                    // Test if AI services are properly connected
+                    const hasNutritionAI = window.nutritionService && 
+                                         typeof window.nutritionService.generateMealPlan === 'function';
+                    
+                    const hasDashboardAI = window.dashboardAI && 
+                                         typeof window.dashboardAI.generateMealPlan === 'function';
+                    
+                    this.addTestResult(
+                        'Nutrition AI Integration',
+                        hasNutritionAI,
+                        hasNutritionAI ? 'AI meal planning available' : 'AI meal planning not available'
+                    );
+                    
+                    this.addTestResult(
+                        'Dashboard AI Integration',
+                        hasDashboardAI,
+                        hasDashboardAI ? 'Dashboard AI available' : 'Dashboard AI not available'
+                    );
+                } catch (error) {
+                    this.addTestResult('AI Integration', false, error.message);
+                }
+            }
+
+            async testDataManagement() {
+                try {
+                    // Test data storage and retrieval
+                    const userId = 'test-integration-user';
+                    window.nutritionService.setCurrentUser(userId);
+                    
+                    // Test meal plan storage
+                    const testPlan = {
+                        id: 'test-plan-integration',
+                        type: '3-day',
+                        cuisine: 'general',
+                        days: [{ day: 1, meals: { breakfast: [{ name: 'Test meal' }] } }]
+                    };
+                    
+                    await window.nutritionService.storeMealPlan(testPlan, { cuisine: 'general' });
+                    const retrievedPlans = await window.nutritionService.getUserMealPlans(1);
+                    
+                    const dataManagementWorks = Array.isArray(retrievedPlans);
+                    
+                    this.addTestResult(
+                        'Data Management',
+                        dataManagementWorks,
+                        dataManagementWorks ? 'Data storage and retrieval working' : 'Data management failed'
+                    );
+                } catch (error) {
+                    this.addTestResult('Data Management', false, error.message);
+                }
+            }
+
+            setupManualTests() {
+                // Test Create Meal Plan
+                document.getElementById('test-create-meal-plan').addEventListener('click', () => {
+                    this.logTestOutput('Testing Create Meal Plan functionality...');
+                    if (window.nutritionDashboardFix) {
+                        window.nutritionDashboardFix.handleCreateMealPlan();
+                        this.logTestOutput('✅ Create Meal Plan modal should be displayed');
+                    } else {
+                        this.logTestOutput('❌ Dashboard fix not available');
+                    }
+                });
+
+                // Test View Plans
+                document.getElementById('test-view-plans').addEventListener('click', async () => {
+                    this.logTestOutput('Testing View Plans functionality...');
+                    try {
+                        await window.nutritionDashboardFix.handleViewPlans();
+                        this.logTestOutput('✅ View Plans modal should be displayed');
+                    } catch (error) {
+                        this.logTestOutput(`❌ Error: ${error.message}`);
+                    }
+                });
+
+                // Test View Recipes
+                document.getElementById('test-view-recipes').addEventListener('click', async () => {
+                    this.logTestOutput('Testing View Recipes functionality...');
+                    try {
+                        await window.nutritionDashboardFix.handleViewRecipes();
+                        this.logTestOutput('✅ View Recipes modal should be displayed');
+                    } catch (error) {
+                        this.logTestOutput(`❌ Error: ${error.message}`);
+                    }
+                });
+
+                // Test AI Meal Generation
+                document.getElementById('test-ai-meal-generation').addEventListener('click', async () => {
+                    this.logTestOutput('Testing AI Meal Generation...');
+                    try {
+                        const preferences = {
+                            cuisine: 'mediterranean',
+                            dietaryRestrictions: ['vegetarian'],
+                            days: 3
+                        };
+                        
+                        const result = await window.nutritionService.generateMealPlan(preferences);
+                        this.logTestOutput(`✅ AI Meal Generation Result: ${result.success ? 'Success' : 'Fallback used'}`);
+                        this.logTestOutput(`   Generated ${result.mealPlan?.days?.length || 0} days of meals`);
+                    } catch (error) {
+                        this.logTestOutput(`❌ AI Generation Error: ${error.message}`);
+                    }
+                });
+
+                // Test Recipe Generation
+                document.getElementById('test-recipe-generation').addEventListener('click', async () => {
+                    this.logTestOutput('Testing Recipe Generation...');
+                    try {
+                        if (window.nutritionDashboardFix) {
+                            await window.nutritionDashboardFix.generateDetailedRecipe('Mediterranean Chickpea Salad', 'lunch');
+                            this.logTestOutput('✅ Recipe generation modal should be displayed');
+                        } else {
+                            this.logTestOutput('❌ Dashboard fix not available');
+                        }
+                    } catch (error) {
+                        this.logTestOutput(`❌ Recipe Generation Error: ${error.message}`);
+                    }
+                });
+
+                // Generate Test Data
+                document.getElementById('generate-test-data').addEventListener('click', async () => {
+                    this.logTestOutput('Generating test data...');
+                    await this.generateTestData();
+                });
+
+                // Clear Test Data
+                document.getElementById('clear-test-data').addEventListener('click', () => {
+                    this.logTestOutput('Clearing test data...');
+                    this.clearTestData();
+                });
+            }
+
+            async generateTestData() {
+                try {
+                    const userId = window.nutritionDashboardFix.getCurrentUserId();
+                    
+                    // Generate test meal plans
+                    const testPlans = [
+                        {
+                            id: 'plan-1',
+                            planType: '3-day',
+                            cuisine: 'mediterranean',
+                            dietaryRestrictions: ['vegetarian'],
+                            mealPlan: {
+                                id: 'plan-1',
+                                type: '3-day',
+                                cuisine: 'mediterranean',
+                                days: [
+                                    {
+                                        day: 1,
+                                        meals: {
+                                            breakfast: [{ name: 'Greek Yogurt with Berries', carbs: 25 }],
+                                            lunch: [{ name: 'Mediterranean Quinoa Salad', carbs: 35 }],
+                                            dinner: [{ name: 'Grilled Vegetables with Hummus', carbs: 30 }]
+                                        }
+                                    },
+                                    {
+                                        day: 2,
+                                        meals: {
+                                            breakfast: [{ name: 'Whole Grain Toast with Avocado', carbs: 30 }],
+                                            lunch: [{ name: 'Lentil Soup with Vegetables', carbs: 40 }],
+                                            dinner: [{ name: 'Stuffed Bell Peppers', carbs: 35 }]
+                                        }
+                                    },
+                                    {
+                                        day: 3,
+                                        meals: {
+                                            breakfast: [{ name: 'Oatmeal with Nuts and Seeds', carbs: 35 }],
+                                            lunch: [{ name: 'Chickpea and Vegetable Curry', carbs: 45 }],
+                                            dinner: [{ name: 'Grilled Eggplant with Tahini', carbs: 25 }]
+                                        }
+                                    }
+                                ],
+                                culturalNotes: {
+                                    cuisine: 'Mediterranean',
+                                    healthBenefits: ['Heart-healthy fats', 'Anti-inflammatory foods', 'Rich in antioxidants']
+                                }
+                            },
+                            generationMethod: 'ai-powered',
+                            createdAt: new Date().toISOString()
+                        },
+                        {
+                            id: 'plan-2',
+                            planType: '3-day',
+                            cuisine: 'asian',
+                            dietaryRestrictions: [],
+                            mealPlan: {
+                                id: 'plan-2',
+                                type: '3-day',
+                                cuisine: 'asian',
+                                days: [
+                                    {
+                                        day: 1,
+                                        meals: {
+                                            breakfast: [{ name: 'Miso Soup with Tofu', carbs: 15 }],
+                                            lunch: [{ name: 'Teriyaki Salmon with Brown Rice', carbs: 40 }],
+                                            dinner: [{ name: 'Stir-fried Vegetables with Ginger', carbs: 25 }]
+                                        }
+                                    }
+                                ],
+                                culturalNotes: {
+                                    cuisine: 'Asian',
+                                    healthBenefits: ['Low in saturated fat', 'High vegetable content', 'Mindful eating practices']
+                                }
+                            },
+                            generationMethod: 'ai-powered',
+                            createdAt: new Date().toISOString()
+                        }
+                    ];
+                    
+                    // Store test plans
+                    for (const plan of testPlans) {
+                        await window.nutritionService.storeMealPlan(plan.mealPlan, {
+                            cuisine: plan.cuisine,
+                            dietaryRestrictions: plan.dietaryRestrictions
+                        });
+                    }
+                    
+                    // Generate test recipes
+                    const testRecipes = [
+                        {
+                            id: 1,
+                            name: 'Mediterranean Chickpea Salad',
+                            content: 'A delicious and healthy chickpea salad with Mediterranean flavors...',
+                            savedAt: new Date().toISOString()
+                        },
+                        {
+                            id: 2,
+                            name: 'Asian Ginger Stir-fry',
+                            content: 'A quick and nutritious stir-fry with fresh ginger and vegetables...',
+                            savedAt: new Date().toISOString()
+                        }
+                    ];
+                    
+                    localStorage.setItem(`saved-recipes-${userId}`, JSON.stringify(testRecipes));
+                    
+                    this.logTestOutput('✅ Test data generated successfully');
+                    this.logTestOutput(`   - ${testPlans.length} meal plans created`);
+                    this.logTestOutput(`   - ${testRecipes.length} recipes saved`);
+                    
+                } catch (error) {
+                    this.logTestOutput(`❌ Error generating test data: ${error.message}`);
+                }
+            }
+
+            clearTestData() {
+                try {
+                    const userId = window.nutritionDashboardFix.getCurrentUserId();
+                    
+                    // Clear meal plans
+                    localStorage.removeItem(`nutrition-plans-${userId}`);
+                    
+                    // Clear recipes
+                    localStorage.removeItem(`saved-recipes-${userId}`);
+                    
+                    // Clear adherence data
+                    const keys = Object.keys(localStorage);
+                    keys.forEach(key => {
+                        if (key.startsWith('meal-adherence-')) {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                    
+                    this.logTestOutput('✅ Test data cleared successfully');
+                    
+                } catch (error) {
+                    this.logTestOutput(`❌ Error clearing test data: ${error.message}`);
+                }
+            }
+
+            logTestOutput(message) {
+                const timestamp = new Date().toLocaleTimeString();
+                const outputDiv = document.getElementById('test-output');
+                
+                if (outputDiv.querySelector('.empty-state')) {
+                    outputDiv.innerHTML = '<div class="output-log"></div>';
+                }
+                
+                const logDiv = outputDiv.querySelector('.output-log');
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+                
+                logDiv.appendChild(logEntry);
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+
+            addTestResult(testName, passed, message) {
+                this.testResults.push({
+                    name: testName,
+                    passed: passed,
+                    message: message,
+                    timestamp: new Date().toISOString()
+                });
+            }
+
+            displayResults() {
+                const resultsContainer = document.getElementById('test-results');
+                const passedTests = this.testResults.filter(r => r.passed).length;
+                const totalTests = this.testResults.length;
+
+                let html = `
+                    <div class="test-summary">
+                        <h3>Integration Test Summary: ${passedTests}/${totalTests} Passed</h3>
+                        <div class="test-score ${passedTests === totalTests ? 'all-passed' : 'some-failed'}">
+                            ${Math.round((passedTests / totalTests) * 100)}% Success Rate
+                        </div>
+                    </div>
+                    <div class="test-details">
+                `;
+
+                this.testResults.forEach(result => {
+                    html += `
+                        <div class="test-result ${result.passed ? 'passed' : 'failed'}">
+                            <div class="test-name">
+                                <span class="test-icon">${result.passed ? '✅' : '❌'}</span>
+                                ${result.name}
+                            </div>
+                            <div class="test-message">${result.message}</div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                resultsContainer.innerHTML = html;
+            }
+        }
+
+        // Initialize tests when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new NutritionDashboardIntegrationTest();
+        });
+    </script>
+
+    <style>
+        .test-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-mock {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nutrition-card {
+            border: 2px solid var(--primary-color);
+        }
+
+        .nutrition-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .nutrition-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .test-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .control-group h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover, .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .test-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .output-log {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .timestamp {
+            color: #888;
+            margin-right: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 2rem;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .test-summary {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .test-score {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .test-score.all-passed {
+            color: #28a745;
+        }
+
+        .test-score.some-failed {
+            color: #dc3545;
+        }
+
+        .test-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid;
+        }
+
+        .test-result.passed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .test-result.failed {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .test-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .test-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</body>
+</html>

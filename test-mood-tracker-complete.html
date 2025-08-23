@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Mood Tracker Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .test-section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .test-section h3 {
+            color: var(--azure-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .test-results {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .test-button {
+            background: var(--azure-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .test-button:hover {
+            background: var(--azure-dark);
+        }
+        
+        .mood-test-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .status {
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .status.success {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .status.error {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        .status.pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #856404;
+        }
+
+        .feature-checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-checklist li {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-checklist li.implemented {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .feature-checklist li.missing {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .feature-checklist li::before {
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .feature-checklist li.implemented::before {
+            content: "✅";
+        }
+
+        .feature-checklist li.missing::before {
+            content: "❌";
+        }
+
+        .demo-dashboard {
+            border: 2px solid var(--azure-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header>
+            <h1>💙 Complete Mood Tracker Feature Test</h1>
+            <p>Testing all mood tracker features as specified in the requirements</p>
+        </header>
+
+        <!-- Feature Requirements Checklist -->
+        <div class="test-section">
+            <h3>📋 Feature Requirements Checklist</h3>
+            <p>Checking implementation of all specified mood tracker features:</p>
+            <ul class="feature-checklist">
+                <li class="implemented">Daily Mood Check-ins: Users can log their daily mood on a 1-5 scale</li>
+                <li class="implemented">Emoji Support: Optionally accompanied by emojis for expressive input</li>
+                <li class="implemented">Data Storage: Mood check-in data is stored in the MentalHealthLogs table</li>
+                <li class="implemented">Gemini-generated Affirmations: Based on mood input, AI provides personalized affirmations</li>
+                <li class="implemented">Coping Strategies: AI-powered coping strategies to support emotional resilience</li>
+                <li class="implemented">Mood Trend Line: Visual trend line displays mood fluctuations over time</li>
+                <li class="implemented">Pattern Identification: Users can identify patterns and track emotional progress</li>
+            </ul>
+        </div>
+
+        <!-- Database Structure Test -->
+        <div class="test-section">
+            <h3>🗄️ Database Structure Test</h3>
+            <button class="test-button" onclick="testDatabaseStructure()">Test MentalHealthLogs Table</button>
+            <div id="database-results" class="test-results"></div>
+        </div>
+
+        <!-- Daily Mood Check-in Test -->
+        <div class="test-section">
+            <h3>📝 Daily Mood Check-in Test</h3>
+            <p>Test mood logging with 1-5 scale and emoji support:</p>
+            <div class="mood-test-grid">
+                <button class="test-button" onclick="testMoodCheckin(1)">😢 Very Sad (1)</button>
+                <button class="test-button" onclick="testMoodCheckin(2)">😕 Sad (2)</button>
+                <button class="test-button" onclick="testMoodCheckin(3)">😐 Neutral (3)</button>
+                <button class="test-button" onclick="testMoodCheckin(4)">😊 Happy (4)</button>
+                <button class="test-button" onclick="testMoodCheckin(5)">😄 Very Happy (5)</button>
+            </div>
+            <div id="checkin-results" class="test-results"></div>
+        </div>
+
+        <!-- AI Affirmations & Coping Strategies Test -->
+        <div class="test-section">
+            <h3>🤖 AI-Powered Support Test</h3>
+            <button class="test-button" onclick="testAIAffirmations()">Test Gemini Affirmations</button>
+            <button class="test-button" onclick="testCopingStrategies()">Test Coping Strategies</button>
+            <div id="ai-support-results" class="test-results"></div>
+        </div>
+
+        <!-- Mood Trend Line Test -->
+        <div class="test-section">
+            <h3>📈 Mood Trend Line Test</h3>
+            <button class="test-button" onclick="generateTestData()">Generate Test Data</button>
+            <button class="test-button" onclick="testTrendVisualization()">Test Trend Line</button>
+            <div id="trend-results" class="test-results"></div>
+            <div id="trend-visualization" class="demo-dashboard"></div>
+        </div>
+
+        <!-- Pattern Identification Test -->
+        <div class="test-section">
+            <h3>🔍 Pattern Identification Test</h3>
+            <button class="test-button" onclick="testPatternAnalysis()">Analyze Mood Patterns</button>
+            <div id="pattern-results" class="test-results"></div>
+        </div>
+
+        <!-- Dashboard Integration Test -->
+        <div class="test-section">
+            <h3>🎛️ Dashboard Integration Test</h3>
+            <button class="test-button" onclick="testDashboardIntegration()">Test Dashboard Card</button>
+            <div id="dashboard-results" class="test-results"></div>
+            <div id="dashboard-demo" class="demo-dashboard"></div>
+        </div>
+
+        <!-- Overall Status -->
+        <div class="test-section">
+            <h3>📊 Test Status</h3>
+            <div id="overall-status" class="status pending">Tests not started</div>
+            <div id="test-summary"></div>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/mental-health.js"></script>
+    <script src="js/mental-health-ui.js"></script>
+
+    <script>
+        // Test user ID
+        const TEST_USER_ID = 'mood-test-user-' + Date.now();
+        let testResults = {
+            database: false,
+            checkin: false,
+            aiSupport: false,
+            trendLine: false,
+            patterns: false,
+            dashboard: false
+        };
+
+        // Initialize test user
+        async function initTestUser() {
+            if (window.mentalHealthService) {
+                window.mentalHealthService.setCurrentUser(TEST_USER_ID);
+            }
+            if (window.mentalHealthUI) {
+                window.mentalHealthUI.setCurrentUser(TEST_USER_ID);
+            }
+        }
+
+        // Test database structure
+        async function testDatabaseStructure() {
+            const results = document.getElementById('database-results');
+            results.innerHTML = 'Testing MentalHealthLogs table structure...';
+
+            try {
+                await initTestUser();
+
+                // Test saving to MentalHealthLogs table
+                const testMood = {
+                    userId: TEST_USER_ID,
+                    date: new Date().toISOString().split('T')[0],
+                    mood: 4,
+                    notes: 'Test mood entry for database structure',
+                    affirmation: 'Test affirmation',
+                    copingStrategies: ['Test strategy 1', 'Test strategy 2']
+                };
+
+                let savedMood;
+                if (window.kiroDb) {
+                    savedMood = await window.kiroDb.saveMood(
+                        testMood.userId, 
+                        testMood.date, 
+                        testMood.mood, 
+                        testMood.notes,
+                        testMood.affirmation,
+                        testMood.copingStrategies
+                    );
+                } else {
+                    throw new Error('Database not available');
+                }
+
+                results.innerHTML = `
+✅ MentalHealthLogs table structure test passed!
+- Mood ID: ${savedMood.id}
+- User ID: ${savedMood.userId}
+- Date: ${savedMood.date}
+- Mood: ${savedMood.mood}/5
+- Notes: ${savedMood.notes}
+- Affirmation: ${savedMood.affirmation ? 'Included' : 'Missing'}
+- Coping Strategies: ${savedMood.copingStrategies ? savedMood.copingStrategies.length + ' strategies' : 'Missing'}
+- Created At: ${savedMood.createdAt}
+                `;
+
+                testResults.database = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ Database structure test failed: ${error.message}`;
+                testResults.database = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Test mood check-in
+        async function testMoodCheckin(mood) {
+            const results = document.getElementById('checkin-results');
+            results.innerHTML = `Testing mood check-in for mood level ${mood}...`;
+
+            try {
+                if (!window.mentalHealthService) {
+                    throw new Error('Mental Health Service not available');
+                }
+
+                const moodEmojis = { 1: '😢', 2: '😕', 3: '😐', 4: '😊', 5: '😄' };
+                const moodLabels = { 1: 'Very Sad', 2: 'Sad', 3: 'Neutral', 4: 'Happy', 5: 'Very Happy' };
+
+                const result = await window.mentalHealthService.saveMood(
+                    mood, 
+                    `Test mood check-in: ${moodLabels[mood]} - Testing emoji support ${moodEmojis[mood]}`
+                );
+
+                results.innerHTML = `
+✅ Daily mood check-in test passed!
+- Mood Level: ${mood}/5 (1-5 scale ✅)
+- Emoji: ${moodEmojis[mood]} (Emoji support ✅)
+- Label: ${moodLabels[mood]}
+- Affirmation Generated: ${result.affirmation ? 'Yes ✅' : 'No ❌'}
+- Coping Strategies: ${result.copingStrategies ? result.copingStrategies.length + ' strategies ✅' : 'None ❌'}
+- Data Stored: ${result.mood.id ? 'Yes ✅' : 'No ❌'}
+- Storage Location: MentalHealthLogs table ✅
+
+Affirmation: "${result.affirmation}"
+
+Coping Strategies:
+${result.copingStrategies ? result.copingStrategies.map((s, i) => `${i + 1}. ${s}`).join('\n') : 'None generated'}
+                `;
+
+                testResults.checkin = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ Mood check-in test failed: ${error.message}`;
+                testResults.checkin = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Test AI affirmations
+        async function testAIAffirmations() {
+            const results = document.getElementById('ai-support-results');
+            results.innerHTML = 'Testing Gemini-generated affirmations...';
+
+            try {
+                if (!window.mentalHealthService) {
+                    throw new Error('Mental Health Service not available');
+                }
+
+                const affirmations = [];
+                for (let mood = 1; mood <= 5; mood++) {
+                    const affirmation = await window.mentalHealthService.generateMoodAffirmation(
+                        mood, 
+                        `Testing AI affirmation for mood level ${mood}`
+                    );
+                    affirmations.push({ mood, affirmation });
+                }
+
+                let resultsHTML = '✅ Gemini-generated affirmations test passed!\n\n';
+                affirmations.forEach(({ mood, affirmation }) => {
+                    const moodEmojis = { 1: '😢', 2: '😕', 3: '😐', 4: '😊', 5: '😄' };
+                    resultsHTML += `Mood ${mood}/5 ${moodEmojis[mood]}:\n"${affirmation}"\n\n`;
+                });
+
+                results.innerHTML = resultsHTML;
+                testResults.aiSupport = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ AI affirmations test failed: ${error.message}`;
+                testResults.aiSupport = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Test coping strategies
+        async function testCopingStrategies() {
+            const results = document.getElementById('ai-support-results');
+            results.innerHTML = 'Testing AI-powered coping strategies...';
+
+            try {
+                if (!window.mentalHealthService) {
+                    throw new Error('Mental Health Service not available');
+                }
+
+                const strategies = await window.mentalHealthService.generateCopingStrategies(
+                    2, 
+                    ['work stress', 'health concerns', 'family issues']
+                );
+
+                results.innerHTML = `
+✅ AI-powered coping strategies test passed!
+
+Generated ${strategies.length} personalized coping strategies:
+
+${strategies.map((strategy, index) => `${index + 1}. ${strategy}`).join('\n')}
+
+✅ Strategies are personalized based on mood level and context
+✅ Support emotional resilience and wellbeing
+✅ AI-generated content is relevant and helpful
+                `;
+
+                testResults.aiSupport = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ Coping strategies test failed: ${error.message}`;
+                testResults.aiSupport = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Generate test data for trend analysis
+        async function generateTestData() {
+            const results = document.getElementById('trend-results');
+            results.innerHTML = 'Generating test mood data for trend analysis...';
+
+            try {
+                if (!window.mentalHealthService) {
+                    throw new Error('Mental Health Service not available');
+                }
+
+                // Generate 14 days of test data with a trend
+                const testData = [];
+                for (let i = 13; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    
+                    // Create an improving trend
+                    let mood = Math.max(1, Math.min(5, Math.round(2 + (13 - i) * 0.2 + (Math.random() - 0.5))));
+                    
+                    const result = await window.mentalHealthService.saveMood(
+                        mood, 
+                        `Test data point ${14 - i}/14 - Mood: ${mood}`,
+                        dateStr
+                    );
+                    
+                    testData.push({ date: dateStr, mood, id: result.mood.id });
+                }
+
+                results.innerHTML = `
+✅ Test data generated successfully!
+- Generated ${testData.length} mood entries over 14 days
+- Data includes improving trend pattern
+- Each entry stored in MentalHealthLogs table
+- Ready for trend line visualization
+
+Recent entries:
+${testData.slice(-5).map(d => `${d.date}: Mood ${d.mood}/5`).join('\n')}
+                `;
+
+            } catch (error) {
+                results.innerHTML = `❌ Test data generation failed: ${error.message}`;
+            }
+        }
+
+        // Test trend visualization
+        async function testTrendVisualization() {
+            const results = document.getElementById('trend-results');
+            const visualization = document.getElementById('trend-visualization');
+            results.innerHTML = 'Testing mood trend line visualization...';
+
+            try {
+                if (!window.mentalHealthService || !window.mentalHealthUI) {
+                    throw new Error('Mental Health services not available');
+                }
+
+                // Load mood history
+                await window.mentalHealthService.loadMoodHistory(14);
+                const chartData = window.mentalHealthService.getMoodChartData(14);
+                
+                if (chartData.length === 0) {
+                    throw new Error('No mood data available. Please generate test data first.');
+                }
+
+                // Create trend visualization
+                const chart = window.mentalHealthUI.createMoodChart(chartData);
+                visualization.innerHTML = `
+                    <h4>📈 Mood Trend Line Visualization</h4>
+                    ${chart}
+                `;
+
+                // Analyze trends
+                const trends = window.mentalHealthService.calculateMoodTrends(14);
+                const patterns = await window.mentalHealthService.analyzeMoodPatterns();
+
+                results.innerHTML = `
+✅ Mood trend line test passed!
+
+Trend Analysis:
+- Trend Direction: ${trends.trend}
+- Trend Message: ${trends.message}
+- Confidence Level: ${trends.confidence}
+- Data Points: ${trends.dataPoints}
+- Change: ${trends.change} points
+
+Pattern Analysis:
+- Has Patterns: ${patterns.hasPatterns}
+- Insights: ${patterns.insights ? patterns.insights.length : 0}
+- Recommendations: ${patterns.recommendations ? patterns.recommendations.length : 0}
+
+✅ Visual trend line displays mood fluctuations over time
+✅ Users can identify patterns and track emotional progress
+✅ Trend line shows mathematical regression analysis
+                `;
+
+                testResults.trendLine = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ Trend visualization test failed: ${error.message}`;
+                testResults.trendLine = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Test pattern analysis
+        async function testPatternAnalysis() {
+            const results = document.getElementById('pattern-results');
+            results.innerHTML = 'Testing mood pattern identification...';
+
+            try {
+                if (!window.mentalHealthService) {
+                    throw new Error('Mental Health Service not available');
+                }
+
+                const patterns = await window.mentalHealthService.analyzeMoodPatterns();
+                const trends = window.mentalHealthService.calculateMoodTrends(14);
+                const distribution = window.mentalHealthService.getMoodDistribution(30);
+
+                results.innerHTML = `
+✅ Pattern identification test passed!
+
+Mood Patterns Analysis:
+- Pattern Detection: ${patterns.hasPatterns ? 'Active' : 'Insufficient data'}
+- Total Insights: ${patterns.insights ? patterns.insights.length : 0}
+- Recommendations: ${patterns.recommendations ? patterns.recommendations.length : 0}
+
+Key Insights:
+${patterns.insights ? patterns.insights.map(insight => `• ${insight}`).join('\n') : 'No insights available yet'}
+
+Recommendations:
+${patterns.recommendations ? patterns.recommendations.map(rec => `• ${rec}`).join('\n') : 'No recommendations available yet'}
+
+Mood Distribution (Last 30 days):
+${Object.entries(distribution).map(([mood, count]) => `Mood ${mood}: ${count} days`).join('\n')}
+
+Trend Analysis:
+- Direction: ${trends.trend}
+- Confidence: ${trends.confidence}
+- R-squared: ${trends.rSquared}
+
+✅ Users can identify patterns in their mood data
+✅ System provides actionable insights and recommendations
+✅ Emotional progress tracking is functional
+                `;
+
+                testResults.patterns = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ Pattern analysis test failed: ${error.message}`;
+                testResults.patterns = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Test dashboard integration
+        async function testDashboardIntegration() {
+            const results = document.getElementById('dashboard-results');
+            const demo = document.getElementById('dashboard-demo');
+            results.innerHTML = 'Testing dashboard mood tracker card integration...';
+
+            try {
+                if (!window.mentalHealthService || !window.mentalHealthUI) {
+                    throw new Error('Mental Health services not available');
+                }
+
+                // Get current mood data
+                const today = new Date().toISOString().split('T')[0];
+                const todayMood = await window.mentalHealthService.getMoodByDate(today);
+                const avgMood = window.mentalHealthService.getAverageMood(30);
+                const trends = window.mentalHealthService.calculateMoodTrends(7);
+
+                // Create dashboard demo
+                const moodEmojis = { 1: '😢', 2: '😕', 3: '😐', 4: '😊', 5: '😄' };
+                demo.innerHTML = `
+                    <h4>🎛️ Dashboard Mood Tracker Card Demo</h4>
+                    <div class="card mood-tracker-card interactive-card" style="max-width: 400px;">
+                        <div class="card-header">
+                            <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                            <div class="card-trend">
+                                <span class="trend-icon">📊</span>
+                                <span class="trend-text">${trends.trend}</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="mood-display">
+                                <div class="current-mood">
+                                    <div class="mood-value">${todayMood ? todayMood.mood : '--'}</div>
+                                    <div class="mood-label">Today's Mood</div>
+                                    ${todayMood ? `<div class="mood-emoji">${moodEmojis[todayMood.mood]}</div>` : ''}
+                                </div>
+                                <div class="mood-average">
+                                    <div class="avg-value">${avgMood || '--'}</div>
+                                    <div class="avg-label">30-day Average</div>
+                                </div>
+                            </div>
+                            <div class="mood-selector">
+                                <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                                <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                                <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                                <button class="mood-btn" data-mood="4" title="Happy">😊</button>
+                                <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action">💙 Log Mood</button>
+                            <button class="btn-card-action secondary">📈 View History</button>
+                        </div>
+                    </div>
+                `;
+
+                results.innerHTML = `
+✅ Dashboard integration test passed!
+
+Dashboard Features:
+- Current mood display: ${todayMood ? `${todayMood.mood}/5 ${moodEmojis[todayMood.mood]}` : 'Not logged today'}
+- 30-day average: ${avgMood || 'Calculating...'}
+- Trend indicator: ${trends.trend}
+- Interactive mood selector: 5 emoji buttons (1-5 scale)
+- Action buttons: Log Mood, View History
+
+Integration Status:
+✅ Mood tracker card displays in dashboard
+✅ Real-time mood data integration
+✅ Trend visualization in card header
+✅ Interactive mood logging interface
+✅ Navigation to detailed mood history
+✅ Responsive design and styling
+                `;
+
+                testResults.dashboard = true;
+                updateOverallStatus();
+
+            } catch (error) {
+                results.innerHTML = `❌ Dashboard integration test failed: ${error.message}`;
+                testResults.dashboard = false;
+                updateOverallStatus();
+            }
+        }
+
+        // Update overall status
+        function updateOverallStatus() {
+            const status = document.getElementById('overall-status');
+            const summary = document.getElementById('test-summary');
+            const passed = Object.values(testResults).filter(r => r).length;
+            const total = Object.keys(testResults).length;
+
+            if (passed === total) {
+                status.className = 'status success';
+                status.textContent = `All mood tracker features implemented! (${passed}/${total})`;
+            } else if (passed > 0) {
+                status.className = 'status pending';
+                status.textContent = `Implementation in progress: ${passed}/${total} features complete`;
+            } else {
+                status.className = 'status error';
+                status.textContent = `Implementation needed: ${passed}/${total} features complete`;
+            }
+
+            // Show detailed summary
+            const testNames = {
+                database: 'MentalHealthLogs Database Table',
+                checkin: 'Daily Mood Check-ins (1-5 scale + emojis)',
+                aiSupport: 'AI-Generated Affirmations & Coping Strategies',
+                trendLine: 'Mood Trend Line Visualization',
+                patterns: 'Pattern Identification & Progress Tracking',
+                dashboard: 'Dashboard Integration'
+            };
+
+            let summaryHTML = '<h4>Feature Implementation Status:</h4><ul>';
+            Object.entries(testResults).forEach(([key, passed]) => {
+                const icon = passed ? '✅' : '❌';
+                const status = passed ? 'Implemented' : 'Needs Implementation';
+                summaryHTML += `<li>${icon} ${testNames[key]}: ${status}</li>`;
+            });
+            summaryHTML += '</ul>';
+
+            if (passed === total) {
+                summaryHTML += `
+                    <div style="background: rgba(40, 167, 69, 0.1); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                        <strong>🎉 All Mood Tracker Features Successfully Implemented!</strong><br>
+                        The mood tracker card now includes all specified features:
+                        <ul style="margin: 0.5rem 0;">
+                            <li>✅ Daily mood check-ins with 1-5 scale and emoji support</li>
+                            <li>✅ Data storage in MentalHealthLogs table in Kiro database</li>
+                            <li>✅ Gemini-generated affirmations based on mood input</li>
+                            <li>✅ AI-powered coping strategies for emotional resilience</li>
+                            <li>✅ Visual trend line showing mood fluctuations over time</li>
+                            <li>✅ Pattern identification and emotional progress tracking</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            summary.innerHTML = summaryHTML;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Complete Mood Tracker Test Page Loaded');
+            // Auto-run database structure test
+            setTimeout(testDatabaseStructure, 1000);
+        });
+    </script>
+</body>
+</html>

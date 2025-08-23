@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/risk-assessment.css">
+</head>
+<body>
+    <div id="app">
+        <div id="assessment-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <h1>WHO/ADA Risk Assessment Test</h1>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="assessment-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </header>
+            
+            <main class="container">
+                <div class="assessment-form">
+                    <div id="assessment-content">
+                        <!-- Assessment questions will be loaded here -->
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="prev-question" class="btn-secondary" style="display: none;">Previous</button>
+                        <button id="next-question" class="btn-primary">Next</button>
+                    </div>
+                </div>
+                
+                <div id="assessment-result" class="card" style="display: none;">
+                    <h3>Your Risk Assessment Result</h3>
+                    <div id="risk-result-display"></div>
+                    <div id="ai-explanation"></div>
+                    <button id="save-assessment" class="btn-primary">Save Assessment</button>
+                    <button id="retake-assessment" class="btn-secondary">Retake Assessment</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    
+    <script>
+        // Initialize test environment
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mock user for testing
+            window.glucoApp = {
+                userData: { id: 1, name: 'Test User' },
+                showNotification: (message, type) => {
+                    console.log(`${type.toUpperCase()}: ${message}`);
+                    
+                    // Create a visual notification
+                    const notification = document.createElement('div');
+                    notification.className = `notification ${type} show`;
+                    notification.innerHTML = `
+                        <div class="notification-title">${type.toUpperCase()}</div>
+                        <div class="notification-message">${message}</div>
+                    `;
+                    document.body.appendChild(notification);
+                    
+                    // Remove after 3 seconds
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            if (document.body.contains(notification)) {
+                                document.body.removeChild(notification);
+                            }
+                        }, 300);
+                    }, 3000);
+                },
+                saveUserData: () => Promise.resolve(),
+                showDashboard: () => {
+                    console.log('Navigating to dashboard...');
+                    alert('Assessment complete! Would navigate to dashboard.');
+                }
+            };
+            
+            // Initialize AI with provided API key
+            if (window.aiService && window.geminiAI) {
+                const apiKey = 'AIzaSyDvMbUBFIrZFQjOOFih5ck_yEwHlXia2Js';
+                window.geminiAI.initialize(apiKey, 'environment');
+                console.log('✅ AI service initialized with provided API key');
+            }
+
+            // Add AI testing controls
+            const header = document.querySelector('.app-header .container');
+            if (header) {
+                const aiControls = document.createElement('div');
+                aiControls.innerHTML = `
+                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,127,255,0.1); border-radius: 8px;">
+                        <h4 style="margin: 0 0 0.5rem; color: var(--azure-blue);">🤖 AI Testing Controls</h4>
+                        <button id="test-ai-setup" class="btn-secondary" style="margin-right: 0.5rem;">Setup Different AI Key</button>
+                        <button id="test-ai-status" class="btn-secondary" style="margin-right: 0.5rem;">Check AI Status</button>
+                        <button id="test-ai-clear" class="btn-secondary" style="margin-right: 0.5rem;">Clear AI Key</button>
+                        <button id="test-ai-explanation" class="btn-primary">Test AI Explanation</button>
+                        <div id="ai-status-display" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+                    </div>
+                `;
+                header.appendChild(aiControls);
+                
+                // AI testing event listeners
+                document.getElementById('test-ai-setup').addEventListener('click', async () => {
+                    const hasKey = await window.geminiAI.promptForApiKey();
+                    updateAIStatus();
+                });
+                
+                document.getElementById('test-ai-status').addEventListener('click', () => {
+                    updateAIStatus();
+                });
+                
+                document.getElementById('test-ai-clear').addEventListener('click', () => {
+                    window.aiService.clearApiKey();
+                    updateAIStatus();
+                });
+
+                document.getElementById('test-ai-explanation').addEventListener('click', async () => {
+                    // Test AI explanation with sample data
+                    const testData = {
+                        age: 3,
+                        gender: 1,
+                        family_history: 2,
+                        high_blood_pressure: 2,
+                        physical_activity: 2,
+                        bmi: 3,
+                        gestational_diabetes: 0,
+                        prediabetes: 0
+                    };
+                    
+                    const testScore = 13;
+                    
+                    try {
+                        console.log('Testing AI explanation...');
+                        const explanation = await window.aiService.getRiskExplanation(testScore, testData);
+                        
+                        // Show result in a modal
+                        const modal = document.createElement('div');
+                        modal.className = 'modal-overlay';
+                        modal.innerHTML = `
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3>🤖 AI Explanation Test Result</h3>
+                                    <button class="modal-close">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Test Score:</strong> ${testScore}</p>
+                                    <p><strong>AI Explanation:</strong></p>
+                                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                                        ${explanation}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn-secondary modal-close">Close</button>
+                                </div>
+                            </div>
+                        `;
+                        
+                        document.body.appendChild(modal);
+                        
+                        modal.querySelectorAll('.modal-close').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                document.body.removeChild(modal);
+                            });
+                        });
+                        
+                    } catch (error) {
+                        alert('AI test failed: ' + error.message);
+                    }
+                });
+                
+                function updateAIStatus() {
+                    const status = window.aiService.getStatus();
+                    const statusDisplay = document.getElementById('ai-status-display');
+                    statusDisplay.innerHTML = `
+                        <strong>AI Status:</strong> 
+                        ${status.available ? 
+                            `✅ Available (${status.source})` : 
+                            '❌ Not Available (using fallback content)'
+                        }
+                    `;
+                }
+                
+                // Initial status check
+                updateAIStatus();
+            }
+            
+            // Start the assessment
+            if (window.riskAssessment) {
+                window.riskAssessment.startAssessment();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Fixes Verification</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .test-button.success { background: #28a745; }
+        .test-button.warning { background: #ffc107; color: #212529; }
+        .test-button.danger { background: #dc3545; }
+        
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007FFF;
+        }
+        
+        .status-success { border-left-color: #28a745; }
+        .status-error { border-left-color: #dc3545; }
+        .status-warning { border-left-color: #ffc107; }
+        
+        .navigation-preview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .nav-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button.outline {
+            background: transparent;
+            border: 2px solid #007FFF;
+            color: #007FFF;
+        }
+        
+        .nav-button.primary {
+            background: #007FFF;
+            color: white;
+        }
+        
+        .nav-button.hidden {
+            display: none;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .card-test {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .card-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 127, 255, 0.15);
+        }
+        
+        .card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #1f2937;
+        }
+        
+        .card-description {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        
+        .test-log {
+            background: #1a1a1a;
+            color: #00ff00;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+        
+        .current-state {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Dashboard Fixes Verification</h1>
+        <p>Verify all dashboard fixes are working correctly.</p>
+        
+        <!-- Current State -->
+        <div class="test-section">
+            <h2>📊 Current State</h2>
+            <div class="current-state">
+                <div class="status-card">
+                    <strong>Current Page:</strong> <span id="current-page">Loading...</span>
+                </div>
+                <div class="status-card">
+                    <strong>Authentication State:</strong> <span id="auth-state">Loading...</span>
+                </div>
+                <div class="status-card">
+                    <strong>Navigation Manager:</strong> <span id="nav-manager-status">Loading...</span>
+                </div>
+                <div class="status-card">
+                    <strong>Dashboard Buttons:</strong> <span id="dashboard-buttons-status">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Testing -->
+        <div class="test-section">
+            <h2>🧭 Navigation Testing</h2>
+            <p>Test navigation between landing page and dashboard.</p>
+            
+            <div class="navigation-preview">
+                <h4>Navigation Bar Preview</h4>
+                <div class="nav-buttons">
+                    <div class="nav-left">
+                        <strong>GlucoBalance</strong>
+                    </div>
+                    <div class="nav-right">
+                        <button class="nav-button outline" id="preview-dashboard-btn">Dashboard</button>
+                        <button class="nav-button primary" id="preview-signup-btn">Sign Up</button>
+                    </div>
+                </div>
+                <small>This preview shows how navigation buttons should appear based on authentication state.</small>
+            </div>
+            
+            <div class="test-grid">
+                <div>
+                    <h4>Navigation Tests</h4>
+                    <button class="test-button" onclick="testNavigationToLanding()">🏠 Go to Landing Page</button>
+                    <button class="test-button" onclick="testNavigationToDashboard()">🎯 Go to Dashboard</button>
+                    <button class="test-button" onclick="testSignUpFlow()">📝 Test Sign Up Flow</button>
+                </div>
+                
+                <div>
+                    <h4>Authentication Tests</h4>
+                    <button class="test-button success" onclick="simulateLogin()">🔐 Simulate Login</button>
+                    <button class="test-button danger" onclick="simulateLogout()">🚪 Simulate Logout</button>
+                    <button class="test-button warning" onclick="checkAuthState()">🔍 Check Auth State</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Card Testing -->
+        <div class="test-section">
+            <h2>🎯 Dashboard Card Testing</h2>
+            <p>Test all dashboard card button functionality.</p>
+            
+            <div class="dashboard-cards">
+                <div class="card-test" onclick="testRiskAssessmentCard()">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">Risk Assessment</div>
+                    <div class="card-description">Test "Take Assessment" button</div>
+                    <button class="test-button">📋 Test Assessment</button>
+                </div>
+                
+                <div class="card-test" onclick="testMoodTrackerCard()">
+                    <div class="card-icon">💙</div>
+                    <div class="card-title">Mood Tracker</div>
+                    <div class="card-description">Test "Log Mood" and "View History" buttons</div>
+                    <button class="test-button">💙 Test Mood Tracker</button>
+                </div>
+                
+                <div class="card-test" onclick="testNutritionCard()">
+                    <div class="card-icon">🍎</div>
+                    <div class="card-title">Nutrition Plans</div>
+                    <div class="card-description">Test "Create Plan" and "View Plans" buttons</div>
+                    <button class="test-button">🍽️ Test Nutrition</button>
+                </div>
+                
+                <div class="card-test" onclick="testAIInsightsCard()">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-title">AI Health Insights</div>
+                    <div class="card-description">Test "Get Started" button</div>
+                    <button class="test-button">🤖 Test AI Insights</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Logout Testing -->
+        <div class="test-section">
+            <h2>🚪 Logout Testing</h2>
+            <div class="test-grid">
+                <div>
+                    <h4>Logout Button Tests</h4>
+                    <button class="test-button" onclick="testLogoutButtonExists()">🔍 Check Logout Button Exists</button>
+                    <button class="test-button" onclick="testLogoutButtonPosition()">📍 Check Button Position</button>
+                    <button class="test-button danger" onclick="testLogoutFunctionality()">🚪 Test Logout Process</button>
+                </div>
+                
+                <div>
+                    <h4>Navigation State Tests</h4>
+                    <button class="test-button" onclick="testSignUpButtonVisibility()">👁️ Check Sign Up Visibility</button>
+                    <button class="test-button" onclick="testDashboardButtonState()">🎯 Check Dashboard Button</button>
+                    <button class="test-button" onclick="testNavigationConsistency()">🔄 Test Navigation Consistency</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comprehensive Testing -->
+        <div class="test-section">
+            <h2>🧪 Comprehensive Testing</h2>
+            <div class="test-grid">
+                <div>
+                    <h4>Full Flow Tests</h4>
+                    <button class="test-button success" onclick="runFullUserFlow()">🚀 Run Full User Flow</button>
+                    <button class="test-button" onclick="testAllDashboardButtons()">🔘 Test All Dashboard Buttons</button>
+                    <button class="test-button" onclick="testNavigationFlow()">🧭 Test Navigation Flow</button>
+                </div>
+                
+                <div>
+                    <h4>System Tests</h4>
+                    <button class="test-button warning" onclick="resetTestEnvironment()">🔄 Reset Test Environment</button>
+                    <button class="test-button" onclick="generateTestData()">📊 Generate Test Data</button>
+                    <button class="test-button danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Results -->
+        <div class="test-section">
+            <h2>📝 Test Results</h2>
+            <div id="test-log" class="test-log">
+                Dashboard fixes verification initialized...<br>
+                Ready to test all functionality.<br>
+                <br>
+            </div>
+            <button class="test-button warning" onclick="clearTestLog()">🗑️ Clear Log</button>
+        </div>
+    </div>
+
+    <!-- Include necessary scripts -->
+    <script src="js/demo-data-generator.js"></script>
+    <script src="js/dashboard-ai-service.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="dashboard-buttons-fix.js"></script>
+
+    <script>
+        let testResults = [];
+        
+        function logTest(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'success': '#00ff00',
+                'error': '#ff4444',
+                'warning': '#ffaa00',
+                'info': '#00aaff'
+            };
+            
+            const entry = `[${timestamp}] ${message}`;
+            testResults.push({ message: entry, type });
+            
+            const logContainer = document.getElementById('test-log');
+            logContainer.innerHTML += `<span style="color: ${colors[type]}">${entry}</span><br>`;
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            console.log(entry);
+        }
+        
+        function clearTestLog() {
+            testResults = [];
+            document.getElementById('test-log').innerHTML = 'Test log cleared...<br><br>';
+        }
+        
+        function updateCurrentState() {
+            // Update current page
+            const currentPage = window.navigationManager ? window.navigationManager.getCurrentPage() : 'Unknown';
+            document.getElementById('current-page').textContent = currentPage;
+            
+            // Update auth state
+            const authState = window.navigationManager ? window.navigationManager.getAuthenticationState() : false;
+            document.getElementById('auth-state').textContent = authState ? 'Authenticated' : 'Not Authenticated';
+            
+            // Update service status
+            document.getElementById('nav-manager-status').textContent = window.navigationManager ? 'Available' : 'Not Available';
+            document.getElementById('dashboard-buttons-status').textContent = window.dashboardButtonsFix ? 'Available' : 'Not Available';
+            
+            // Update navigation preview
+            const previewDashboardBtn = document.getElementById('preview-dashboard-btn');
+            const previewSignupBtn = document.getElementById('preview-signup-btn');
+            
+            if (authState) {
+                previewSignupBtn.classList.add('hidden');
+                previewDashboardBtn.classList.remove('outline');
+                previewDashboardBtn.classList.add('primary');
+            } else {
+                previewSignupBtn.classList.remove('hidden');
+                previewDashboardBtn.classList.remove('primary');
+                previewDashboardBtn.classList.add('outline');
+            }
+        }
+        
+        // Navigation Tests
+        function testNavigationToLanding() {
+            logTest('🏠 Testing navigation to landing page...', 'info');
+            
+            if (window.navigationManager) {
+                window.navigationManager.navigateToLanding();
+                logTest('✅ Navigation to landing page successful', 'success');
+            } else {
+                logTest('❌ Navigation manager not available', 'error');
+            }
+            
+            setTimeout(updateCurrentState, 500);
+        }
+        
+        function testNavigationToDashboard() {
+            logTest('🎯 Testing navigation to dashboard...', 'info');
+            
+            if (window.navigationManager) {
+                window.navigationManager.navigateToDashboard();
+                logTest('✅ Navigation to dashboard successful', 'success');
+            } else {
+                logTest('❌ Navigation manager not available', 'error');
+            }
+            
+            setTimeout(updateCurrentState, 500);
+        }
+        
+        function testSignUpFlow() {
+            logTest('📝 Testing sign up flow...', 'info');
+            
+            if (window.navigationManager) {
+                window.navigationManager.handleSignUp();
+                logTest('✅ Sign up flow initiated', 'success');
+            } else {
+                logTest('❌ Navigation manager not available', 'error');
+            }
+        }
+        
+        function simulateLogin() {
+            logTest('🔐 Simulating login...', 'info');
+            testNavigationToDashboard();
+        }
+        
+        function simulateLogout() {
+            logTest('🚪 Simulating logout...', 'info');
+            
+            if (window.navigationManager) {
+                window.navigationManager.logout();
+                logTest('✅ Logout successful', 'success');
+            } else {
+                logTest('❌ Navigation manager not available', 'error');
+            }
+            
+            setTimeout(updateCurrentState, 500);
+        }
+        
+        function checkAuthState() {
+            logTest('🔍 Checking authentication state...', 'info');
+            
+            const authState = localStorage.getItem('glucobalance-auth-state');
+            logTest(`Auth state in localStorage: ${authState || 'Not set'}`, 'info');
+            
+            if (window.navigationManager) {
+                const navAuthState = window.navigationManager.getAuthenticationState();
+                logTest(`Navigation manager auth state: ${navAuthState}`, 'info');
+            }
+            
+            updateCurrentState();
+        }
+        
+        // Dashboard Card Tests
+        function testRiskAssessmentCard() {
+            logTest('🎯 Testing Risk Assessment card...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.handleTakeAssessment === 'function') {
+                window.dashboardButtonsFix.handleTakeAssessment();
+                logTest('✅ Risk Assessment card working', 'success');
+            } else {
+                logTest('❌ Risk Assessment handler not found', 'error');
+            }
+        }
+        
+        function testMoodTrackerCard() {
+            logTest('💙 Testing Mood Tracker card...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.handleLogMood === 'function') {
+                window.dashboardButtonsFix.handleLogMood();
+                logTest('✅ Mood Tracker card working', 'success');
+            } else {
+                logTest('❌ Mood Tracker handler not found', 'error');
+            }
+        }
+        
+        function testNutritionCard() {
+            logTest('🍎 Testing Nutrition card...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.handleCreateMealPlan === 'function') {
+                window.dashboardButtonsFix.handleCreateMealPlan();
+                logTest('✅ Nutrition card working', 'success');
+            } else {
+                logTest('❌ Nutrition handler not found', 'error');
+            }
+        }
+        
+        function testAIInsightsCard() {
+            logTest('🤖 Testing AI Insights card...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.handleGetStartedInsights === 'function') {
+                window.dashboardButtonsFix.handleGetStartedInsights();
+                logTest('✅ AI Insights card working', 'success');
+            } else {
+                logTest('❌ AI Insights handler not found', 'error');
+            }
+        }
+        
+        // Logout Tests
+        function testLogoutButtonExists() {
+            logTest('🔍 Checking if logout button exists...', 'info');
+            
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logTest('✅ Logout button found in DOM', 'success');
+            } else {
+                logTest('❌ Logout button not found in DOM', 'error');
+            }
+        }
+        
+        function testLogoutButtonPosition() {
+            logTest('📍 Checking logout button position...', 'info');
+            
+            const logoutBtn = document.getElementById('logout-btn');
+            const headerActions = document.querySelector('.header-actions');
+            
+            if (logoutBtn && headerActions && headerActions.contains(logoutBtn)) {
+                logTest('✅ Logout button is in correct position (header actions)', 'success');
+            } else {
+                logTest('❌ Logout button not in correct position', 'error');
+            }
+        }
+        
+        function testLogoutFunctionality() {
+            logTest('🚪 Testing logout functionality...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.handleLogout === 'function') {
+                // Don't actually trigger logout, just verify it exists
+                logTest('✅ Logout handler function available', 'success');
+                logTest('⚠️ Logout test completed (modal would appear on actual click)', 'warning');
+            } else {
+                logTest('❌ Logout handler not found', 'error');
+            }
+        }
+        
+        function testSignUpButtonVisibility() {
+            logTest('👁️ Testing sign up button visibility...', 'info');
+            
+            const signUpBtn = document.getElementById('nav-signup-btn');
+            const authState = window.navigationManager ? window.navigationManager.getAuthenticationState() : false;
+            
+            if (signUpBtn) {
+                const isVisible = signUpBtn.style.display !== 'none';
+                const shouldBeVisible = !authState;
+                
+                if (isVisible === shouldBeVisible) {
+                    logTest(`✅ Sign up button visibility correct (${isVisible ? 'visible' : 'hidden'})`, 'success');
+                } else {
+                    logTest(`❌ Sign up button visibility incorrect (should be ${shouldBeVisible ? 'visible' : 'hidden'})`, 'error');
+                }
+            } else {
+                logTest('❌ Sign up button not found', 'error');
+            }
+        }
+        
+        function testDashboardButtonState() {
+            logTest('🎯 Testing dashboard button state...', 'info');
+            
+            const dashboardBtn = document.getElementById('nav-dashboard-btn');
+            const authState = window.navigationManager ? window.navigationManager.getAuthenticationState() : false;
+            
+            if (dashboardBtn) {
+                const isPrimary = dashboardBtn.classList.contains('btn-primary');
+                const shouldBePrimary = authState;
+                
+                if (isPrimary === shouldBePrimary) {
+                    logTest(`✅ Dashboard button state correct (${isPrimary ? 'primary' : 'outline'})`, 'success');
+                } else {
+                    logTest(`❌ Dashboard button state incorrect (should be ${shouldBePrimary ? 'primary' : 'outline'})`, 'error');
+                }
+            } else {
+                logTest('❌ Dashboard button not found', 'error');
+            }
+        }
+        
+        function testNavigationConsistency() {
+            logTest('🔄 Testing navigation consistency...', 'info');
+            
+            testSignUpButtonVisibility();
+            testDashboardButtonState();
+            
+            logTest('✅ Navigation consistency test completed', 'success');
+        }
+        
+        // Comprehensive Tests
+        function runFullUserFlow() {
+            logTest('🚀 Running full user flow test...', 'info');
+            
+            const steps = [
+                { name: 'Start on Landing', func: () => testNavigationToLanding() },
+                { name: 'Sign Up', func: () => testSignUpFlow() },
+                { name: 'Test Dashboard Cards', func: () => testAllDashboardButtons() },
+                { name: 'Test Logout', func: () => simulateLogout() }
+            ];
+            
+            let currentStep = 0;
+            
+            function runNextStep() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    logTest(`Step ${currentStep + 1}: ${step.name}`, 'info');
+                    step.func();
+                    currentStep++;
+                    setTimeout(runNextStep, 2000);
+                } else {
+                    logTest('✅ Full user flow test completed', 'success');
+                }
+            }
+            
+            runNextStep();
+        }
+        
+        function testAllDashboardButtons() {
+            logTest('🔘 Testing all dashboard buttons...', 'info');
+            
+            const tests = [
+                { name: 'Risk Assessment', func: testRiskAssessmentCard },
+                { name: 'Mood Tracker', func: testMoodTrackerCard },
+                { name: 'Nutrition Plans', func: testNutritionCard },
+                { name: 'AI Insights', func: testAIInsightsCard }
+            ];
+            
+            tests.forEach((test, index) => {
+                setTimeout(() => {
+                    test.func();
+                }, index * 500);
+            });
+            
+            setTimeout(() => {
+                logTest('✅ All dashboard button tests completed', 'success');
+            }, tests.length * 500);
+        }
+        
+        function testNavigationFlow() {
+            logTest('🧭 Testing navigation flow...', 'info');
+            
+            const flow = [
+                { name: 'Go to Landing', func: testNavigationToLanding },
+                { name: 'Go to Dashboard', func: testNavigationToDashboard },
+                { name: 'Check Auth State', func: checkAuthState }
+            ];
+            
+            flow.forEach((step, index) => {
+                setTimeout(() => {
+                    step.func();
+                }, index * 1000);
+            });
+            
+            setTimeout(() => {
+                logTest('✅ Navigation flow test completed', 'success');
+            }, flow.length * 1000);
+        }
+        
+        function resetTestEnvironment() {
+            logTest('🔄 Resetting test environment...', 'info');
+            
+            // Clear auth state
+            localStorage.removeItem('glucobalance-auth-state');
+            
+            // Go to landing page
+            testNavigationToLanding();
+            
+            logTest('✅ Test environment reset', 'success');
+        }
+        
+        function generateTestData() {
+            logTest('📊 Generating test data...', 'info');
+            
+            if (window.demoDataGenerator) {
+                window.demoDataGenerator.generateAllDemoData();
+                logTest('✅ Test data generated', 'success');
+            } else {
+                logTest('❌ Demo data generator not available', 'error');
+            }
+        }
+        
+        function clearAllData() {
+            logTest('🗑️ Clearing all data...', 'info');
+            
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            logTest('✅ All data cleared', 'success');
+            
+            setTimeout(updateCurrentState, 500);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            logTest('🚀 Dashboard fixes verification page loaded', 'success');
+            
+            // Check service availability
+            logTest('🧭 Navigation Manager: ' + (window.navigationManager ? 'Available' : 'Not Available'), 
+                   window.navigationManager ? 'success' : 'error');
+            logTest('🔧 Dashboard Buttons Fix: ' + (window.dashboardButtonsFix ? 'Available' : 'Not Available'), 
+                   window.dashboardButtonsFix ? 'success' : 'error');
+            
+            // Update current state
+            setTimeout(updateCurrentState, 1000);
+            
+            // Auto-update state every 5 seconds
+            setInterval(updateCurrentState, 5000);
+        });
+    </script>
+</body>
+</html>

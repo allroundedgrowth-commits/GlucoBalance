@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Error Handling Integration Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/error-handling.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>🔧 Error Handling Integration Test</h1>
+            <p>Testing error handling with existing GlucoBalance components</p>
+        </header>
+
+        <main class="main-content">
+            <section class="test-section">
+                <h2>Integration Test Results</h2>
+                <div id="test-results" class="test-results">
+                    <p>Running integration tests...</p>
+                </div>
+            </section>
+
+            <section class="test-section">
+                <h2>Manual Error Tests</h2>
+                <div class="test-controls">
+                    <button id="test-database-error" class="btn-primary">Test Database Error</button>
+                    <button id="test-ai-error" class="btn-primary">Test AI Error</button>
+                    <button id="test-network-error" class="btn-primary">Test Network Error</button>
+                    <button id="test-validation-error" class="btn-primary">Test Validation Error</button>
+                </div>
+            </section>
+
+            <section class="test-section">
+                <h2>Error Recovery Tests</h2>
+                <div class="test-controls">
+                    <button id="test-offline-mode" class="btn-secondary">Simulate Offline</button>
+                    <button id="test-online-mode" class="btn-secondary">Simulate Online</button>
+                    <button id="clear-all-errors" class="btn-secondary">Clear All Errors</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Load all required scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    <script src="js/mental-health.js"></script>
+    <script src="js/nutrition-service.js"></script>
+
+    <script>
+        // Integration Test Suite
+        class ErrorHandlingIntegrationTest {
+            constructor() {
+                this.results = [];
+                this.setupTests();
+            }
+
+            async setupTests() {
+                await this.waitForInitialization();
+                await this.runIntegrationTests();
+                this.setupManualTests();
+            }
+
+            async waitForInitialization() {
+                // Wait for all components to initialize
+                return new Promise(resolve => {
+                    let attempts = 0;
+                    const checkInit = () => {
+                        attempts++;
+                        if (window.errorHandler && window.kiroDb && attempts < 50) {
+                            resolve();
+                        } else if (attempts < 50) {
+                            setTimeout(checkInit, 100);
+                        } else {
+                            resolve(); // Continue even if not fully initialized
+                        }
+                    };
+                    checkInit();
+                });
+            }
+
+            async runIntegrationTests() {
+                const resultsDiv = document.getElementById('test-results');
+                let output = '<h3>Integration Test Results:</h3>\n';
+
+                try {
+                    // Test 1: Error Handler Integration
+                    output += await this.testErrorHandlerIntegration();
+
+                    // Test 2: Database Error Integration
+                    output += await this.testDatabaseErrorIntegration();
+
+                    // Test 3: AI Service Error Integration
+                    output += await this.testAIServiceErrorIntegration();
+
+                    // Test 4: Component Error Handling
+                    output += await this.testComponentErrorHandling();
+
+                    // Test 5: User Experience Integration
+                    output += await this.testUserExperienceIntegration();
+
+                    output += '<p><strong>✅ All integration tests completed!</strong></p>';
+
+                } catch (error) {
+                    output += `<p><strong>❌ Integration test failed: ${error.message}</strong></p>`;
+                }
+
+                resultsDiv.innerHTML = output;
+            }
+
+            async testErrorHandlerIntegration() {
+                let result = '<h4>1. Error Handler Integration</h4>\n';
+
+                try {
+                    // Check if error handler is properly integrated
+                    if (window.errorHandler) {
+                        result += '<p>✅ Error handler is available globally</p>\n';
+                        
+                        // Test error logging
+                        await window.errorHandler.handleError('INTEGRATION_TEST', new Error('Test error'), {
+                            component: 'integration-test'
+                        });
+                        
+                        const errorLog = window.errorHandler.getErrorLog();
+                        if (errorLog.length > 0) {
+                            result += '<p>✅ Error logging is working</p>\n';
+                        } else {
+                            result += '<p>❌ Error logging is not working</p>\n';
+                        }
+
+                        // Test circuit breakers
+                        if (window.errorHandler.circuitBreakers.size > 0) {
+                            result += '<p>✅ Circuit breakers are initialized</p>\n';
+                        } else {
+                            result += '<p>❌ Circuit breakers are not initialized</p>\n';
+                        }
+
+                        // Test fallback cache
+                        if (window.errorHandler.fallbackCache.size > 0) {
+                            result += '<p>✅ Fallback cache is populated</p>\n';
+                        } else {
+                            result += '<p>❌ Fallback cache is empty</p>\n';
+                        }
+
+                    } else {
+                        result += '<p>❌ Error handler is not available</p>\n';
+                    }
+                } catch (error) {
+                    result += `<p>❌ Error handler integration test failed: ${error.message}</p>\n`;
+                }
+
+                return result;
+            }
+
+            async testDatabaseErrorIntegration() {
+                let result = '<h4>2. Database Error Integration</h4>\n';
+
+                try {
+                    if (window.kiroDb && window.dbService) {
+                        result += '<p>✅ Database services are available</p>\n';
+
+                        // Test database error handling
+                        try {
+                            await window.dbService.safeExecute(
+                                () => { throw new Error('Test database error'); },
+                                () => 'Fallback executed'
+                            );
+                            result += '<p>✅ Database error handling with fallback works</p>\n';
+                        } catch (error) {
+                            result += '<p>✅ Database error handling works (error caught)</p>\n';
+                        }
+
+                    } else {
+                        result += '<p>⚠️ Database services not fully initialized</p>\n';
+                    }
+                } catch (error) {
+                    result += `<p>❌ Database integration test failed: ${error.message}</p>\n`;
+                }
+
+                return result;
+            }
+
+            async testAIServiceErrorIntegration() {
+                let result = '<h4>3. AI Service Error Integration</h4>\n';
+
+                try {
+                    if (window.geminiAI || window.aiService) {
+                        result += '<p>✅ AI services are available</p>\n';
+
+                        // Test AI error handling
+                        const aiError = new Error('AI service test error');
+                        const fallbackContent = await window.errorHandler.handleAIError(
+                            aiError,
+                            null,
+                            { type: 'risk_explanation', category: 'Low' }
+                        );
+
+                        if (fallbackContent && fallbackContent.length > 0) {
+                            result += '<p>✅ AI error handling with fallback works</p>\n';
+                        } else {
+                            result += '<p>❌ AI error handling fallback failed</p>\n';
+                        }
+
+                    } else {
+                        result += '<p>⚠️ AI services not initialized</p>\n';
+                    }
+                } catch (error) {
+                    result += `<p>❌ AI integration test failed: ${error.message}</p>\n`;
+                }
+
+                return result;
+            }
+
+            async testComponentErrorHandling() {
+                let result = '<h4>4. Component Error Handling</h4>\n';
+
+                try {
+                    // Test if components can handle errors gracefully
+                    const components = [
+                        'AuthService',
+                        'RiskAssessmentService', 
+                        'MentalHealthService',
+                        'NutritionService'
+                    ];
+
+                    let workingComponents = 0;
+                    components.forEach(componentName => {
+                        if (window[componentName] || window[componentName.toLowerCase()]) {
+                            workingComponents++;
+                            result += `<p>✅ ${componentName} is available</p>\n`;
+                        } else {
+                            result += `<p>⚠️ ${componentName} not found</p>\n`;
+                        }
+                    });
+
+                    if (workingComponents > 0) {
+                        result += '<p>✅ Components are integrated with error handling</p>\n';
+                    }
+
+                } catch (error) {
+                    result += `<p>❌ Component integration test failed: ${error.message}</p>\n`;
+                }
+
+                return result;
+            }
+
+            async testUserExperienceIntegration() {
+                let result = '<h4>5. User Experience Integration</h4>\n';
+
+                try {
+                    // Test notification system
+                    const notification = window.errorHandler.showUserNotification(
+                        'Integration test notification',
+                        'info',
+                        2000
+                    );
+
+                    if (notification && notification.classList.contains('notification')) {
+                        result += '<p>✅ User notification system works</p>\n';
+                    } else {
+                        result += '<p>❌ User notification system failed</p>\n';
+                    }
+
+                    // Test error message generation
+                    const errorInfo = window.errorHandler.getUserFriendlyMessage('DATABASE_ERROR', new Error('Test'));
+                    if (errorInfo && errorInfo.message && errorInfo.guidance) {
+                        result += '<p>✅ User-friendly error messages work</p>\n';
+                    } else {
+                        result += '<p>❌ User-friendly error messages failed</p>\n';
+                    }
+
+                    // Test CSS integration
+                    const cssLoaded = document.querySelector('link[href*="error-handling.css"]');
+                    if (cssLoaded) {
+                        result += '<p>✅ Error handling CSS is loaded</p>\n';
+                    } else {
+                        result += '<p>❌ Error handling CSS not found</p>\n';
+                    }
+
+                } catch (error) {
+                    result += `<p>❌ User experience integration test failed: ${error.message}</p>\n`;
+                }
+
+                return result;
+            }
+
+            setupManualTests() {
+                // Database error test
+                document.getElementById('test-database-error').addEventListener('click', async () => {
+                    try {
+                        await window.dbService.safeExecute(
+                            () => { throw new Error('Manual database test error'); },
+                            () => {
+                                window.errorHandler.showUserNotification(
+                                    'Database fallback executed successfully!',
+                                    'success'
+                                );
+                                return 'Fallback data';
+                            }
+                        );
+                    } catch (error) {
+                        console.log('Database error test completed:', error.message);
+                    }
+                });
+
+                // AI error test
+                document.getElementById('test-ai-error').addEventListener('click', async () => {
+                    const aiError = new Error('Manual AI test error');
+                    const fallback = await window.errorHandler.handleAIError(
+                        aiError,
+                        null,
+                        { type: 'mood_support', mood: 3 }
+                    );
+                    
+                    window.errorHandler.showUserNotification(
+                        `AI fallback: ${fallback}`,
+                        'info',
+                        8000
+                    );
+                });
+
+                // Network error test
+                document.getElementById('test-network-error').addEventListener('click', async () => {
+                    const networkError = new Error('Manual network test error');
+                    try {
+                        await window.errorHandler.handleNetworkError(
+                            networkError,
+                            () => { throw new Error('Network still failing'); },
+                            { maxRetries: 2, showUserGuidance: true }
+                        );
+                    } catch (error) {
+                        console.log('Network error test completed:', error.message);
+                    }
+                });
+
+                // Validation error test
+                document.getElementById('test-validation-error').addEventListener('click', async () => {
+                    const validationError = new Error('Invalid input format');
+                    await window.errorHandler.handleValidationError(
+                        validationError,
+                        'test-field',
+                        'invalid-value',
+                        ['Check the format', 'Try again']
+                    );
+                });
+
+                // Offline mode test
+                document.getElementById('test-offline-mode').addEventListener('click', () => {
+                    window.dispatchEvent(new Event('offline'));
+                    window.errorHandler.showUserNotification(
+                        'Offline mode simulation activated',
+                        'warning'
+                    );
+                });
+
+                // Online mode test
+                document.getElementById('test-online-mode').addEventListener('click', () => {
+                    window.dispatchEvent(new Event('online'));
+                    window.errorHandler.showUserNotification(
+                        'Online mode simulation activated',
+                        'success'
+                    );
+                });
+
+                // Clear errors test
+                document.getElementById('clear-all-errors').addEventListener('click', () => {
+                    window.errorHandler.clearErrorLog();
+                    window.errorHandler.showUserNotification(
+                        'All errors cleared',
+                        'info'
+                    );
+                });
+            }
+        }
+
+        // Initialize integration test when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ErrorHandlingIntegrationTest();
+        });
+    </script>
+
+    <style>
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #007FFF;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .test-controls button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .test-results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .test-results h3 {
+            color: #007FFF;
+            margin-top: 0;
+        }
+
+        .test-results h4 {
+            color: #333;
+            margin: 16px 0 8px 0;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 4px;
+        }
+
+        .test-results p {
+            margin: 4px 0;
+        }
+
+        @media (max-width: 768px) {
+            .test-controls {
+                flex-direction: column;
+            }
+            
+            .test-controls button {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>

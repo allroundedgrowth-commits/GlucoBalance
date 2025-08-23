@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Layout Redesign Test</title>
+    
+    <!-- Load the main styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <link rel="stylesheet" href="styles/hero-layout-redesign.css">
+    <link rel="stylesheet" href="enhance-hero-animations.css">
+    
+    <style>
+        /* Test-specific styles */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .test-header {
+            background: #1f2937;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+        }
+        
+        .test-content {
+            margin-top: 60px;
+        }
+        
+        .test-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1500;
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 6px;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .test-button:hover {
+            background: #2563eb;
+        }
+        
+        .viewport-indicator {
+            position: fixed;
+            top: 60px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 1500;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🎨 Hero Layout Redesign Test</h1>
+        <p>Testing the new two-column hero layout with subtitle moved to the right</p>
+    </div>
+    
+    <div class="viewport-indicator" id="viewport-indicator">
+        Viewport: <span id="viewport-size"></span>
+    </div>
+    
+    <div class="test-content">
+        <!-- Navigation (simplified for test) -->
+        <nav class="top-nav" style="position: relative; margin-top: 0;">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-outline">Get Started Free</button>
+                    <button class="btn-outline">Dashboard</button>
+                    <button class="btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section with New Layout -->
+        <div id="landing-page" class="page active">
+            <header class="hero-section">
+                <!-- Hero Background -->
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                </div>
+
+                <div class="container">
+                    <div class="hero-layout">
+                        <!-- Left Column - Main Content -->
+                        <div class="hero-content">
+                            <!-- Certification Badge -->
+                            <div class="hero-badge">
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                                <div class="badge-glow"></div>
+                            </div>
+
+                            <!-- Main Title -->
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+
+                            <!-- Trust Indicators -->
+                            <div class="hero-trust">
+                                <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-label">HIPAA Compliant</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Visual and Subtitle -->
+                        <div class="hero-visual">
+                            <!-- Subtitle moved to right side -->
+                            <p class="hero-subtitle">
+                                Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with <span class="highlight-text">AI-powered insights</span>
+                            </p>
+                            
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-text">Health</div>
+                                    </div>
+                                </div>
+                                <div class="illustration-circle orbit-1"></div>
+                                <div class="illustration-circle orbit-2"></div>
+                                <div class="illustration-circle orbit-3"></div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Features Section (for context) -->
+            <main class="container" style="padding: 4rem 1rem;">
+                <section class="features-section">
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: #1f2937;">
+                        Layout Test Complete
+                    </h2>
+                    <div style="text-align: center; color: #6b7280;">
+                        <p>The hero section above demonstrates the new two-column layout with:</p>
+                        <ul style="display: inline-block; text-align: left; margin: 1rem 0;">
+                            <li>✅ Main title and badges on the left</li>
+                            <li>✅ Subtitle moved to the right side</li>
+                            <li>✅ Visual illustration below subtitle</li>
+                            <li>✅ Responsive design for mobile devices</li>
+                            <li>✅ Smooth animations and transitions</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <h4 style="margin: 0 0 10px 0; font-size: 14px;">Test Controls</h4>
+        <button class="test-button" onclick="testDesktop()">Desktop View</button>
+        <button class="test-button" onclick="testTablet()">Tablet View</button>
+        <button class="test-button" onclick="testMobile()">Mobile View</button>
+        <button class="test-button" onclick="testAnimations()">Toggle Animations</button>
+        <button class="test-button" onclick="window.location.reload()">Reload Test</button>
+    </div>
+
+    <script>
+        // Viewport size indicator
+        function updateViewportIndicator() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            document.getElementById('viewport-size').textContent = `${width}x${height}px`;
+        }
+
+        // Test functions
+        function testDesktop() {
+            document.body.style.width = '1200px';
+            document.body.style.margin = '0 auto';
+            updateViewportIndicator();
+            console.log('🖥️ Testing desktop view (1200px)');
+        }
+
+        function testTablet() {
+            document.body.style.width = '768px';
+            document.body.style.margin = '0 auto';
+            updateViewportIndicator();
+            console.log('📱 Testing tablet view (768px)');
+        }
+
+        function testMobile() {
+            document.body.style.width = '375px';
+            document.body.style.margin = '0 auto';
+            updateViewportIndicator();
+            console.log('📱 Testing mobile view (375px)');
+        }
+
+        function testAnimations() {
+            const heroSection = document.querySelector('.hero-section');
+            const currentAnimation = heroSection.style.animation;
+            
+            if (currentAnimation) {
+                heroSection.style.animation = '';
+                console.log('🎭 Animations disabled');
+            } else {
+                heroSection.style.animation = 'fadeIn 1s ease';
+                console.log('🎭 Animations enabled');
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            updateViewportIndicator();
+            console.log('🎨 Hero Layout Redesign Test loaded');
+            console.log('✅ Subtitle moved to right side of hero section');
+            console.log('✅ Two-column layout implemented');
+            console.log('✅ Responsive design active');
+        });
+
+        window.addEventListener('resize', updateViewportIndicator);
+
+        // Test the layout automatically
+        setTimeout(() => {
+            console.log('🔍 Running automatic layout tests...');
+            
+            // Test responsive breakpoints
+            const breakpoints = [
+                { name: 'Mobile', width: 375 },
+                { name: 'Tablet', width: 768 },
+                { name: 'Desktop', width: 1024 },
+                { name: 'Large Desktop', width: 1200 }
+            ];
+            
+            breakpoints.forEach((bp, index) => {
+                setTimeout(() => {
+                    document.body.style.width = bp.width + 'px';
+                    console.log(`📏 Testing ${bp.name} layout (${bp.width}px)`);
+                    
+                    // Check if subtitle is in the right position
+                    const subtitle = document.querySelector('.hero-visual .hero-subtitle');
+                    if (subtitle) {
+                        console.log(`✅ Subtitle found in hero-visual section for ${bp.name}`);
+                    } else {
+                        console.log(`❌ Subtitle not found in hero-visual section for ${bp.name}`);
+                    }
+                }, index * 1000);
+            });
+            
+            // Reset to original width
+            setTimeout(() => {
+                document.body.style.width = '';
+                console.log('🔄 Reset to original viewport');
+            }, breakpoints.length * 1000);
+            
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# GlucoBalance PWA Icons
+
+This directory contains the PWA icons for GlucoBalance.
+
+## Required Icon Sizes:
+- 32x32 (favicon)
+- 72x72 (Android)
+- 96x96 (Android)
+- 128x128 (Android)
+- 144x144 (Android)
+- 152x152 (iOS)
+- 180x180 (iOS)
+- 192x192 (Android, maskable)
+- 384x384 (Android)
+- 512x512 (Android, maskable)
+
+## Icon Design Guidelines:
+- Use Azure Blue (#007FFF) as primary color
+- White background for standard icons
+- Ensure maskable icons have safe area padding
+- Include medical/health symbolism (heart, plus sign, etc.)
+- Maintain brand consistency across all sizes
+
+## Maskable Icons:
+Icons marked as "maskable" should have important content within the safe area (center 80% of the icon) to ensure they display correctly when masked by the system.

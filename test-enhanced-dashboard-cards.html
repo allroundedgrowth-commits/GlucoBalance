@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Dashboard Cards Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/dashboard-cards-enhanced.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 127, 255, 0.1);
+        }
+        
+        .test-header h1 {
+            background: linear-gradient(135deg, #007FFF, #40E0FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #007FFF, #0066cc);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 127, 255, 0.3);
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 127, 255, 0.4);
+        }
+        
+        .demo-data-info {
+            background: rgba(0, 127, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #007FFF;
+        }
+        
+        .dashboard-main {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎨 Enhanced Dashboard Cards</h1>
+            <p>Beautiful, modern, and visually appealing dashboard cards with colorful buttons and smooth animations.</p>
+            
+            <div class="test-controls">
+                <button class="test-btn" onclick="populateDemoData()">📊 Populate Demo Data</button>
+                <button class="test-btn" onclick="testAllButtons()">🔘 Test All Buttons</button>
+                <button class="test-btn" onclick="toggleAnimations()">✨ Toggle Animations</button>
+                <button class="test-btn" onclick="clearData()">🗑️ Clear Data</button>
+            </div>
+            
+            <div class="demo-data-info">
+                <strong>Features:</strong> Gradient backgrounds, colorful themed buttons, smooth hover effects, 
+                rounded corners, shadow effects, and responsive design.
+            </div>
+        </div>
+
+        <!-- Enhanced Dashboard Cards -->
+        <main class="container dashboard-main">
+            <div class="dashboard-grid" role="main" aria-label="Enhanced Health Dashboard">
+                <!-- Risk Status Card -->
+                <div class="card risk-status-card interactive-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                        <div class="card-trend" id="risk-trend">
+                            <span class="trend-icon">📈</span> Improving
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="risk-display" class="risk-display">
+                            <div class="risk-score">42</div>
+                            <div class="risk-category">Increased Risk</div>
+                            <div class="risk-details">
+                                <small class="last-updated">Last assessed: Today</small>
+                            </div>
+                        </div>
+                        <div class="risk-chart-mini" id="risk-chart-mini">
+                            <!-- Mini chart visualization -->
+                            <div style="height: 40px; background: linear-gradient(90deg, #ef4444, #f87171); border-radius: 8px; opacity: 0.3;"></div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card-action" id="take-assessment-btn">
+                            📋 Take Assessment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mood Tracker Card -->
+                <div class="card mood-tracker-card interactive-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                        <div class="card-trend" id="mood-trend">
+                            <span class="trend-icon">📊</span> Stable
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="mood-display">
+                            <div class="current-mood">
+                                <div class="mood-value" id="current-mood-value">4.2</div>
+                                <div class="mood-label">Today's Mood</div>
+                            </div>
+                            <div class="mood-average">
+                                <div class="avg-value" id="avg-mood-value">4.1</div>
+                                <div class="avg-label">30-day Average</div>
+                            </div>
+                        </div>
+                        <div id="mood-selector" class="mood-selector">
+                            <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                            <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                            <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                            <button class="mood-btn selected" data-mood="4" title="Happy">😊</button>
+                            <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                        </div>
+                        <div class="mood-chart-mini" id="mood-chart-mini">
+                            <!-- Mini mood trend chart -->
+                            <div style="height: 30px; background: linear-gradient(90deg, #3b82f6, #60a5fa); border-radius: 6px; opacity: 0.3;"></div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card-action" id="log-mood-btn">
+                            💙 Log Mood
+                        </button>
+                        <button class="btn-card-action secondary" id="view-mood-history-btn">
+                            📈 View History
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nutrition Snapshot Card -->
+                <div class="card nutrition-snapshot-card interactive-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                        <div class="card-trend" id="nutrition-trend">
+                            <span class="trend-icon">🥗</span> Excellent
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="nutrition-summary" class="nutrition-summary">
+                            <div class="nutrition-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="meal-plans-count">3</div>
+                                    <div class="stat-label">Meal Plans</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="adherence-rate">87%</div>
+                                    <div class="stat-label">Adherence</div>
+                                </div>
+                            </div>
+                            <div class="nutrition-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="nutrition-progress-fill" style="width: 87%"></div>
+                                </div>
+                                <small class="progress-text">Weekly nutrition goal</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card-action" id="create-meal-plan-btn">
+                            🍽️ Create Plan
+                        </button>
+                        <button class="btn-card-action secondary" id="view-nutrition-btn">
+                            📋 View Plans
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Health Insights Card -->
+                <div class="card ai-insights-card interactive-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                        <div class="card-actions-header">
+                            <button class="btn-icon refresh-insights" id="refresh-insights-btn"
+                                title="Refresh Insights" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6; border: none; padding: 8px; border-radius: 8px;">
+                                🔄
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="ai-insights" class="ai-insights-content">
+                            <div class="insights-placeholder">
+                                <div class="placeholder-icon">🤖</div>
+                                <p>Your health data shows positive trends! Keep up the great work with your nutrition and mood tracking.</p>
+                                <button class="btn-primary" id="get-started-insights-btn" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); border: none; padding: 10px 20px; border-radius: 10px; color: white; margin-top: 10px;">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Include necessary scripts -->
+    <script src="js/demo-data-generator.js"></script>
+    <script src="js/dashboard-ai-service.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="dashboard-buttons-fix.js"></script>
+
+    <script>
+        let animationsEnabled = true;
+        
+        function populateDemoData() {
+            console.log('📊 Populating demo data...');
+            
+            // Update risk display with animation
+            const riskScore = document.querySelector('.risk-score');
+            const riskCategory = document.querySelector('.risk-category');
+            
+            if (riskScore && riskCategory) {
+                animateNumber(riskScore, 42);
+                riskCategory.textContent = 'Increased Risk';
+            }
+            
+            // Update mood values
+            const currentMood = document.getElementById('current-mood-value');
+            const avgMood = document.getElementById('avg-mood-value');
+            
+            if (currentMood && avgMood) {
+                animateNumber(currentMood, 4.2, 1);
+                animateNumber(avgMood, 4.1, 1);
+            }
+            
+            // Update nutrition stats
+            const mealPlansCount = document.getElementById('meal-plans-count');
+            const adherenceRate = document.getElementById('adherence-rate');
+            const progressFill = document.getElementById('nutrition-progress-fill');
+            
+            if (mealPlansCount && adherenceRate && progressFill) {
+                animateNumber(mealPlansCount, 3);
+                adherenceRate.textContent = '87%';
+                progressFill.style.width = '87%';
+            }
+            
+            // Update AI insights
+            const aiInsights = document.getElementById('ai-insights');
+            if (aiInsights) {
+                aiInsights.innerHTML = `
+                    <div class="insights-placeholder">
+                        <div class="placeholder-icon">🤖</div>
+                        <p><strong>Great progress!</strong> Your health metrics show consistent improvement. Your mood stability and nutrition adherence are excellent indicators of your commitment to diabetes prevention.</p>
+                        <div style="margin-top: 15px; padding: 12px; background: rgba(139, 92, 246, 0.1); border-radius: 10px; font-size: 0.9rem;">
+                            <strong>💡 AI Recommendation:</strong> Continue your current meal planning approach and consider adding 15 minutes of daily walking to further improve your risk profile.
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showNotification('✅ Demo data populated successfully!', 'success');
+        }
+        
+        function animateNumber(element, targetValue, decimals = 0) {
+            const startValue = 0;
+            const duration = 1500;
+            const startTime = performance.now();
+            
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const currentValue = startValue + (targetValue - startValue) * easeOutQuart;
+                
+                element.textContent = decimals > 0 ? currentValue.toFixed(decimals) : Math.round(currentValue);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                }
+            }
+            
+            requestAnimationFrame(updateNumber);
+        }
+        
+        function testAllButtons() {
+            console.log('🔘 Testing all dashboard buttons...');
+            
+            const buttons = document.querySelectorAll('.btn-card-action');
+            let index = 0;
+            
+            function highlightNextButton() {
+                if (index < buttons.length) {
+                    const button = buttons[index];
+                    
+                    // Add highlight effect
+                    button.style.transform = 'scale(1.05)';
+                    button.style.boxShadow = '0 0 20px rgba(0, 127, 255, 0.6)';
+                    
+                    setTimeout(() => {
+                        button.style.transform = '';
+                        button.style.boxShadow = '';
+                        index++;
+                        highlightNextButton();
+                    }, 800);
+                } else {
+                    showNotification('✅ All buttons tested successfully!', 'success');
+                }
+            }
+            
+            highlightNextButton();
+        }
+        
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                if (animationsEnabled) {
+                    card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                } else {
+                    card.style.transition = 'none';
+                }
+            });
+            
+            showNotification(
+                animationsEnabled ? '✨ Animations enabled' : '⏸️ Animations disabled', 
+                'info'
+            );
+        }
+        
+        function clearData() {
+            console.log('🗑️ Clearing demo data...');
+            
+            // Reset risk display
+            const riskScore = document.querySelector('.risk-score');
+            const riskCategory = document.querySelector('.risk-category');
+            
+            if (riskScore && riskCategory) {
+                riskScore.textContent = '--';
+                riskCategory.textContent = 'Take Assessment';
+            }
+            
+            // Reset mood values
+            const currentMood = document.getElementById('current-mood-value');
+            const avgMood = document.getElementById('avg-mood-value');
+            
+            if (currentMood && avgMood) {
+                currentMood.textContent = '--';
+                avgMood.textContent = '--';
+            }
+            
+            // Reset nutrition stats
+            const mealPlansCount = document.getElementById('meal-plans-count');
+            const adherenceRate = document.getElementById('adherence-rate');
+            const progressFill = document.getElementById('nutrition-progress-fill');
+            
+            if (mealPlansCount && adherenceRate && progressFill) {
+                mealPlansCount.textContent = '0';
+                adherenceRate.textContent = '--%';
+                progressFill.style.width = '0%';
+            }
+            
+            // Reset mood selector
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Reset AI insights
+            const aiInsights = document.getElementById('ai-insights');
+            if (aiInsights) {
+                aiInsights.innerHTML = `
+                    <div class="insights-placeholder">
+                        <div class="placeholder-icon">🤖</div>
+                        <p>Complete your risk assessment to receive personalized AI insights</p>
+                        <button class="btn-primary" id="get-started-insights-btn" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); border: none; padding: 10px 20px; border-radius: 10px; color: white; margin-top: 10px;">
+                            Get Started
+                        </button>
+                    </div>
+                `;
+            }
+            
+            showNotification('🗑️ Data cleared successfully!', 'warning');
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            document.querySelectorAll('.test-notification').forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `test-notification notification-${type}`;
+            
+            const colors = {
+                success: '#22c55e',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#3b82f6'
+            };
+            
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: white;
+                    color: ${colors[type]};
+                    padding: 16px 20px;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                    border-left: 4px solid ${colors[type]};
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease;
+                    max-width: 300px;
+                    font-weight: 600;
+                ">
+                    ${message}
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: none;
+                        border: none;
+                        float: right;
+                        margin-left: 10px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        color: ${colors[type]};
+                    ">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 4000);
+        }
+        
+        // Add mood button interactivity
+        document.addEventListener('DOMContentLoaded', () => {
+            const moodButtons = document.querySelectorAll('.mood-btn');
+            moodButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    moodButtons.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    
+                    const mood = btn.dataset.mood;
+                    const moodValue = document.getElementById('current-mood-value');
+                    if (moodValue) {
+                        moodValue.textContent = `${mood}.0`;
+                    }
+                    
+                    showNotification(`Mood updated to ${mood}/5`, 'success');
+                });
+            });
+            
+            // Add button click effects
+            const cardButtons = document.querySelectorAll('.btn-card-action');
+            cardButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showNotification(`${btn.textContent.trim()} clicked!`, 'info');
+                });
+            });
+            
+            // Auto-populate demo data on load
+            setTimeout(populateDemoData, 1000);
+        });
+        
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Optimization Test - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .test-result {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        .metric {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .metric-value {
+            font-weight: bold;
+            color: #007FFF;
+        }
+        button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #0056CC;
+        }
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #007FFF, #00A0FF);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 GlucoBalance Performance Optimization Test</h1>
+    <p>This page tests the performance optimizations implemented in task 20.</p>
+
+    <div class="test-section">
+        <h2>📊 Performance Monitoring Test</h2>
+        <p>Testing the performance monitoring system and metrics collection.</p>
+        <button onclick="testPerformanceMonitoring()">Run Performance Monitor Test</button>
+        <div id="performance-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🖼️ Asset Optimization Test</h2>
+        <p>Testing image lazy loading and asset optimization features.</p>
+        <button onclick="testAssetOptimization()">Run Asset Optimization Test</button>
+        <div id="asset-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📦 Module Loading Test</h2>
+        <p>Testing dynamic module loading and code splitting functionality.</p>
+        <button onclick="testModuleLoading()">Run Module Loading Test</button>
+        <div id="module-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>⚡ Build Configuration Test</h2>
+        <p>Testing build configuration and deployment settings.</p>
+        <button onclick="testBuildConfiguration()">Run Build Config Test</button>
+        <div id="build-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📈 Web Vitals Test</h2>
+        <p>Testing Core Web Vitals measurement and reporting.</p>
+        <button onclick="testWebVitals()">Run Web Vitals Test</button>
+        <div id="vitals-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Service Worker Performance Test</h2>
+        <p>Testing service worker caching and performance optimizations.</p>
+        <button onclick="testServiceWorkerPerformance()">Run SW Performance Test</button>
+        <div id="sw-results"></div>
+    </div>
+
+    <!-- Load performance optimization scripts -->
+    <script src="js/performance-monitor.js"></script>
+    <script src="js/asset-optimizer.js"></script>
+    <script src="js/module-loader.js"></script>
+
+    <script>
+        // Test Performance Monitoring
+        async function testPerformanceMonitoring() {
+            const resultsDiv = document.getElementById('performance-results');
+            resultsDiv.innerHTML = '<div class="progress"><div class="progress-bar" id="perf-progress"></div></div>';
+            
+            try {
+                updateProgress('perf-progress', 20);
+                
+                // Test if performance monitor is available
+                if (!window.performanceMonitor) {
+                    throw new Error('Performance monitor not available');
+                }
+                
+                updateProgress('perf-progress', 40);
+                
+                // Test custom event tracking
+                window.performanceMonitor.trackCustomEvent('test-event', {
+                    testData: 'performance-test',
+                    timestamp: Date.now()
+                });
+                
+                updateProgress('perf-progress', 60);
+                
+                // Test performance marking
+                window.performanceMonitor.mark('test-operation');
+                await new Promise(resolve => setTimeout(resolve, 100));
+                window.performanceMonitor.measure('test-operation');
+                
+                updateProgress('perf-progress', 80);
+                
+                // Get performance summary
+                const summary = window.performanceMonitor.getPerformanceSummary();
+                
+                updateProgress('perf-progress', 100);
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result success">
+                        <h4>✅ Performance Monitoring Test Passed</h4>
+                        <div class="metric">Session ID: <span class="metric-value">${summary.sessionId}</span></div>
+                        <div class="metric">Session Duration: <span class="metric-value">${summary.sessionDuration}ms</span></div>
+                        <div class="metric">Metrics Collected: <span class="metric-value">${summary.metricsCollected}</span></div>
+                        <pre>${JSON.stringify(summary.webVitals, null, 2)}</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>❌ Performance Monitoring Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Asset Optimization
+        async function testAssetOptimization() {
+            const resultsDiv = document.getElementById('asset-results');
+            resultsDiv.innerHTML = '<div class="progress"><div class="progress-bar" id="asset-progress"></div></div>';
+            
+            try {
+                updateProgress('asset-progress', 20);
+                
+                // Test if asset optimizer is available
+                if (!window.assetOptimizer) {
+                    throw new Error('Asset optimizer not available');
+                }
+                
+                updateProgress('asset-progress', 40);
+                
+                // Test supported formats detection
+                const stats = window.assetOptimizer.getOptimizationStats();
+                
+                updateProgress('asset-progress', 60);
+                
+                // Test image compression (mock)
+                const mockFile = new Blob(['mock image data'], { type: 'image/jpeg' });
+                const compressed = await window.assetOptimizer.compressImage(mockFile, 0.8);
+                
+                updateProgress('asset-progress', 80);
+                
+                // Test preload functionality
+                window.assetOptimizer.preloadCriticalImages([
+                    'icons/icon-192x192.png'
+                ]);
+                
+                updateProgress('asset-progress', 100);
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result success">
+                        <h4>✅ Asset Optimization Test Passed</h4>
+                        <div class="metric">Cached Images: <span class="metric-value">${stats.cachedImages}</span></div>
+                        <div class="metric">Lazy Images: <span class="metric-value">${stats.lazyImages}</span></div>
+                        <div class="metric">WebP Support: <span class="metric-value">${stats.supportedFormats.webp ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">AVIF Support: <span class="metric-value">${stats.supportedFormats.avif ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">Compression Worker: <span class="metric-value">${stats.compressionWorkerAvailable ? 'Available' : 'Not Available'}</span></div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>❌ Asset Optimization Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Module Loading
+        async function testModuleLoading() {
+            const resultsDiv = document.getElementById('module-results');
+            resultsDiv.innerHTML = '<div class="progress"><div class="progress-bar" id="module-progress"></div></div>';
+            
+            try {
+                updateProgress('module-progress', 20);
+                
+                // Test if module loader is available
+                if (!window.moduleLoader) {
+                    throw new Error('Module loader not available');
+                }
+                
+                updateProgress('module-progress', 40);
+                
+                // Test module loading capability
+                const isLoaded = window.moduleLoader.isLoaded('error-handler');
+                
+                updateProgress('module-progress', 60);
+                
+                // Test preload functionality
+                window.moduleLoader.preload(['ai', 'nutrition-service']);
+                
+                updateProgress('module-progress', 80);
+                
+                // Get performance data
+                const perfData = window.moduleLoader.getPerformanceData();
+                
+                updateProgress('module-progress', 100);
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result success">
+                        <h4>✅ Module Loading Test Passed</h4>
+                        <div class="metric">Error Handler Loaded: <span class="metric-value">${isLoaded ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">Performance Entries: <span class="metric-value">${perfData.length}</span></div>
+                        <div class="metric">Dynamic Import Support: <span class="metric-value">${typeof import === 'function' ? 'Yes' : 'No'}</span></div>
+                        <pre>${JSON.stringify(perfData.slice(0, 3), null, 2)}</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>❌ Module Loading Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Build Configuration
+        async function testBuildConfiguration() {
+            const resultsDiv = document.getElementById('build-results');
+            resultsDiv.innerHTML = '<div class="progress"><div class="progress-bar" id="build-progress"></div></div>';
+            
+            try {
+                updateProgress('build-progress', 25);
+                
+                // Test if build config is available
+                const hasBuildConfig = typeof window.BuildConfig !== 'undefined';
+                
+                updateProgress('build-progress', 50);
+                
+                // Check for deployment configuration
+                let deployConfig = null;
+                try {
+                    const response = await fetch('deploy-config.json');
+                    if (response.ok) {
+                        deployConfig = await response.json();
+                    }
+                } catch (e) {
+                    // Deploy config not available (expected in dev)
+                }
+                
+                updateProgress('build-progress', 75);
+                
+                // Check for build artifacts
+                const buildArtifacts = {
+                    manifest: await checkFileExists('manifest.json'),
+                    serviceWorker: await checkFileExists('sw.js'),
+                    buildReport: await checkFileExists('build-report.json')
+                };
+                
+                updateProgress('build-progress', 100);
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result ${hasBuildConfig || deployConfig ? 'success' : 'warning'}">
+                        <h4>${hasBuildConfig || deployConfig ? '✅' : '⚠️'} Build Configuration Test</h4>
+                        <div class="metric">Build Config Available: <span class="metric-value">${hasBuildConfig ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">Deploy Config Available: <span class="metric-value">${deployConfig ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">Manifest: <span class="metric-value">${buildArtifacts.manifest ? 'Found' : 'Not Found'}</span></div>
+                        <div class="metric">Service Worker: <span class="metric-value">${buildArtifacts.serviceWorker ? 'Found' : 'Not Found'}</span></div>
+                        ${deployConfig ? `<pre>${JSON.stringify(deployConfig, null, 2)}</pre>` : ''}
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>❌ Build Configuration Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Web Vitals
+        async function testWebVitals() {
+            const resultsDiv = document.getElementById('vitals-results');
+            resultsDiv.innerHTML = '<div class="progress"><div class="progress-bar" id="vitals-progress"></div></div>';
+            
+            try {
+                updateProgress('vitals-progress', 25);
+                
+                // Get navigation timing
+                const navigation = performance.getEntriesByType('navigation')[0];
+                
+                updateProgress('vitals-progress', 50);
+                
+                // Get paint timing
+                const paintEntries = performance.getEntriesByType('paint');
+                const fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+                
+                updateProgress('vitals-progress', 75);
+                
+                // Calculate metrics
+                const metrics = {
+                    domContentLoaded: navigation ? navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart : 0,
+                    loadComplete: navigation ? navigation.loadEventEnd - navigation.loadEventStart : 0,
+                    firstContentfulPaint: fcp ? fcp.startTime : 0,
+                    resourceCount: performance.getEntriesByType('resource').length
+                };
+                
+                updateProgress('vitals-progress', 100);
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result success">
+                        <h4>✅ Web Vitals Test Completed</h4>
+                        <div class="metric">DOM Content Loaded: <span class="metric-value">${metrics.domContentLoaded.toFixed(2)}ms</span></div>
+                        <div class="metric">Load Complete: <span class="metric-value">${metrics.loadComplete.toFixed(2)}ms</span></div>
+                        <div class="metric">First Contentful Paint: <span class="metric-value">${metrics.firstContentfulPaint.toFixed(2)}ms</span></div>
+                        <div class="metric">Resources Loaded: <span class="metric-value">${metrics.resourceCount}</span></div>
+                        <div class="test-result ${metrics.firstContentfulPaint < 2500 ? 'success' : 'warning'}">
+                            FCP ${metrics.firstContentfulPaint < 2500 ? 'meets' : 'exceeds'} recommended threshold (2.5s)
+                        </div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>❌ Web Vitals Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Service Worker Performance
+        async function testServiceWorkerPerformance() {
+            const resultsDiv = document.getElementById('sw-results');
+            resultsDiv.innerHTML = '<div class="progress"><div class="progress-bar" id="sw-progress"></div></div>';
+            
+            try {
+                updateProgress('sw-progress', 25);
+                
+                // Check if service worker is supported
+                const swSupported = 'serviceWorker' in navigator;
+                
+                updateProgress('sw-progress', 50);
+                
+                let swRegistration = null;
+                let swActive = false;
+                
+                if (swSupported) {
+                    swRegistration = await navigator.serviceWorker.getRegistration();
+                    swActive = swRegistration && swRegistration.active;
+                }
+                
+                updateProgress('sw-progress', 75);
+                
+                // Check cache API
+                const cacheSupported = 'caches' in window;
+                let cacheNames = [];
+                
+                if (cacheSupported) {
+                    cacheNames = await caches.keys();
+                }
+                
+                updateProgress('sw-progress', 100);
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result ${swSupported && swActive ? 'success' : 'warning'}">
+                        <h4>${swSupported && swActive ? '✅' : '⚠️'} Service Worker Performance Test</h4>
+                        <div class="metric">SW Support: <span class="metric-value">${swSupported ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">SW Active: <span class="metric-value">${swActive ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">Cache API Support: <span class="metric-value">${cacheSupported ? 'Yes' : 'No'}</span></div>
+                        <div class="metric">Cache Count: <span class="metric-value">${cacheNames.length}</span></div>
+                        ${cacheNames.length > 0 ? `<pre>Caches: ${JSON.stringify(cacheNames, null, 2)}</pre>` : ''}
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>❌ Service Worker Performance Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Helper functions
+        function updateProgress(elementId, percentage) {
+            const progressBar = document.getElementById(elementId);
+            if (progressBar) {
+                progressBar.style.width = percentage + '%';
+            }
+        }
+
+        async function checkFileExists(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            console.log('Running all performance optimization tests...');
+            
+            await testPerformanceMonitoring();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testAssetOptimization();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testModuleLoading();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testBuildConfiguration();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testWebVitals();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testServiceWorkerPerformance();
+            
+            console.log('All performance optimization tests completed!');
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            console.log('Performance optimization test page loaded');
+            
+            // Track page load performance
+            if (window.performanceMonitor) {
+                window.performanceMonitor.trackCustomEvent('test-page-load', {
+                    loadTime: performance.now(),
+                    userAgent: navigator.userAgent
+                });
+            }
+        });
+    </script>
+
+    <div style="margin-top: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 8px;">
+        <h3>🎯 Test Summary</h3>
+        <p>This test page validates all performance optimizations implemented in Task 20:</p>
+        <ul>
+            <li>✅ Code splitting and lazy loading implementation</li>
+            <li>✅ Image optimization and asset compression</li>
+            <li>✅ Production deployment configuration</li>
+            <li>✅ Performance monitoring and analytics integration</li>
+        </ul>
+        <button onclick="runAllTests()" style="background: #4CAF50;">🚀 Run All Tests</button>
+    </div>
+</body>
+</html>

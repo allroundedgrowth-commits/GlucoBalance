@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Error Handling Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/error-handling.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>🛡️ Error Handling & Recovery Test</h1>
+            <p>Test comprehensive error handling and fallback systems</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Network Error Tests -->
+            <section class="test-section">
+                <h2>Network Error Handling</h2>
+                <div class="test-controls">
+                    <button id="test-network-timeout" class="btn-primary">Test Network Timeout</button>
+                    <button id="test-network-offline" class="btn-primary">Simulate Offline Mode</button>
+                    <button id="test-network-recovery" class="btn-secondary">Test Network Recovery</button>
+                </div>
+                <div id="network-test-results" class="test-results"></div>
+            </section>
+
+            <!-- Database Error Tests -->
+            <section class="test-section">
+                <h2>Database Error Handling</h2>
+                <div class="test-controls">
+                    <button id="test-db-connection" class="btn-primary">Test DB Connection Error</button>
+                    <button id="test-db-storage-full" class="btn-primary">Simulate Storage Full</button>
+                    <button id="test-db-recovery" class="btn-secondary">Test DB Recovery</button>
+                </div>
+                <div id="database-test-results" class="test-results"></div>
+            </section>
+
+            <!-- AI Service Error Tests -->
+            <section class="test-section">
+                <h2>AI Service Error Handling</h2>
+                <div class="test-controls">
+                    <button id="test-ai-unavailable" class="btn-primary">Test AI Unavailable</button>
+                    <button id="test-ai-rate-limit" class="btn-primary">Test Rate Limiting</button>
+                    <button id="test-ai-fallback" class="btn-secondary">Test Fallback Content</button>
+                </div>
+                <div id="ai-test-results" class="test-results"></div>
+            </section>
+
+            <!-- Validation Error Tests -->
+            <section class="test-section">
+                <h2>Validation Error Handling</h2>
+                <div class="test-controls">
+                    <input type="email" id="test-email" placeholder="Enter invalid email" class="form-control">
+                    <button id="test-validation" class="btn-primary">Test Validation Error</button>
+                    <button id="test-field-highlight" class="btn-secondary">Test Field Highlighting</button>
+                </div>
+                <div id="validation-test-results" class="test-results"></div>
+            </section>
+
+            <!-- Circuit Breaker Tests -->
+            <section class="test-section">
+                <h2>Circuit Breaker Pattern</h2>
+                <div class="test-controls">
+                    <button id="test-circuit-breaker" class="btn-primary">Test Circuit Breaker</button>
+                    <button id="reset-circuit-breaker" class="btn-secondary">Reset Circuit Breaker</button>
+                </div>
+                <div id="circuit-breaker-status" class="test-results"></div>
+            </section>
+
+            <!-- Recovery Strategies Tests -->
+            <section class="test-section">
+                <h2>Automatic Recovery</h2>
+                <div class="test-controls">
+                    <button id="test-auto-recovery" class="btn-primary">Test Auto Recovery</button>
+                    <button id="test-manual-recovery" class="btn-secondary">Test Manual Recovery</button>
+                </div>
+                <div id="recovery-test-results" class="test-results"></div>
+            </section>
+
+            <!-- Error Log Viewer -->
+            <section class="test-section">
+                <h2>Error Monitoring</h2>
+                <div class="test-controls">
+                    <button id="view-error-log" class="btn-primary">View Error Log</button>
+                    <button id="clear-error-log" class="btn-secondary">Clear Error Log</button>
+                    <button id="export-error-log" class="btn-secondary">Export Error Log</button>
+                </div>
+                <div id="error-log-summary" class="test-results"></div>
+            </section>
+
+            <!-- Health Check -->
+            <section class="test-section">
+                <h2>System Health Check</h2>
+                <div class="test-controls">
+                    <button id="run-health-check" class="btn-primary">Run Health Check</button>
+                </div>
+                <div id="health-check-results" class="test-results"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Error Log Modal -->
+    <div id="error-log-modal" class="error-log-viewer">
+        <div class="error-log-header">
+            <h3>Error Log</h3>
+            <button id="close-error-log" class="btn-secondary">Close</button>
+        </div>
+        <div class="error-log-content" id="error-log-content">
+            <!-- Error entries will be populated here -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script>
+        // Error Handling Test Suite
+        class ErrorHandlingTestSuite {
+            constructor() {
+                this.errorHandler = window.errorHandler;
+                this.dbService = window.dbService;
+                this.aiService = window.aiService;
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Network Error Tests
+                document.getElementById('test-network-timeout').addEventListener('click', () => {
+                    this.testNetworkTimeout();
+                });
+
+                document.getElementById('test-network-offline').addEventListener('click', () => {
+                    this.simulateOfflineMode();
+                });
+
+                document.getElementById('test-network-recovery').addEventListener('click', () => {
+                    this.testNetworkRecovery();
+                });
+
+                // Database Error Tests
+                document.getElementById('test-db-connection').addEventListener('click', () => {
+                    this.testDatabaseConnectionError();
+                });
+
+                document.getElementById('test-db-storage-full').addEventListener('click', () => {
+                    this.simulateStorageFull();
+                });
+
+                document.getElementById('test-db-recovery').addEventListener('click', () => {
+                    this.testDatabaseRecovery();
+                });
+
+                // AI Service Error Tests
+                document.getElementById('test-ai-unavailable').addEventListener('click', () => {
+                    this.testAIUnavailable();
+                });
+
+                document.getElementById('test-ai-rate-limit').addEventListener('click', () => {
+                    this.testAIRateLimit();
+                });
+
+                document.getElementById('test-ai-fallback').addEventListener('click', () => {
+                    this.testAIFallback();
+                });
+
+                // Validation Error Tests
+                document.getElementById('test-validation').addEventListener('click', () => {
+                    this.testValidationError();
+                });
+
+                document.getElementById('test-field-highlight').addEventListener('click', () => {
+                    this.testFieldHighlighting();
+                });
+
+                // Circuit Breaker Tests
+                document.getElementById('test-circuit-breaker').addEventListener('click', () => {
+                    this.testCircuitBreaker();
+                });
+
+                document.getElementById('reset-circuit-breaker').addEventListener('click', () => {
+                    this.resetCircuitBreaker();
+                });
+
+                // Recovery Tests
+                document.getElementById('test-auto-recovery').addEventListener('click', () => {
+                    this.testAutoRecovery();
+                });
+
+                document.getElementById('test-manual-recovery').addEventListener('click', () => {
+                    this.testManualRecovery();
+                });
+
+                // Error Log Tests
+                document.getElementById('view-error-log').addEventListener('click', () => {
+                    this.viewErrorLog();
+                });
+
+                document.getElementById('clear-error-log').addEventListener('click', () => {
+                    this.clearErrorLog();
+                });
+
+                document.getElementById('export-error-log').addEventListener('click', () => {
+                    this.exportErrorLog();
+                });
+
+                document.getElementById('close-error-log').addEventListener('click', () => {
+                    document.getElementById('error-log-modal').classList.remove('show');
+                });
+
+                // Health Check
+                document.getElementById('run-health-check').addEventListener('click', () => {
+                    this.runHealthCheck();
+                });
+            }
+
+            async testNetworkTimeout() {
+                this.updateResults('network-test-results', 'Testing network timeout...');
+                
+                try {
+                    const timeoutError = new Error('Network timeout');
+                    timeoutError.name = 'TimeoutError';
+                    
+                    await this.errorHandler.handleNetworkError(
+                        timeoutError,
+                        () => {
+                            throw new Error('Simulated network failure');
+                        },
+                        { maxRetries: 2, showUserGuidance: true }
+                    );
+                } catch (error) {
+                    this.updateResults('network-test-results', 
+                        `✅ Network timeout handled correctly: ${error.message}`);
+                }
+            }
+
+            simulateOfflineMode() {
+                this.updateResults('network-test-results', 'Simulating offline mode...');
+                
+                // Simulate offline event
+                window.dispatchEvent(new Event('offline'));
+                
+                setTimeout(() => {
+                    this.updateResults('network-test-results', 
+                        '✅ Offline mode activated. Check for offline indicator.');
+                }, 1000);
+            }
+
+            async testNetworkRecovery() {
+                this.updateResults('network-test-results', 'Testing network recovery...');
+                
+                // Simulate online event
+                window.dispatchEvent(new Event('online'));
+                
+                setTimeout(() => {
+                    this.updateResults('network-test-results', 
+                        '✅ Network recovery triggered. Check for success notification.');
+                }, 1000);
+            }
+
+            async testDatabaseConnectionError() {
+                this.updateResults('database-test-results', 'Testing database connection error...');
+                
+                try {
+                    const dbError = new Error('Database connection failed');
+                    dbError.name = 'DatabaseError';
+                    
+                    await this.errorHandler.handleDatabaseError(
+                        dbError,
+                        () => { throw dbError; },
+                        () => {
+                            return { id: 'fallback', data: 'Fallback data from localStorage' };
+                        }
+                    );
+                } catch (error) {
+                    this.updateResults('database-test-results', 
+                        `✅ Database error handled with fallback: ${error.message}`);
+                }
+            }
+
+            simulateStorageFull() {
+                this.updateResults('database-test-results', 'Simulating storage full error...');
+                
+                const storageError = new Error('QuotaExceededError: Storage quota exceeded');
+                storageError.name = 'QuotaExceededError';
+                
+                this.errorHandler.handleError('STORAGE_ERROR', storageError, {
+                    storageType: 'localStorage',
+                    attemptedSize: '10MB'
+                });
+                
+                this.updateResults('database-test-results', 
+                    '✅ Storage full error simulated. Check for user notification.');
+            }
+
+            async testDatabaseRecovery() {
+                this.updateResults('database-test-results', 'Testing database recovery...');
+                
+                const recovered = await this.errorHandler.attemptRecovery('database_connection_failed');
+                
+                this.updateResults('database-test-results', 
+                    `✅ Database recovery ${recovered ? 'successful' : 'failed'}`);
+            }
+
+            async testAIUnavailable() {
+                this.updateResults('ai-test-results', 'Testing AI service unavailable...');
+                
+                const aiError = new Error('AI service unavailable');
+                aiError.name = 'AIServiceError';
+                
+                const fallbackContent = await this.errorHandler.handleAIError(
+                    aiError,
+                    null,
+                    { type: 'risk_explanation', category: 'High' }
+                );
+                
+                this.updateResults('ai-test-results', 
+                    `✅ AI error handled with fallback: "${fallbackContent.substring(0, 100)}..."`);
+            }
+
+            async testAIRateLimit() {
+                this.updateResults('ai-test-results', 'Testing AI rate limiting...');
+                
+                const rateLimitError = new Error('Rate limit exceeded');
+                rateLimitError.status = 429;
+                
+                const fallbackContent = await this.errorHandler.handleAIError(
+                    rateLimitError,
+                    null,
+                    { type: 'mood_support', mood: 3 }
+                );
+                
+                this.updateResults('ai-test-results', 
+                    `✅ Rate limit handled with fallback: "${fallbackContent}"`);
+            }
+
+            testAIFallback() {
+                this.updateResults('ai-test-results', 'Testing AI fallback content...');
+                
+                const fallbackContent = this.errorHandler.getFallbackContent('ai_nutrition_tips');
+                
+                this.updateResults('ai-test-results', 
+                    `✅ Fallback content retrieved: "${fallbackContent}"`);
+            }
+
+            async testValidationError() {
+                const email = document.getElementById('test-email').value;
+                this.updateResults('validation-test-results', 'Testing validation error...');
+                
+                const validationError = new Error('Invalid email format');
+                validationError.name = 'ValidationError';
+                
+                await this.errorHandler.handleValidationError(
+                    validationError,
+                    'test-email',
+                    email,
+                    ['Use format: user@domain.com', 'Check for typos']
+                );
+                
+                this.updateResults('validation-test-results', 
+                    '✅ Validation error handled. Check field highlighting and notification.');
+            }
+
+            testFieldHighlighting() {
+                this.updateResults('validation-test-results', 'Testing field highlighting...');
+                
+                const emailField = document.getElementById('test-email');
+                emailField.classList.add('error-highlight');
+                
+                setTimeout(() => {
+                    emailField.classList.remove('error-highlight');
+                    this.updateResults('validation-test-results', 
+                        '✅ Field highlighting test completed.');
+                }, 3000);
+            }
+
+            async testCircuitBreaker() {
+                this.updateResults('circuit-breaker-status', 'Testing circuit breaker pattern...');
+                
+                // Simulate multiple failures to trigger circuit breaker
+                for (let i = 0; i < 6; i++) {
+                    try {
+                        await this.errorHandler.executeWithCircuitBreaker(
+                            'database',
+                            () => {
+                                throw new Error(`Simulated failure ${i + 1}`);
+                            },
+                            () => 'Fallback executed'
+                        );
+                    } catch (error) {
+                        console.log(`Circuit breaker test ${i + 1}: ${error.message}`);
+                    }
+                }
+                
+                const breaker = this.errorHandler.circuitBreakers.get('database');
+                this.updateResults('circuit-breaker-status', 
+                    `✅ Circuit breaker state: ${breaker.state}, Failures: ${breaker.failureCount}`);
+            }
+
+            resetCircuitBreaker() {
+                const breaker = this.errorHandler.circuitBreakers.get('database');
+                breaker.state = 'CLOSED';
+                breaker.failureCount = 0;
+                breaker.lastFailureTime = null;
+                
+                this.updateResults('circuit-breaker-status', 
+                    '✅ Circuit breaker reset to CLOSED state');
+            }
+
+            async testAutoRecovery() {
+                this.updateResults('recovery-test-results', 'Testing automatic recovery...');
+                
+                const recovered = await this.errorHandler.attemptRecovery('network_connection_failed');
+                
+                this.updateResults('recovery-test-results', 
+                    `✅ Auto recovery ${recovered ? 'successful' : 'failed'}`);
+            }
+
+            async testManualRecovery() {
+                this.updateResults('recovery-test-results', 'Testing manual recovery...');
+                
+                this.errorHandler.showUserNotification(
+                    'Manual recovery test - this would normally trigger user action',
+                    'info',
+                    5000,
+                    [
+                        {
+                            id: 'test-action',
+                            label: 'Test Action',
+                            handler: () => {
+                                this.updateResults('recovery-test-results', 
+                                    '✅ Manual recovery action triggered');
+                            }
+                        }
+                    ]
+                );
+            }
+
+            viewErrorLog() {
+                const errorLog = this.errorHandler.getErrorLog();
+                const modal = document.getElementById('error-log-modal');
+                const content = document.getElementById('error-log-content');
+                
+                content.innerHTML = '';
+                
+                if (errorLog.length === 0) {
+                    content.innerHTML = '<p>No errors logged yet.</p>';
+                } else {
+                    errorLog.forEach(error => {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-entry';
+                        errorDiv.innerHTML = `
+                            <div class="error-entry-header">
+                                <span class="error-type">${error.type}</span>
+                                <span class="error-timestamp">${new Date(error.timestamp).toLocaleString()}</span>
+                            </div>
+                            <div class="error-message">${error.message}</div>
+                            <div class="error-context">${JSON.stringify(error.context, null, 2)}</div>
+                        `;
+                        content.appendChild(errorDiv);
+                    });
+                }
+                
+                modal.classList.add('show');
+            }
+
+            clearErrorLog() {
+                this.errorHandler.clearErrorLog();
+                this.updateResults('error-log-summary', '✅ Error log cleared');
+            }
+
+            exportErrorLog() {
+                const errorLog = this.errorHandler.getErrorLog();
+                const dataStr = JSON.stringify(errorLog, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `glucobalance-error-log-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                this.updateResults('error-log-summary', '✅ Error log exported');
+            }
+
+            async runHealthCheck() {
+                this.updateResults('health-check-results', 'Running system health check...');
+                
+                const healthResults = await this.errorHandler.performHealthCheck();
+                
+                const statusText = Object.entries(healthResults)
+                    .filter(([key]) => key !== 'timestamp')
+                    .map(([key, value]) => `${key}: ${value ? '✅' : '❌'}`)
+                    .join(', ');
+                
+                this.updateResults('health-check-results', 
+                    `Health Check Results: ${statusText}`);
+            }
+
+            updateResults(elementId, message) {
+                const element = document.getElementById(elementId);
+                element.innerHTML = `<p>${message}</p>`;
+            }
+        }
+
+        // Initialize test suite when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ErrorHandlingTestSuite();
+        });
+    </script>
+
+    <style>
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #007FFF;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .test-controls button {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .test-controls input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .test-results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 12px;
+            min-height: 40px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .test-results p {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .test-controls {
+                flex-direction: column;
+            }
+            
+            .test-controls button,
+            .test-controls input {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Section Optimization Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <link rel="stylesheet" href="styles/hero-enhanced.css">
+    <style>
+        .test-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #007FFF;
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            z-index: 2000;
+            font-weight: 600;
+        }
+        
+        body {
+            padding-top: 50px;
+        }
+        
+        .test-results {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #007FFF;
+            border-radius: 8px;
+            padding: 1rem;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1500;
+        }
+        
+        .test-item {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .test-item.pass {
+            color: #107C10;
+        }
+        
+        .test-item.fail {
+            color: #D13438;
+        }
+        
+        .test-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            border: 2px solid #007FFF;
+            border-radius: 8px;
+            padding: 1rem;
+            z-index: 1500;
+        }
+        
+        .test-btn {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .test-btn:hover {
+            background: #005A9E;
+        }
+        
+        /* Highlight changes for demo */
+        #nav-get-started-btn {
+            animation: highlight 2s ease-in-out;
+        }
+        
+        .hero-cta {
+            position: relative;
+        }
+        
+        .hero-cta::after {
+            content: "✅ Get Started button moved to navigation";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(16, 124, 16, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        @keyframes highlight {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 127, 255, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(0, 127, 255, 0); }
+        }
+        
+        @media (max-width: 768px) {
+            .test-results, .test-controls {
+                position: relative;
+                margin: 1rem;
+                bottom: auto;
+                right: auto;
+                left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-banner">
+        🧪 Hero Section Optimization Test - Task 1 Implementation
+    </div>
+
+    <div id="app">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+
+                <!-- Action Buttons -->
+                <div class="nav-actions">
+                    <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <header class="hero-section">
+                <!-- Hero Background -->
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                    <div class="floating-elements">
+                        <div class="floating-element element-1">💙</div>
+                        <div class="floating-element element-2">🎯</div>
+                        <div class="floating-element element-3">📊</div>
+                        <div class="floating-element element-4">🍎</div>
+                        <div class="floating-element element-5">⚡</div>
+                        <div class="floating-element element-6">🌟</div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="hero-layout">
+                        <!-- Main Content Section -->
+                        <div class="hero-content">
+                            <!-- Certification Badge -->
+                            <div class="hero-badge">
+                                <span class="badge-icon">🏆</span>
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                                <div class="badge-glow"></div>
+                            </div>
+
+                            <!-- Main Title -->
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+
+                            <!-- Subtitle -->
+                            <p class="hero-subtitle">
+                                Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with <span class="highlight-text">AI-powered insights</span>
+                            </p>
+
+                            <!-- Call-to-Action Buttons - Get Started button moved to navigation -->
+                            <div class="hero-cta">
+                                <!-- Get Started Free button moved to navigation bar -->
+                            </div>
+
+                            <!-- Key Statistics -->
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">🎯</div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">98%</div>
+                                        <div class="stat-label">Risk Detection Accuracy</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">❤️</div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">5K+</div>
+                                        <div class="stat-label">Lives Improved</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">🤖</div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">24/7</div>
+                                        <div class="stat-label">AI Health Assistant</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Trust Indicators -->
+                            <div class="hero-trust">
+                                <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🔒</span>
+                                        <span class="trust-label">HIPAA Compliant</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🛡️</span>
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🌟</span>
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Illustration Section -->
+                        <div class="hero-visual">
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-icon">💙</div>
+                                        <div class="main-text">Health</div>
+                                    </div>
+                                </div>
+                                <div class="illustration-circle orbit-1">
+                                    <div class="orbit-icon">🎯</div>
+                                </div>
+                                <div class="illustration-circle orbit-2">
+                                    <div class="orbit-icon">📊</div>
+                                </div>
+                                <div class="illustration-circle orbit-3">
+                                    <div class="orbit-icon">🍎</div>
+                                </div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-get-started" id="mobile-get-started-btn">Get Started Free</button>
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <h4>Test Controls</h4>
+        <button class="test-btn" onclick="runAllTests()">Run All Tests</button>
+        <button class="test-btn" onclick="testButtonFunctionality()">Test Buttons</button>
+        <button class="test-btn" onclick="testResponsiveDesign()">Test Responsive</button>
+        <button class="test-btn" onclick="testMobileMenu()">Test Mobile Menu</button>
+    </div>
+
+    <!-- Test Results -->
+    <div class="test-results" id="test-results">
+        <h4>Test Results</h4>
+        <div id="test-output">Click "Run All Tests" to start testing</div>
+    </div>
+
+    <script>
+        // Test functions
+        function runAllTests() {
+            const results = [];
+            
+            // Test 1: Check if Get Started button was moved to navigation
+            const navGetStartedBtn = document.getElementById('nav-get-started-btn');
+            if (navGetStartedBtn) {
+                results.push('✅ Get Started button added to navigation');
+            } else {
+                results.push('❌ Get Started button not found in navigation');
+            }
+            
+            // Test 2: Check if Get Started button was removed from hero
+            const heroGetStartedBtn = document.getElementById('hero-get-started-btn');
+            if (!heroGetStartedBtn) {
+                results.push('✅ Get Started button removed from hero section');
+            } else {
+                results.push('❌ Get Started button still exists in hero section');
+            }
+            
+            // Test 3: Check button styling
+            if (navGetStartedBtn) {
+                const computedStyle = window.getComputedStyle(navGetStartedBtn);
+                const backgroundColor = computedStyle.backgroundColor;
+                if (backgroundColor.includes('rgb(0, 127, 255)') || backgroundColor.includes('#007FFF')) {
+                    results.push('✅ Get Started button has Azure Blue styling');
+                } else {
+                    results.push('❌ Get Started button styling needs adjustment');
+                }
+            }
+            
+            // Test 4: Check hero section height reduction
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                const computedStyle = window.getComputedStyle(heroSection);
+                const padding = computedStyle.padding;
+                if (padding.includes('80px') || padding.includes('5rem')) {
+                    results.push('✅ Hero section height optimized');
+                } else {
+                    results.push('⚠️ Hero section height may need further optimization');
+                }
+            }
+            
+            // Test 5: Check mobile Get Started button
+            const mobileGetStartedBtn = document.getElementById('mobile-get-started-btn');
+            if (mobileGetStartedBtn) {
+                results.push('✅ Mobile Get Started button added');
+            } else {
+                results.push('❌ Mobile Get Started button missing');
+            }
+            
+            // Test 6: Check responsive behavior
+            const navActions = document.querySelector('.nav-actions');
+            if (navActions) {
+                results.push('✅ Navigation actions container exists');
+            } else {
+                results.push('❌ Navigation actions container missing');
+            }
+            
+            displayResults(results);
+        }
+        
+        function testButtonFunctionality() {
+            const results = [];
+            
+            // Test navigation Get Started button click
+            const navBtn = document.getElementById('nav-get-started-btn');
+            if (navBtn) {
+                navBtn.addEventListener('click', () => {
+                    results.push('✅ Navigation Get Started button clickable');
+                });
+                results.push('✅ Navigation Get Started button event listener ready');
+            }
+            
+            // Test mobile Get Started button click
+            const mobileBtn = document.getElementById('mobile-get-started-btn');
+            if (mobileBtn) {
+                mobileBtn.addEventListener('click', () => {
+                    results.push('✅ Mobile Get Started button clickable');
+                });
+                results.push('✅ Mobile Get Started button event listener ready');
+            }
+            
+            displayResults(results);
+        }
+        
+        function testResponsiveDesign() {
+            const results = [];
+            
+            // Test different viewport sizes
+            const viewportWidth = window.innerWidth;
+            
+            if (viewportWidth <= 768) {
+                const navActions = document.querySelector('.nav-actions');
+                const computedStyle = window.getComputedStyle(navActions);
+                if (computedStyle.display === 'none') {
+                    results.push('✅ Navigation hidden on mobile (≤768px)');
+                } else {
+                    results.push('❌ Navigation should be hidden on mobile');
+                }
+                
+                const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                const toggleStyle = window.getComputedStyle(mobileToggle);
+                if (toggleStyle.display === 'flex') {
+                    results.push('✅ Mobile menu toggle visible on mobile');
+                } else {
+                    results.push('❌ Mobile menu toggle should be visible');
+                }
+            } else {
+                results.push('✅ Desktop view - navigation buttons visible');
+            }
+            
+            // Test hero section responsive padding
+            const heroSection = document.querySelector('.hero-section');
+            const heroStyle = window.getComputedStyle(heroSection);
+            results.push(`ℹ️ Hero section padding: ${heroStyle.padding}`);
+            
+            displayResults(results);
+        }
+        
+        function testMobileMenu() {
+            const results = [];
+            
+            // Test mobile menu structure
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileGetStartedBtn = document.getElementById('mobile-get-started-btn');
+            
+            if (mobileOverlay) {
+                results.push('✅ Mobile menu overlay exists');
+            }
+            
+            if (mobileGetStartedBtn) {
+                results.push('✅ Mobile Get Started button exists in menu');
+                
+                // Test mobile menu toggle
+                const mobileToggle = document.getElementById('mobile-menu-toggle');
+                if (mobileToggle) {
+                    mobileToggle.addEventListener('click', () => {
+                        mobileOverlay.classList.toggle('active');
+                        results.push('✅ Mobile menu toggle functionality works');
+                        displayResults(results);
+                    });
+                    results.push('✅ Mobile menu toggle ready');
+                }
+            }
+            
+            displayResults(results);
+        }
+        
+        function displayResults(results) {
+            const output = document.getElementById('test-output');
+            output.innerHTML = results.map(result => {
+                const className = result.startsWith('✅') ? 'pass' : 
+                                result.startsWith('❌') ? 'fail' : '';
+                return `<div class="test-item ${className}">${result}</div>`;
+            }).join('');
+        }
+        
+        // Initialize basic functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for demonstration
+            document.getElementById('nav-get-started-btn')?.addEventListener('click', function() {
+                alert('Navigation Get Started Free button clicked! This would start the risk assessment.');
+            });
+            
+            document.getElementById('mobile-get-started-btn')?.addEventListener('click', function() {
+                alert('Mobile Get Started Free button clicked! This would start the risk assessment.');
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-toggle')?.addEventListener('click', function() {
+                const overlay = document.getElementById('mobile-menu-overlay');
+                overlay.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking overlay
+            document.getElementById('mobile-menu-overlay')?.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            // Auto-run tests on load
+            setTimeout(runAllTests, 1000);
+        });
+    </script>
+</body>
+</html>

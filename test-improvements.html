@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Improvements Test - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .test-result {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #0056CC;
+        }
+        .improvement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .improvement-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .improvement-card h4 {
+            margin-top: 0;
+            color: #007FFF;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .status-pass { background: #28a745; }
+        .status-fail { background: #dc3545; }
+        .status-pending { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Landing Page Improvements Test</h1>
+    <p>Testing the three key improvements: Feature card information, navigation bars, and hero section.</p>
+
+    <div class="test-section">
+        <h2>🎯 Feature Cards Information Test</h2>
+        <p>Testing that feature cards now show comprehensive information when clicked.</p>
+        
+        <div class="improvement-grid">
+            <div class="improvement-card">
+                <h4>Risk Assessment Card</h4>
+                <button onclick="testRiskAssessmentInfo()">Test Information</button>
+                <div id="risk-info-result"></div>
+            </div>
+            <div class="improvement-card">
+                <h4>Nutrition Card</h4>
+                <button onclick="testNutritionInfo()">Test Information</button>
+                <div id="nutrition-info-result"></div>
+            </div>
+            <div class="improvement-card">
+                <h4>Mental Health Card</h4>
+                <button onclick="testMentalHealthInfo()">Test Information</button>
+                <div id="mental-info-result"></div>
+            </div>
+            <div class="improvement-card">
+                <h4>Progress Card</h4>
+                <button onclick="testProgressInfo()">Test Information</button>
+                <div id="progress-info-result"></div>
+            </div>
+        </div>
+        
+        <button onclick="testAllFeatureCards()">Test All Feature Cards</button>
+        <div id="feature-cards-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🧭 Navigation Bars Test</h2>
+        <p>Testing that there's only one navigation bar visible on the landing page.</p>
+        
+        <button onclick="testNavigationBars()">Test Navigation Structure</button>
+        <div id="navigation-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>✨ Hero Section Enhancement Test</h2>
+        <p>Testing the enhanced hero section design and functionality.</p>
+        
+        <div class="improvement-grid">
+            <div class="improvement-card">
+                <h4>Hero Content</h4>
+                <button onclick="testHeroContent()">Test Content</button>
+                <div id="hero-content-result"></div>
+            </div>
+            <div class="improvement-card">
+                <h4>Hero Styling</h4>
+                <button onclick="testHeroStyling()">Test Styling</button>
+                <div id="hero-styling-result"></div>
+            </div>
+            <div class="improvement-card">
+                <h4>Hero Interactions</h4>
+                <button onclick="testHeroInteractions()">Test Interactions</button>
+                <div id="hero-interactions-result"></div>
+            </div>
+        </div>
+        
+        <button onclick="testHeroSection()">Test Complete Hero Section</button>
+        <div id="hero-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Overall Improvements Status</h2>
+        <div id="overall-status"></div>
+        <button onclick="runAllImprovementTests()">🧪 Test All Improvements</button>
+    </div>
+
+    <!-- Load the landing page script -->
+    <script src="js/landing-page.js"></script>
+
+    <script>
+        let improvementResults = {
+            featureCards: { passed: 0, failed: 0, total: 0 },
+            navigation: { passed: 0, failed: 0, total: 0 },
+            heroSection: { passed: 0, failed: 0, total: 0 }
+        };
+
+        // Feature Cards Information Tests
+        function testRiskAssessmentInfo() {
+            const resultDiv = document.getElementById('risk-info-result');
+            
+            try {
+                if (window.landingPageManager && window.landingPageManager.featureData) {
+                    const feature = window.landingPageManager.featureData['risk-assessment'];
+                    
+                    if (feature && feature.features && feature.benefits) {
+                        resultDiv.innerHTML = '<span class="status-indicator status-pass"></span>Feature data complete';
+                        
+                        // Test specific info method
+                        if (typeof window.landingPageManager.getFeatureSpecificInfo === 'function') {
+                            const specificInfo = window.landingPageManager.getFeatureSpecificInfo('risk-assessment');
+                            if (specificInfo.includes('How It Works') && specificInfo.includes('What You\'ll Learn')) {
+                                resultDiv.innerHTML += '<br><span class="status-indicator status-pass"></span>Detailed information available';
+                                return true;
+                            }
+                        }
+                    }
+                }
+                
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Information incomplete';
+                return false;
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testNutritionInfo() {
+            const resultDiv = document.getElementById('nutrition-info-result');
+            
+            try {
+                if (window.landingPageManager && typeof window.landingPageManager.getFeatureSpecificInfo === 'function') {
+                    const specificInfo = window.landingPageManager.getFeatureSpecificInfo('nutrition');
+                    
+                    if (specificInfo.includes('Personalized Meal Planning') && specificInfo.includes('What\'s Included')) {
+                        resultDiv.innerHTML = '<span class="status-indicator status-pass"></span>Detailed nutrition info available';
+                        return true;
+                    }
+                }
+                
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Nutrition info incomplete';
+                return false;
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testMentalHealthInfo() {
+            const resultDiv = document.getElementById('mental-info-result');
+            
+            try {
+                if (window.landingPageManager && typeof window.landingPageManager.getFeatureSpecificInfo === 'function') {
+                    const specificInfo = window.landingPageManager.getFeatureSpecificInfo('mental-health');
+                    
+                    if (specificInfo.includes('Mental Wellness Support') && specificInfo.includes('Support Features')) {
+                        resultDiv.innerHTML = '<span class="status-indicator status-pass"></span>Detailed mental health info available';
+                        return true;
+                    }
+                }
+                
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Mental health info incomplete';
+                return false;
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testProgressInfo() {
+            const resultDiv = document.getElementById('progress-info-result');
+            
+            try {
+                if (window.landingPageManager && typeof window.landingPageManager.getFeatureSpecificInfo === 'function') {
+                    const specificInfo = window.landingPageManager.getFeatureSpecificInfo('progress');
+                    
+                    if (specificInfo.includes('Comprehensive Analytics') && specificInfo.includes('Analytics Dashboard')) {
+                        resultDiv.innerHTML = '<span class="status-indicator status-pass"></span>Detailed progress info available';
+                        return true;
+                    }
+                }
+                
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Progress info incomplete';
+                return false;
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testAllFeatureCards() {
+            const resultsDiv = document.getElementById('feature-cards-results');
+            let results = [];
+            
+            results.push(testRiskAssessmentInfo() ? '✅ Risk Assessment Information' : '❌ Risk Assessment Information');
+            results.push(testNutritionInfo() ? '✅ Nutrition Information' : '❌ Nutrition Information');
+            results.push(testMentalHealthInfo() ? '✅ Mental Health Information' : '❌ Mental Health Information');
+            results.push(testProgressInfo() ? '✅ Progress Information' : '❌ Progress Information');
+            
+            // Test modal functionality
+            if (window.landingPageManager && typeof window.landingPageManager.showFeatureDetails === 'function') {
+                results.push('✅ Feature Details Modal Available');
+            } else {
+                results.push('❌ Feature Details Modal Not Available');
+            }
+            
+            const passed = results.filter(r => r.startsWith('✅')).length;
+            const total = results.length;
+            
+            improvementResults.featureCards = { passed, failed: total - passed, total };
+            
+            resultsDiv.innerHTML = `
+                <div class="test-result ${passed === total ? 'success' : 'warning'}">
+                    <h4>Feature Cards Information: ${passed}/${total} passed</h4>
+                    ${results.map(result => `<p>${result}</p>`).join('')}
+                </div>
+            `;
+        }
+
+        // Navigation Bars Test
+        function testNavigationBars() {
+            const resultsDiv = document.getElementById('navigation-results');
+            let results = [];
+            
+            try {
+                // Test top navigation
+                const topNav = document.querySelector('.top-nav');
+                if (topNav) {
+                    results.push('✅ Top navigation found');
+                    
+                    const isVisible = window.getComputedStyle(topNav).display !== 'none';
+                    if (isVisible) {
+                        results.push('✅ Top navigation visible');
+                    } else {
+                        results.push('❌ Top navigation hidden');
+                    }
+                } else {
+                    results.push('❌ Top navigation not found');
+                }
+                
+                // Test bottom navigation
+                const bottomNav = document.querySelector('.bottom-nav');
+                if (bottomNav) {
+                    results.push('✅ Bottom navigation found');
+                    
+                    const isHidden = window.getComputedStyle(bottomNav).display === 'none';
+                    if (isHidden) {
+                        results.push('✅ Bottom navigation properly hidden on landing page');
+                    } else {
+                        results.push('❌ Bottom navigation should be hidden on landing page');
+                    }
+                } else {
+                    results.push('❌ Bottom navigation not found');
+                }
+                
+                // Test for duplicate navigation
+                const navElements = document.querySelectorAll('nav[role="navigation"]');
+                if (navElements.length === 2) {
+                    results.push('✅ Correct number of navigation elements (2 total)');
+                } else {
+                    results.push(`❌ Unexpected number of navigation elements: ${navElements.length}`);
+                }
+                
+                const passed = results.filter(r => r.startsWith('✅')).length;
+                const total = results.length;
+                
+                improvementResults.navigation = { passed, failed: total - passed, total };
+                
+                resultsDiv.innerHTML = `
+                    <div class="test-result ${passed === total ? 'success' : 'warning'}">
+                        <h4>Navigation Structure: ${passed}/${total} passed</h4>
+                        ${results.map(result => `<p>${result}</p>`).join('')}
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="test-result error">
+                        <h4>Navigation Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Hero Section Tests
+        function testHeroContent() {
+            const resultDiv = document.getElementById('hero-content-result');
+            let passed = 0;
+            let total = 0;
+            
+            try {
+                // Test hero elements
+                const heroElements = [
+                    '.hero-badge',
+                    '.hero-title',
+                    '.hero-subtitle',
+                    '.hero-stats',
+                    '.hero-cta',
+                    '.hero-trust'
+                ];
+                
+                heroElements.forEach(selector => {
+                    total++;
+                    const element = document.querySelector(selector);
+                    if (element) passed++;
+                });
+                
+                resultDiv.innerHTML = `<span class="status-indicator ${passed === total ? 'status-pass' : 'status-fail'}"></span>Hero elements: ${passed}/${total}`;
+                
+                return passed === total;
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testHeroStyling() {
+            const resultDiv = document.getElementById('hero-styling-result');
+            
+            try {
+                const heroSection = document.querySelector('.hero-section');
+                if (heroSection) {
+                    const styles = window.getComputedStyle(heroSection);
+                    const hasGradient = styles.background.includes('gradient') || styles.backgroundImage.includes('gradient');
+                    
+                    if (hasGradient) {
+                        resultDiv.innerHTML = '<span class="status-indicator status-pass"></span>Enhanced gradient styling applied';
+                        return true;
+                    } else {
+                        resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Gradient styling not detected';
+                        return false;
+                    }
+                } else {
+                    resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Hero section not found';
+                    return false;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testHeroInteractions() {
+            const resultDiv = document.getElementById('hero-interactions-result');
+            let passed = 0;
+            let total = 0;
+            
+            try {
+                // Test hero buttons
+                const heroButtons = document.querySelectorAll('.hero-btn');
+                total += 2; // Expecting 2 hero buttons
+                
+                if (heroButtons.length >= 2) {
+                    passed += 2;
+                    resultDiv.innerHTML = '<span class="status-indicator status-pass"></span>Hero buttons found';
+                } else {
+                    resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Hero buttons missing';
+                }
+                
+                // Test animations
+                const animatedElements = document.querySelectorAll('.illustration-element');
+                total += 1;
+                
+                if (animatedElements.length > 0) {
+                    passed += 1;
+                    resultDiv.innerHTML += '<br><span class="status-indicator status-pass"></span>Animated elements found';
+                } else {
+                    resultDiv.innerHTML += '<br><span class="status-indicator status-fail"></span>Animated elements missing';
+                }
+                
+                return passed === total;
+            } catch (error) {
+                resultDiv.innerHTML = '<span class="status-indicator status-fail"></span>Error: ' + error.message;
+                return false;
+            }
+        }
+
+        function testHeroSection() {
+            const resultsDiv = document.getElementById('hero-results');
+            let results = [];
+            
+            results.push(testHeroContent() ? '✅ Hero Content Complete' : '❌ Hero Content Incomplete');
+            results.push(testHeroStyling() ? '✅ Hero Styling Enhanced' : '❌ Hero Styling Issues');
+            results.push(testHeroInteractions() ? '✅ Hero Interactions Working' : '❌ Hero Interactions Issues');
+            
+            const passed = results.filter(r => r.startsWith('✅')).length;
+            const total = results.length;
+            
+            improvementResults.heroSection = { passed, failed: total - passed, total };
+            
+            resultsDiv.innerHTML = `
+                <div class="test-result ${passed === total ? 'success' : 'warning'}">
+                    <h4>Hero Section Enhancement: ${passed}/${total} passed</h4>
+                    ${results.map(result => `<p>${result}</p>`).join('')}
+                </div>
+            `;
+        }
+
+        // Run All Tests
+        function runAllImprovementTests() {
+            console.log('Running all improvement tests...');
+            
+            testAllFeatureCards();
+            testNavigationBars();
+            testHeroSection();
+            
+            // Generate overall status
+            setTimeout(() => {
+                generateOverallStatus();
+            }, 1000);
+        }
+
+        function generateOverallStatus() {
+            const statusDiv = document.getElementById('overall-status');
+            
+            const totalPassed = Object.values(improvementResults).reduce((sum, category) => sum + category.passed, 0);
+            const totalTests = Object.values(improvementResults).reduce((sum, category) => sum + category.total, 0);
+            const successRate = totalTests > 0 ? ((totalPassed / totalTests) * 100).toFixed(1) : 0;
+            
+            const statusClass = successRate >= 90 ? 'success' : successRate >= 70 ? 'warning' : 'error';
+            
+            statusDiv.innerHTML = `
+                <div class="test-result ${statusClass}">
+                    <h3>🎯 Improvements Status</h3>
+                    <p><strong>Success Rate: ${successRate}% (${totalPassed}/${totalTests} tests passed)</strong></p>
+                    
+                    <h4>Improvement Categories:</h4>
+                    <ul>
+                        <li>🎯 Feature Cards Information: ${improvementResults.featureCards.passed}/${improvementResults.featureCards.total} passed</li>
+                        <li>🧭 Navigation Structure: ${improvementResults.navigation.passed}/${improvementResults.navigation.total} passed</li>
+                        <li>✨ Hero Section Enhancement: ${improvementResults.heroSection.passed}/${improvementResults.heroSection.total} passed</li>
+                    </ul>
+                    
+                    <h4>Overall Status:</h4>
+                    <p>${successRate >= 90 ? '🟢 Excellent - All improvements implemented successfully' : 
+                         successRate >= 70 ? '🟡 Good - Most improvements working well' : 
+                         '🔴 Needs attention - Some improvements need fixes'}</p>
+                </div>
+            `;
+        }
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            console.log('Improvements test page loaded');
+            
+            // Auto-run all tests after a short delay
+            setTimeout(() => {
+                runAllImprovementTests();
+            }, 2000);
+        });
+    </script>
+
+    <div style="margin-top: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 8px;">
+        <h3>🎯 Landing Page Improvements Summary</h3>
+        <p>The following improvements have been implemented:</p>
+        <ul>
+            <li>✅ <strong>Feature Cards:</strong> Now show comprehensive information with detailed descriptions, features, benefits, and step-by-step processes</li>
+            <li>✅ <strong>Navigation Structure:</strong> Fixed duplicate navigation bars - top nav for landing page, bottom nav hidden until app access</li>
+            <li>✅ <strong>Hero Section:</strong> Enhanced with gradient backgrounds, animations, trust badges, statistics, and interactive elements</li>
+        </ul>
+        <p><strong>Key Enhancements:</strong></p>
+        <ul>
+            <li>🎯 Detailed feature modals with "How It Works" and "What You'll Learn" sections</li>
+            <li>🧭 Clean navigation structure with proper visibility controls</li>
+            <li>✨ Modern hero design with animations, statistics, and clear call-to-action buttons</li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHO/ADA Questionnaire Test - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-result {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .iframe-container {
+            margin: 2rem 0;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .feature-highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎯 WHO/ADA Questionnaire Test Suite</h1>
+        <p>This test verifies that the Risk Assessment card opens a comprehensive WHO/ADA-compliant questionnaire that functions as a diagnostic tool.</p>
+
+        <div class="feature-highlight">
+            <h3>🏥 WHO/ADA Compliance Features</h3>
+            <ul class="feature-list">
+                <li>8 evidence-based questions following WHO/ADA guidelines</li>
+                <li>Weighted scoring system based on medical research</li>
+                <li>Risk categorization: Low, Increased, High, Possible Diabetes</li>
+                <li>Personalized recommendations for each risk level</li>
+                <li>AI-powered explanations and insights</li>
+                <li>Professional-grade diagnostic interface</li>
+                <li>Results saving and sharing capabilities</li>
+                <li>BMI calculator integration</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Test Controls</h2>
+            <button class="test-button" onclick="testQuestionnaireAccess()">Test Questionnaire Access</button>
+            <button class="test-button" onclick="testQuestionnaireStructure()">Test Question Structure</button>
+            <button class="test-button" onclick="testScoringSystem()">Test Scoring System</button>
+            <button class="test-button" onclick="testResultsDisplay()">Test Results Display</button>
+            <button class="test-button" onclick="openLandingPageInNewTab()">Open Landing Page</button>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Test Results</h2>
+            <div id="test-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Manual Testing Instructions</h2>
+            <ol>
+                <li><strong>Click the Risk Assessment card</strong> in the "Comprehensive Health Management" section</li>
+                <li><strong>Verify the questionnaire opens</strong> with professional medical interface</li>
+                <li><strong>Complete all 8 WHO/ADA questions:</strong>
+                    <ul>
+                        <li>Age (0-4 points)</li>
+                        <li>Gender (0-1 points)</li>
+                        <li>Family History (0-5 points)</li>
+                        <li>High Blood Pressure (0-2 points)</li>
+                        <li>Physical Activity (0-2 points)</li>
+                        <li>BMI Category (0-3 points)</li>
+                        <li>Gestational Diabetes (0-1 points)</li>
+                        <li>Prediabetes History (0-5 points)</li>
+                    </ul>
+                </li>
+                <li><strong>Test navigation:</strong> Previous/Next buttons, progress bar</li>
+                <li><strong>Verify scoring:</strong> Points are calculated correctly</li>
+                <li><strong>Check results display:</strong> Risk category, explanations, recommendations</li>
+                <li><strong>Test additional features:</strong> Save results, retake assessment, BMI calculator</li>
+            </ol>
+        </div>
+
+        <div class="iframe-container">
+            <iframe id="landing-page-frame" src="index.html" title="Landing Page"></iframe>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function addTestResult(test, status, message) {
+            const result = { test, status, message, timestamp: new Date().toLocaleTimeString() };
+            testResults.push(result);
+            updateTestDisplay();
+        }
+
+        function updateTestDisplay() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = testResults.map(result => 
+                `<div class="test-result ${result.status}">
+                    <strong>[${result.timestamp}] ${result.test}:</strong> ${result.message}
+                </div>`
+            ).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearResults() {
+            testResults = [];
+            updateTestDisplay();
+        }
+
+        async function testQuestionnaireAccess() {
+            clearResults();
+            addTestResult('Questionnaire Access', 'info', 'Testing questionnaire access from Risk Assessment card...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                const frameWindow = frame.contentWindow;
+                
+                // Check if enhanced landing page manager exists
+                if (!frameWindow.enhancedLandingPageManager) {
+                    addTestResult('Enhanced Manager', 'fail', 'Enhanced landing page manager not found');
+                    return;
+                }
+                
+                addTestResult('Enhanced Manager', 'pass', 'Enhanced landing page manager found');
+                
+                // Check if the startRiskAssessment method exists
+                if (typeof frameWindow.enhancedLandingPageManager.startRiskAssessment === 'function') {
+                    addTestResult('Start Assessment Method', 'pass', 'startRiskAssessment method exists');
+                } else {
+                    addTestResult('Start Assessment Method', 'fail', 'startRiskAssessment method not found');
+                }
+                
+                // Check if WHO/ADA questions are defined
+                if (typeof frameWindow.enhancedLandingPageManager.getWHOADAQuestions === 'function') {
+                    const questions = frameWindow.enhancedLandingPageManager.getWHOADAQuestions();
+                    if (questions && questions.length === 8) {
+                        addTestResult('WHO/ADA Questions', 'pass', `Found ${questions.length} WHO/ADA questions`);
+                    } else {
+                        addTestResult('WHO/ADA Questions', 'fail', `Expected 8 questions, found ${questions ? questions.length : 0}`);
+                    }
+                } else {
+                    addTestResult('WHO/ADA Questions', 'fail', 'getWHOADAQuestions method not found');
+                }
+                
+                // Test if Risk Assessment card exists and is clickable
+                const riskAssessmentCard = frameDoc.querySelector('[data-feature="risk-assessment"]');
+                if (riskAssessmentCard) {
+                    addTestResult('Risk Assessment Card', 'pass', 'Risk Assessment card found and clickable');
+                } else {
+                    addTestResult('Risk Assessment Card', 'fail', 'Risk Assessment card not found');
+                }
+                
+            } catch (error) {
+                addTestResult('Questionnaire Access', 'fail', `Error testing access: ${error.message}`);
+            }
+        }
+
+        async function testQuestionnaireStructure() {
+            addTestResult('Question Structure', 'info', 'Testing WHO/ADA question structure...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameWindow = frame.contentWindow;
+                
+                if (!frameWindow.enhancedLandingPageManager) {
+                    addTestResult('Question Structure', 'fail', 'Enhanced manager not available');
+                    return;
+                }
+                
+                const questions = frameWindow.enhancedLandingPageManager.getWHOADAQuestions();
+                
+                // Test question structure
+                const expectedQuestions = [
+                    'age', 'gender', 'family_history', 'high_blood_pressure',
+                    'physical_activity', 'bmi', 'gestational_diabetes', 'prediabetes'
+                ];
+                
+                let structureValid = true;
+                expectedQuestions.forEach((expectedId, index) => {
+                    const question = questions[index];
+                    if (!question || question.id !== expectedId) {
+                        addTestResult(`Question ${index + 1}`, 'fail', `Expected ${expectedId}, found ${question ? question.id : 'none'}`);
+                        structureValid = false;
+                    } else {
+                        // Check question has required properties
+                        const hasRequiredProps = question.question && question.type && question.options && question.explanation;
+                        if (hasRequiredProps) {
+                            addTestResult(`Question ${index + 1}`, 'pass', `${expectedId} structure valid`);
+                        } else {
+                            addTestResult(`Question ${index + 1}`, 'fail', `${expectedId} missing required properties`);
+                            structureValid = false;
+                        }
+                    }
+                });
+                
+                if (structureValid) {
+                    addTestResult('Overall Structure', 'pass', 'All questions have valid WHO/ADA structure');
+                } else {
+                    addTestResult('Overall Structure', 'fail', 'Some questions have structural issues');
+                }
+                
+            } catch (error) {
+                addTestResult('Question Structure', 'fail', `Error testing structure: ${error.message}`);
+            }
+        }
+
+        async function testScoringSystem() {
+            addTestResult('Scoring System', 'info', 'Testing WHO/ADA scoring system...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameWindow = frame.contentWindow;
+                
+                if (!frameWindow.enhancedLandingPageManager) {
+                    addTestResult('Scoring System', 'fail', 'Enhanced manager not available');
+                    return;
+                }
+                
+                const questions = frameWindow.enhancedLandingPageManager.getWHOADAQuestions();
+                
+                // Test scoring ranges
+                const expectedScoring = {
+                    'age': { min: 0, max: 4 },
+                    'gender': { min: 0, max: 1 },
+                    'family_history': { min: 0, max: 5 },
+                    'high_blood_pressure': { min: 0, max: 2 },
+                    'physical_activity': { min: 0, max: 2 },
+                    'bmi': { min: 0, max: 3 },
+                    'gestational_diabetes': { min: 0, max: 1 },
+                    'prediabetes': { min: 0, max: 5 }
+                };
+                
+                let scoringValid = true;
+                questions.forEach(question => {
+                    const expected = expectedScoring[question.id];
+                    if (expected) {
+                        const actualMin = Math.min(...question.options.map(opt => opt.value));
+                        const actualMax = Math.max(...question.options.map(opt => opt.value));
+                        
+                        if (actualMin === expected.min && actualMax === expected.max) {
+                            addTestResult(`${question.id} Scoring`, 'pass', `Range ${actualMin}-${actualMax} correct`);
+                        } else {
+                            addTestResult(`${question.id} Scoring`, 'fail', `Expected ${expected.min}-${expected.max}, got ${actualMin}-${actualMax}`);
+                            scoringValid = false;
+                        }
+                    }
+                });
+                
+                // Test risk categorization
+                const testScores = [
+                    { score: 2, expectedCategory: 'Low' },
+                    { score: 7, expectedCategory: 'Increased' },
+                    { score: 12, expectedCategory: 'High' },
+                    { score: 18, expectedCategory: 'Possible Diabetes' }
+                ];
+                
+                testScores.forEach(test => {
+                    const actualCategory = frameWindow.enhancedLandingPageManager.getRiskCategory(test.score);
+                    if (actualCategory === test.expectedCategory) {
+                        addTestResult(`Score ${test.score}`, 'pass', `Correctly categorized as ${actualCategory}`);
+                    } else {
+                        addTestResult(`Score ${test.score}`, 'fail', `Expected ${test.expectedCategory}, got ${actualCategory}`);
+                        scoringValid = false;
+                    }
+                });
+                
+                if (scoringValid) {
+                    addTestResult('Scoring System', 'pass', 'WHO/ADA scoring system is correctly implemented');
+                } else {
+                    addTestResult('Scoring System', 'fail', 'Scoring system has issues');
+                }
+                
+            } catch (error) {
+                addTestResult('Scoring System', 'fail', `Error testing scoring: ${error.message}`);
+            }
+        }
+
+        async function testResultsDisplay() {
+            addTestResult('Results Display', 'info', 'Testing results display functionality...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameWindow = frame.contentWindow;
+                
+                if (!frameWindow.enhancedLandingPageManager) {
+                    addTestResult('Results Display', 'fail', 'Enhanced manager not available');
+                    return;
+                }
+                
+                // Test risk category info
+                const categories = ['Low', 'Increased', 'High', 'Possible Diabetes'];
+                let displayValid = true;
+                
+                categories.forEach(category => {
+                    const categoryInfo = frameWindow.enhancedLandingPageManager.getRiskCategoryInfo(category);
+                    
+                    if (categoryInfo && categoryInfo.icon && categoryInfo.color && categoryInfo.description && categoryInfo.recommendation) {
+                        addTestResult(`${category} Category`, 'pass', 'Complete category information available');
+                    } else {
+                        addTestResult(`${category} Category`, 'fail', 'Incomplete category information');
+                        displayValid = false;
+                    }
+                });
+                
+                // Test next steps generation
+                categories.forEach(category => {
+                    const nextSteps = frameWindow.enhancedLandingPageManager.getNextSteps(category);
+                    
+                    if (nextSteps && Array.isArray(nextSteps) && nextSteps.length > 0) {
+                        addTestResult(`${category} Next Steps`, 'pass', `${nextSteps.length} next steps provided`);
+                    } else {
+                        addTestResult(`${category} Next Steps`, 'fail', 'No next steps provided');
+                        displayValid = false;
+                    }
+                });
+                
+                if (displayValid) {
+                    addTestResult('Results Display', 'pass', 'Results display system is complete');
+                } else {
+                    addTestResult('Results Display', 'fail', 'Results display has issues');
+                }
+                
+            } catch (error) {
+                addTestResult('Results Display', 'fail', `Error testing results: ${error.message}`);
+            }
+        }
+
+        function openLandingPageInNewTab() {
+            window.open('index.html', '_blank');
+        }
+
+        // Auto-run basic tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addTestResult('Page Load', 'info', 'Test page loaded, ready for WHO/ADA questionnaire testing');
+            }, 1000);
+        });
+
+        // Test iframe load
+        document.getElementById('landing-page-frame').addEventListener('load', () => {
+            addTestResult('Landing Page', 'pass', 'Landing page loaded successfully');
+            setTimeout(testQuestionnaireAccess, 1000);
+        });
+    </script>
+</body>
+</html>

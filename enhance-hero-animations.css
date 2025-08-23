@@ -1,0 +1,130 @@
+/* Enhanced Hero Animations - Make bouncing icons more visible and impressive */
+
+.hero-illustration {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.illustration-element {
+    position: absolute;
+    font-size: 3.5rem;
+    z-index: 2;
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 8px rgba(0, 123, 255, 0.3));
+    transition: all 0.3s ease;
+}
+
+.illustration-element:hover {
+    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 6px 12px rgba(0, 123, 255, 0.5));
+}
+
+.illustration-element.pulse {
+    top: 15%;
+    left: 15%;
+    animation: enhancedPulse 2s ease-in-out infinite;
+}
+
+.illustration-element.float {
+    top: 15%;
+    right: 15%;
+    animation: enhancedFloat 3s ease-in-out infinite;
+}
+
+.illustration-element.bounce {
+    bottom: 15%;
+    left: 15%;
+    animation: enhancedBounce 2.5s ease-in-out infinite;
+}
+
+.illustration-element.rotate {
+    bottom: 15%;
+    right: 15%;
+    animation: enhancedRotate 4s linear infinite;
+}
+
+@keyframes enhancedPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        opacity: 0.8; 
+    }
+    50% { 
+        transform: scale(1.2); 
+        opacity: 1; 
+        filter: drop-shadow(0 8px 16px rgba(0, 123, 255, 0.6));
+    }
+}
+
+@keyframes enhancedFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-25px) scale(1.1); 
+        opacity: 1;
+        filter: drop-shadow(0 8px 16px rgba(0, 123, 255, 0.6));
+    }
+}
+
+@keyframes enhancedBounce {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.1); 
+        opacity: 1;
+        filter: drop-shadow(0 8px 16px rgba(0, 123, 255, 0.6));
+    }
+}
+
+@keyframes enhancedRotate {
+    0% { 
+        transform: rotate(0deg) scale(1); 
+        opacity: 0.8;
+    }
+    25% { 
+        transform: rotate(90deg) scale(1.1); 
+        opacity: 1;
+    }
+    50% { 
+        transform: rotate(180deg) scale(1); 
+        opacity: 0.9;
+    }
+    75% { 
+        transform: rotate(270deg) scale(1.1); 
+        opacity: 1;
+    }
+    100% { 
+        transform: rotate(360deg) scale(1); 
+        opacity: 0.8;
+    }
+}
+
+/* Mobile responsiveness for animations */
+@media (max-width: 768px) {
+    .hero-illustration {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .illustration-element {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-illustration {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .illustration-element {
+        font-size: 2rem;
+    }
+}

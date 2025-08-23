@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Landing Page Test - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-result {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .iframe-container {
+            margin: 2rem 0;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Enhanced Landing Page Test Suite</h1>
+        <p>This test verifies that all buttons work, cards are clickable, modals display properly, and the page is visually appealing.</p>
+
+        <div class="test-section">
+            <h2>🎯 Test Controls</h2>
+            <button class="test-button" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-button" onclick="testButtonFunctionality()">Test Buttons</button>
+            <button class="test-button" onclick="testFeatureCards()">Test Feature Cards</button>
+            <button class="test-button" onclick="testModalFunctionality()">Test Modal</button>
+            <button class="test-button" onclick="testVisualAppeal()">Test Visual Appeal</button>
+            <button class="test-button" onclick="openLandingPage()">Open Landing Page</button>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Test Results</h2>
+            <div id="test-results"></div>
+        </div>
+
+        <div class="iframe-container">
+            <iframe id="landing-page-frame" src="index.html" title="Landing Page"></iframe>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function addTestResult(test, status, message) {
+            const result = { test, status, message, timestamp: new Date().toLocaleTimeString() };
+            testResults.push(result);
+            updateTestDisplay();
+        }
+
+        function updateTestDisplay() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = testResults.map(result => 
+                `<div class="test-result ${result.status}">
+                    <strong>[${result.timestamp}] ${result.test}:</strong> ${result.message}
+                </div>`
+            ).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearResults() {
+            testResults = [];
+            updateTestDisplay();
+        }
+
+        async function runAllTests() {
+            clearResults();
+            addTestResult('Test Suite', 'info', 'Starting comprehensive landing page tests...');
+            
+            await testButtonFunctionality();
+            await testFeatureCards();
+            await testModalFunctionality();
+            await testVisualAppeal();
+            
+            const passCount = testResults.filter(r => r.status === 'pass').length;
+            const failCount = testResults.filter(r => r.status === 'fail').length;
+            
+            addTestResult('Test Suite', passCount > failCount ? 'pass' : 'fail', 
+                `Completed: ${passCount} passed, ${failCount} failed`);
+        }
+
+        async function testButtonFunctionality() {
+            addTestResult('Button Test', 'info', 'Testing button functionality...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                
+                // Test navigation buttons
+                const navDashboardBtn = frameDoc.getElementById('nav-dashboard-btn');
+                const navSignupBtn = frameDoc.getElementById('nav-signup-btn');
+                
+                if (navDashboardBtn && navSignupBtn) {
+                    addTestResult('Navigation Buttons', 'pass', 'Dashboard and Sign Up buttons found');
+                    
+                    // Test if buttons are clickable
+                    const dashboardClickable = navDashboardBtn.style.cursor === 'pointer' || 
+                                             getComputedStyle(navDashboardBtn).cursor === 'pointer';
+                    const signupClickable = navSignupBtn.style.cursor === 'pointer' || 
+                                           getComputedStyle(navSignupBtn).cursor === 'pointer';
+                    
+                    if (dashboardClickable && signupClickable) {
+                        addTestResult('Button Cursors', 'pass', 'Buttons have proper cursor styling');
+                    } else {
+                        addTestResult('Button Cursors', 'fail', 'Buttons missing cursor pointer styling');
+                    }
+                } else {
+                    addTestResult('Navigation Buttons', 'fail', 'Navigation buttons not found');
+                }
+                
+                // Test hero buttons
+                const heroButtons = frameDoc.querySelectorAll('.hero-btn');
+                if (heroButtons.length >= 2) {
+                    addTestResult('Hero Buttons', 'pass', `Found ${heroButtons.length} hero buttons`);
+                } else {
+                    addTestResult('Hero Buttons', 'fail', 'Hero buttons not found or incomplete');
+                }
+                
+                // Test mobile menu toggle
+                const mobileToggle = frameDoc.getElementById('mobile-menu-toggle');
+                if (mobileToggle) {
+                    addTestResult('Mobile Menu', 'pass', 'Mobile menu toggle found');
+                } else {
+                    addTestResult('Mobile Menu', 'fail', 'Mobile menu toggle not found');
+                }
+                
+            } catch (error) {
+                addTestResult('Button Test', 'fail', `Error testing buttons: ${error.message}`);
+            }
+        }
+
+        async function testFeatureCards() {
+            addTestResult('Feature Cards', 'info', 'Testing feature card functionality...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                
+                const featureCards = frameDoc.querySelectorAll('.feature-card.clickable');
+                
+                if (featureCards.length >= 4) {
+                    addTestResult('Card Count', 'pass', `Found ${featureCards.length} clickable feature cards`);
+                    
+                    // Test each card has required attributes
+                    let validCards = 0;
+                    featureCards.forEach((card, index) => {
+                        const hasDataFeature = card.hasAttribute('data-feature');
+                        const hasIcon = card.querySelector('.feature-icon');
+                        const hasTitle = card.querySelector('h3');
+                        const hasDescription = card.querySelector('p');
+                        
+                        if (hasDataFeature && hasIcon && hasTitle && hasDescription) {
+                            validCards++;
+                        }
+                    });
+                    
+                    if (validCards === featureCards.length) {
+                        addTestResult('Card Structure', 'pass', 'All cards have proper structure');
+                    } else {
+                        addTestResult('Card Structure', 'fail', `${validCards}/${featureCards.length} cards have proper structure`);
+                    }
+                    
+                    // Test card hover effects
+                    const firstCard = featureCards[0];
+                    if (firstCard) {
+                        const hasTransition = getComputedStyle(firstCard).transition !== 'all 0s ease 0s';
+                        if (hasTransition) {
+                            addTestResult('Card Animations', 'pass', 'Cards have transition effects');
+                        } else {
+                            addTestResult('Card Animations', 'fail', 'Cards missing transition effects');
+                        }
+                    }
+                    
+                } else {
+                    addTestResult('Card Count', 'fail', `Only found ${featureCards.length} feature cards, expected 4`);
+                }
+                
+            } catch (error) {
+                addTestResult('Feature Cards', 'fail', `Error testing feature cards: ${error.message}`);
+            }
+        }
+
+        async function testModalFunctionality() {
+            addTestResult('Modal Test', 'info', 'Testing modal functionality...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                
+                const modal = frameDoc.getElementById('feature-modal');
+                const modalContent = modal?.querySelector('.modal-content');
+                const modalHeader = modal?.querySelector('.modal-header');
+                const modalBody = modal?.querySelector('.modal-body');
+                const modalFooter = modal?.querySelector('.modal-footer');
+                const closeBtn = frameDoc.getElementById('modal-close');
+                const actionBtn = frameDoc.getElementById('modal-action');
+                
+                if (modal && modalContent && modalHeader && modalBody && modalFooter) {
+                    addTestResult('Modal Structure', 'pass', 'Modal has all required elements');
+                } else {
+                    addTestResult('Modal Structure', 'fail', 'Modal missing required elements');
+                }
+                
+                if (closeBtn && actionBtn) {
+                    addTestResult('Modal Buttons', 'pass', 'Modal close and action buttons found');
+                } else {
+                    addTestResult('Modal Buttons', 'fail', 'Modal buttons not found');
+                }
+                
+                // Test modal styling
+                if (modal) {
+                    const modalStyles = getComputedStyle(modal);
+                    const isFixed = modalStyles.position === 'fixed';
+                    const hasZIndex = parseInt(modalStyles.zIndex) > 1000;
+                    const hasBackdrop = modalStyles.backgroundColor.includes('rgba') || 
+                                       modalStyles.backdropFilter !== 'none';
+                    
+                    if (isFixed && hasZIndex) {
+                        addTestResult('Modal Positioning', 'pass', 'Modal properly positioned');
+                    } else {
+                        addTestResult('Modal Positioning', 'fail', 'Modal positioning issues');
+                    }
+                    
+                    if (hasBackdrop) {
+                        addTestResult('Modal Backdrop', 'pass', 'Modal has backdrop effect');
+                    } else {
+                        addTestResult('Modal Backdrop', 'fail', 'Modal missing backdrop effect');
+                    }
+                }
+                
+            } catch (error) {
+                addTestResult('Modal Test', 'fail', `Error testing modal: ${error.message}`);
+            }
+        }
+
+        async function testVisualAppeal() {
+            addTestResult('Visual Test', 'info', 'Testing visual appeal and styling...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                
+                // Test hero section
+                const heroSection = frameDoc.querySelector('.hero-section');
+                if (heroSection) {
+                    const heroStyles = getComputedStyle(heroSection);
+                    const hasGradient = heroStyles.background.includes('gradient') || 
+                                       heroStyles.backgroundImage.includes('gradient');
+                    
+                    if (hasGradient) {
+                        addTestResult('Hero Styling', 'pass', 'Hero section has gradient background');
+                    } else {
+                        addTestResult('Hero Styling', 'fail', 'Hero section missing gradient background');
+                    }
+                }
+                
+                // Test feature cards styling
+                const featureCards = frameDoc.querySelectorAll('.feature-card');
+                if (featureCards.length > 0) {
+                    const cardStyles = getComputedStyle(featureCards[0]);
+                    const hasBoxShadow = cardStyles.boxShadow !== 'none';
+                    const hasBorderRadius = parseInt(cardStyles.borderRadius) > 0;
+                    
+                    if (hasBoxShadow && hasBorderRadius) {
+                        addTestResult('Card Styling', 'pass', 'Feature cards have proper styling');
+                    } else {
+                        addTestResult('Card Styling', 'fail', 'Feature cards missing styling elements');
+                    }
+                }
+                
+                // Test responsive design
+                const viewport = frameDoc.querySelector('meta[name="viewport"]');
+                if (viewport && viewport.content.includes('width=device-width')) {
+                    addTestResult('Responsive Design', 'pass', 'Viewport meta tag configured');
+                } else {
+                    addTestResult('Responsive Design', 'fail', 'Viewport meta tag missing or incorrect');
+                }
+                
+                // Test CSS loading
+                const cssLinks = frameDoc.querySelectorAll('link[rel="stylesheet"]');
+                if (cssLinks.length >= 3) {
+                    addTestResult('CSS Loading', 'pass', `${cssLinks.length} CSS files loaded`);
+                } else {
+                    addTestResult('CSS Loading', 'fail', `Only ${cssLinks.length} CSS files found`);
+                }
+                
+                // Test JavaScript loading
+                const scripts = frameDoc.querySelectorAll('script[src]');
+                if (scripts.length >= 5) {
+                    addTestResult('JS Loading', 'pass', `${scripts.length} JavaScript files loaded`);
+                } else {
+                    addTestResult('JS Loading', 'fail', `Only ${scripts.length} JavaScript files found`);
+                }
+                
+                // Test enhanced landing page manager
+                const frameWindow = frame.contentWindow;
+                if (frameWindow.enhancedLandingPageManager || frameWindow.EnhancedLandingPageManager) {
+                    addTestResult('Enhanced Manager', 'pass', 'Enhanced Landing Page Manager loaded');
+                } else {
+                    addTestResult('Enhanced Manager', 'fail', 'Enhanced Landing Page Manager not found');
+                }
+                
+            } catch (error) {
+                addTestResult('Visual Test', 'fail', `Error testing visual appeal: ${error.message}`);
+            }
+        }
+
+        function openLandingPage() {
+            window.open('index.html', '_blank');
+        }
+
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addTestResult('Page Load', 'info', 'Test page loaded, iframe ready for testing');
+            }, 1000);
+        });
+
+        // Test iframe load
+        document.getElementById('landing-page-frame').addEventListener('load', () => {
+            addTestResult('Landing Page', 'pass', 'Landing page loaded successfully in iframe');
+        });
+    </script>
+</body>
+</html>

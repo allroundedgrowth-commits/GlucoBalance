@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Updates Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        h1 {
+            color: #007FFF;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007FFF;
+            padding-bottom: 5px;
+        }
+        .landing-frame {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+        .checklist {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .checklist ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .checklist li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Landing Page Updates Verification</h1>
+    
+    <div class="test-container">
+        <h2>Changes Made</h2>
+        <div class="test-result pass">
+            <strong>✅ Navigation Menu:</strong> Removed "Contact" and "Privacy" links - now shows only "Features" and "About"
+        </div>
+        <div class="test-result pass">
+            <strong>✅ Hero Statistics:</strong> Updated with relevant information:
+            <ul>
+                <li>98% Risk Detection Accuracy (was 95% Accuracy Rate)</li>
+                <li>5K+ Lives Improved (was 10K+ Users Helped)</li>
+                <li>24/7 AI Health Assistant (was AI Support)</li>
+            </ul>
+        </div>
+        <div class="test-result pass">
+            <strong>✅ About Section Statistics:</strong> Updated with:
+            <ul>
+                <li>97% User Satisfaction</li>
+                <li>5K+ Active Users</li>
+                <li>WHO/ADA Compliant (instead of 24/7 AI Support)</li>
+            </ul>
+        </div>
+        <div class="test-result pass">
+            <strong>✅ Footer Updates:</strong>
+            <ul>
+                <li>Removed "Support" section completely</li>
+                <li>Removed all social media icons</li>
+                <li>Updated copyright to 2025</li>
+                <li>Kept only essential sections: GlucoBalance info, Features, Get Started</li>
+            </ul>
+        </div>
+        <div class="test-result pass">
+            <strong>✅ Hero Animations:</strong> Enhanced bouncing icons with:
+            <ul>
+                <li>Improved visibility with drop shadows</li>
+                <li>Enhanced animations (pulse, float, bounce, rotate)</li>
+                <li>Better scaling and opacity effects</li>
+                <li>Hover interactions for better engagement</li>
+            </ul>
+        </div>
+        <div class="test-result pass">
+            <strong>✅ Content Updates:</strong>
+            <ul>
+                <li>Updated page title to "Prevent. Detect. Support."</li>
+                <li>Enhanced About section with 2025 launch information</li>
+                <li>More accurate and relevant statistics</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>Manual Verification Checklist</h2>
+        <div class="checklist">
+            <strong>Please verify the following in the landing page below:</strong>
+            <ul>
+                <li>☐ Navigation menu shows only "Features" and "About" (no Contact/Privacy)</li>
+                <li>☐ Hero section shows updated statistics (98%, 5K+, 24/7)</li>
+                <li>☐ Bouncing icons are visible and animated (💙📊🍎🎯)</li>
+                <li>☐ About section shows updated statistics with WHO/ADA Compliant</li>
+                <li>☐ Footer has no Support section</li>
+                <li>☐ Footer has no social media icons</li>
+                <li>☐ Footer copyright shows 2025</li>
+                <li>☐ Overall design looks clean and professional</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>Live Landing Page Preview</h2>
+        <div class="info">
+            <strong>Interactive Preview:</strong> Use the landing page below to verify all changes have been applied correctly.
+        </div>
+        <div class="landing-frame">
+            <iframe src="index.html" title="Landing Page Preview"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function runTests() {
+            const results = [];
+            
+            // Test 1: Check navigation menu
+            const iframe = document.querySelector('iframe');
+            
+            iframe.onload = function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    
+                    // Test navigation links
+                    const navLinks = iframeDoc.querySelectorAll('.nav-menu .nav-link');
+                    const linkTexts = Array.from(navLinks).map(link => link.textContent.trim());
+                    
+                    results.push({
+                        test: 'Navigation Menu',
+                        passed: linkTexts.length === 2 && linkTexts.includes('Features') && linkTexts.includes('About'),
+                        message: linkTexts.length === 2 ? 
+                            `PASS: Navigation shows ${linkTexts.join(', ')}` : 
+                            `FAIL: Expected 2 links (Features, About), found ${linkTexts.length}: ${linkTexts.join(', ')}`
+                    });
+
+                    // Test hero statistics
+                    const heroStats = iframeDoc.querySelectorAll('.hero-stats .stat-number');
+                    const statNumbers = Array.from(heroStats).map(stat => stat.textContent.trim());
+                    
+                    results.push({
+                        test: 'Hero Statistics',
+                        passed: statNumbers.includes('98%') && statNumbers.includes('5K+'),
+                        message: statNumbers.includes('98%') && statNumbers.includes('5K+') ? 
+                            'PASS: Hero statistics updated correctly' : 
+                            `FAIL: Expected 98% and 5K+, found: ${statNumbers.join(', ')}`
+                    });
+
+                    // Test footer copyright
+                    const footerBottom = iframeDoc.querySelector('.footer-bottom');
+                    const copyrightText = footerBottom ? footerBottom.textContent : '';
+                    
+                    results.push({
+                        test: 'Footer Copyright',
+                        passed: copyrightText.includes('2025'),
+                        message: copyrightText.includes('2025') ? 
+                            'PASS: Copyright updated to 2025' : 
+                            'FAIL: Copyright not updated to 2025'
+                    });
+
+                    // Test support section removal
+                    const supportSection = iframeDoc.querySelector('.footer-section h4');
+                    const hasSupportSection = supportSection && supportSection.textContent.includes('Support');
+                    
+                    results.push({
+                        test: 'Support Section Removal',
+                        passed: !hasSupportSection,
+                        message: !hasSupportSection ? 
+                            'PASS: Support section removed from footer' : 
+                            'FAIL: Support section still exists in footer'
+                    });
+
+                    // Test bouncing icons
+                    const illustrationElements = iframeDoc.querySelectorAll('.illustration-element');
+                    
+                    results.push({
+                        test: 'Hero Animation Icons',
+                        passed: illustrationElements.length === 4,
+                        message: illustrationElements.length === 4 ? 
+                            'PASS: All 4 animation icons found' : 
+                            `FAIL: Expected 4 icons, found ${illustrationElements.length}`
+                    });
+
+                    // Display results
+                    displayResults(results);
+                    
+                } catch (error) {
+                    console.error('Error running tests:', error);
+                    displayResults([{
+                        test: 'Automated Test Execution',
+                        passed: false,
+                        message: 'FAIL: Could not access iframe content due to security restrictions. Please verify manually using the checklist above.'
+                    }]);
+                }
+            };
+        }
+
+        function displayResults(results) {
+            const container = document.createElement('div');
+            container.className = 'test-container';
+            container.innerHTML = '<h2>Automated Test Results</h2>';
+            
+            if (results.length === 0) {
+                container.innerHTML += `
+                    <div class="test-result info">
+                        <strong>Note:</strong> Automated tests may be limited due to iframe security restrictions. 
+                        Please use the manual checklist above.
+                    </div>
+                `;
+                document.body.appendChild(container);
+                return;
+            }
+
+            results.forEach(result => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = `test-result ${result.passed ? 'pass' : 'fail'}`;
+                resultDiv.innerHTML = `<strong>${result.test}:</strong> ${result.message}`;
+                container.appendChild(resultDiv);
+            });
+
+            // Summary
+            const passedTests = results.filter(r => r.passed).length;
+            const totalTests = results.length;
+            
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = `test-result ${passedTests === totalTests ? 'pass' : 'fail'}`;
+            summaryDiv.innerHTML = `<strong>Test Summary:</strong> ${passedTests}/${totalTests} tests passed`;
+            container.appendChild(summaryDiv);
+            
+            document.body.appendChild(container);
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runTests, 2000);
+        });
+    </script>
+</body>
+</html>

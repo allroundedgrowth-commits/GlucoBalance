@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Fixes Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #007FFF;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        .test-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .test-info ul {
+            margin: 0;
+            padding-left: 1rem;
+        }
+        .test-info li {
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h3>🧪 Test Instructions</h3>
+        <ul>
+            <li>✅ No section above menu bar</li>
+            <li>🔘 Click "Dashboard" → Login page</li>
+            <li>🔘 Click "Sign Up" → Signup page</li>
+            <li>🔘 Feature cards work</li>
+            <li>🔘 Forms validate properly</li>
+            <li>🔘 Navigation works</li>
+        </ul>
+    </div>
+
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-icon">🏆</span>
+                            <span class="badge-text">WHO/ADA Compliant</span>
+                        </div>
+                        <h1 class="hero-title">
+                            <span class="title-highlight">Prevent.</span>
+                            <span class="title-highlight">Support.</span>
+                            <span class="title-highlight">Thrive.</span>
+                            <br>
+                            <span class="title-main">with GlucoBalance</span>
+                        </h1>
+                        <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection,
+                            and ongoing management with AI-powered insights</p>
+
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">95%</div>
+                                <div class="stat-label">Accuracy Rate</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label">Users Helped</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">AI Support</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-cta">
+                            <button class="hero-btn primary"
+                                onclick="document.querySelector('[data-feature=\\'risk-assessment\\']').click()">
+                                <span class="btn-icon">🎯</span>
+                                Start Free Risk Assessment
+                            </button>
+                            <button class="hero-btn secondary"
+                                onclick="document.querySelector('#features').scrollIntoView({behavior: 'smooth'})">
+                                <span class="btn-icon">📋</span>
+                                Explore Features
+                            </button>
+                        </div>
+
+                        <div class="hero-trust">
+                            <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                            <div class="trust-badges">
+                                <span class="trust-badge">🔒 HIPAA Compliant</span>
+                                <span class="trust-badge">🛡️ Privacy First</span>
+                                <span class="trust-badge">🌟 Evidence-Based</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="hero-illustration">
+                            <div class="illustration-element pulse">💙</div>
+                            <div class="illustration-element float">📊</div>
+                            <div class="illustration-element bounce">🍎</div>
+                            <div class="illustration-element rotate">🎯</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-prefetch-module="risk-assessment"
+                            data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="nutrition-service"
+                            data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="mental-health"
+                            data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="progress-dashboard"
+                            data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="cta-section">
+                    <p class="cta-text">Click on any feature card above to get started with your health journey</p>
+                </div>
+            </main>
+        </div>
+
+        <!-- Feature Detail Modal -->
+        <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Feature Details</h2>
+                    <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                    <button class="btn-primary" id="modal-action">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="js/landing-page.js"></script>
+    <script>
+        // Initialize the landing page manager
+        window.landingPageManager = new LandingPageManager();
+        
+        // Add some test functionality
+        console.log('Landing page test loaded successfully!');
+        
+        // Test notification system
+        setTimeout(() => {
+            if (window.landingPageManager && window.landingPageManager.showNotification) {
+                window.landingPageManager.showNotification('Test page loaded successfully! Try the buttons.', 'success');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

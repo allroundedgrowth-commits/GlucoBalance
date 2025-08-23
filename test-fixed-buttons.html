@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Button Functionality Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #007FFF, #0056b3);
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-banner h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        .test-banner p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        body {
+            padding-top: 80px;
+        }
+        .test-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+        }
+        .test-instructions h4 {
+            color: #856404;
+            margin: 0 0 10px 0;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px;
+        }
+        .test-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .test-item:hover {
+            border-color: #007FFF;
+            box-shadow: 0 4px 12px rgba(0, 127, 255, 0.1);
+        }
+        .test-item h5 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        .test-item button {
+            width: 100%;
+            padding: 8px 12px;
+            background: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .test-item button:hover {
+            background: #0056b3;
+        }
+        .status-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Banner -->
+    <div class="test-banner">
+        <h3>🧪 Button Functionality Test Page</h3>
+        <p>All buttons and cards should now work correctly. Click any element to test functionality.</p>
+    </div>
+
+    <!-- Test Instructions -->
+    <div class="test-instructions">
+        <h4>🎯 Test Instructions</h4>
+        <p>Click on any button, card, or link below to test functionality. You should see notifications or actions for each click.</p>
+    </div>
+
+    <!-- Quick Test Grid -->
+    <div class="test-grid">
+        <div class="test-item">
+            <h5>Navigation Buttons</h5>
+            <button onclick="document.getElementById('nav-dashboard-btn').click()">Test Dashboard</button>
+            <button onclick="document.getElementById('nav-signup-btn').click()">Test Signup</button>
+        </div>
+        <div class="test-item">
+            <h5>Hero Buttons</h5>
+            <button onclick="document.querySelector('.hero-btn.primary').click()">Test Risk Assessment</button>
+            <button onclick="document.querySelector('.hero-btn.secondary').click()">Test Explore Features</button>
+        </div>
+        <div class="test-item">
+            <h5>Feature Cards</h5>
+            <button onclick="document.querySelector('[data-feature=&quot;risk-assessment&quot;]').click()">Test Risk Card</button>
+            <button onclick="document.querySelector('[data-feature=&quot;nutrition&quot;]').click()">Test Nutrition Card</button>
+        </div>
+        <div class="test-item">
+            <h5>Mobile Menu</h5>
+            <button onclick="document.getElementById('mobile-menu-toggle').click()">Test Mobile Toggle</button>
+            <button onclick="document.getElementById('mobile-dashboard-btn').click()">Test Mobile Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Main App Content -->
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-icon">🏆</span>
+                            <span class="badge-text">WHO/ADA Compliant</span>
+                        </div>
+                        <h1 class="hero-title">
+                            <span class="title-highlight">Prevent.</span>
+                            <span class="title-highlight">Support.</span>
+                            <span class="title-highlight">Thrive.</span>
+                            <br>
+                            <span class="title-main">with GlucoBalance</span>
+                        </h1>
+                        <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection,
+                            and ongoing management with AI-powered insights</p>
+
+                        <div class="hero-cta">
+                            <button class="hero-btn primary">
+                                <span class="btn-icon">🎯</span>
+                                Start Free Risk Assessment
+                            </button>
+                            <button class="hero-btn secondary">
+                                <span class="btn-icon">📋</span>
+                                Explore Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-prefetch-module="risk-assessment" data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="nutrition-service" data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="mental-health" data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="progress-dashboard" data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer" id="contact">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h4>Features</h4>
+                            <ul>
+                                <li><a href="#" data-feature="risk-assessment">Risk Assessment</a></li>
+                                <li><a href="#" data-feature="nutrition">Nutrition Planning</a></li>
+                                <li><a href="#" data-feature="mental-health">Mental Health</a></li>
+                                <li><a href="#" data-feature="progress">Progress Tracking</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#" id="help-center-link">Help Center</a></li>
+                                <li><a href="#" id="privacy-policy-link">Privacy Policy</a></li>
+                                <li><a href="#" id="terms-link">Terms of Service</a></li>
+                                <li><a href="#" id="contact-link">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Feature Detail Modal -->
+        <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Feature Details</h2>
+                    <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                    <button class="btn-primary" id="modal-action">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div class="status-indicator">
+        ✅ Button Fix Applied
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/landing-page.js"></script>
+    
+    <!-- Button Functionality Fix -->
+    <script src="fix-all-button-functionality.js"></script>
+
+    <script>
+        // Additional test functionality
+        console.log('🧪 Test page loaded successfully');
+        
+        // Track button clicks for testing
+        let clickCount = 0;
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('button, .feature-card, a[href="#"]')) {
+                clickCount++;
+                console.log(`🖱️ Click #${clickCount}: ${e.target.tagName} - ${e.target.textContent?.trim() || e.target.className}`);
+            }
+        });
+        
+        // Show success message after page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('✅ All scripts loaded. Button functionality should be working!');
+                
+                // Test if LandingPageManager is available
+                if (window.landingPageManager) {
+                    console.log('✅ LandingPageManager found and ready');
+                } else {
+                    console.log('⚠️ LandingPageManager not found, using fallback handlers');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

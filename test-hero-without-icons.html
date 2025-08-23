@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Section Without Icons - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/hero-enhanced.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .comparison-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .comparison-title {
+            text-align: center;
+            color: #007FFF;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .comparison-section {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: #f9f9f9;
+        }
+        
+        .section-label {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .before .section-label {
+            color: #dc3545;
+        }
+        
+        .after .section-label {
+            color: #28a745;
+        }
+        
+        .feature-card-demo {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card-demo:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 127, 255, 0.15);
+        }
+        
+        .old-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .improvements-list {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .improvements-list h3 {
+            color: #007FFF;
+            margin-bottom: 1rem;
+        }
+        
+        .improvements-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .improvements-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .improvements-list li:before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="comparison-container">
+        <h1 class="comparison-title">🎨 Hero Section Enhancement: Icons Removed</h1>
+        
+        <div class="before-after">
+            <div class="comparison-section before">
+                <div class="section-label">❌ Before: With Icons</div>
+                <div class="feature-card-demo">
+                    <div class="old-icon">🎯</div>
+                    <h3>Risk Assessment</h3>
+                    <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                    <div style="text-align: right; margin-top: 1rem;">→</div>
+                </div>
+                
+                <div class="feature-card-demo">
+                    <div class="old-icon">🍎</div>
+                    <h3>Nutrition Planning</h3>
+                    <p>Personalized meal plans adapted to your local cuisine</p>
+                    <div style="text-align: right; margin-top: 1rem;">→</div>
+                </div>
+                
+                <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+                    <strong>Issues:</strong> Icons look childish, arrows are distracting, overall design lacks professionalism
+                </p>
+            </div>
+            
+            <div class="comparison-section after">
+                <div class="section-label">✅ After: Clean & Professional</div>
+                <div class="feature-card">
+                    <h3>Risk Assessment</h3>
+                    <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Nutrition Planning</h3>
+                    <p>Personalized meal plans adapted to your local cuisine</p>
+                </div>
+                
+                <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+                    <strong>Improvements:</strong> Clean typography, professional appearance, better focus on content
+                </p>
+            </div>
+        </div>
+        
+        <!-- Live Demo of Current Hero Section -->
+        <div style="border: 3px solid #007FFF; border-radius: 16px; overflow: hidden; margin: 2rem 0;">
+            <div style="background: #007FFF; color: white; padding: 1rem; text-align: center; font-weight: 600;">
+                🎉 Live Preview: Current Hero Section (No Icons)
+            </div>
+            
+            <!-- Hero Section Preview -->
+            <header class="hero-section" style="min-height: 60vh;">
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                </div>
+
+                <div class="container">
+                    <div class="hero-layout">
+                        <div class="hero-content">
+                            <div class="hero-badge">
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                                <div class="badge-glow"></div>
+                            </div>
+
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+
+                            <div class="hero-trust">
+                                <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-label">HIPAA Compliant</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hero-visual">
+                            <p class="hero-subtitle">
+                                Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with <span class="highlight-text">AI-powered insights</span>
+                            </p>
+
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-text">Health</div>
+                                    </div>
+                                </div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Features Section Preview -->
+            <section style="padding: 3rem 1rem; background: #f8f9fa;">
+                <div class="container">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable">
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                        </div>
+
+                        <div class="feature-card clickable">
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                        </div>
+
+                        <div class="feature-card clickable">
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                        </div>
+
+                        <div class="feature-card clickable">
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <div class="improvements-list">
+            <h3>🚀 Key Improvements Made</h3>
+            <ul>
+                <li>Removed all emoji icons from feature cards (🎯, 🍎, 💙, 📊)</li>
+                <li>Removed arrow indicators (→) for cleaner appearance</li>
+                <li>Removed icons from navigation buttons (👤, 🚪)</li>
+                <li>Enhanced typography and spacing for better readability</li>
+                <li>Added subtle hover effects and animations</li>
+                <li>Improved color gradients and visual hierarchy</li>
+                <li>Added professional border effects on hover</li>
+                <li>Enhanced trust badges with better styling</li>
+                <li>Improved responsive design for mobile devices</li>
+                <li>Added smooth transitions and micro-interactions</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 3rem 0; padding: 2rem; background: linear-gradient(135deg, #e8f4ff, #f0f8ff); border-radius: 16px;">
+            <h3 style="color: #007FFF; margin-bottom: 1rem;">✨ Result</h3>
+            <p style="font-size: 1.1rem; color: #333; line-height: 1.6;">
+                The hero section now has a more <strong>professional, clean, and impressive</strong> appearance 
+                that better reflects the serious nature of healthcare and diabetes prevention. 
+                The focus is now on <strong>content and functionality</strong> rather than decorative elements.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

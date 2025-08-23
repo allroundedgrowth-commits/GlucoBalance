@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Offline Functionality Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-card);
+        }
+        
+        .test-button {
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .test-button:hover {
+            background: var(--primary-hover);
+        }
+        
+        .test-button.secondary {
+            background: var(--text-secondary);
+        }
+        
+        .test-results {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-indicator.online {
+            background: var(--success-color);
+        }
+        
+        .status-indicator.offline {
+            background: var(--error-color);
+        }
+        
+        .status-indicator.syncing {
+            background: var(--warning-color);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>GlucoBalance Offline Functionality Test</h1>
+        
+        <div class="test-section">
+            <h2>Connection Status</h2>
+            <p>
+                <span class="status-indicator" id="connection-status"></span>
+                <span id="connection-text">Checking...</span>
+            </p>
+            <button class="test-button" onclick="toggleOfflineMode()">Simulate Offline Mode</button>
+            <button class="test-button secondary" onclick="checkSyncStatus()">Check Sync Status</button>
+        </div>
+
+        <div class="test-section">
+            <h2>Offline Data Operations</h2>
+            <p>Test offline data storage and queuing functionality:</p>
+            <button class="test-button" onclick="testOfflineUserCreation()">Create User (Offline)</button>
+            <button class="test-button" onclick="testOfflineMoodEntry()">Log Mood (Offline)</button>
+            <button class="test-button" onclick="testOfflineAssessment()">Save Assessment (Offline)</button>
+            <button class="test-button" onclick="testEnhancedOfflineFeatures()">Test Enhanced Features</button>
+            <button class="test-button secondary" onclick="viewQueuedOperations()">View Queued Operations</button>
+            <div class="test-results" id="offline-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Sync and Conflict Resolution</h2>
+            <p>Test data synchronization and conflict resolution:</p>
+            <button class="test-button" onclick="triggerManualSync()">Manual Sync</button>
+            <button class="test-button" onclick="simulateConflict()">Simulate Conflict</button>
+            <button class="test-button secondary" onclick="clearOfflineQueue()">Clear Queue</button>
+            <div class="test-results" id="sync-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Caching and Fallbacks</h2>
+            <p>Test AI response caching and offline fallbacks:</p>
+            <button class="test-button" onclick="testAICaching()">Test AI Caching</button>
+            <button class="test-button" onclick="testOfflineAIFallback()">Test AI Fallback</button>
+            <button class="test-button secondary" onclick="clearCache()">Clear Cache</button>
+            <div class="test-results" id="cache-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>UI Components</h2>
+            <p>Test offline UI components and notifications:</p>
+            <button class="test-button" onclick="showOfflinePanel()">Show Offline Panel</button>
+            <button class="test-button" onclick="showSyncProgress()">Show Sync Progress</button>
+            <button class="test-button" onclick="showConflictNotification()">Show Conflict Notification</button>
+            <button class="test-button secondary" onclick="testNotifications()">Test Notifications</button>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/offline-manager.js"></script>
+    <script src="js/offline-ui.js"></script>
+    <script src="js/ai.js"></script>
+
+    <script>
+        // Test script for offline functionality
+        let simulatedOffline = false;
+        
+        // Initialize test environment
+        document.addEventListener('DOMContentLoaded', () => {
+            updateConnectionStatus();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Listen for connectivity changes
+            document.addEventListener('connectivityChanged', (event) => {
+                updateConnectionStatus();
+                logResult('offline-results', `Connectivity changed: ${event.detail.isOnline ? 'Online' : 'Offline'}`);
+            });
+
+            // Listen for sync events
+            document.addEventListener('syncCompleted', (event) => {
+                logResult('sync-results', `Sync completed: ${event.detail.syncedCount} operations`);
+            });
+
+            document.addEventListener('syncFailed', (event) => {
+                logResult('sync-results', `Sync failed: ${event.detail.error}`);
+            });
+
+            document.addEventListener('conflictDetected', (event) => {
+                logResult('sync-results', `Conflict detected for ${event.detail.conflict.table}`);
+            });
+
+            document.addEventListener('offlineOperationQueued', (event) => {
+                logResult('offline-results', `Operation queued: ${event.detail.operation} on ${event.detail.table}`);
+            });
+        }
+
+        function updateConnectionStatus() {
+            const statusIndicator = document.getElementById('connection-status');
+            const statusText = document.getElementById('connection-text');
+            
+            const isOnline = navigator.onLine && !simulatedOffline;
+            
+            statusIndicator.className = `status-indicator ${isOnline ? 'online' : 'offline'}`;
+            statusText.textContent = isOnline ? 'Online' : 'Offline';
+        }
+
+        function toggleOfflineMode() {
+            simulatedOffline = !simulatedOffline;
+            updateConnectionStatus();
+            
+            // Simulate offline event
+            if (simulatedOffline) {
+                window.dispatchEvent(new Event('offline'));
+                logResult('offline-results', 'Simulated offline mode enabled');
+            } else {
+                window.dispatchEvent(new Event('online'));
+                logResult('offline-results', 'Simulated offline mode disabled');
+            }
+        }
+
+        async function checkSyncStatus() {
+            if (window.offlineManager) {
+                try {
+                    const queueCount = await window.offlineManager.getQueuedOperationsCount();
+                    const lastSync = await window.offlineManager.getSyncMetadata('lastSync');
+                    
+                    logResult('sync-results', `Queued operations: ${queueCount}`);
+                    logResult('sync-results', `Last sync: ${lastSync || 'Never'}`);
+                } catch (error) {
+                    logResult('sync-results', `Error checking sync status: ${error.message}`);
+                }
+            } else {
+                logResult('sync-results', 'Offline manager not available');
+            }
+        }
+
+        async function testOfflineUserCreation() {
+            try {
+                const userData = {
+                    name: 'Enhanced Test User',
+                    email: `test.${Date.now()}@example.com`,
+                    age: 30,
+                    gender: 'other'
+                };
+
+                if (window.kiroDb) {
+                    const user = await window.kiroDb.createUser(userData);
+                    logResult('offline-results', `Enhanced user created: ${JSON.stringify(user, null, 2)}`);
+                    
+                    // Test enhanced offline features
+                    if (user._temporary) {
+                        logResult('offline-results', '✅ Temporary user created for offline use');
+                    }
+                    
+                    if (user._queuedForSync) {
+                        logResult('offline-results', '✅ User queued for synchronization');
+                    }
+                } else {
+                    logResult('offline-results', 'Database not available');
+                }
+            } catch (error) {
+                logResult('offline-results', `Error creating user: ${error.message}`);
+            }
+        }
+
+        async function testOfflineMoodEntry() {
+            try {
+                const userId = 1;
+                const date = new Date().toISOString().split('T')[0];
+                const mood = Math.floor(Math.random() * 5) + 1;
+
+                if (window.kiroDb) {
+                    const moodEntry = await window.kiroDb.saveMood(userId, date, mood, 'Test mood entry');
+                    logResult('offline-results', `Mood saved: ${JSON.stringify(moodEntry, null, 2)}`);
+                } else {
+                    logResult('offline-results', 'Database not available');
+                }
+            } catch (error) {
+                logResult('offline-results', `Error saving mood: ${error.message}`);
+            }
+        }
+
+        async function testOfflineAssessment() {
+            try {
+                const assessmentData = {
+                    score: 15,
+                    category: 'Increased',
+                    responses: [
+                        { questionId: 'age', value: 2, text: '45-54 years' },
+                        { questionId: 'bmi', value: 3, text: 'BMI 30-35' }
+                    ],
+                    date: new Date().toISOString().split('T')[0]
+                };
+
+                if (window.kiroDb) {
+                    const assessment = await window.kiroDb.saveAssessment(1, assessmentData);
+                    logResult('offline-results', `Assessment saved: ${JSON.stringify(assessment, null, 2)}`);
+                } else {
+                    logResult('offline-results', 'Database not available');
+                }
+            } catch (error) {
+                logResult('offline-results', `Error saving assessment: ${error.message}`);
+            }
+        }
+
+        async function viewQueuedOperations() {
+            if (window.offlineManager) {
+                try {
+                    const operations = await window.offlineManager.getQueuedOperations();
+                    logResult('offline-results', `Queued operations: ${JSON.stringify(operations, null, 2)}`);
+                } catch (error) {
+                    logResult('offline-results', `Error viewing queue: ${error.message}`);
+                }
+            } else {
+                logResult('offline-results', 'Offline manager not available');
+            }
+        }
+
+        async function triggerManualSync() {
+            if (window.offlineManager) {
+                try {
+                    logResult('sync-results', 'Starting manual sync...');
+                    await window.offlineManager.syncOfflineData();
+                    logResult('sync-results', 'Manual sync completed');
+                } catch (error) {
+                    logResult('sync-results', `Manual sync failed: ${error.message}`);
+                }
+            } else {
+                logResult('sync-results', 'Offline manager not available');
+            }
+        }
+
+        async function simulateConflict() {
+            if (window.offlineManager) {
+                try {
+                    const conflict = {
+                        operation: { operation: 'update', table: 'users', data: { name: 'Client Version' } },
+                        serverData: { name: 'Server Version', updatedAt: new Date().toISOString() },
+                        table: 'users',
+                        recordId: 1
+                    };
+
+                    await window.offlineManager.handleConflict(conflict.operation, conflict.serverData);
+                    logResult('sync-results', 'Conflict simulation completed');
+                } catch (error) {
+                    logResult('sync-results', `Conflict simulation failed: ${error.message}`);
+                }
+            } else {
+                logResult('sync-results', 'Offline manager not available');
+            }
+        }
+
+        async function clearOfflineQueue() {
+            if (window.offlineManager) {
+                try {
+                    await window.offlineManager.clearQueue();
+                    logResult('sync-results', 'Offline queue cleared');
+                } catch (error) {
+                    logResult('sync-results', `Error clearing queue: ${error.message}`);
+                }
+            } else {
+                logResult('sync-results', 'Offline manager not available');
+            }
+        }
+
+        async function testAICaching() {
+            if (window.offlineManager) {
+                try {
+                    const testResponse = {
+                        explanation: 'This is an enhanced cached AI response for testing offline functionality',
+                        recommendations: [
+                            'Enhanced recommendation 1 with detailed guidance',
+                            'Enhanced recommendation 2 with actionable steps',
+                            'Enhanced recommendation 3 with personalized insights'
+                        ],
+                        confidence: 0.95,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    await window.offlineManager.cacheAIResponse('enhanced-test-key', testResponse);
+                    logResult('cache-results', '✅ Enhanced AI response cached successfully');
+
+                    const cached = await window.offlineManager.getCachedAIResponse('enhanced-test-key');
+                    logResult('cache-results', `✅ Retrieved enhanced cached response: ${JSON.stringify(cached, null, 2)}`);
+                    
+                    // Test cache expiration
+                    const expiredKey = 'expired-test-key';
+                    await window.offlineManager.cacheAIResponse(expiredKey, { ...testResponse, expiresAt: new Date(Date.now() - 1000).toISOString() });
+                    const expiredCache = await window.offlineManager.getCachedAIResponse(expiredKey);
+                    
+                    if (!expiredCache) {
+                        logResult('cache-results', '✅ Cache expiration working correctly');
+                    } else {
+                        logResult('cache-results', '⚠️ Cache expiration may not be working');
+                    }
+                } catch (error) {
+                    logResult('cache-results', `❌ Enhanced AI caching test failed: ${error.message}`);
+                }
+            } else {
+                logResult('cache-results', '❌ Offline manager not available');
+            }
+        }
+
+        function testOfflineAIFallback() {
+            // Simulate AI service call while offline
+            if (window.aiService) {
+                window.aiService.generateRiskExplanation(15, {})
+                    .then(response => {
+                        logResult('cache-results', `AI fallback response: ${JSON.stringify(response, null, 2)}`);
+                    })
+                    .catch(error => {
+                        logResult('cache-results', `AI fallback test: ${error.message}`);
+                    });
+            } else {
+                logResult('cache-results', 'AI service not available');
+            }
+        }
+
+        function clearCache() {
+            if ('caches' in window) {
+                caches.keys().then(cacheNames => {
+                    return Promise.all(
+                        cacheNames.map(cacheName => caches.delete(cacheName))
+                    );
+                }).then(() => {
+                    logResult('cache-results', 'All caches cleared');
+                }).catch(error => {
+                    logResult('cache-results', `Error clearing cache: ${error.message}`);
+                });
+            } else {
+                logResult('cache-results', 'Cache API not available');
+            }
+        }
+
+        function showOfflinePanel() {
+            if (window.offlineUI) {
+                window.offlineUI.showOfflineCapabilitiesPanel();
+            }
+        }
+
+        function showSyncProgress() {
+            if (window.offlineUI) {
+                window.offlineUI.showSyncProgress('Testing sync progress...');
+                setTimeout(() => {
+                    window.offlineUI.updateSyncProgress(50, 'Halfway through...');
+                }, 1000);
+                setTimeout(() => {
+                    window.offlineUI.updateSyncProgress(100, 'Almost done...');
+                }, 2000);
+                setTimeout(() => {
+                    window.offlineUI.hideSyncProgress();
+                }, 3000);
+            }
+        }
+
+        function showConflictNotification() {
+            if (window.offlineUI) {
+                const mockConflict = {
+                    table: 'users',
+                    operation: { operation: 'update' },
+                    clientData: { name: 'Client Version' },
+                    serverData: { name: 'Server Version' }
+                };
+                window.offlineUI.showConflictNotification(mockConflict);
+            }
+        }
+
+        function testNotifications() {
+            if (window.offlineUI) {
+                window.offlineUI.showNotification('Test info notification', 'info');
+                setTimeout(() => window.offlineUI.showNotification('Test success notification', 'success'), 1000);
+                setTimeout(() => window.offlineUI.showNotification('Test warning notification', 'warning'), 2000);
+                setTimeout(() => window.offlineUI.showNotification('Test error notification', 'error'), 3000);
+            }
+        }
+
+        async function testEnhancedOfflineFeatures() {
+            try {
+                logResult('offline-results', '🧪 Testing enhanced offline features...');
+                
+                // Test enhanced conflict resolution
+                if (window.offlineManager) {
+                    const clientData = {
+                        name: 'Client Enhanced User',
+                        mood: 4,
+                        updatedAt: new Date().toISOString(),
+                        notes: 'Client notes with additional details'
+                    };
+                    
+                    const serverData = {
+                        name: 'Server Enhanced User',
+                        mood: 3,
+                        updatedAt: new Date(Date.now() - 5000).toISOString(),
+                        notes: 'Server notes'
+                    };
+                    
+                    const mockConflict = {
+                        id: 'test-conflict-' + Date.now(),
+                        clientData,
+                        serverData,
+                        table: 'users',
+                        recordId: 1,
+                        conflictType: 'multi-field',
+                        severity: 'medium',
+                        autoResolvable: true
+                    };
+                    
+                    const resolved = await window.offlineManager.resolveConflictEnhanced(mockConflict);
+                    logResult('offline-results', `✅ Enhanced conflict resolution: ${JSON.stringify(resolved, null, 2)}`);
+                }
+                
+                // Test enhanced storage features
+                if (window.kiroDb) {
+                    const testData = { test: 'enhanced storage test', timestamp: new Date().toISOString() };
+                    window.kiroDb.saveToLocalStorage('enhanced-test', testData);
+                    const retrieved = window.kiroDb.getFromLocalStorage('enhanced-test');
+                    
+                    if (retrieved && retrieved.data) {
+                        logResult('offline-results', '✅ Enhanced storage with metadata working');
+                    } else {
+                        logResult('offline-results', '❌ Enhanced storage test failed');
+                    }
+                }
+                
+                // Test network condition detection
+                const networkInfo = {
+                    online: navigator.onLine,
+                    connection: navigator.connection ? {
+                        effectiveType: navigator.connection.effectiveType,
+                        downlink: navigator.connection.downlink
+                    } : 'Not available'
+                };
+                
+                logResult('offline-results', `📡 Network conditions: ${JSON.stringify(networkInfo, null, 2)}`);
+                
+            } catch (error) {
+                logResult('offline-results', `❌ Enhanced features test failed: ${error.message}`);
+            }
+        }
+
+        function logResult(containerId, message) {
+            const container = document.getElementById(containerId);
+            const timestamp = new Date().toLocaleTimeString();
+            container.innerHTML += `[${timestamp}] ${message}\n`;
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>

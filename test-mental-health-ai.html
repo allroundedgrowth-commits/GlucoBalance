@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health AI Integration Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>🧠 Mental Health AI Integration Test</h1>
+            <p>Testing AI-powered mental health support features</p>
+        </header>
+
+        <main class="test-content">
+            <!-- AI Status Section -->
+            <section class="test-section">
+                <h2>AI Service Status</h2>
+                <div id="ai-status" class="status-display">
+                    <div class="status-item">
+                        <span class="status-label">AI Available:</span>
+                        <span id="ai-available" class="status-value">Checking...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">API Key Source:</span>
+                        <span id="api-key-source" class="status-value">-</span>
+                    </div>
+                </div>
+                <button id="setup-ai-btn" class="btn-primary" style="display: none;">Setup AI</button>
+            </section>
+
+            <!-- Mood Affirmation Test -->
+            <section class="test-section">
+                <h2>AI Mood Affirmation Test</h2>
+                <div class="test-controls">
+                    <label for="mood-select">Select Mood (1-5):</label>
+                    <select id="mood-select" class="form-control">
+                        <option value="1">1 - Very Sad 😢</option>
+                        <option value="2">2 - Sad 😕</option>
+                        <option value="3" selected>3 - Neutral 😐</option>
+                        <option value="4">4 - Happy 😊</option>
+                        <option value="5">5 - Very Happy 😄</option>
+                    </select>
+                    <input type="text" id="mood-notes" class="form-control" placeholder="Optional notes about your mood...">
+                    <button id="test-affirmation-btn" class="btn-primary">Generate AI Affirmation</button>
+                </div>
+                <div id="affirmation-result" class="test-result"></div>
+            </section>
+
+            <!-- Coping Strategies Test -->
+            <section class="test-section">
+                <h2>AI Coping Strategies Test</h2>
+                <div class="test-controls">
+                    <label for="coping-mood-select">Current Mood:</label>
+                    <select id="coping-mood-select" class="form-control">
+                        <option value="1">1 - Very Sad 😢</option>
+                        <option value="2" selected>2 - Sad 😕</option>
+                        <option value="3">3 - Neutral 😐</option>
+                        <option value="4">4 - Happy 😊</option>
+                        <option value="5">5 - Very Happy 😄</option>
+                    </select>
+                    <input type="text" id="stressors-input" class="form-control" placeholder="What's causing stress? (optional)">
+                    <button id="test-coping-btn" class="btn-primary">Generate Coping Strategies</button>
+                </div>
+                <div id="coping-result" class="test-result"></div>
+            </section>
+
+            <!-- Enhanced Support Test -->
+            <section class="test-section">
+                <h2>AI Enhanced Support Test</h2>
+                <div class="test-controls">
+                    <p>This tests the AI-generated enhanced support for users with consistently low mood.</p>
+                    <button id="test-enhanced-support-btn" class="btn-primary">Generate Enhanced Support Message</button>
+                </div>
+                <div id="enhanced-support-result" class="test-result"></div>
+            </section>
+
+            <!-- Mood Insights Test -->
+            <section class="test-section">
+                <h2>AI Mood Pattern Insights Test</h2>
+                <div class="test-controls">
+                    <p>This tests AI analysis of mood patterns and trends.</p>
+                    <button id="test-mood-insights-btn" class="btn-primary">Generate Mood Insights</button>
+                </div>
+                <div id="mood-insights-result" class="test-result"></div>
+            </section>
+
+            <!-- Test Results Summary -->
+            <section class="test-section">
+                <h2>Test Results Summary</h2>
+                <div id="test-summary" class="test-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">AI Affirmation:</span>
+                        <span id="affirmation-status" class="summary-status">Not tested</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Coping Strategies:</span>
+                        <span id="coping-status" class="summary-status">Not tested</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Enhanced Support:</span>
+                        <span id="enhanced-status" class="summary-status">Not tested</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Mood Insights:</span>
+                        <span id="insights-status" class="summary-status">Not tested</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Include required scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/mental-health.js"></script>
+    <script src="js/mental-health-ui.js"></script>
+
+    <script>
+        // Test script for mental health AI integration
+        class MentalHealthAITest {
+            constructor() {
+                this.init();
+            }
+
+            async init() {
+                console.log('Initializing Mental Health AI Test...');
+                
+                // Wait for services to initialize
+                await this.waitForServices();
+                
+                // Update AI status
+                this.updateAIStatus();
+                
+                // Setup event listeners
+                this.setupEventListeners();
+                
+                console.log('Mental Health AI Test initialized');
+            }
+
+            async waitForServices() {
+                // Wait for AI service to be available
+                let attempts = 0;
+                while (!window.aiService && attempts < 10) {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    attempts++;
+                }
+                
+                // Wait for mental health service
+                attempts = 0;
+                while (!window.mentalHealthService && attempts < 10) {
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    attempts++;
+                }
+            }
+
+            updateAIStatus() {
+                const aiAvailable = document.getElementById('ai-available');
+                const apiKeySource = document.getElementById('api-key-source');
+                const setupBtn = document.getElementById('setup-ai-btn');
+
+                if (window.aiService) {
+                    const status = window.aiService.getStatus();
+                    aiAvailable.textContent = status.available ? 'Yes ✅' : 'No ❌';
+                    apiKeySource.textContent = status.source || 'None';
+                    
+                    if (!status.available) {
+                        setupBtn.style.display = 'block';
+                    }
+                } else {
+                    aiAvailable.textContent = 'Service not loaded ❌';
+                }
+            }
+
+            setupEventListeners() {
+                // Setup AI button
+                document.getElementById('setup-ai-btn').addEventListener('click', async () => {
+                    if (window.geminiAI) {
+                        await window.geminiAI.promptForApiKey();
+                        this.updateAIStatus();
+                    }
+                });
+
+                // Test affirmation
+                document.getElementById('test-affirmation-btn').addEventListener('click', () => {
+                    this.testAffirmation();
+                });
+
+                // Test coping strategies
+                document.getElementById('test-coping-btn').addEventListener('click', () => {
+                    this.testCopingStrategies();
+                });
+
+                // Test enhanced support
+                document.getElementById('test-enhanced-support-btn').addEventListener('click', () => {
+                    this.testEnhancedSupport();
+                });
+
+                // Test mood insights
+                document.getElementById('test-mood-insights-btn').addEventListener('click', () => {
+                    this.testMoodInsights();
+                });
+            }
+
+            async testAffirmation() {
+                const mood = parseInt(document.getElementById('mood-select').value);
+                const notes = document.getElementById('mood-notes').value;
+                const resultDiv = document.getElementById('affirmation-result');
+                const statusSpan = document.getElementById('affirmation-status');
+
+                resultDiv.innerHTML = '<div class="loading">Generating AI affirmation...</div>';
+                statusSpan.textContent = 'Testing...';
+
+                try {
+                    if (!window.mentalHealthService) {
+                        throw new Error('Mental Health Service not available');
+                    }
+
+                    const affirmation = await window.mentalHealthService.generateMoodAffirmation(mood, notes);
+                    
+                    resultDiv.innerHTML = `
+                        <div class="test-success">
+                            <h4>✅ AI Affirmation Generated</h4>
+                            <div class="affirmation-preview">
+                                <div class="affirmation-icon">💙</div>
+                                <p>${affirmation}</p>
+                            </div>
+                            <div class="test-details">
+                                <strong>Input:</strong> Mood ${mood}/5, Notes: "${notes || 'none'}"
+                            </div>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Passed ✅';
+                } catch (error) {
+                    console.error('Affirmation test failed:', error);
+                    resultDiv.innerHTML = `
+                        <div class="test-error">
+                            <h4>❌ Test Failed</h4>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Failed ❌';
+                }
+            }
+
+            async testCopingStrategies() {
+                const mood = parseInt(document.getElementById('coping-mood-select').value);
+                const stressors = document.getElementById('stressors-input').value.split(',').map(s => s.trim()).filter(s => s);
+                const resultDiv = document.getElementById('coping-result');
+                const statusSpan = document.getElementById('coping-status');
+
+                resultDiv.innerHTML = '<div class="loading">Generating coping strategies...</div>';
+                statusSpan.textContent = 'Testing...';
+
+                try {
+                    if (!window.mentalHealthService) {
+                        throw new Error('Mental Health Service not available');
+                    }
+
+                    const strategies = await window.mentalHealthService.generateCopingStrategies(mood, stressors);
+                    
+                    resultDiv.innerHTML = `
+                        <div class="test-success">
+                            <h4>✅ Coping Strategies Generated</h4>
+                            <div class="strategies-preview">
+                                ${Array.isArray(strategies) ? strategies.map((strategy, index) => `
+                                    <div class="strategy-item">
+                                        <span class="strategy-number">${index + 1}</span>
+                                        <span class="strategy-text">${strategy}</span>
+                                    </div>
+                                `).join('') : `<p>${strategies}</p>`}
+                            </div>
+                            <div class="test-details">
+                                <strong>Input:</strong> Mood ${mood}/5, Stressors: ${stressors.length > 0 ? stressors.join(', ') : 'none'}
+                            </div>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Passed ✅';
+                } catch (error) {
+                    console.error('Coping strategies test failed:', error);
+                    resultDiv.innerHTML = `
+                        <div class="test-error">
+                            <h4>❌ Test Failed</h4>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Failed ❌';
+                }
+            }
+
+            async testEnhancedSupport() {
+                const resultDiv = document.getElementById('enhanced-support-result');
+                const statusSpan = document.getElementById('enhanced-status');
+
+                resultDiv.innerHTML = '<div class="loading">Generating enhanced support message...</div>';
+                statusSpan.textContent = 'Testing...';
+
+                try {
+                    if (!window.mentalHealthService) {
+                        throw new Error('Mental Health Service not available');
+                    }
+
+                    const supportMessage = await window.mentalHealthService.getEnhancedSupportMessage();
+                    
+                    resultDiv.innerHTML = `
+                        <div class="test-success">
+                            <h4>✅ Enhanced Support Message Generated</h4>
+                            <div class="support-preview">
+                                <div class="support-icon">🤗</div>
+                                <p>${supportMessage}</p>
+                            </div>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Passed ✅';
+                } catch (error) {
+                    console.error('Enhanced support test failed:', error);
+                    resultDiv.innerHTML = `
+                        <div class="test-error">
+                            <h4>❌ Test Failed</h4>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Failed ❌';
+                }
+            }
+
+            async testMoodInsights() {
+                const resultDiv = document.getElementById('mood-insights-result');
+                const statusSpan = document.getElementById('insights-status');
+
+                resultDiv.innerHTML = '<div class="loading">Generating mood insights...</div>';
+                statusSpan.textContent = 'Testing...';
+
+                try {
+                    if (!window.aiService) {
+                        throw new Error('AI Service not available');
+                    }
+
+                    // Create mock mood data for testing
+                    const mockMoodData = {
+                        moodHistory: [
+                            { mood: 3, date: '2024-01-15' },
+                            { mood: 4, date: '2024-01-14' },
+                            { mood: 2, date: '2024-01-13' },
+                            { mood: 3, date: '2024-01-12' },
+                            { mood: 4, date: '2024-01-11' }
+                        ],
+                        trends: { trend: 'improving', message: 'Your mood has been trending upward' },
+                        patterns: { weekendEffect: false },
+                        timeframe: '7 days'
+                    };
+
+                    const insights = await window.aiService.generateMoodInsights(mockMoodData);
+                    
+                    resultDiv.innerHTML = `
+                        <div class="test-success">
+                            <h4>✅ Mood Insights Generated</h4>
+                            <div class="insights-preview">
+                                <div class="insights-icon">🧠</div>
+                                <p>${insights}</p>
+                            </div>
+                            <div class="test-details">
+                                <strong>Input:</strong> Mock mood data with 5 entries showing improving trend
+                            </div>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Passed ✅';
+                } catch (error) {
+                    console.error('Mood insights test failed:', error);
+                    resultDiv.innerHTML = `
+                        <div class="test-error">
+                            <h4>❌ Test Failed</h4>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                    statusSpan.textContent = 'Failed ❌';
+                }
+            }
+        }
+
+        // Initialize test when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new MentalHealthAITest();
+        });
+    </script>
+
+    <style>
+        .test-section {
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .test-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--azure-blue);
+            padding-bottom: 0.5rem;
+        }
+
+        .status-display {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: var(--light-gray);
+            border-radius: 6px;
+        }
+
+        .status-label {
+            font-weight: 600;
+        }
+
+        .test-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-controls label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .test-result {
+            min-height: 60px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            background: var(--light-gray);
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .test-success {
+            border-left: 4px solid #4CAF50;
+            background: #f8fff8;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .test-error {
+            border-left: 4px solid #f44336;
+            background: #fff8f8;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .affirmation-preview,
+        .support-preview,
+        .insights-preview {
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .affirmation-icon,
+        .support-icon,
+        .insights-icon {
+            font-size: 1.5rem;
+        }
+
+        .strategies-preview {
+            background: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .strategy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: var(--light-gray);
+            border-radius: 6px;
+        }
+
+        .strategy-number {
+            background: var(--azure-blue);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .test-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .test-summary {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: var(--light-gray);
+            border-radius: 6px;
+        }
+
+        .summary-label {
+            font-weight: 600;
+        }
+
+        .summary-status {
+            font-weight: 600;
+        }
+    </style>
+</body>
+</html>

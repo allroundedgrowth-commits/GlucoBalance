@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Report System Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .test-result {
+            background: #f8f9fa;
+            border-left: 4px solid #007FFF;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .test-result.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .test-result.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .mock-data-display {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .report-preview {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 15px 0;
+            background: white;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .clinical-report {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+        }
+        
+        .report-header {
+            text-align: center;
+            border-bottom: 2px solid #007FFF;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .report-section {
+            margin-bottom: 25px;
+        }
+        
+        .report-section h2 {
+            color: #007FFF;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 5px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 3px;
+        }
+        
+        .engagement-high { color: #28a745; font-weight: bold; }
+        .engagement-moderate { color: #ffc107; font-weight: bold; }
+        .engagement-low { color: #dc3545; font-weight: bold; }
+        
+        .risk-low-risk { color: #28a745; }
+        .risk-increased-risk { color: #ffc107; }
+        .risk-high-risk { color: #fd7e14; }
+        .risk-possible-diabetes { color: #dc3545; }
+        
+        .trend-improving { color: #28a745; }
+        .trend-stable { color: #6c757d; }
+        .trend-declining { color: #dc3545; }
+        
+        .data-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .data-metric {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007FFF;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .quality-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .quality-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #dc3545 0%, #ffc107 50%, #28a745 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .progress-step.active {
+            opacity: 1;
+            color: #007FFF;
+        }
+        
+        .progress-step.completed {
+            opacity: 1;
+            color: #28a745;
+        }
+        
+        .step-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .step-text {
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header class="test-section">
+            <h1>🏥 Doctor Report System Test</h1>
+            <p>Test the AI-enhanced doctor report generation system with comprehensive health data analysis</p>
+        </header>
+
+        <!-- Test Controls -->
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <div class="test-controls">
+                <button id="setup-mock-data" class="btn-primary">Setup Mock Data</button>
+                <button id="test-data-aggregation" class="btn-secondary">Test Data Aggregation</button>
+                <button id="test-ai-analysis" class="btn-secondary">Test AI Analysis</button>
+                <button id="generate-full-report" class="btn-primary">Generate Full Report</button>
+                <button id="test-pdf-export" class="btn-secondary">Test PDF Export</button>
+                <button id="test-report-ui" class="btn-secondary">Test Report UI</button>
+                <button id="clear-test-data" class="btn-danger">Clear Test Data</button>
+            </div>
+        </div>
+
+        <!-- Mock Data Display -->
+        <div class="test-section">
+            <h2>Mock Health Data</h2>
+            <div id="mock-data-status" class="test-result">
+                Click "Setup Mock Data" to create test health data for report generation
+            </div>
+            <div id="mock-data-display" class="mock-data-display" style="display: none;"></div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-section">
+            <h2>Test Results</h2>
+            <div id="test-results">
+                <div class="test-result">
+                    Ready to run tests. Use the controls above to test different components.
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Preview -->
+        <div class="test-section" id="report-preview-section" style="display: none;">
+            <h2>Generated Report Preview</h2>
+            <div class="report-actions" style="margin-bottom: 15px;">
+                <button id="download-test-report" class="btn-secondary">Download Report</button>
+                <button id="print-test-report" class="btn-secondary">Print Report</button>
+            </div>
+            <div id="report-preview" class="report-preview"></div>
+        </div>
+
+        <!-- Doctor Report UI Test -->
+        <div class="test-section" id="doctor-report-ui-section" style="display: none;">
+            <h2>Doctor Report UI Component</h2>
+            <div id="doctor-report-ui-container"></div>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pdf-export.js"></script>
+    <script src="js/doctor-report.js"></script>
+    <script src="js/doctor-report-ui.js"></script>
+
+    <script>
+        class DoctorReportTest {
+            constructor() {
+                this.mockUserId = 'test-user-123';
+                this.mockData = {};
+                this.reportService = window.doctorReportService;
+                this.reportUI = window.doctorReportUI;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.logTestStart();
+            }
+
+            setupEventListeners() {
+                document.getElementById('setup-mock-data').addEventListener('click', () => this.setupMockData());
+                document.getElementById('test-data-aggregation').addEventListener('click', () => this.testDataAggregation());
+                document.getElementById('test-ai-analysis').addEventListener('click', () => this.testAIAnalysis());
+                document.getElementById('generate-full-report').addEventListener('click', () => this.generateFullReport());
+                document.getElementById('test-pdf-export').addEventListener('click', () => this.testPDFExport());
+                document.getElementById('test-report-ui').addEventListener('click', () => this.testReportUI());
+                document.getElementById('clear-test-data').addEventListener('click', () => this.clearTestData());
+                document.getElementById('download-test-report').addEventListener('click', () => this.downloadTestReport());
+                document.getElementById('print-test-report').addEventListener('click', () => this.printTestReport());
+            }
+
+            logTestStart() {
+                this.addTestResult('Doctor Report System Test initialized', 'success');
+                this.addTestResult(`Database available: ${window.kiroDb ? 'Yes' : 'No'}`);
+                this.addTestResult(`AI Service available: ${window.aiService ? 'Yes' : 'No'}`);
+                this.addTestResult(`Report Service available: ${this.reportService ? 'Yes' : 'No'}`);
+                this.addTestResult(`Report UI available: ${this.reportUI ? 'Yes' : 'No'}`);
+                this.addTestResult(`PDF Export Service available: ${window.pdfExportService ? 'Yes' : 'No'}`);
+            }
+
+            async setupMockData() {
+                try {
+                    this.addTestResult('Setting up comprehensive mock health data...', 'info');
+
+                    // Create mock user
+                    const mockUser = {
+                        id: this.mockUserId,
+                        name: 'John Doe',
+                        age: 45,
+                        gender: 'male',
+                        email: 'john.doe@example.com',
+                        createdAt: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString()
+                    };
+
+                    // Create mock user in database
+                    if (window.kiroDb) {
+                        await window.kiroDb.createUser(mockUser);
+                    }
+
+                    // Generate 30 days of mock data
+                    await this.generateMockAssessments();
+                    await this.generateMockMoodData();
+                    await this.generateMockNutritionData();
+                    await this.generateMockProgressData();
+
+                    this.mockData = {
+                        user: mockUser,
+                        dataGenerated: new Date().toISOString(),
+                        period: '30 days'
+                    };
+
+                    this.displayMockData();
+                    this.addTestResult('Mock health data setup completed successfully!', 'success');
+
+                } catch (error) {
+                    this.addTestResult(`Failed to setup mock data: ${error.message}`, 'error');
+                    console.error('Mock data setup error:', error);
+                }
+            }
+
+            async generateMockAssessments() {
+                const assessments = [
+                    {
+                        date: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
+                        riskScore: 18,
+                        category: 'High Risk',
+                        responses: {
+                            age: 3, gender: 1, family_history: 5, high_blood_pressure: 2,
+                            physical_activity: 2, bmi: 3, gestational_diabetes: 0, prediabetes: 0
+                        },
+                        explanation: 'High risk due to age, family history, and lifestyle factors'
+                    },
+                    {
+                        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+                        riskScore: 16,
+                        category: 'High Risk',
+                        responses: {
+                            age: 3, gender: 1, family_history: 5, high_blood_pressure: 2,
+                            physical_activity: 0, bmi: 3, gestational_diabetes: 0, prediabetes: 0
+                        },
+                        explanation: 'Slight improvement with increased physical activity'
+                    }
+                ];
+
+                for (const assessment of assessments) {
+                    if (window.kiroDb) {
+                        await window.kiroDb.saveAssessment(this.mockUserId, assessment);
+                    }
+                }
+            }
+
+            async generateMockMoodData() {
+                const moods = [];
+                const today = new Date();
+
+                // Generate 30 days of mood data with realistic patterns
+                for (let i = 0; i < 30; i++) {
+                    const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
+                    const dateStr = date.toISOString().split('T')[0];
+                    
+                    // Create realistic mood patterns (slightly declining trend with some variation)
+                    let baseMood = 3.5 - (i * 0.02); // Slight decline over time
+                    baseMood += (Math.random() - 0.5) * 1.5; // Add variation
+                    const mood = Math.max(1, Math.min(5, Math.round(baseMood)));
+
+                    const notes = this.generateMoodNotes(mood);
+
+                    if (window.kiroDb) {
+                        await window.kiroDb.saveMood(this.mockUserId, dateStr, mood, notes);
+                    }
+
+                    moods.push({ date: dateStr, mood, notes });
+                }
+
+                return moods;
+            }
+
+            generateMoodNotes(mood) {
+                const notes = {
+                    1: ['Feeling very stressed about health', 'Worried about diabetes risk', 'Having a difficult day'],
+                    2: ['Feeling a bit down', 'Concerned about lifestyle changes', 'Struggling with motivation'],
+                    3: ['Okay day overall', 'Managing stress reasonably well', 'Neutral mood'],
+                    4: ['Feeling positive about health journey', 'Good day with exercise', 'Motivated to continue'],
+                    5: ['Excellent day!', 'Very motivated and positive', 'Feeling great about progress']
+                };
+
+                const moodNotes = notes[mood] || notes[3];
+                return moodNotes[Math.floor(Math.random() * moodNotes.length)];
+            }
+
+            async generateMockNutritionData() {
+                const plans = [
+                    {
+                        planType: '3-day',
+                        cuisine: 'mediterranean',
+                        dietaryRestrictions: ['vegetarian'],
+                        adherence: 0.85,
+                        createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        planType: '3-day',
+                        cuisine: 'general',
+                        dietaryRestrictions: [],
+                        adherence: 0.72,
+                        createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString()
+                    },
+                    {
+                        planType: '3-day',
+                        cuisine: 'asian',
+                        dietaryRestrictions: ['low-sodium'],
+                        adherence: 0.90,
+                        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ];
+
+                for (const plan of plans) {
+                    if (window.kiroDb) {
+                        await window.kiroDb.saveNutritionPlan(this.mockUserId, plan);
+                    }
+                }
+            }
+
+            async generateMockProgressData() {
+                const progressTypes = ['weight', 'blood_pressure', 'exercise_minutes', 'sleep_hours'];
+                const today = new Date();
+
+                for (let i = 0; i < 30; i++) {
+                    const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
+                    const dateStr = date.toISOString().split('T')[0];
+
+                    // Generate some progress data (not every day)
+                    if (Math.random() > 0.3) { // 70% chance of data each day
+                        const metricType = progressTypes[Math.floor(Math.random() * progressTypes.length)];
+                        let value;
+
+                        switch (metricType) {
+                            case 'weight':
+                                value = 180 + (Math.random() - 0.5) * 10; // Weight around 180 lbs
+                                break;
+                            case 'blood_pressure':
+                                value = 130 + (Math.random() - 0.5) * 20; // Systolic BP around 130
+                                break;
+                            case 'exercise_minutes':
+                                value = Math.floor(Math.random() * 60); // 0-60 minutes
+                                break;
+                            case 'sleep_hours':
+                                value = 6 + Math.random() * 3; // 6-9 hours
+                                break;
+                        }
+
+                        if (window.kiroDb) {
+                            await window.kiroDb.saveProgress(this.mockUserId, metricType, value, dateStr);
+                        }
+                    }
+                }
+            }
+
+            displayMockData() {
+                const display = document.getElementById('mock-data-display');
+                const status = document.getElementById('mock-data-status');
+
+                status.innerHTML = 'Mock health data generated successfully for 30-day period';
+                status.className = 'test-result success';
+
+                display.innerHTML = `
+                    <strong>Mock User:</strong> ${this.mockData.user.name} (Age: ${this.mockData.user.age}, Gender: ${this.mockData.user.gender})
+                    <br><strong>Data Period:</strong> ${this.mockData.period}
+                    <br><strong>Generated:</strong> ${new Date(this.mockData.dataGenerated).toLocaleString()}
+                    <br><br><strong>Data Includes:</strong>
+                    <br>• 2 Risk Assessments (showing improvement trend)
+                    <br>• 30 days of mood tracking data
+                    <br>• 3 Nutrition plans with adherence tracking
+                    <br>• Various progress metrics (weight, BP, exercise, sleep)
+                `;
+                display.style.display = 'block';
+            }
+
+            async testDataAggregation() {
+                try {
+                    this.addTestResult('Testing 30-day health data aggregation...', 'info');
+
+                    if (!this.reportService) {
+                        throw new Error('Report service not available');
+                    }
+
+                    const healthData = await this.reportService.aggregateHealthData(this.mockUserId, 30);
+
+                    this.addTestResult('Data aggregation completed successfully!', 'success');
+                    this.addTestResult(`Risk Assessments: ${healthData.riskAssessments.totalAssessments}`);
+                    this.addTestResult(`Mood Entries: ${healthData.mentalHealth.totalEntries}`);
+                    this.addTestResult(`Nutrition Plans: ${healthData.nutrition.totalPlans}`);
+                    this.addTestResult(`Progress Entries: ${healthData.progressMetrics.totalEntries}`);
+                    this.addTestResult(`Data Completeness: ${healthData.summary.dataCompleteness?.overall || 0}%`);
+
+                } catch (error) {
+                    this.addTestResult(`Data aggregation failed: ${error.message}`, 'error');
+                    console.error('Data aggregation test error:', error);
+                }
+            }
+
+            async testAIAnalysis() {
+                try {
+                    this.addTestResult('Testing AI analysis generation...', 'info');
+
+                    if (!this.reportService) {
+                        throw new Error('Report service not available');
+                    }
+
+                    // First aggregate the data
+                    const healthData = await this.reportService.aggregateHealthData(this.mockUserId, 30);
+                    
+                    // Then test AI analysis
+                    const aiAnalysis = await this.reportService.generateAIAnalysis(healthData);
+
+                    this.addTestResult('AI analysis completed successfully!', 'success');
+                    this.addTestResult(`Executive Summary: ${aiAnalysis.executiveSummary ? 'Generated' : 'Fallback used'}`);
+                    this.addTestResult(`Clinical Insights: ${Array.isArray(aiAnalysis.clinicalInsights) ? aiAnalysis.clinicalInsights.length + ' insights' : 'Generated'}`);
+                    this.addTestResult(`Recommendations: ${Array.isArray(aiAnalysis.recommendations) ? aiAnalysis.recommendations.length + ' recommendations' : 'Generated'}`);
+
+                } catch (error) {
+                    this.addTestResult(`AI analysis failed: ${error.message}`, 'error');
+                    console.error('AI analysis test error:', error);
+                }
+            }
+
+            async generateFullReport() {
+                try {
+                    this.addTestResult('Generating comprehensive doctor report...', 'info');
+
+                    if (!this.reportService) {
+                        throw new Error('Report service not available');
+                    }
+
+                    const reportResult = await this.reportService.generateDoctorReport(this.mockUserId, {
+                        days: 30,
+                        includeAIAnalysis: true,
+                        format: 'clinical'
+                    });
+
+                    this.addTestResult('Doctor report generated successfully!', 'success');
+                    this.addTestResult(`Report ID: ${reportResult.cacheKey}`);
+                    this.addTestResult(`Data Range: ${reportResult.dataRange.startDate} to ${reportResult.dataRange.endDate}`);
+
+                    // Display the report
+                    this.displayGeneratedReport(reportResult.report);
+
+                } catch (error) {
+                    this.addTestResult(`Report generation failed: ${error.message}`, 'error');
+                    console.error('Report generation test error:', error);
+                }
+            }
+
+            displayGeneratedReport(report) {
+                const previewSection = document.getElementById('report-preview-section');
+                const preview = document.getElementById('report-preview');
+
+                if (!previewSection || !preview) return;
+
+                // Use the report UI's formatting method
+                const formattedReport = this.reportUI.formatReportForDisplay(report);
+                preview.innerHTML = formattedReport;
+
+                previewSection.style.display = 'block';
+                previewSection.scrollIntoView({ behavior: 'smooth' });
+
+                this.addTestResult('Report preview displayed successfully!', 'success');
+                
+                // Store the report for PDF testing
+                this.lastGeneratedReport = report;
+            }
+
+            async testPDFExport() {
+                try {
+                    this.addTestResult('Testing PDF export functionality...', 'info');
+
+                    if (!window.pdfExportService) {
+                        throw new Error('PDF export service not available');
+                    }
+
+                    // Check if we have a report to export
+                    if (!this.lastGeneratedReport) {
+                        this.addTestResult('Generating report first for PDF export...', 'info');
+                        await this.generateFullReport();
+                        
+                        if (!this.lastGeneratedReport) {
+                            throw new Error('No report available for PDF export');
+                        }
+                    }
+
+                    this.addTestResult('Generating PDF document...', 'info');
+
+                    // Generate PDF
+                    const pdfDoc = await window.pdfExportService.generateReportPDF(this.lastGeneratedReport, {
+                        includePlainLanguage: true
+                    });
+
+                    this.addTestResult('PDF document generated successfully!', 'success');
+
+                    // Test PDF download
+                    const filename = await window.pdfExportService.downloadPDF(pdfDoc, 'test-glucobalance-report.pdf');
+                    this.addTestResult(`PDF downloaded as: ${filename}`, 'success');
+
+                    // Test PDF blob generation
+                    const pdfBlob = await window.pdfExportService.getPDFBlob(pdfDoc);
+                    this.addTestResult(`PDF blob size: ${Math.round(pdfBlob.size / 1024)} KB`, 'info');
+
+                    // Test data collection suggestions
+                    const healthData = await this.reportService.aggregateHealthData(this.mockUserId, 30);
+                    const suggestions = window.pdfExportService.generateDataCollectionSuggestions(healthData);
+                    this.addTestResult(`Generated ${suggestions.length} data collection suggestions`, 'info');
+
+                    this.addTestResult('PDF export functionality test completed successfully!', 'success');
+
+                } catch (error) {
+                    this.addTestResult(`PDF export test failed: ${error.message}`, 'error');
+                    console.error('PDF export test error:', error);
+                }
+            }
+
+            async testReportUI() {
+                try {
+                    this.addTestResult('Testing Doctor Report UI component...', 'info');
+
+                    if (!this.reportUI) {
+                        throw new Error('Report UI not available');
+                    }
+
+                    // Set mock user for UI
+                    this.reportUI.setCurrentUser({ id: this.mockUserId, name: 'John Doe' });
+
+                    // Create the report page
+                    this.reportUI.createDoctorReportPage();
+
+                    // Display in test container
+                    const uiSection = document.getElementById('doctor-report-ui-section');
+                    const container = document.getElementById('doctor-report-ui-container');
+
+                    if (uiSection && container) {
+                        const reportPage = document.getElementById('doctor-report-page');
+                        if (reportPage) {
+                            container.innerHTML = reportPage.innerHTML;
+                            uiSection.style.display = 'block';
+                            uiSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+
+                    this.addTestResult('Report UI component loaded successfully!', 'success');
+
+                } catch (error) {
+                    this.addTestResult(`Report UI test failed: ${error.message}`, 'error');
+                    console.error('Report UI test error:', error);
+                }
+            }
+
+            async clearTestData() {
+                try {
+                    this.addTestResult('Clearing test data...', 'info');
+
+                    // Clear localStorage
+                    localStorage.removeItem('glucobalance-reports');
+                    
+                    // Reset mock data
+                    this.mockData = {};
+
+                    // Hide displays
+                    document.getElementById('mock-data-display').style.display = 'none';
+                    document.getElementById('report-preview-section').style.display = 'none';
+                    document.getElementById('doctor-report-ui-section').style.display = 'none';
+
+                    // Reset status
+                    const status = document.getElementById('mock-data-status');
+                    status.innerHTML = 'Click "Setup Mock Data" to create test health data for report generation';
+                    status.className = 'test-result';
+
+                    this.addTestResult('Test data cleared successfully!', 'success');
+
+                } catch (error) {
+                    this.addTestResult(`Failed to clear test data: ${error.message}`, 'error');
+                }
+            }
+
+            downloadTestReport() {
+                const reportContent = document.getElementById('report-preview');
+                if (!reportContent) {
+                    this.addTestResult('No report to download', 'error');
+                    return;
+                }
+
+                const reportText = reportContent.innerText || reportContent.textContent;
+                const blob = new Blob([reportText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `test-doctor-report-${new Date().toISOString().split('T')[0]}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                this.addTestResult('Test report downloaded successfully!', 'success');
+            }
+
+            printTestReport() {
+                const reportContent = document.getElementById('report-preview');
+                if (!reportContent) {
+                    this.addTestResult('No report to print', 'error');
+                    return;
+                }
+
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>GlucoBalance Test Report</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; margin: 20px; }
+                                .clinical-report { max-width: 800px; margin: 0 auto; }
+                                .report-section { margin-bottom: 30px; }
+                                h1, h2, h3 { color: #007FFF; }
+                                .report-header { border-bottom: 2px solid #007FFF; padding-bottom: 20px; margin-bottom: 30px; }
+                            </style>
+                        </head>
+                        <body>
+                            ${reportContent.innerHTML}
+                        </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+
+                this.addTestResult('Test report sent to printer!', 'success');
+            }
+
+            addTestResult(message, type = 'info') {
+                const results = document.getElementById('test-results');
+                const result = document.createElement('div');
+                result.className = `test-result ${type}`;
+                result.innerHTML = `
+                    <strong>${new Date().toLocaleTimeString()}:</strong> ${message}
+                `;
+                results.appendChild(result);
+                
+                // Scroll to latest result
+                result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Initialize test when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.doctorReportTest = new DoctorReportTest();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Icons Removal Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/hero-enhanced.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <style>
+        .test-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 2px solid #007FFF;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 350px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .test-result {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .test-result.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-result.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+        }
+        .test-button:hover {
+            background: #0066CC;
+        }
+        .icon-highlight {
+            background: yellow !important;
+            border: 2px solid red !important;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <header class="hero-section">
+                <!-- Hero Background with Azure Theme -->
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                    <div class="floating-elements">
+                        <!-- Icons removed for cleaner design -->
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="hero-layout">
+                        <!-- Main Content Section -->
+                        <div class="hero-content">
+                            <!-- Certification Badge -->
+                            <div class="hero-badge">
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                                <div class="badge-glow"></div>
+                            </div>
+
+                            <!-- Main Title -->
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+
+                            <!-- Subtitle -->
+                            <p class="hero-subtitle">
+                                Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with <span class="highlight-text">AI-powered insights</span>
+                            </p>
+
+                            <!-- Trust Indicators -->
+                            <div class="hero-trust">
+                                <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-label">HIPAA Compliant</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Illustration Section -->
+                        <div class="hero-visual">
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-text">Health</div>
+                                    </div>
+                                </div>
+                                <div class="illustration-circle orbit-1">
+                                    <!-- Icon removed -->
+                                </div>
+                                <div class="illustration-circle orbit-2">
+                                    <!-- Icon removed -->
+                                </div>
+                                <div class="illustration-circle orbit-3">
+                                    <!-- Icon removed -->
+                                </div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container">
+                <section id="features" class="features-section">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        <div class="feature-card clickable" data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        <div class="feature-card clickable" data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        <div class="feature-card clickable" data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Test Panel -->
+    <div class="test-container">
+        <h3 style="margin: 0 0 10px 0; color: #007FFF;">Hero Icons Removal Test</h3>
+        <div id="test-results"></div>
+        <button class="test-button" onclick="runIconRemovalTests()">Test Icon Removal</button>
+        <button class="test-button" onclick="highlightRemainingIcons()">Highlight Any Remaining Icons</button>
+        <button class="test-button" onclick="clearHighlights()">Clear Highlights</button>
+    </div>
+
+    <script>
+        function addTestResult(test, status, message) {
+            const resultsDiv = document.getElementById('test-results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${status}`;
+            resultDiv.textContent = `${test}: ${message}`;
+            resultsDiv.appendChild(resultDiv);
+        }
+
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = '';
+        }
+
+        function runIconRemovalTests() {
+            clearResults();
+            
+            // Test 1: Check floating elements
+            const floatingElements = document.querySelectorAll('.floating-element');
+            let hasVisibleFloatingIcons = false;
+            floatingElements.forEach(el => {
+                if (el.textContent.trim() && window.getComputedStyle(el).display !== 'none') {
+                    hasVisibleFloatingIcons = true;
+                }
+            });
+            
+            if (!hasVisibleFloatingIcons) {
+                addTestResult('Floating Icons', 'pass', 'All floating background icons removed');
+            } else {
+                addTestResult('Floating Icons', 'fail', 'Some floating icons still visible');
+            }
+
+            // Test 2: Check badge icon
+            const badgeIcon = document.querySelector('.badge-icon');
+            if (!badgeIcon || window.getComputedStyle(badgeIcon).display === 'none') {
+                addTestResult('Badge Icon', 'pass', 'Badge icon removed from WHO/ADA badge');
+            } else {
+                addTestResult('Badge Icon', 'fail', 'Badge icon still present');
+            }
+
+            // Test 3: Check trust icons
+            const trustIcons = document.querySelectorAll('.trust-icon');
+            let hasVisibleTrustIcons = false;
+            trustIcons.forEach(icon => {
+                if (icon.textContent.trim() && window.getComputedStyle(icon).display !== 'none') {
+                    hasVisibleTrustIcons = true;
+                }
+            });
+            
+            if (!hasVisibleTrustIcons) {
+                addTestResult('Trust Icons', 'pass', 'All trust badge icons removed');
+            } else {
+                addTestResult('Trust Icons', 'fail', 'Some trust icons still visible');
+            }
+
+            // Test 4: Check main illustration icon
+            const mainIcon = document.querySelector('.main-icon');
+            if (!mainIcon || window.getComputedStyle(mainIcon).display === 'none') {
+                addTestResult('Main Icon', 'pass', 'Main illustration icon removed');
+            } else {
+                addTestResult('Main Icon', 'fail', 'Main illustration icon still present');
+            }
+
+            // Test 5: Check orbit icons
+            const orbitIcons = document.querySelectorAll('.orbit-icon');
+            let hasVisibleOrbitIcons = false;
+            orbitIcons.forEach(icon => {
+                if (icon.textContent.trim() && window.getComputedStyle(icon).display !== 'none') {
+                    hasVisibleOrbitIcons = true;
+                }
+            });
+            
+            if (!hasVisibleOrbitIcons) {
+                addTestResult('Orbit Icons', 'pass', 'All orbit icons removed from illustration');
+            } else {
+                addTestResult('Orbit Icons', 'fail', 'Some orbit icons still visible');
+            }
+
+            // Test 6: Check for any emoji characters in hero section
+            const heroSection = document.querySelector('.hero-section');
+            const heroText = heroSection.textContent;
+            const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+            const foundEmojis = heroText.match(emojiRegex);
+            
+            if (!foundEmojis || foundEmojis.length === 0) {
+                addTestResult('Emoji Check', 'pass', 'No emoji icons found in hero section');
+            } else {
+                addTestResult('Emoji Check', 'fail', `Found ${foundEmojis.length} emoji(s): ${foundEmojis.join(', ')}`);
+            }
+
+            // Test 7: Check layout integrity
+            const heroLayout = document.querySelector('.hero-layout');
+            const heroContent = document.querySelector('.hero-content');
+            const heroVisual = document.querySelector('.hero-visual');
+            
+            if (heroLayout && heroContent && heroVisual) {
+                addTestResult('Layout Integrity', 'pass', 'Hero layout structure maintained after icon removal');
+            } else {
+                addTestResult('Layout Integrity', 'fail', 'Hero layout structure compromised');
+            }
+        }
+
+        function highlightRemainingIcons() {
+            clearHighlights();
+            
+            // Find and highlight any remaining icons
+            const iconSelectors = [
+                '.floating-element',
+                '.badge-icon', 
+                '.trust-icon',
+                '.main-icon',
+                '.orbit-icon'
+            ];
+            
+            let foundIcons = 0;
+            iconSelectors.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    if (el.textContent.trim() && window.getComputedStyle(el).display !== 'none') {
+                        el.classList.add('icon-highlight');
+                        foundIcons++;
+                    }
+                });
+            });
+
+            // Also check for any emoji characters
+            const heroSection = document.querySelector('.hero-section');
+            const walker = document.createTreeWalker(
+                heroSection,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+
+            let node;
+            while (node = walker.nextNode()) {
+                const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+                if (emojiRegex.test(node.textContent)) {
+                    node.parentElement.classList.add('icon-highlight');
+                    foundIcons++;
+                }
+            }
+
+            if (foundIcons === 0) {
+                addTestResult('Icon Highlight', 'pass', 'No remaining icons found to highlight');
+            } else {
+                addTestResult('Icon Highlight', 'info', `Highlighted ${foundIcons} remaining icon(s)`);
+            }
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.icon-highlight').forEach(el => {
+                el.classList.remove('icon-highlight');
+            });
+        }
+
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runIconRemovalTests, 1000);
+        });
+    </script>
+</body>
+</html>

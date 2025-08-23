@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Export Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .test-result {
+            background: #f8f9fa;
+            border-left: 4px solid #007FFF;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .test-result.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .test-result.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .verification-results {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .result-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-card {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+        }
+        
+        .summary-card.passed {
+            background: #28a745;
+        }
+        
+        .summary-card.failed {
+            background: #dc3545;
+        }
+        
+        .summary-card.warnings {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .summary-card.total {
+            background: #007FFF;
+        }
+        
+        .summary-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .summary-label {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .detailed-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .result-status {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .result-content {
+            flex: 1;
+        }
+        
+        .result-test {
+            font-weight: bold;
+            color: #007FFF;
+        }
+        
+        .result-message {
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header class="test-section">
+            <h1>📄 PDF Export System Test</h1>
+            <p>Test the PDF export functionality for doctor reports with comprehensive verification</p>
+        </header>
+
+        <!-- Test Controls -->
+        <div class="test-section">
+            <h2>Test Controls</h2>
+            <div class="test-controls">
+                <button id="run-verification" class="btn-primary">Run Full Verification</button>
+                <button id="test-basic-pdf" class="btn-secondary">Test Basic PDF</button>
+                <button id="test-plain-language" class="btn-secondary">Test Plain Language</button>
+                <button id="test-suggestions" class="btn-secondary">Test Suggestions</button>
+                <button id="download-sample-pdf" class="btn-primary">Download Sample PDF</button>
+                <button id="clear-results" class="btn-danger">Clear Results</button>
+            </div>
+        </div>
+
+        <!-- Service Status -->
+        <div class="test-section">
+            <h2>Service Status</h2>
+            <div id="service-status">
+                <div class="test-result">
+                    Checking service availability...
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification Results -->
+        <div class="test-section" id="verification-section" style="display: none;">
+            <h2>Verification Results</h2>
+            <div id="verification-results" class="verification-results">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+
+        <!-- Manual Test Results -->
+        <div class="test-section">
+            <h2>Manual Test Results</h2>
+            <div id="manual-test-results">
+                <div class="test-result">
+                    Ready to run manual tests. Use the controls above to test different components.
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample PDF Preview -->
+        <div class="test-section" id="pdf-preview-section" style="display: none;">
+            <h2>Sample PDF Preview</h2>
+            <div id="pdf-preview-info">
+                <!-- PDF info will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/pdf-export.js"></script>
+    <script src="js/doctor-report.js"></script>
+    <script src="js/doctor-report-ui.js"></script>
+    <script src="verify-pdf-export.js"></script>
+
+    <script>
+        class PDFExportTest {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkServiceStatus();
+            }
+
+            setupEventListeners() {
+                document.getElementById('run-verification').addEventListener('click', () => this.runVerification());
+                document.getElementById('test-basic-pdf').addEventListener('click', () => this.testBasicPDF());
+                document.getElementById('test-plain-language').addEventListener('click', () => this.testPlainLanguage());
+                document.getElementById('test-suggestions').addEventListener('click', () => this.testSuggestions());
+                document.getElementById('download-sample-pdf').addEventListener('click', () => this.downloadSamplePDF());
+                document.getElementById('clear-results').addEventListener('click', () => this.clearResults());
+            }
+
+            checkServiceStatus() {
+                const statusDiv = document.getElementById('service-status');
+                let statusHTML = '';
+
+                // Check PDF Export Service
+                if (window.pdfExportService) {
+                    statusHTML += '<div class="test-result success">✅ PDF Export Service: Available</div>';
+                } else {
+                    statusHTML += '<div class="test-result error">❌ PDF Export Service: Not Available</div>';
+                }
+
+                // Check jsPDF Library
+                if (window.jsPDF) {
+                    statusHTML += '<div class="test-result success">✅ jsPDF Library: Loaded</div>';
+                } else {
+                    statusHTML += '<div class="test-result">⏳ jsPDF Library: Loading...</div>';
+                }
+
+                // Check Doctor Report Service
+                if (window.doctorReportService) {
+                    statusHTML += '<div class="test-result success">✅ Doctor Report Service: Available</div>';
+                } else {
+                    statusHTML += '<div class="test-result error">❌ Doctor Report Service: Not Available</div>';
+                }
+
+                // Check Database
+                if (window.kiroDb) {
+                    statusHTML += '<div class="test-result success">✅ Database Service: Available</div>';
+                } else {
+                    statusHTML += '<div class="test-result error">❌ Database Service: Not Available</div>';
+                }
+
+                statusDiv.innerHTML = statusHTML;
+            }
+
+            async runVerification() {
+                try {
+                    this.addManualResult('Running comprehensive PDF export verification...', 'info');
+                    
+                    // Run the verification
+                    const verification = new PDFExportVerification();
+                    
+                    // Wait for verification to complete
+                    setTimeout(() => {
+                        this.displayVerificationResults();
+                    }, 3000);
+
+                } catch (error) {
+                    this.addManualResult(`Verification failed: ${error.message}`, 'error');
+                }
+            }
+
+            displayVerificationResults() {
+                const results = window.pdfExportVerificationResults;
+                if (!results) {
+                    this.addManualResult('No verification results available', 'error');
+                    return;
+                }
+
+                const section = document.getElementById('verification-section');
+                const resultsDiv = document.getElementById('verification-results');
+
+                // Create summary
+                const summaryHTML = `
+                    <div class="result-summary">
+                        <div class="summary-card passed">
+                            <div class="summary-number">${results.summary.passed}</div>
+                            <div class="summary-label">Passed</div>
+                        </div>
+                        <div class="summary-card failed">
+                            <div class="summary-number">${results.summary.failed}</div>
+                            <div class="summary-label">Failed</div>
+                        </div>
+                        <div class="summary-card warnings">
+                            <div class="summary-number">${results.summary.warnings}</div>
+                            <div class="summary-label">Warnings</div>
+                        </div>
+                        <div class="summary-card total">
+                            <div class="summary-number">${results.summary.total}</div>
+                            <div class="summary-label">Total Tests</div>
+                        </div>
+                    </div>
+                `;
+
+                // Create detailed results
+                const detailedHTML = `
+                    <div class="detailed-results">
+                        ${results.details.map(result => `
+                            <div class="result-item">
+                                <div class="result-status">${result.status === 'PASS' ? '✅' : result.status === 'FAIL' ? '❌' : '⚠️'}</div>
+                                <div class="result-content">
+                                    <div class="result-test">${result.test}</div>
+                                    <div class="result-message">${result.message}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                resultsDiv.innerHTML = summaryHTML + detailedHTML;
+                section.style.display = 'block';
+                section.scrollIntoView({ behavior: 'smooth' });
+
+                const status = results.summary.failed === 0 ? 'success' : 'error';
+                const message = results.summary.failed === 0 ? 
+                    'All verification tests passed!' : 
+                    `${results.summary.failed} tests failed. Check details above.`;
+                
+                this.addManualResult(message, status);
+            }
+
+            async testBasicPDF() {
+                try {
+                    this.addManualResult('Testing basic PDF generation...', 'info');
+
+                    if (!window.pdfExportService) {
+                        throw new Error('PDF Export Service not available');
+                    }
+
+                    // Create a simple mock report
+                    const mockReport = this.createSimpleMockReport();
+                    
+                    // Generate PDF
+                    const pdfDoc = await window.pdfExportService.generateReportPDF(mockReport);
+                    
+                    if (!pdfDoc) {
+                        throw new Error('PDF document not generated');
+                    }
+
+                    // Get PDF size
+                    const pdfBlob = await window.pdfExportService.getPDFBlob(pdfDoc);
+                    const sizeKB = Math.round(pdfBlob.size / 1024);
+
+                    this.addManualResult(`Basic PDF generated successfully (${sizeKB} KB)`, 'success');
+
+                } catch (error) {
+                    this.addManualResult(`Basic PDF test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testPlainLanguage() {
+                try {
+                    this.addManualResult('Testing plain language summary generation...', 'info');
+
+                    if (!window.pdfExportService) {
+                        throw new Error('PDF Export Service not available');
+                    }
+
+                    const mockReport = this.createSimpleMockReport();
+                    const plainLanguage = window.pdfExportService.generatePlainLanguageSummary(mockReport);
+
+                    if (!plainLanguage || typeof plainLanguage !== 'object') {
+                        throw new Error('Plain language summary not generated');
+                    }
+
+                    const sectionCount = Object.keys(plainLanguage).length;
+                    this.addManualResult(`Plain language summary generated with ${sectionCount} sections`, 'success');
+
+                } catch (error) {
+                    this.addManualResult(`Plain language test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async testSuggestions() {
+                try {
+                    this.addManualResult('Testing data collection suggestions...', 'info');
+
+                    if (!window.pdfExportService) {
+                        throw new Error('PDF Export Service not available');
+                    }
+
+                    const mockHealthData = {
+                        summary: {
+                            dataCompleteness: {
+                                overall: 40,
+                                assessments: 20,
+                                mood: 50,
+                                nutrition: 30
+                            }
+                        }
+                    };
+
+                    const suggestions = window.pdfExportService.generateDataCollectionSuggestions(mockHealthData);
+
+                    if (!Array.isArray(suggestions)) {
+                        throw new Error('Suggestions not returned as array');
+                    }
+
+                    this.addManualResult(`Generated ${suggestions.length} data collection suggestions`, 'success');
+
+                } catch (error) {
+                    this.addManualResult(`Suggestions test failed: ${error.message}`, 'error');
+                }
+            }
+
+            async downloadSamplePDF() {
+                try {
+                    this.addManualResult('Generating and downloading sample PDF...', 'info');
+
+                    if (!window.pdfExportService) {
+                        throw new Error('PDF Export Service not available');
+                    }
+
+                    const mockReport = this.createComprehensiveMockReport();
+                    const pdfDoc = await window.pdfExportService.generateReportPDF(mockReport, {
+                        includePlainLanguage: true
+                    });
+
+                    const filename = await window.pdfExportService.downloadPDF(pdfDoc, 'sample-glucobalance-report.pdf');
+                    
+                    // Show PDF info
+                    const pdfBlob = await window.pdfExportService.getPDFBlob(pdfDoc);
+                    const sizeKB = Math.round(pdfBlob.size / 1024);
+                    
+                    const previewSection = document.getElementById('pdf-preview-section');
+                    const previewInfo = document.getElementById('pdf-preview-info');
+                    
+                    previewInfo.innerHTML = `
+                        <div class="test-result success">
+                            <strong>Sample PDF Generated Successfully!</strong><br>
+                            Filename: ${filename}<br>
+                            Size: ${sizeKB} KB<br>
+                            Includes: Clinical report + Plain language summary<br>
+                            Generated: ${new Date().toLocaleString()}
+                        </div>
+                    `;
+                    
+                    previewSection.style.display = 'block';
+                    previewSection.scrollIntoView({ behavior: 'smooth' });
+
+                    this.addManualResult(`Sample PDF downloaded: ${filename} (${sizeKB} KB)`, 'success');
+
+                } catch (error) {
+                    this.addManualResult(`Sample PDF download failed: ${error.message}`, 'error');
+                }
+            }
+
+            clearResults() {
+                document.getElementById('manual-test-results').innerHTML = `
+                    <div class="test-result">
+                        Ready to run manual tests. Use the controls above to test different components.
+                    </div>
+                `;
+                
+                document.getElementById('verification-section').style.display = 'none';
+                document.getElementById('pdf-preview-section').style.display = 'none';
+                
+                this.addManualResult('Results cleared', 'info');
+            }
+
+            createSimpleMockReport() {
+                return {
+                    header: {
+                        title: 'SAMPLE HEALTH REPORT',
+                        subtitle: 'Generated by GlucoBalance',
+                        patientId: 'test-123',
+                        patientName: 'Test Patient',
+                        reportDate: new Date().toISOString().split('T')[0],
+                        reportPeriod: 'Last 30 days',
+                        reportType: 'Test Report'
+                    },
+                    executiveSummary: 'This is a test report generated for PDF export verification.',
+                    patientSummary: {
+                        demographics: { name: 'Test Patient', age: 35, gender: 'other' },
+                        engagementMetrics: { totalDataPoints: 10, engagementLevel: 'Low', dataCompleteness: 25, activeDays: 5 }
+                    },
+                    clinicalFindings: { keyFindings: ['Test finding 1', 'Test finding 2'] },
+                    riskAssessment: { assessmentSummary: { latestScore: 10, latestCategory: 'Low Risk' } },
+                    mentalHealthAssessment: { moodAssessment: { totalEntries: 5, averageMood: 3.5, trend: 'Stable' } },
+                    lifestyleFactors: { nutritionalAdherence: { mealPlansGenerated: 1, averageAdherence: 0.5 } },
+                    trendAnalysis: { riskScoreTrends: {}, moodTrends: {} },
+                    recommendations: ['Continue monitoring', 'Maintain healthy lifestyle'],
+                    followUp: ['Schedule follow-up in 3 months'],
+                    dataQuality: { completeness: { overall: 25 }, reliability: 'Fair' },
+                    footer: { disclaimer: 'Test report disclaimer', generatedAt: new Date().toISOString(), version: '1.0' }
+                };
+            }
+
+            createComprehensiveMockReport() {
+                return {
+                    header: {
+                        title: 'COMPREHENSIVE DIABETES PREVENTION HEALTH REPORT',
+                        subtitle: 'Generated by GlucoBalance Digital Health Platform',
+                        patientId: 'sample-456',
+                        patientName: 'Sample Patient',
+                        reportDate: new Date().toISOString().split('T')[0],
+                        reportPeriod: `${new Date(Date.now() - 30*24*60*60*1000).toISOString().split('T')[0]} to ${new Date().toISOString().split('T')[0]}`,
+                        reportType: 'Clinical Summary Report',
+                        generatedBy: 'AI-Enhanced Health Analytics System'
+                    },
+                    executiveSummary: 'Patient demonstrates good engagement with digital health monitoring over the 30-day period. Current diabetes risk score: 12 (Increased Risk). Mental health status shows average mood rating of 3.8/5 with stable trend. Nutrition adherence at 82% indicates strong commitment to dietary recommendations. Continued monitoring and preventive lifestyle interventions recommended.',
+                    patientSummary: {
+                        demographics: {
+                            name: 'Sample Patient',
+                            age: 42,
+                            gender: 'female',
+                            registrationDate: '2023-09-15'
+                        },
+                        engagementMetrics: {
+                            totalDataPoints: 67,
+                            engagementLevel: 'High',
+                            dataCompleteness: 85,
+                            activeDays: 28
+                        }
+                    },
+                    clinicalFindings: {
+                        keyFindings: [
+                            'Diabetes risk assessment shows increased risk (score: 12) due to family history and age factors',
+                            'Mental health monitoring demonstrates consistent engagement with 28 mood entries averaging 3.8/5',
+                            'Nutrition adherence excellent at 82% across 4 generated meal plans',
+                            'Progress tracking shows consistent weight management and exercise logging'
+                        ],
+                        alertsAndConcerns: []
+                    },
+                    riskAssessment: {
+                        assessmentSummary: {
+                            totalAssessments: 3,
+                            latestScore: 12,
+                            latestCategory: 'Increased Risk',
+                            assessmentDate: new Date(Date.now() - 2*24*60*60*1000).toISOString().split('T')[0]
+                        },
+                        clinicalInterpretation: 'Patient shows increased risk for diabetes development primarily due to age (40+) and family history factors. Current lifestyle modifications are appropriate and should be continued. Regular monitoring recommended.'
+                    },
+                    mentalHealthAssessment: {
+                        moodAssessment: {
+                            totalEntries: 28,
+                            averageMood: 3.8,
+                            trend: 'Stable'
+                        },
+                        mentalHealthRecommendations: [
+                            'Continue current stress management practices',
+                            'Maintain regular mood tracking for pattern identification',
+                            'Consider mindfulness or meditation practices for mood enhancement'
+                        ]
+                    },
+                    lifestyleFactors: {
+                        nutritionalAdherence: {
+                            mealPlansGenerated: 4,
+                            averageAdherence: 0.82
+                        },
+                        lifestyleRecommendations: [
+                            'Maintain current excellent nutrition adherence levels',
+                            'Continue Mediterranean-style dietary patterns',
+                            'Increase physical activity to 200 minutes per week for enhanced diabetes prevention',
+                            'Focus on stress reduction techniques to support overall health'
+                        ]
+                    },
+                    trendAnalysis: {
+                        riskScoreTrends: { trend: 'Stable', change: -1 },
+                        moodTrends: { trend: 'Stable', averageMood: 3.8 },
+                        clinicalSignificance: 'Stable trends across all metrics indicate effective health management. Slight improvement in risk score suggests positive impact of lifestyle interventions.'
+                    },
+                    recommendations: [
+                        'Continue current diabetes prevention strategies with excellent nutrition adherence',
+                        'Maintain regular physical activity and consider gradual increase to 200 minutes weekly',
+                        'Schedule annual diabetes screening with healthcare provider',
+                        'Continue digital health monitoring for ongoing trend analysis',
+                        'Consider diabetes prevention program enrollment for additional support'
+                    ],
+                    followUp: [
+                        'Follow-up appointment recommended in 6 months',
+                        'Continue monthly risk assessments and daily mood tracking',
+                        'Review nutrition plan effectiveness quarterly',
+                        'Annual comprehensive diabetes screening with healthcare provider'
+                    ],
+                    dataQuality: {
+                        completeness: { overall: 85, assessments: 100, mood: 93, nutrition: 80 },
+                        reliability: 'Excellent',
+                        limitations: [
+                            'Some gaps in weekend mood logging',
+                            'Occasional missed meal adherence tracking'
+                        ],
+                        recommendations: [
+                            'Set weekend reminders for mood logging',
+                            'Use meal photo feature for improved adherence tracking'
+                        ]
+                    },
+                    footer: {
+                        disclaimer: 'This report is generated by GlucoBalance AI-enhanced health analytics for informational purposes. Clinical decisions should be based on comprehensive patient evaluation and professional medical judgment. This report should be shared with healthcare providers for proper medical interpretation.',
+                        generatedAt: new Date().toISOString(),
+                        version: '1.0',
+                        contact: 'For questions about this report, please consult with your healthcare provider or contact GlucoBalance support.'
+                    }
+                };
+            }
+
+            addManualResult(message, type = 'info') {
+                const results = document.getElementById('manual-test-results');
+                const result = document.createElement('div');
+                result.className = `test-result ${type}`;
+                result.innerHTML = `
+                    <strong>${new Date().toLocaleTimeString()}:</strong> ${message}
+                `;
+                results.appendChild(result);
+                
+                // Scroll to latest result
+                result.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize test when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new PDFExportTest();
+        });
+    </script>
+</body>
+</html>

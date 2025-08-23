@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Fixes Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+            z-index: 1000;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .test-overlay h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .test-instructions {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .test-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .test-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ffc107;
+        }
+        .test-status.pass { background: #fff; }
+        @media (max-width: 768px) {
+            .test-instructions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-overlay">
+        <h3>🧪 Final Fixes Test</h3>
+        <div class="test-instructions">
+            <div class="test-item">
+                <span class="test-status" id="status-spacing"></span>
+                <span>No space above menu</span>
+            </div>
+            <div class="test-item">
+                <span class="test-status" id="status-signup"></span>
+                <span>Signup button → Registration page</span>
+            </div>
+            <div class="test-item">
+                <span class="test-status" id="status-dashboard"></span>
+                <span>Dashboard button → Login page</span>
+            </div>
+            <div class="test-item">
+                <span class="test-status" id="status-registration"></span>
+                <span>Registration → Dashboard</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-icon">🏆</span>
+                            <span class="badge-text">WHO/ADA Compliant</span>
+                        </div>
+                        <h1 class="hero-title">
+                            <span class="title-highlight">Prevent.</span>
+                            <span class="title-highlight">Support.</span>
+                            <span class="title-highlight">Thrive.</span>
+                            <br>
+                            <span class="title-main">with GlucoBalance</span>
+                        </h1>
+                        <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection,
+                            and ongoing management with AI-powered insights</p>
+
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">95%</div>
+                                <div class="stat-label">Accuracy Rate</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">10K+</div>
+                                <div class="stat-label">Users Helped</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">AI Support</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-cta">
+                            <button class="hero-btn primary">
+                                <span class="btn-icon">🎯</span>
+                                Start Free Risk Assessment
+                            </button>
+                            <button class="hero-btn secondary">
+                                <span class="btn-icon">📋</span>
+                                Explore Features
+                            </button>
+                        </div>
+
+                        <div class="hero-trust">
+                            <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                            <div class="trust-badges">
+                                <span class="trust-badge">🔒 HIPAA Compliant</span>
+                                <span class="trust-badge">🛡️ Privacy First</span>
+                                <span class="trust-badge">🌟 Evidence-Based</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-visual">
+                        <div class="hero-illustration">
+                            <div class="illustration-element pulse">💙</div>
+                            <div class="illustration-element float">📊</div>
+                            <div class="illustration-element bounce">🍎</div>
+                            <div class="illustration-element rotate">🎯</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-prefetch-module="risk-assessment"
+                            data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="nutrition-service"
+                            data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="mental-health"
+                            data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="progress-dashboard"
+                            data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="cta-section">
+                    <p class="cta-text">Click on any feature card above to get started with your health journey</p>
+                </div>
+            </main>
+        </div>
+
+        <!-- Feature Detail Modal -->
+        <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Feature Details</h2>
+                    <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                    <button class="btn-primary" id="modal-action">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="js/landing-page.js"></script>
+    <script>
+        // Initialize the landing page manager
+        window.landingPageManager = new LandingPageManager();
+        
+        console.log('🧪 Final fixes test loaded!');
+        
+        // Test status tracking
+        const testStatus = {
+            spacing: true, // Should be true if no space above menu
+            signup: false,
+            dashboard: false,
+            registration: false
+        };
+
+        function updateTestStatus() {
+            document.getElementById('status-spacing').className = testStatus.spacing ? 'test-status pass' : 'test-status';
+            document.getElementById('status-signup').className = testStatus.signup ? 'test-status pass' : 'test-status';
+            document.getElementById('status-dashboard').className = testStatus.dashboard ? 'test-status pass' : 'test-status';
+            document.getElementById('status-registration').className = testStatus.registration ? 'test-status pass' : 'test-status';
+        }
+
+        // Monitor for page changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    // Check for signup page
+                    if (document.getElementById('signup-page')) {
+                        testStatus.signup = true;
+                        console.log('✅ Signup page detected');
+                    }
+                    // Check for login page
+                    if (document.getElementById('login-page')) {
+                        testStatus.dashboard = true;
+                        console.log('✅ Login page detected');
+                    }
+                    // Check for dashboard page
+                    if (document.getElementById('dashboard-page') && document.getElementById('dashboard-page').classList.contains('active')) {
+                        testStatus.registration = true;
+                        console.log('✅ Dashboard access detected');
+                    }
+                    updateTestStatus();
+                }
+            });
+        });
+
+        observer.observe(document.getElementById('app'), {
+            childList: true,
+            subtree: true
+        });
+
+        // Initial status update
+        updateTestStatus();
+
+        // Show welcome notification
+        setTimeout(() => {
+            if (window.landingPageManager && window.landingPageManager.showNotification) {
+                window.landingPageManager.showNotification('🎯 Test the buttons: Dashboard should show login, Sign Up should show registration page!', 'info');
+            }
+        }, 1000);
+
+        // Test spacing by checking if navigation is at the top
+        setTimeout(() => {
+            const nav = document.querySelector('.top-nav');
+            const navRect = nav.getBoundingClientRect();
+            const hasSpaceAbove = navRect.top > 10; // Allow small margin for test overlay
+            
+            if (hasSpaceAbove) {
+                testStatus.spacing = false;
+                console.log('❌ Space detected above navigation');
+                if (window.landingPageManager && window.landingPageManager.showNotification) {
+                    window.landingPageManager.showNotification('⚠️ Space detected above navigation - needs fixing', 'warning');
+                }
+            } else {
+                testStatus.spacing = true;
+                console.log('✅ No space above navigation');
+            }
+            updateTestStatus();
+        }, 2000);
+
+        // Periodic status updates
+        setInterval(() => {
+            const allPassed = Object.values(testStatus).every(status => status);
+            if (allPassed) {
+                console.log('🎉 All tests passed!');
+                if (window.landingPageManager && window.landingPageManager.showNotification) {
+                    window.landingPageManager.showNotification('🎉 All functionality working perfectly!', 'success');
+                }
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance Infrastructure Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .test-pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-button {
+            background-color: #007FFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007FFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 GlucoBalance Infrastructure Test Suite</h1>
+        <p>This page tests the core infrastructure components of GlucoBalance.</p>
+        
+        <div class="test-actions">
+            <button class="test-button" onclick="runAllTests()">Run All Tests</button>
+            <button class="test-button" onclick="testDatabase()">Test Database</button>
+            <button class="test-button" onclick="testErrorHandler()">Test Error Handler</button>
+            <button class="test-button" onclick="testOfflineMode()">Test Offline Mode</button>
+            <button class="test-button" onclick="clearResults()">Clear Results</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>Test Results</h2>
+        <div id="test-results">
+            <p>Click "Run All Tests" to begin testing...</p>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>System Status</h2>
+        <div id="system-status">
+            <div class="loading"></div> Checking system status...
+        </div>
+    </div>
+
+    <!-- Include all the infrastructure files -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/infrastructure-test.js"></script>
+
+    <script>
+        let testResults = [];
+
+        function addResult(message, passed) {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${passed ? 'test-pass' : 'test-fail'}`;
+            resultDiv.innerHTML = `${passed ? '✅' : '❌'} ${message}`;
+            
+            const resultsContainer = document.getElementById('test-results');
+            resultsContainer.appendChild(resultDiv);
+            
+            testResults.push({ message, passed });
+        }
+
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = '<p>Results cleared. Ready for new tests...</p>';
+            testResults = [];
+        }
+
+        async function runAllTests() {
+            clearResults();
+            addResult('Starting comprehensive infrastructure tests...', true);
+            
+            try {
+                const tester = new InfrastructureTest();
+                const results = await tester.runAllTests();
+                
+                results.forEach(result => {
+                    addResult(result.message, result.status === 'PASS');
+                });
+                
+                const passCount = results.filter(r => r.status === 'PASS').length;
+                const totalCount = results.length;
+                const successRate = ((passCount / totalCount) * 100).toFixed(1);
+                
+                addResult(`Test Summary: ${passCount}/${totalCount} passed (${successRate}%)`, passCount === totalCount);
+                
+            } catch (error) {
+                addResult(`Test suite failed: ${error.message}`, false);
+            }
+        }
+
+        async function testDatabase() {
+            clearResults();
+            addResult('Testing database functionality...', true);
+            
+            try {
+                // Test database initialization
+                if (window.kiroDb && window.dbService) {
+                    addResult('Database services initialized', true);
+                    
+                    // Test user creation
+                    const testUser = {
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        age: 30,
+                        gender: 'other'
+                    };
+                    
+                    const user = await window.dbService.createUser(testUser);
+                    addResult('User creation successful', !!user);
+                    
+                    // Test mood saving
+                    const today = new Date().toISOString().split('T')[0];
+                    const mood = await window.dbService.saveMood(user.id, today, 4, 'Test mood');
+                    addResult('Mood saving successful', !!mood);
+                    
+                    // Test data retrieval
+                    const retrievedUser = await window.dbService.getUser(user.id);
+                    addResult('Data retrieval successful', !!retrievedUser);
+                    
+                } else {
+                    addResult('Database services not initialized', false);
+                }
+            } catch (error) {
+                addResult(`Database test failed: ${error.message}`, false);
+            }
+        }
+
+        async function testErrorHandler() {
+            clearResults();
+            addResult('Testing error handling system...', true);
+            
+            try {
+                if (window.errorHandler) {
+                    addResult('Error handler initialized', true);
+                    
+                    // Test error logging
+                    const testError = new Error('Test error for infrastructure testing');
+                    const errorEntry = await window.errorHandler.handleError('TEST_ERROR', testError);
+                    addResult('Error logging functional', !!errorEntry);
+                    
+                    // Test user-friendly messages
+                    const message = window.errorHandler.getUserFriendlyMessage('DATABASE_ERROR');
+                    addResult('User-friendly messages working', typeof message === 'string' && message.length > 0);
+                    
+                    // Test health check
+                    const healthCheck = await window.errorHandler.performHealthCheck();
+                    addResult('Health check functional', typeof healthCheck === 'object');
+                    
+                } else {
+                    addResult('Error handler not initialized', false);
+                }
+            } catch (error) {
+                addResult(`Error handler test failed: ${error.message}`, false);
+            }
+        }
+
+        async function testOfflineMode() {
+            clearResults();
+            addResult('Testing offline capabilities...', true);
+            
+            try {
+                // Test localStorage
+                localStorage.setItem('test-offline', 'test-value');
+                const retrieved = localStorage.getItem('test-offline');
+                localStorage.removeItem('test-offline');
+                addResult('localStorage functional', retrieved === 'test-value');
+                
+                // Test IndexedDB
+                addResult('IndexedDB supported', 'indexedDB' in window);
+                
+                // Test Service Worker
+                addResult('Service Worker supported', 'serviceWorker' in navigator);
+                
+                // Test Cache API
+                addResult('Cache API supported', 'caches' in window);
+                
+                // Test offline detection
+                addResult('Online status detection', typeof navigator.onLine === 'boolean');
+                
+            } catch (error) {
+                addResult(`Offline mode test failed: ${error.message}`, false);
+            }
+        }
+
+        // Update system status
+        async function updateSystemStatus() {
+            const statusDiv = document.getElementById('system-status');
+            
+            try {
+                let status = '<h3>System Components:</h3>';
+                
+                // Check each component
+                status += `<p>🔧 Error Handler: ${window.errorHandler ? '✅ Active' : '❌ Not loaded'}</p>`;
+                status += `<p>💾 Database: ${window.kiroDb ? '✅ Active' : '❌ Not loaded'}</p>`;
+                status += `<p>🛡️ Database Service: ${window.dbService ? '✅ Active' : '❌ Not loaded'}</p>`;
+                status += `<p>🌐 Online Status: ${navigator.onLine ? '✅ Online' : '⚠️ Offline'}</p>`;
+                status += `<p>🔄 Service Worker: ${'serviceWorker' in navigator ? '✅ Supported' : '❌ Not supported'}</p>`;
+                status += `<p>💿 IndexedDB: ${'indexedDB' in window ? '✅ Supported' : '❌ Not supported'}</p>`;
+                
+                // Health check if available
+                if (window.errorHandler) {
+                    const healthCheck = await window.errorHandler.performHealthCheck();
+                    status += '<h3>Health Check:</h3>';
+                    status += `<p>📊 Database Connection: ${healthCheck.database ? '✅ Connected' : '❌ Disconnected'}</p>`;
+                    status += `<p>💾 Local Storage: ${healthCheck.localStorage ? '✅ Working' : '❌ Failed'}</p>`;
+                    status += `<p>🗃️ IndexedDB: ${healthCheck.indexedDB ? '✅ Working' : '❌ Failed'}</p>`;
+                }
+                
+                statusDiv.innerHTML = status;
+            } catch (error) {
+                statusDiv.innerHTML = `<p>❌ Error checking system status: ${error.message}</p>`;
+            }
+        }
+
+        // Initialize status check when page loads
+        window.addEventListener('load', () => {
+            setTimeout(updateSystemStatus, 1000); // Wait for all scripts to load
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 Emergency Diagnostic - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .diagnostic-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .emergency-header {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .diagnostic-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .section-title {
+            color: #007FFF;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-good {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .status-bad {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .status-warning {
+            color: #ffc107;
+            font-weight: 600;
+        }
+        
+        .fix-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            transition: all 0.2s ease;
+        }
+        
+        .fix-button:hover {
+            background: #005A9E;
+            transform: translateY(-2px);
+        }
+        
+        .fix-button.emergency {
+            background: #dc3545;
+            font-size: 1.2rem;
+            padding: 1.5rem 3rem;
+        }
+        
+        .fix-button.emergency:hover {
+            background: #c82333;
+        }
+        
+        .console-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .problem-list {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .problem-list h4 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .problem-list ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .problem-list li {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+        
+        .solution-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .solution-box h4 {
+            color: #155724;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline {
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .timeline-time {
+            font-weight: 600;
+            color: #007FFF;
+            min-width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagnostic-container">
+        <div class="emergency-header">
+            <h1>🚨 EMERGENCY DIAGNOSTIC</h1>
+            <p>GlucoBalance Application Functionality Analysis</p>
+        </div>
+        
+        <div class="diagnostic-section">
+            <div class="section-title">🔍 Problem Analysis</div>
+            
+            <div class="problem-list">
+                <h4>❌ Critical Issues Identified</h4>
+                <ul>
+                    <li><strong>Missing Core JavaScript Files</strong> - Main app scripts not loaded</li>
+                    <li><strong>Broken Script Loading</strong> - Only verification scripts are loading</li>
+                    <li><strong>Missing Event Handlers</strong> - Button clicks not working</li>
+                    <li><strong>Incomplete Initialization</strong> - Classes not available</li>
+                </ul>
+            </div>
+            
+            <div class="timeline">
+                <h4>📅 What Happened Timeline</h4>
+                <div class="timeline-item">
+                    <div class="timeline-time">Few Hours Ago</div>
+                    <div>✅ Application was working - buttons and cards functional</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Recent Changes</div>
+                    <div>🔧 Icon removal and hero section enhancement</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">IDE Autofix</div>
+                    <div>⚠️ Kiro IDE applied autofix/formatting to files</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Current State</div>
+                    <div>❌ Core JavaScript files missing from HTML</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="diagnostic-section">
+            <div class="section-title">🔧 Live Diagnostic Results</div>
+            <div id="diagnostic-results">
+                <p>Running diagnostic...</p>
+            </div>
+            <button class="fix-button" onclick="runDiagnostic()">🔍 Run Full Diagnostic</button>
+        </div>
+        
+        <div class="diagnostic-section">
+            <div class="section-title">🚑 Emergency Fix</div>
+            
+            <div class="solution-box">
+                <h4>✅ Immediate Solution</h4>
+                <p>The main issue is that the core JavaScript files are not being loaded in the HTML. The script loading section only contains verification scripts, not the actual application files.</p>
+                
+                <p><strong>Missing Files:</strong></p>
+                <ul>
+                    <li>js/app.js - Main application logic</li>
+                    <li>js/landing-page.js - Landing page functionality</li>
+                    <li>js/auth.js - Authentication service</li>
+                    <li>js/auth-ui.js - Authentication UI</li>
+                    <li>js/database.js - Database service</li>
+                    <li>js/error-handler.js - Error handling</li>
+                </ul>
+            </div>
+            
+            <button class="fix-button emergency" onclick="applyEmergencyFix()">
+                🚑 APPLY EMERGENCY FIX NOW
+            </button>
+            
+            <div id="fix-status" style="margin-top: 1rem;"></div>
+        </div>
+        
+        <div class="diagnostic-section">
+            <div class="section-title">📊 System Status</div>
+            <div id="system-status">
+                <p>Checking system status...</p>
+            </div>
+        </div>
+        
+        <div class="diagnostic-section">
+            <div class="section-title">📝 Console Output</div>
+            <div id="console-output" class="console-output">
+                Console messages will appear here...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Console output capture
+        const consoleOutput = document.getElementById('console-output');
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            consoleOutput.innerHTML += `<div style="color: #00ff00;">[LOG] ${args.join(' ')}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            consoleOutput.innerHTML += `<div style="color: #ff6b6b;">[ERROR] ${args.join(' ')}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        // Run diagnostic
+        function runDiagnostic() {
+            const resultsDiv = document.getElementById('diagnostic-results');
+            const statusDiv = document.getElementById('system-status');
+            
+            console.log('🔍 Starting emergency diagnostic...');
+            
+            let results = {
+                scripts: {},
+                classes: {},
+                elements: {},
+                errors: []
+            };
+            
+            // Check for required classes
+            const requiredClasses = [
+                'GlucoBalanceApp',
+                'LandingPageManager', 
+                'AuthService',
+                'AuthUI'
+            ];
+            
+            requiredClasses.forEach(className => {
+                const isAvailable = typeof window[className] !== 'undefined';
+                results.classes[className] = isAvailable;
+                console.log(`${isAvailable ? '✅' : '❌'} ${className}: ${isAvailable ? 'Available' : 'Missing'}`);
+                
+                if (!isAvailable) {
+                    results.errors.push(`${className} class not loaded`);
+                }
+            });
+            
+            // Check for instances
+            const requiredInstances = [
+                'glucoApp',
+                'landingPageManager',
+                'authService',
+                'authUI'
+            ];
+            
+            requiredInstances.forEach(instanceName => {
+                const isAvailable = typeof window[instanceName] !== 'undefined' && window[instanceName] !== null;
+                results.scripts[instanceName] = isAvailable;
+                console.log(`${isAvailable ? '✅' : '❌'} window.${instanceName}: ${isAvailable ? 'Available' : 'Missing'}`);
+                
+                if (!isAvailable) {
+                    results.errors.push(`${instanceName} instance not created`);
+                }
+            });
+            
+            // Check DOM elements
+            const requiredElements = [
+                'nav-get-started-btn',
+                'nav-dashboard-btn',
+                'nav-signup-btn'
+            ];
+            
+            requiredElements.forEach(elementId => {
+                const element = document.getElementById(elementId);
+                const isAvailable = element !== null;
+                results.elements[elementId] = isAvailable;
+                console.log(`${isAvailable ? '✅' : '❌'} #${elementId}: ${isAvailable ? 'Found' : 'Missing'}`);
+                
+                if (!isAvailable) {
+                    results.errors.push(`Element #${elementId} not found`);
+                }
+            });
+            
+            // Display results
+            const totalErrors = results.errors.length;
+            
+            resultsDiv.innerHTML = `
+                <div style="padding: 1rem; border-radius: 8px; ${totalErrors === 0 ? 'background: #d4edda; color: #155724;' : 'background: #f8d7da; color: #721c24;'}">
+                    <h4>${totalErrors === 0 ? '✅ All Systems Operational' : `❌ ${totalErrors} Critical Issues Found`}</h4>
+                    ${totalErrors > 0 ? `
+                        <ul>
+                            ${results.errors.map(error => `<li>${error}</li>`).join('')}
+                        </ul>
+                    ` : '<p>All required components are loaded and functional.</p>'}
+                </div>
+            `;
+            
+            statusDiv.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid ${Object.values(results.classes).every(v => v) ? '#28a745' : '#dc3545'};">
+                        <h5>JavaScript Classes</h5>
+                        <p class="${Object.values(results.classes).every(v => v) ? 'status-good' : 'status-bad'}">
+                            ${Object.values(results.classes).filter(v => v).length}/${Object.keys(results.classes).length} Loaded
+                        </p>
+                    </div>
+                    <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid ${Object.values(results.scripts).every(v => v) ? '#28a745' : '#dc3545'};">
+                        <h5>App Instances</h5>
+                        <p class="${Object.values(results.scripts).every(v => v) ? 'status-good' : 'status-bad'}">
+                            ${Object.values(results.scripts).filter(v => v).length}/${Object.keys(results.scripts).length} Created
+                        </p>
+                    </div>
+                    <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid ${Object.values(results.elements).every(v => v) ? '#28a745' : '#dc3545'};">
+                        <h5>DOM Elements</h5>
+                        <p class="${Object.values(results.elements).every(v => v) ? 'status-good' : 'status-bad'}">
+                            ${Object.values(results.elements).filter(v => v).length}/${Object.keys(results.elements).length} Found
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            console.log(`🔍 Diagnostic complete. ${totalErrors} issues found.`);
+        }
+        
+        // Apply emergency fix
+        function applyEmergencyFix() {
+            const fixStatusDiv = document.getElementById('fix-status');
+            
+            console.log('🚑 Applying emergency fix...');
+            
+            fixStatusDiv.innerHTML = `
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 1rem; margin: 1rem 0;">
+                    <h4 style="color: #856404;">⚠️ Emergency Fix Instructions</h4>
+                    <p style="color: #856404;">The emergency fix requires updating the index.html file to include the missing JavaScript files. Here's what needs to be done:</p>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                        <h5>Required Script Tags (add before closing body tag):</h5>
+                        <pre style="background: #1e1e1e; color: #00ff00; padding: 1rem; border-radius: 4px; overflow-x: auto; font-size: 0.8rem;">
+&lt;!-- Core Application Scripts --&gt;
+&lt;script src="js/error-handler.js"&gt;&lt;/script&gt;
+&lt;script src="js/database.js"&gt;&lt;/script&gt;
+&lt;script src="js/auth.js"&gt;&lt;/script&gt;
+&lt;script src="js/auth-ui.js"&gt;&lt;/script&gt;
+&lt;script src="js/landing-page.js"&gt;&lt;/script&gt;
+&lt;script src="js/app.js"&gt;&lt;/script&gt;</pre>
+                    </div>
+                    
+                    <p style="color: #856404;"><strong>Action Required:</strong> These script tags need to be added to the index.html file to restore functionality.</p>
+                </div>
+            `;
+            
+            console.log('🚑 Emergency fix instructions provided. Manual intervention required.');
+        }
+        
+        // Auto-run diagnostic on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runDiagnostic, 1000);
+        });
+        
+        console.log('🚨 Emergency diagnostic loaded');
+    </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Button Debug Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .debug-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-result {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .debug-log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .btn-test {
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        .btn-test:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 Take Assessment Button Debug Test</h1>
+        <p>This test will diagnose the Take Assessment button functionality and identify any issues.</p>
+        
+        <div class="test-section">
+            <h3>📋 Dashboard Card with Take Assessment Button</h3>
+            <div class="dashboard-card risk-assessment-card">
+                <div class="card-header">
+                    <h4>🎯 Risk Assessment</h4>
+                    <div class="card-status">
+                        <span class="status-indicator pending"></span>
+                        <span class="status-text">Assessment Needed</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="risk-display" id="risk-display">
+                        <div class="risk-score">--</div>
+                        <div class="risk-category">Take Assessment</div>
+                        <div class="risk-details">
+                            <small class="last-updated">Never assessed</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-card-action" id="take-assessment-btn">
+                        📋 Take Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Debug Tests</h3>
+            <button class="btn-test" onclick="runDiagnostics()">Run Full Diagnostics</button>
+            <button class="btn-test" onclick="testButtonClick()">Test Button Click</button>
+            <button class="btn-test" onclick="testAssessmentEngine()">Test Assessment Engine</button>
+            <button class="btn-test" onclick="clearLog()">Clear Log</button>
+            
+            <div id="test-results"></div>
+            <div class="debug-log" id="debug-log"></div>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        let debugLog = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            debugLog.push(logEntry);
+            
+            const logElement = document.getElementById('debug-log');
+            logElement.innerHTML = debugLog.join('\n');
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            console.log(logEntry);
+        }
+        
+        function clearLog() {
+            debugLog = [];
+            document.getElementById('debug-log').innerHTML = '';
+            document.getElementById('test-results').innerHTML = '';
+        }
+        
+        function showResult(test, passed, message, details = '') {
+            const resultsDiv = document.getElementById('test-results');
+            const resultClass = passed ? 'pass' : 'fail';
+            const icon = passed ? '✅' : '❌';
+            
+            resultsDiv.innerHTML += `
+                <div class="test-result ${resultClass}">
+                    <strong>${icon} ${test}</strong><br>
+                    ${message}
+                    ${details ? `<br><small>${details}</small>` : ''}
+                </div>
+            `;
+        }
+        
+        function runDiagnostics() {
+            clearLog();
+            log('🔍 Starting comprehensive diagnostics...');
+            
+            // Test 1: Check if button exists
+            const button = document.getElementById('take-assessment-btn');
+            const buttonExists = !!button;
+            showResult('Button Existence', buttonExists, 
+                buttonExists ? 'Take Assessment button found' : 'Take Assessment button not found');
+            log(`Button exists: ${buttonExists}`);
+            
+            // Test 2: Check if main app exists
+            const appExists = !!window.glucoApp;
+            showResult('Main App Instance', appExists,
+                appExists ? 'Main app instance available' : 'Main app instance not found');
+            log(`Main app exists: ${appExists}`);
+            
+            // Test 3: Check showAssessment method
+            const showAssessmentExists = window.glucoApp && typeof window.glucoApp.showAssessment === 'function';
+            showResult('showAssessment Method', showAssessmentExists,
+                showAssessmentExists ? 'showAssessment method available' : 'showAssessment method not found');
+            log(`showAssessment method exists: ${showAssessmentExists}`);
+            
+            // Test 4: Check risk assessment engine
+            const riskEngineExists = !!window.riskAssessment;
+            showResult('Risk Assessment Engine', riskEngineExists,
+                riskEngineExists ? 'Risk assessment engine loaded' : 'Risk assessment engine not found');
+            log(`Risk assessment engine exists: ${riskEngineExists}`);
+            
+            // Test 5: Check enhanced dashboard
+            const enhancedDashboardExists = !!window.enhancedDashboard;
+            showResult('Enhanced Dashboard', enhancedDashboardExists,
+                enhancedDashboardExists ? 'Enhanced dashboard loaded' : 'Enhanced dashboard not found');
+            log(`Enhanced dashboard exists: ${enhancedDashboardExists}`);
+            
+            // Test 6: Check event listeners
+            if (button) {
+                const hasEventListeners = button.onclick || getEventListeners(button).click?.length > 0;
+                showResult('Event Listeners', hasEventListeners,
+                    hasEventListeners ? 'Button has event listeners' : 'Button has no event listeners');
+                log(`Button has event listeners: ${hasEventListeners}`);
+            }
+            
+            // Test 7: Check database
+            const dbExists = !!window.kiroDb;
+            showResult('Database Service', dbExists,
+                dbExists ? 'Database service available' : 'Database service not found');
+            log(`Database service exists: ${dbExists}`);
+            
+            log('✅ Diagnostics complete');
+        }
+        
+        function testButtonClick() {
+            log('🖱️ Testing button click...');
+            
+            const button = document.getElementById('take-assessment-btn');
+            if (!button) {
+                log('❌ Button not found');
+                return;
+            }
+            
+            try {
+                // Simulate click
+                log('Simulating button click...');
+                button.click();
+                
+                // Check if assessment page was created
+                setTimeout(() => {
+                    const assessmentPage = document.getElementById('assessment-page');
+                    const assessmentPageExists = !!assessmentPage;
+                    
+                    showResult('Assessment Page Creation', assessmentPageExists,
+                        assessmentPageExists ? 'Assessment page created successfully' : 'Assessment page not created');
+                    log(`Assessment page created: ${assessmentPageExists}`);
+                    
+                    if (assessmentPageExists) {
+                        const assessmentContent = document.getElementById('assessment-content');
+                        const hasContent = assessmentContent && assessmentContent.innerHTML.trim().length > 0;
+                        
+                        showResult('Assessment Content', hasContent,
+                            hasContent ? 'Assessment content loaded' : 'Assessment content empty');
+                        log(`Assessment content loaded: ${hasContent}`);
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                log(`❌ Error during button click: ${error.message}`);
+                showResult('Button Click', false, `Error: ${error.message}`);
+            }
+        }
+        
+        function testAssessmentEngine() {
+            log('🔧 Testing assessment engine directly...');
+            
+            if (!window.riskAssessment) {
+                log('❌ Risk assessment engine not available');
+                showResult('Direct Engine Test', false, 'Risk assessment engine not available');
+                return;
+            }
+            
+            try {
+                // Test if we can start assessment directly
+                log('Attempting to start assessment directly...');
+                
+                // Create a temporary assessment page if it doesn't exist
+                if (!document.getElementById('assessment-page')) {
+                    log('Creating temporary assessment page...');
+                    const tempPage = document.createElement('div');
+                    tempPage.id = 'assessment-page';
+                    tempPage.className = 'page';
+                    tempPage.innerHTML = `
+                        <div id="assessment-content"></div>
+                        <div class="form-actions">
+                            <button id="prev-question" class="btn-secondary">Previous</button>
+                            <button id="next-question" class="btn-primary">Next</button>
+                        </div>
+                        <div id="assessment-result" style="display: none;">
+                            <div id="risk-result-display"></div>
+                            <div id="ai-explanation"></div>
+                        </div>
+                    `;
+                    document.body.appendChild(tempPage);
+                }
+                
+                window.riskAssessment.startAssessment();
+                
+                setTimeout(() => {
+                    const assessmentContent = document.getElementById('assessment-content');
+                    const hasContent = assessmentContent && assessmentContent.innerHTML.trim().length > 0;
+                    
+                    showResult('Direct Engine Test', hasContent,
+                        hasContent ? 'Assessment engine working correctly' : 'Assessment engine not generating content');
+                    log(`Direct engine test result: ${hasContent}`);
+                }, 500);
+                
+            } catch (error) {
+                log(`❌ Error testing assessment engine: ${error.message}`);
+                showResult('Direct Engine Test', false, `Error: ${error.message}`);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            log('🚀 Page loaded, initializing...');
+            
+            // Initialize the main app
+            if (!window.glucoApp) {
+                log('Initializing main app...');
+                window.glucoApp = new GlucoBalanceApp();
+            }
+            
+            // Initialize enhanced dashboard
+            if (!window.enhancedDashboard) {
+                log('Initializing enhanced dashboard...');
+                window.enhancedDashboard = new EnhancedDashboard();
+            }
+            
+            log('✅ Initialization complete');
+        });
+        
+        // Helper function to get event listeners (if available)
+        function getEventListeners(element) {
+            if (typeof getEventListeners === 'function') {
+                return getEventListeners(element);
+            }
+            return {};
+        }
+    </script>
+</body>
+</html>

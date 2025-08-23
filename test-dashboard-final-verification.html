@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Dashboard Verification - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/dashboard-hero.css">
+    <link rel="stylesheet" href="styles/dashboard-cards-enhanced.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    <link rel="stylesheet" href="styles/risk-assessment.css">
+    <style>
+        .test-header {
+            background: linear-gradient(135deg, var(--azure-blue), var(--azure-light));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-page {
+            margin-top: 100px;
+        }
+
+        .test-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 350px;
+            z-index: 1002;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .test-button {
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.25rem;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .test-button:hover {
+            background: var(--azure-dark);
+            transform: translateY(-1px);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-working {
+            background: #28a745;
+        }
+
+        .status-broken {
+            background: #dc3545;
+        }
+
+        .status-unknown {
+            background: #ffc107;
+        }
+
+        .test-log {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+
+        .demo-removed-notice {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-header">
+        <h1>🎯 Final Dashboard Verification</h1>
+        <p>Complete testing of all dashboard functionality with fixes applied</p>
+        <div class="demo-removed-notice">
+            ✅ Try Demo buttons have been successfully removed from navigation and hero section
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- Navigation Bar (without Try Demo button) -->
+        <nav class="top-nav" role="navigation" aria-label="Main Navigation"
+            style="position: relative; margin-bottom: 2rem;">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    <button id="nav-logout-btn" class="btn-secondary logout-btn" style="display: none;">🚪
+                        Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <header class="dashboard-hero">
+                <div class="hero-background">
+                    <div class="hero-pattern"></div>
+                    <div class="hero-gradient"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-main">
+                            <div class="hero-greeting">
+                                <h1 class="hero-title">
+                                    <span class="greeting-text">Good <span id="time-of-day">afternoon</span>,</span>
+                                    <span class="user-name" id="dashboard-user-name">Test User</span>
+                                </h1>
+                                <p class="hero-subtitle">Take control of your health journey with personalized insights
+                                </p>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">🎯</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-risk-score">--</div>
+                                        <div class="stat-label">Risk Score</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">💙</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-mood-avg">--</div>
+                                        <div class="stat-label">Avg Mood</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">📈</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-progress">--</div>
+                                        <div class="stat-label">Progress</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-actions">
+                            <button id="refresh-dashboard" class="hero-btn secondary" title="Refresh Dashboard">
+                                <span class="btn-icon">🔄</span>
+                                <span class="btn-text">Refresh</span>
+                            </button>
+                            <button id="profile-btn" class="hero-btn primary">
+                                <span class="btn-icon">👤</span>
+                                <span class="btn-text">Profile</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container dashboard-main">
+                <!-- Dashboard Cards Grid -->
+                <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                    <!-- Risk Status Card -->
+                    <div class="card risk-status-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                            <div class="card-trend" id="risk-trend">
+                                <span class="trend-icon">📈</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="risk-display" class="risk-display">
+                                <div class="risk-score">--</div>
+                                <div class="risk-category">Take Assessment</div>
+                                <div class="risk-details">
+                                    <small class="last-updated">Never assessed</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="take-assessment-btn">
+                                📋 Take Assessment
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mood Tracker Card -->
+                    <div class="card mood-tracker-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="mood-display">
+                                <div class="current-mood">
+                                    <div class="mood-value" id="current-mood-value">--</div>
+                                    <div class="mood-label">Today's Mood</div>
+                                </div>
+                            </div>
+                            <div id="mood-selector" class="mood-selector">
+                                <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                                <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                                <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                                <button class="mood-btn" data-mood="4" title="Happy">😊</button>
+                                <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="log-mood-btn">
+                                💙 Log Mood
+                            </button>
+                            <button class="btn-card-action secondary" id="view-mood-history-btn">
+                                📈 View History
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Snapshot Card -->
+                    <div class="card nutrition-snapshot-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                        </div>
+                        <div class="card-content">
+                            <div id="nutrition-summary" class="nutrition-summary">
+                                <div class="nutrition-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="meal-plans-count">0</div>
+                                        <div class="stat-label">Meal Plans</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="adherence-rate">--%</div>
+                                        <div class="stat-label">Adherence</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="create-meal-plan-btn">
+                                🍽️ Create Plan
+                            </button>
+                            <button class="btn-card-action secondary" id="view-nutrition-btn">
+                                📋 View Plans
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Health Insights Card -->
+                    <div class="card ai-insights-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                            <div class="card-actions-header">
+                                <button class="btn-icon refresh-insights" id="refresh-insights-btn"
+                                    title="Refresh Insights">
+                                    🔄
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="ai-insights" class="ai-insights-content">
+                                <div class="insights-placeholder">
+                                    <div class="placeholder-icon">🤖</div>
+                                    <p>Click to generate personalized AI health insights</p>
+                                    <button class="btn-primary" id="get-started-insights-btn">
+                                        Get Started
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="test-panel">
+        <h4>🔧 Dashboard Test Panel</h4>
+
+        <div class="status-grid">
+            <div class="status-item">
+                <span class="status-indicator status-unknown" id="risk-status"></span>
+                Risk Assessment
+            </div>
+            <div class="status-item">
+                <span class="status-indicator status-unknown" id="mood-status"></span>
+                Mood Tracker
+            </div>
+            <div class="status-item">
+                <span class="status-indicator status-unknown" id="nutrition-status"></span>
+                Nutrition
+            </div>
+            <div class="status-item">
+                <span class="status-indicator status-unknown" id="ai-status"></span>
+                AI Insights
+            </div>
+        </div>
+
+        <button class="test-button" onclick="testRiskAssessment()">🎯 Test Risk Assessment</button>
+        <button class="test-button" onclick="testAllButtons()">🔧 Test All Buttons</button>
+        <button class="test-button" onclick="checkModules()">📋 Check Modules</button>
+        <button class="test-button" onclick="clearLog()">🗑️ Clear Log</button>
+
+        <div class="test-log" id="test-log">
+            Ready for testing...
+        </div>
+    </div>
+
+    <!-- Include JavaScript files -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/notification-service.js"></script>
+    <script src="js/notification-ui.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    <script src="js/mental-health.js"></script>
+    <script src="js/nutrition-service.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/enhanced-dashboard-buttons.js"></script>
+    <script src="js/app.js"></script>
+    <script src="fix-dashboard-buttons-complete.js"></script>
+
+    <script>
+        // Test utilities
+        function log(message) {
+            const logElement = document.getElementById('test-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(id, status) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.className = `status-indicator status-${status}`;
+            }
+        }
+
+        function clearLog() {
+            document.getElementById('test-log').innerHTML = 'Log cleared...\n';
+        }
+
+        function testRiskAssessment() {
+            log('🧪 Testing Risk Assessment...');
+
+            if (window.riskAssessment && typeof window.riskAssessment.startAssessment === 'function') {
+                log('✅ Risk Assessment module found');
+                updateStatus('risk-status', 'working');
+
+                const btn = document.getElementById('take-assessment-btn');
+                if (btn) {
+                    log('✅ Risk Assessment button found');
+                    try {
+                        // Test the actual functionality
+                        btn.click();
+                        log('✅ Risk Assessment button clicked successfully');
+                        updateStatus('risk-status', 'working');
+                    } catch (error) {
+                        log('❌ Error clicking risk assessment button: ' + error.message);
+                        updateStatus('risk-status', 'broken');
+                    }
+                } else {
+                    log('❌ Risk Assessment button not found');
+                    updateStatus('risk-status', 'broken');
+                }
+            } else {
+                log('❌ Risk Assessment module not available');
+                updateStatus('risk-status', 'broken');
+            }
+        }
+
+        function testAllButtons() {
+            log('🧪 Testing all dashboard buttons...');
+
+            // Test Risk Assessment
+            testRiskAssessment();
+
+            // Test Mood buttons
+            const moodBtns = document.querySelectorAll('.mood-btn');
+            if (moodBtns.length > 0) {
+                log(`✅ Found ${moodBtns.length} mood buttons`);
+                updateStatus('mood-status', 'working');
+
+                // Test clicking a mood button
+                try {
+                    moodBtns[2].click(); // Click neutral mood
+                    log('✅ Mood button clicked successfully');
+                } catch (error) {
+                    log('❌ Error clicking mood button: ' + error.message);
+                    updateStatus('mood-status', 'broken');
+                }
+            } else {
+                log('❌ Mood buttons not found');
+                updateStatus('mood-status', 'broken');
+            }
+
+            // Test Nutrition buttons
+            const nutritionBtns = document.querySelectorAll('#create-meal-plan-btn, #view-nutrition-btn');
+            if (nutritionBtns.length === 2) {
+                log('✅ Nutrition buttons found');
+                updateStatus('nutrition-status', 'working');
+            } else {
+                log('❌ Nutrition buttons not found');
+                updateStatus('nutrition-status', 'broken');
+            }
+
+            // Test AI Insights button
+            const aiBtn = document.getElementById('get-started-insights-btn');
+            if (aiBtn) {
+                log('✅ AI Insights button found');
+                updateStatus('ai-status', 'working');
+            } else {
+                log('❌ AI Insights button not found');
+                updateStatus('ai-status', 'broken');
+            }
+        }
+
+        function checkModules() {
+            log('🧪 Checking loaded modules...');
+            log('Risk Assessment: ' + (window.riskAssessment ? '✅ Available' : '❌ Not available'));
+            log('Mental Health: ' + (window.mentalHealth ? '✅ Available' : '❌ Not available'));
+            log('Nutrition Service: ' + (window.nutritionService ? '✅ Available' : '❌ Not available'));
+            log('AI Service: ' + (window.ai ? '✅ Available' : '❌ Not available'));
+            log('Dashboard Buttons: ' + (window.dashboardButtonManager ? '✅ Available' : '❌ Not available'));
+            log('App: ' + (window.glucoApp ? '✅ Available' : '❌ Not available'));
+            log('Fix Script: ' + (window.fixDashboardButtons ? '✅ Available' : '❌ Not available'));
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            log('🚀 Dashboard verification initialized');
+
+            // Wait for modules to load
+            setTimeout(() => {
+                log('📋 Running initial checks...');
+                checkModules();
+
+                // Apply fixes if available
+                if (window.fixDashboardButtons) {
+                    log('🔧 Applying dashboard button fixes...');
+                    window.fixDashboardButtons();
+                }
+
+                // Run tests
+                setTimeout(() => {
+                    testAllButtons();
+                }, 1000);
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>

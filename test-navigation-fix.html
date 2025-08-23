@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Fix Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        /* Additional navigation fix styles */
+        .top-nav {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1000 !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border-bottom: 1px solid rgba(0, 127, 255, 0.1) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .nav-container {
+            height: 70px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+        
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        .hero-section {
+            margin-top: 70px !important;
+            padding-top: 4rem !important;
+        }
+        
+        /* Debug styles */
+        .top-nav {
+            border: 2px solid red !important;
+        }
+        
+        .nav-container {
+            border: 2px solid blue !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="title-highlight">Prevent.</span>
+                            <span class="title-highlight">Support.</span>
+                            <span class="title-highlight">Thrive.</span>
+                            <br>
+                            <span class="title-main">with GlucoBalance</span>
+                        </h1>
+                        <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection,
+                            and ongoing management with AI-powered insights</p>
+
+                        <div class="hero-cta">
+                            <button class="hero-btn primary">
+                                <span class="btn-icon">🎯</span>
+                                Start Free Risk Assessment
+                            </button>
+                            <button class="hero-btn secondary">
+                                <span class="btn-icon">📋</span>
+                                Explore Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Navigation Fix Test</h2>
+                    <div style="height: 200vh; background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);">
+                        <p style="padding: 2rem; font-size: 1.2rem;">
+                            Scroll down to test if the navigation bar stays fixed at the top of the page.
+                            The navigation should remain visible and not disappear when scrolling.
+                        </p>
+                        <div style="padding: 2rem; margin-top: 50vh;">
+                            <h3>Middle of page</h3>
+                            <p>The navigation bar should still be visible at the top.</p>
+                        </div>
+                        <div style="padding: 2rem; margin-top: 50vh;">
+                            <h3>Bottom of page</h3>
+                            <p>The navigation bar should still be visible and functional.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Test navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Navigation test loaded');
+            
+            // Check if navigation is visible
+            const nav = document.querySelector('.top-nav');
+            const navRect = nav.getBoundingClientRect();
+            
+            console.log('Navigation position:', {
+                top: navRect.top,
+                left: navRect.left,
+                width: navRect.width,
+                height: navRect.height,
+                visible: navRect.top === 0 && navRect.width > 0
+            });
+            
+            // Test scroll behavior
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const navAfterScroll = nav.getBoundingClientRect();
+                    console.log('Navigation after scroll:', {
+                        top: navAfterScroll.top,
+                        visible: navAfterScroll.top === 0,
+                        scrollY: window.scrollY
+                    });
+                }, 100);
+            });
+            
+            // Add visual indicator
+            const indicator = document.createElement('div');
+            indicator.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: green;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                z-index: 2000;
+                font-size: 12px;
+            `;
+            indicator.textContent = 'Navigation is visible';
+            document.body.appendChild(indicator);
+        });
+    </script>
+</body>
+</html>

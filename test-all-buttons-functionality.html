@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Functionality Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-results {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 2px solid #007FFF;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 300px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .test-pass { background: #d4edda; color: #155724; }
+        .test-fail { background: #f8d7da; color: #721c24; }
+        .test-pending { background: #fff3cd; color: #856404; }
+        .test-button {
+            margin: 5px;
+            padding: 8px 12px;
+            background: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-results">
+        <h3>Button Test Results</h3>
+        <div id="test-log"></div>
+        <button class="test-button" onclick="runAllTests()">Run All Tests</button>
+        <button class="test-button" onclick="clearTests()">Clear</button>
+    </div>
+
+    <!-- Include the main HTML structure -->
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-cta">
+                            <button class="hero-btn primary">
+                                <span class="btn-icon">🎯</span>
+                                Start Free Risk Assessment
+                            </button>
+                            <button class="hero-btn secondary">
+                                <span class="btn-icon">📋</span>
+                                Explore Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-prefetch-module="risk-assessment" data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="nutrition-service" data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="mental-health" data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="progress-dashboard" data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer" id="contact">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h4>Features</h4>
+                            <ul>
+                                <li><a href="#" data-feature="risk-assessment">Risk Assessment</a></li>
+                                <li><a href="#" data-feature="nutrition">Nutrition Planning</a></li>
+                                <li><a href="#" data-feature="mental-health">Mental Health</a></li>
+                                <li><a href="#" data-feature="progress">Progress Tracking</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#" id="help-center-link">Help Center</a></li>
+                                <li><a href="#" id="privacy-policy-link">Privacy Policy</a></li>
+                                <li><a href="#" id="terms-link">Terms of Service</a></li>
+                                <li><a href="#" id="contact-link">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Feature Detail Modal -->
+        <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Feature Details</h2>
+                    <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                    <button class="btn-primary" id="modal-action">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/landing-page.js"></script>
+
+    <script>
+        let testResults = [];
+
+        function logTest(name, passed, details = '') {
+            const result = {
+                name,
+                passed,
+                details,
+                timestamp: new Date().toLocaleTimeString()
+            };
+            testResults.push(result);
+            updateTestDisplay();
+        }
+
+        function updateTestDisplay() {
+            const testLog = document.getElementById('test-log');
+            testLog.innerHTML = testResults.map(result => `
+                <div class="test-item ${result.passed ? 'test-pass' : 'test-fail'}">
+                    <strong>${result.name}</strong>: ${result.passed ? 'PASS' : 'FAIL'}
+                    ${result.details ? `<br><small>${result.details}</small>` : ''}
+                    <br><small>${result.timestamp}</small>
+                </div>
+            `).join('');
+        }
+
+        function clearTests() {
+            testResults = [];
+            updateTestDisplay();
+        }
+
+        function runAllTests() {
+            clearTests();
+            console.log('🧪 Starting comprehensive button functionality tests...');
+
+            // Test 1: Check if LandingPageManager is initialized
+            setTimeout(() => {
+                const hasManager = window.landingPageManager instanceof Object;
+                logTest('LandingPageManager Initialization', hasManager, 
+                    hasManager ? 'Manager found and initialized' : 'Manager not found or not initialized');
+            }, 100);
+
+            // Test 2: Navigation buttons
+            setTimeout(() => {
+                const navDashboardBtn = document.getElementById('nav-dashboard-btn');
+                const navSignupBtn = document.getElementById('nav-signup-btn');
+                
+                logTest('Navigation Dashboard Button', !!navDashboardBtn, 
+                    navDashboardBtn ? 'Button found in DOM' : 'Button not found');
+                logTest('Navigation Signup Button', !!navSignupBtn, 
+                    navSignupBtn ? 'Button found in DOM' : 'Button not found');
+            }, 200);
+
+            // Test 3: Hero buttons
+            setTimeout(() => {
+                const heroRiskBtn = document.querySelector('.hero-btn.primary');
+                const heroFeaturesBtn = document.querySelector('.hero-btn.secondary');
+                
+                logTest('Hero Risk Assessment Button', !!heroRiskBtn, 
+                    heroRiskBtn ? 'Button found in DOM' : 'Button not found');
+                logTest('Hero Explore Features Button', !!heroFeaturesBtn, 
+                    heroFeaturesBtn ? 'Button found in DOM' : 'Button not found');
+            }, 300);
+
+            // Test 4: Feature cards
+            setTimeout(() => {
+                const featureCards = document.querySelectorAll('.feature-card.clickable');
+                const expectedCards = ['risk-assessment', 'nutrition', 'mental-health', 'progress'];
+                
+                logTest('Feature Cards Count', featureCards.length === 4, 
+                    `Found ${featureCards.length} cards, expected 4`);
+
+                expectedCards.forEach(feature => {
+                    const card = document.querySelector(`[data-feature="${feature}"]`);
+                    logTest(`${feature} Card`, !!card, 
+                        card ? 'Card found and has data-feature attribute' : 'Card not found');
+                });
+            }, 400);
+
+            // Test 5: Footer links
+            setTimeout(() => {
+                const footerLinks = ['help-center-link', 'privacy-policy-link', 'terms-link', 'contact-link'];
+                footerLinks.forEach(linkId => {
+                    const link = document.getElementById(linkId);
+                    logTest(`Footer ${linkId}`, !!link, 
+                        link ? 'Link found in DOM' : 'Link not found');
+                });
+            }, 500);
+
+            // Test 6: Mobile menu
+            setTimeout(() => {
+                const mobileToggle = document.getElementById('mobile-menu-toggle');
+                const mobileOverlay = document.getElementById('mobile-menu-overlay');
+                const mobileDashboard = document.getElementById('mobile-dashboard-btn');
+                
+                logTest('Mobile Menu Toggle', !!mobileToggle, 
+                    mobileToggle ? 'Toggle button found' : 'Toggle button not found');
+                logTest('Mobile Menu Overlay', !!mobileOverlay, 
+                    mobileOverlay ? 'Overlay found' : 'Overlay not found');
+                logTest('Mobile Dashboard Button', !!mobileDashboard, 
+                    mobileDashboard ? 'Mobile dashboard button found' : 'Mobile dashboard button not found');
+            }, 600);
+
+            // Test 7: Modal elements
+            setTimeout(() => {
+                const modal = document.getElementById('feature-modal');
+                const modalClose = document.getElementById('modal-close');
+                const modalAction = document.getElementById('modal-action');
+                
+                logTest('Feature Modal', !!modal, 
+                    modal ? 'Modal found in DOM' : 'Modal not found');
+                logTest('Modal Close Button', !!modalClose, 
+                    modalClose ? 'Close button found' : 'Close button not found');
+                logTest('Modal Action Button', !!modalAction, 
+                    modalAction ? 'Action button found' : 'Action button not found');
+            }, 700);
+
+            // Test 8: Click functionality tests
+            setTimeout(() => {
+                if (window.landingPageManager) {
+                    // Test method existence
+                    const methods = ['showDashboard', 'showSignup', 'handleFeatureCardClick', 'showModal', 'closeModal'];
+                    methods.forEach(method => {
+                        const hasMethod = typeof window.landingPageManager[method] === 'function';
+                        logTest(`Method: ${method}`, hasMethod, 
+                            hasMethod ? 'Method exists and is callable' : 'Method missing or not a function');
+                    });
+                } else {
+                    logTest('Method Tests', false, 'Cannot test methods - LandingPageManager not available');
+                }
+            }, 800);
+
+            // Test 9: Event listener attachment test
+            setTimeout(() => {
+                try {
+                    // Test if clicking a feature card triggers the expected behavior
+                    const riskCard = document.querySelector('[data-feature="risk-assessment"]');
+                    if (riskCard) {
+                        // Simulate click and check if modal appears or method is called
+                        const originalShowModal = window.landingPageManager?.showModal;
+                        let modalCalled = false;
+                        
+                        if (window.landingPageManager) {
+                            window.landingPageManager.showModal = function() {
+                                modalCalled = true;
+                                if (originalShowModal) originalShowModal.call(this);
+                            };
+                        }
+                        
+                        riskCard.click();
+                        
+                        setTimeout(() => {
+                            logTest('Feature Card Click Handler', modalCalled, 
+                                modalCalled ? 'Click triggered modal display' : 'Click did not trigger expected behavior');
+                            
+                            // Restore original method
+                            if (window.landingPageManager && originalShowModal) {
+                                window.landingPageManager.showModal = originalShowModal;
+                            }
+                        }, 100);
+                    } else {
+                        logTest('Feature Card Click Handler', false, 'Risk assessment card not found for testing');
+                    }
+                } catch (error) {
+                    logTest('Feature Card Click Handler', false, `Error during click test: ${error.message}`);
+                }
+            }, 900);
+
+            console.log('✅ All tests scheduled. Results will appear in the test panel.');
+        }
+
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 1000);
+        });
+    </script>
+</body>
+</html>

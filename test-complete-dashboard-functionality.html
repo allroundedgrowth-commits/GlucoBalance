@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Dashboard Functionality Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            margin: 5px;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .test-button.secondary {
+            background: #6c757d;
+        }
+        
+        .test-button.success {
+            background: #28a745;
+        }
+        
+        .test-button.danger {
+            background: #dc3545;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-success { background: #28a745; }
+        .status-warning { background: #ffc107; }
+        .status-error { background: #dc3545; }
+        
+        .demo-data-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .demo-data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .demo-data-item:last-child {
+            border-bottom: none;
+        }
+        
+        .log-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 0;
+        }
+        
+        .log-success { color: #28a745; }
+        .log-error { color: #dc3545; }
+        .log-warning { color: #ffc107; }
+        .log-info { color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Complete Dashboard Functionality Test</h1>
+        <p>This page tests all dashboard buttons, logout functionality, and demo data generation.</p>
+        
+        <!-- Demo Data Section -->
+        <div class="test-section">
+            <h2>📊 Demo Data Management</h2>
+            <p>Generate and manage 40 days of demo data for comprehensive testing.</p>
+            
+            <div class="test-grid">
+                <div>
+                    <h4>Data Generation</h4>
+                    <button class="test-button" onclick="generateDemoData()">🎯 Generate 40 Days Data</button>
+                    <button class="test-button secondary" onclick="clearDemoData()">🗑️ Clear Demo Data</button>
+                    <button class="test-button" onclick="showDataSummary()">📋 Show Data Summary</button>
+                </div>
+                
+                <div>
+                    <h4>Data Summary</h4>
+                    <div id="data-summary" class="demo-data-summary">
+                        <div class="demo-data-item">
+                            <span>Risk Assessments:</span>
+                            <span id="risk-count">0</span>
+                        </div>
+                        <div class="demo-data-item">
+                            <span>Mood Entries:</span>
+                            <span id="mood-count">0</span>
+                        </div>
+                        <div class="demo-data-item">
+                            <span>Nutrition Plans:</span>
+                            <span id="nutrition-count">0</span>
+                        </div>
+                        <div class="demo-data-item">
+                            <span>Health Metrics:</span>
+                            <span id="metrics-count">0</span>
+                        </div>
+                        <div class="demo-data-item">
+                            <span>AI Insights:</span>
+                            <span id="insights-count">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Button Testing Section -->
+        <div class="test-section">
+            <h2>🔘 Dashboard Button Testing</h2>
+            <p>Test all dashboard buttons to ensure proper functionality.</p>
+            
+            <div class="test-grid">
+                <div>
+                    <h4>Header Buttons</h4>
+                    <button class="test-button" onclick="testButton('refresh-dashboard')">🔄 Test Refresh</button>
+                    <button class="test-button" onclick="testButton('profile-btn')">👤 Test Profile</button>
+                    <button class="test-button danger" onclick="testButton('logout-btn')">🚪 Test Logout</button>
+                </div>
+                
+                <div>
+                    <h4>Card Action Buttons</h4>
+                    <button class="test-button" onclick="testButton('take-assessment-btn')">🎯 Test Assessment</button>
+                    <button class="test-button" onclick="testButton('log-mood-btn')">💙 Test Mood Log</button>
+                    <button class="test-button" onclick="testButton('create-meal-plan-btn')">🍽️ Test Meal Plan</button>
+                    <button class="test-button" onclick="testButton('view-nutrition-btn')">📋 Test Nutrition</button>
+                </div>
+                
+                <div>
+                    <h4>Quick Actions</h4>
+                    <button class="test-button" onclick="testButton('assessment-btn')">📋 Quick Assessment</button>
+                    <button class="test-button" onclick="testButton('mood-log-btn')">💙 Quick Mood</button>
+                    <button class="test-button" onclick="testButton('meal-plan-btn')">🍎 Quick Meal Plan</button>
+                    <button class="test-button" onclick="testButton('generate-report-btn')">📄 Generate Report</button>
+                </div>
+                
+                <div>
+                    <h4>Comprehensive Tests</h4>
+                    <button class="test-button success" onclick="testAllButtons()">✅ Test All Buttons</button>
+                    <button class="test-button" onclick="simulateUserFlow()">🔄 Simulate User Flow</button>
+                    <button class="test-button secondary" onclick="clearTestLog()">🗑️ Clear Log</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Integration -->
+        <div class="test-section">
+            <h2>🎛️ Dashboard Integration</h2>
+            <p>Switch to dashboard view to test functionality in context.</p>
+            
+            <div class="test-grid">
+                <div>
+                    <h4>Navigation</h4>
+                    <button class="test-button" onclick="showDashboard()">📊 Show Dashboard</button>
+                    <button class="test-button secondary" onclick="showLanding()">🏠 Back to Landing</button>
+                </div>
+                
+                <div>
+                    <h4>Dashboard Status</h4>
+                    <div id="dashboard-status">
+                        <div class="demo-data-item">
+                            <span>Dashboard Visible:</span>
+                            <span id="dashboard-visible">❌</span>
+                        </div>
+                        <div class="demo-data-item">
+                            <span>Buttons Initialized:</span>
+                            <span id="buttons-initialized">❌</span>
+                        </div>
+                        <div class="demo-data-item">
+                            <span>Demo Data Loaded:</span>
+                            <span id="data-loaded">❌</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Test Log -->
+        <div class="test-section">
+            <h2>📝 Test Log</h2>
+            <div id="test-log" class="log-container">
+                <div class="log-entry log-info">Test log initialized. Ready for testing...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include necessary scripts -->
+    <script src="js/demo-data-generator.js"></script>
+    <script src="dashboard-buttons-fix.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Include dashboard HTML for testing -->
+    <div id="dashboard-page" class="page" style="display: none;">
+        <header class="app-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-title">
+                        <h1>Health Dashboard</h1>
+                        <p class="header-subtitle">Your personalized health overview</p>
+                    </div>
+                    <div class="header-actions">
+                        <button id="refresh-dashboard" class="btn-icon" title="Refresh Dashboard">🔄</button>
+                        <button id="profile-btn" class="profile-btn">👤</button>
+                        <button id="logout-btn" class="btn-icon logout-btn" title="Sign Out">🚪</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container dashboard-main">
+            <div class="dashboard-grid">
+                <!-- Risk Status Card -->
+                <div class="card risk-status-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="risk-display" class="risk-display">
+                            <div class="risk-score">--</div>
+                            <div class="risk-category">Take Assessment</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card-action" id="take-assessment-btn">📋 Take Assessment</button>
+                    </div>
+                </div>
+
+                <!-- Mood Tracker Card -->
+                <div class="card mood-tracker-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="mood-display">
+                            <div class="current-mood">
+                                <div class="mood-value" id="current-mood-value">--</div>
+                                <div class="mood-label">Today's Mood</div>
+                            </div>
+                            <div class="mood-average">
+                                <div class="avg-value" id="avg-mood-value">--</div>
+                                <div class="avg-label">30-day Average</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card-action" id="log-mood-btn">💙 Log Mood</button>
+                        <button class="btn-card-action secondary" id="view-mood-history-btn">📈 View History</button>
+                    </div>
+                </div>
+
+                <!-- Nutrition Card -->
+                <div class="card nutrition-snapshot-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="nutrition-summary" class="nutrition-summary">
+                            <div class="nutrition-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="meal-plans-count">0</div>
+                                    <div class="stat-label">Meal Plans</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="adherence-rate">--%</div>
+                                    <div class="stat-label">Adherence</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card-action" id="create-meal-plan-btn">🍽️ Create Plan</button>
+                        <button class="btn-card-action secondary" id="view-nutrition-btn">📋 View Plans</button>
+                    </div>
+                </div>
+
+                <!-- AI Insights Card -->
+                <div class="card ai-insights-card">
+                    <div class="card-header">
+                        <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                        <div class="card-actions-header">
+                            <button class="btn-icon refresh-insights" id="refresh-insights-btn" title="Refresh Insights">🔄</button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="ai-insights" class="ai-insights-content">
+                            <div class="insights-placeholder">
+                                <div class="placeholder-icon">🤖</div>
+                                <p>Complete your risk assessment to receive personalized AI insights</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions-section">
+                <div class="section-header">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="quick-actions-grid" id="quick-actions">
+                    <button class="action-btn primary" id="assessment-btn">
+                        <div class="action-icon">📋</div>
+                        <div class="action-content">
+                            <div class="action-title">Start Risk Assessment</div>
+                        </div>
+                    </button>
+                    <button class="action-btn" id="mood-log-btn">
+                        <div class="action-icon">💙</div>
+                        <div class="action-content">
+                            <div class="action-title">Log Mood</div>
+                        </div>
+                    </button>
+                    <button class="action-btn" id="meal-plan-btn">
+                        <div class="action-icon">🍎</div>
+                        <div class="action-content">
+                            <div class="action-title">View Meal Plan</div>
+                        </div>
+                    </button>
+                    <button class="action-btn" id="generate-report-btn">
+                        <div class="action-icon">📄</div>
+                        <div class="action-content">
+                            <div class="action-title">Generate Report</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Health Summary -->
+            <div class="health-summary-section">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-icon">🎯</div>
+                        <div class="summary-content">
+                            <div class="summary-value" id="total-assessments">0</div>
+                            <div class="summary-label">Risk Assessments</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">💙</div>
+                        <div class="summary-content">
+                            <div class="summary-value" id="mood-entries-count">0</div>
+                            <div class="summary-label">Mood Entries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Test Functions
+        let testLog = [];
+        
+        function logTest(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = `[${timestamp}] ${message}`;
+            testLog.push({ message: entry, type });
+            
+            const logContainer = document.getElementById('test-log');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.textContent = entry;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            console.log(entry);
+        }
+        
+        function clearTestLog() {
+            testLog = [];
+            document.getElementById('test-log').innerHTML = '<div class="log-entry log-info">Test log cleared. Ready for testing...</div>';
+        }
+        
+        function generateDemoData() {
+            logTest('🎯 Generating 40 days of demo data...', 'info');
+            
+            if (window.demoDataGenerator) {
+                const success = window.demoDataGenerator.generateAllDemoData();
+                if (success) {
+                    logTest('✅ Demo data generated successfully!', 'success');
+                    showDataSummary();
+                } else {
+                    logTest('❌ Failed to generate demo data', 'error');
+                }
+            } else {
+                logTest('❌ Demo data generator not available', 'error');
+            }
+        }
+        
+        function clearDemoData() {
+            logTest('🗑️ Clearing demo data...', 'info');
+            
+            if (window.demoDataGenerator) {
+                window.demoDataGenerator.clearDemoData();
+                logTest('✅ Demo data cleared', 'success');
+                showDataSummary();
+            } else {
+                logTest('❌ Demo data generator not available', 'error');
+            }
+        }
+        
+        function showDataSummary() {
+            if (window.demoDataGenerator) {
+                const summary = window.demoDataGenerator.getDataSummary();
+                
+                document.getElementById('risk-count').textContent = summary.riskAssessments;
+                document.getElementById('mood-count').textContent = summary.moodEntries;
+                document.getElementById('nutrition-count').textContent = summary.nutritionPlans;
+                document.getElementById('metrics-count').textContent = summary.healthMetrics;
+                document.getElementById('insights-count').textContent = summary.aiInsights;
+                
+                logTest(`📊 Data Summary: ${summary.moodEntries} moods, ${summary.nutritionPlans} plans, ${summary.riskAssessments} assessments`, 'info');
+            }
+        }
+        
+        function testButton(buttonId) {
+            logTest(`🔘 Testing button: ${buttonId}`, 'info');
+            
+            const button = document.getElementById(buttonId);
+            if (button) {
+                logTest(`✅ Button found: ${buttonId}`, 'success');
+                
+                // Simulate click
+                try {
+                    button.click();
+                    logTest(`✅ Button clicked successfully: ${buttonId}`, 'success');
+                } catch (error) {
+                    logTest(`❌ Error clicking button ${buttonId}: ${error.message}`, 'error');
+                }
+            } else {
+                logTest(`❌ Button not found: ${buttonId}`, 'error');
+            }
+        }
+        
+        function testAllButtons() {
+            logTest('🧪 Starting comprehensive button test...', 'info');
+            
+            if (window.dashboardButtonsFix) {
+                const result = window.dashboardButtonsFix.testAllButtons();
+                logTest(`📊 Button test result: ${result ? 'All buttons working' : 'Some buttons missing'}`, result ? 'success' : 'warning');
+            } else {
+                logTest('❌ Dashboard buttons fix not available', 'error');
+            }
+        }
+        
+        function simulateUserFlow() {
+            logTest('🔄 Simulating user flow...', 'info');
+            
+            const flow = [
+                'refresh-dashboard',
+                'take-assessment-btn',
+                'log-mood-btn',
+                'create-meal-plan-btn',
+                'view-nutrition-btn',
+                'generate-report-btn'
+            ];
+            
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < flow.length) {
+                    testButton(flow[index]);
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    logTest('✅ User flow simulation complete', 'success');
+                }
+            }, 1000);
+        }
+        
+        function showDashboard() {
+            const dashboardPage = document.getElementById('dashboard-page');
+            if (dashboardPage) {
+                dashboardPage.style.display = 'block';
+                dashboardPage.classList.add('active');
+                logTest('📊 Dashboard shown', 'success');
+                updateDashboardStatus();
+            } else {
+                logTest('❌ Dashboard page not found', 'error');
+            }
+        }
+        
+        function showLanding() {
+            const dashboardPage = document.getElementById('dashboard-page');
+            if (dashboardPage) {
+                dashboardPage.style.display = 'none';
+                dashboardPage.classList.remove('active');
+                logTest('🏠 Returned to landing page', 'info');
+                updateDashboardStatus();
+            }
+        }
+        
+        function updateDashboardStatus() {
+            const dashboardPage = document.getElementById('dashboard-page');
+            const isVisible = dashboardPage && dashboardPage.style.display !== 'none';
+            
+            document.getElementById('dashboard-visible').textContent = isVisible ? '✅' : '❌';
+            document.getElementById('buttons-initialized').textContent = window.dashboardButtonsFix && window.dashboardButtonsFix.isInitialized ? '✅' : '❌';
+            document.getElementById('data-loaded').textContent = window.demoDataGenerator ? '✅' : '❌';
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            logTest('🚀 Test page initialized', 'success');
+            showDataSummary();
+            updateDashboardStatus();
+            
+            // Initialize dashboard buttons fix
+            if (!window.dashboardButtonsFix) {
+                window.dashboardButtonsFix = new DashboardButtonsFix();
+                logTest('🔧 Dashboard buttons fix initialized', 'success');
+            }
+        });
+        
+        // Update status periodically
+        setInterval(updateDashboardStatus, 2000);
+    </script>
+</body>
+</html>

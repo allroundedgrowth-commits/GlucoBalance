@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Hero Section Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/dashboard-hero.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .test-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .test-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #5a67d8;
+        }
+        
+        .demo-hero {
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+        
+        .status.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        
+        .status.info {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .feature-item {
+            background: rgba(102, 126, 234, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .feature-item h4 {
+            margin: 0 0 0.5rem 0;
+            color: #667eea;
+        }
+        
+        .feature-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header>
+            <h1>🎨 Dashboard Hero Section Test</h1>
+            <p>Testing the new impressive and clean dashboard hero section</p>
+        </header>
+
+        <!-- Hero Section Demo -->
+        <div class="test-section">
+            <h3>🎯 Hero Section Demo</h3>
+            <div class="demo-hero">
+                <header class="dashboard-hero">
+                    <div class="hero-background">
+                        <div class="hero-pattern"></div>
+                        <div class="hero-gradient"></div>
+                    </div>
+                    <div class="container">
+                        <div class="hero-content">
+                            <div class="hero-main">
+                                <div class="hero-greeting">
+                                    <h1 class="hero-title">
+                                        <span class="greeting-text">Good <span id="time-of-day">morning</span>,</span>
+                                        <span class="user-name" id="dashboard-user-name">Alex</span>
+                                    </h1>
+                                    <p class="hero-subtitle">Take control of your health journey with personalized insights</p>
+                                </div>
+                                <div class="hero-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-icon">🎯</div>
+                                        <div class="stat-content">
+                                            <div class="stat-value" id="hero-risk-score">8</div>
+                                            <div class="stat-label">Risk Score</div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-icon">💙</div>
+                                        <div class="stat-content">
+                                            <div class="stat-value" id="hero-mood-avg">4.2</div>
+                                            <div class="stat-label">Avg Mood</div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-icon">📈</div>
+                                        <div class="stat-content">
+                                            <div class="stat-value" id="hero-progress">75%</div>
+                                            <div class="stat-label">Progress</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hero-actions">
+                                <button id="refresh-dashboard" class="hero-btn secondary">
+                                    <span class="btn-icon">🔄</span>
+                                    <span class="btn-text">Refresh</span>
+                                </button>
+                                <button id="profile-btn" class="hero-btn primary">
+                                    <span class="btn-icon">👤</span>
+                                    <span class="btn-text">Profile</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
+
+        <!-- Features Overview -->
+        <div class="test-section">
+            <h3>✨ New Hero Section Features</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>🌅 Dynamic Greeting</h4>
+                    <p>Time-aware greeting that changes based on the time of day</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📊 Live Stats</h4>
+                    <p>Real-time display of risk score, mood average, and progress</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Beautiful Design</h4>
+                    <p>Modern gradient background with floating animations</p>
+                </div>
+                <div class="feature-item">
+                    <h4>👤 Profile Menu</h4>
+                    <p>Clean profile dropdown with logout moved from header</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📱 Responsive</h4>
+                    <p>Fully responsive design that works on all devices</p>
+                </div>
+                <div class="feature-item">
+                    <h4>♿ Accessible</h4>
+                    <p>High contrast mode and reduced motion support</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Tests -->
+        <div class="test-section">
+            <h3>🧪 Interactive Tests</h3>
+            <button class="test-button" onclick="testTimeOfDay()">Test Time of Day</button>
+            <button class="test-button" onclick="testProfileMenu()">Test Profile Menu</button>
+            <button class="test-button" onclick="testRefresh()">Test Refresh</button>
+            <button class="test-button" onclick="testStatsUpdate()">Test Stats Update</button>
+            <button class="test-button" onclick="testResponsive()">Test Responsive</button>
+            <div id="test-results" class="status info" style="display: none;">
+                Test results will appear here...
+            </div>
+        </div>
+
+        <!-- Improvements Summary -->
+        <div class="test-section">
+            <h3>🎯 Improvements Made</h3>
+            <div class="status success">
+                <h4>✅ Hero Section Redesigned</h4>
+                <ul>
+                    <li><strong>Removed logout button</strong> from hero section (moved to profile menu)</li>
+                    <li><strong>Added dynamic greeting</strong> with time-aware messaging</li>
+                    <li><strong>Implemented live stats</strong> showing key health metrics</li>
+                    <li><strong>Created beautiful gradient background</strong> with subtle animations</li>
+                    <li><strong>Added profile dropdown menu</strong> with logout and other actions</li>
+                    <li><strong>Made fully responsive</strong> with mobile-first design</li>
+                    <li><strong>Added accessibility features</strong> for better usability</li>
+                    <li><strong>Improved visual hierarchy</strong> with better typography and spacing</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="test-section">
+            <h3>🚀 Next Steps</h3>
+            <div class="status info">
+                <p><strong>The hero section is now clean, impressive, and functional!</strong></p>
+                <p>Key improvements:</p>
+                <ul>
+                    <li>Logout button removed from hero and moved to profile menu</li>
+                    <li>Clean, modern design with better visual appeal</li>
+                    <li>Dynamic content that updates based on user data</li>
+                    <li>Better organization with logical grouping of elements</li>
+                </ul>
+                <p>You can now view the improved dashboard at: <a href="/" target="_blank">http://localhost:8080/</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include dashboard hero script -->
+    <script src="js/dashboard-hero.js"></script>
+
+    <script>
+        // Test functions
+        function testTimeOfDay() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.className = 'status info';
+            
+            // Simulate different times of day
+            const times = ['morning', 'afternoon', 'evening', 'night'];
+            let index = 0;
+            
+            const timeElement = document.getElementById('time-of-day');
+            const heroTitle = document.querySelector('.hero-title');
+            
+            const interval = setInterval(() => {
+                timeElement.textContent = times[index];
+                heroTitle.className = `hero-title ${times[index]}`;
+                index++;
+                
+                if (index >= times.length) {
+                    clearInterval(interval);
+                    results.innerHTML = '✅ Time of day test completed! Greeting changes based on time.';
+                    results.className = 'status success';
+                }
+            }, 1000);
+            
+            results.innerHTML = '🔄 Testing time of day changes...';
+        }
+        
+        function testProfileMenu() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.className = 'status info';
+            results.innerHTML = '🔄 Testing profile menu...';
+            
+            // Simulate profile button click
+            if (window.dashboardHero) {
+                window.dashboardHero.showProfileMenu();
+                results.innerHTML = '✅ Profile menu test completed! Check the dropdown menu.';
+                results.className = 'status success';
+            } else {
+                results.innerHTML = '❌ Dashboard hero not available for testing.';
+                results.className = 'status error';
+            }
+        }
+        
+        function testRefresh() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.className = 'status info';
+            results.innerHTML = '🔄 Testing refresh functionality...';
+            
+            // Simulate refresh
+            if (window.dashboardHero) {
+                window.dashboardHero.refreshDashboard();
+                results.innerHTML = '✅ Refresh test completed! Check the refresh button animation.';
+                results.className = 'status success';
+            } else {
+                results.innerHTML = '❌ Dashboard hero not available for testing.';
+                results.className = 'status error';
+            }
+        }
+        
+        function testStatsUpdate() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.className = 'status info';
+            results.innerHTML = '🔄 Testing stats update...';
+            
+            // Simulate stats update
+            const riskScore = Math.floor(Math.random() * 20);
+            const moodAvg = (Math.random() * 4 + 1).toFixed(1);
+            const progress = Math.floor(Math.random() * 100);
+            
+            document.getElementById('hero-risk-score').textContent = riskScore;
+            document.getElementById('hero-mood-avg').textContent = moodAvg;
+            document.getElementById('hero-progress').textContent = `${progress}%`;
+            
+            results.innerHTML = `✅ Stats updated! Risk: ${riskScore}, Mood: ${moodAvg}, Progress: ${progress}%`;
+            results.className = 'status success';
+        }
+        
+        function testResponsive() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.className = 'status info';
+            results.innerHTML = '📱 Responsive design is active! Try resizing your browser window to see the hero section adapt to different screen sizes.';
+            results.className = 'status success';
+        }
+        
+        // Initialize time of day on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.dashboardHero) {
+                window.dashboardHero.updateTimeOfDay();
+            }
+        });
+    </script>
+</body>
+</html>

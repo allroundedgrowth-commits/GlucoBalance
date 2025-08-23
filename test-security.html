@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Implementation Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/privacy.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section h3 {
+            color: #007FFF;
+            margin-bottom: 15px;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .test-controls button {
+            padding: 8px 16px;
+            border: 1px solid #007FFF;
+            background: white;
+            color: #007FFF;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .test-controls button:hover {
+            background: #007FFF;
+            color: white;
+        }
+        
+        .test-output {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .test-form {
+            display: grid;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Security Implementation Test Suite</h1>
+        <p>Testing security measures and data protection features for GlucoBalance application.</p>
+
+        <!-- Encryption Testing -->
+        <div class="test-section">
+            <h3>Data Encryption Testing</h3>
+            <div class="test-form">
+                <div class="form-group">
+                    <label for="encryption-data">Test Data to Encrypt:</label>
+                    <textarea id="encryption-data" rows="3" placeholder='{"name": "John Doe", "age": 35, "riskScore": 15}'></textarea>
+                </div>
+            </div>
+            <div class="test-controls">
+                <button onclick="testEncryption()">Test Encryption</button>
+                <button onclick="testDecryption()">Test Decryption</button>
+                <button onclick="testSecureStorage()">Test Secure Storage</button>
+                <button onclick="clearEncryptionTest()">Clear Results</button>
+            </div>
+            <div id="encryption-output" class="test-output"></div>
+        </div>
+
+        <!-- Input Validation Testing -->
+        <div class="test-section">
+            <h3>Input Validation Testing</h3>
+            <div class="test-form">
+                <div class="form-group">
+                    <label for="validation-type">Validation Type:</label>
+                    <select id="validation-type">
+                        <option value="user_registration">User Registration</option>
+                        <option value="risk_assessment">Risk Assessment</option>
+                        <option value="mood_entry">Mood Entry</option>
+                        <option value="nutrition_plan">Nutrition Plan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="validation-data">Test Data (JSON):</label>
+                    <textarea id="validation-data" rows="4" placeholder='{"name": "John<script>alert(1)</script>", "email": "invalid-email", "age": "abc"}'></textarea>
+                </div>
+            </div>
+            <div class="test-controls">
+                <button onclick="testValidation()">Test Validation</button>
+                <button onclick="testSanitization()">Test Sanitization</button>
+                <button onclick="testRateLimit()">Test Rate Limiting</button>
+                <button onclick="clearValidationTest()">Clear Results</button>
+            </div>
+            <div id="validation-output" class="test-output"></div>
+        </div>
+
+        <!-- API Key Management Testing -->
+        <div class="test-section">
+            <h3>API Key Management Testing</h3>
+            <div class="test-form">
+                <div class="form-group">
+                    <label for="api-key">Test API Key:</label>
+                    <input type="text" id="api-key" placeholder="AIzaSyDummyKeyForTesting123456789012345">
+                </div>
+                <div class="form-group">
+                    <label for="api-service">Service:</label>
+                    <select id="api-service">
+                        <option value="gemini">Gemini AI</option>
+                        <option value="test">Test Service</option>
+                    </select>
+                </div>
+            </div>
+            <div class="test-controls">
+                <button onclick="testAPIKeyStorage()">Store API Key</button>
+                <button onclick="testAPIKeyRetrieval()">Retrieve API Key</button>
+                <button onclick="testAPIKeyValidation()">Validate Key Format</button>
+                <button onclick="testAPIKeyRotation()">Check Rotation</button>
+                <button onclick="clearAPIKeyTest()">Clear Results</button>
+            </div>
+            <div id="api-key-output" class="test-output"></div>
+        </div>
+
+        <!-- Privacy Management Testing -->
+        <div class="test-section">
+            <h3>Privacy Management Testing</h3>
+            <div class="test-form">
+                <div class="form-group">
+                    <label for="privacy-user-id">Test User ID:</label>
+                    <input type="text" id="privacy-user-id" placeholder="test-user-123">
+                </div>
+                <div class="form-group">
+                    <label for="consent-type">Consent Type:</label>
+                    <select id="consent-type">
+                        <option value="health_data">Health Data</option>
+                        <option value="ai_processing">AI Processing</option>
+                        <option value="analytics">Analytics</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+            </div>
+            <div class="test-controls">
+                <button onclick="testPrivacyInit()">Initialize Privacy Settings</button>
+                <button onclick="testConsentUpdate()">Update Consent</button>
+                <button onclick="testDataExport()">Test Data Export</button>
+                <button onclick="testDataDeletion()">Test Data Deletion</button>
+                <button onclick="showPrivacyUI()">Show Privacy UI</button>
+                <button onclick="clearPrivacyTest()">Clear Results</button>
+            </div>
+            <div id="privacy-output" class="test-output"></div>
+        </div>
+
+        <!-- Secure Services Integration Testing -->
+        <div class="test-section">
+            <h3>Secure Services Integration Testing</h3>
+            <div class="test-form">
+                <div class="form-group">
+                    <label for="integration-user">Test User Data:</label>
+                    <textarea id="integration-user" rows="3" placeholder='{"name": "Jane Doe", "email": "jane@example.com", "age": 28, "gender": "female"}'></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="integration-prompt">AI Prompt:</label>
+                    <input type="text" id="integration-prompt" placeholder="Generate a personalized health tip">
+                </div>
+            </div>
+            <div class="test-controls">
+                <button onclick="testSecureAuth()">Test Secure Auth</button>
+                <button onclick="testSecureAI()">Test Secure AI Request</button>
+                <button onclick="testSecureDatabase()">Test Secure Database</button>
+                <button onclick="testSecurityConfig()">Test Security Config</button>
+                <button onclick="clearIntegrationTest()">Clear Results</button>
+            </div>
+            <div id="integration-output" class="test-output"></div>
+        </div>
+
+        <!-- Security Report -->
+        <div class="test-section">
+            <h3>Security Status Report</h3>
+            <div class="test-controls">
+                <button onclick="generateSecurityReport()">Generate Security Report</button>
+                <button onclick="runAllTests()">Run All Security Tests</button>
+                <button onclick="clearAllTests()">Clear All Results</button>
+            </div>
+            <div id="security-report" class="test-output"></div>
+        </div>
+    </div>
+
+    <!-- Include security scripts -->
+    <script src="js/security.js"></script>
+    <script src="js/security-config.js"></script>
+    <script src="js/security-integration.js"></script>
+    <script src="js/privacy-ui.js"></script>
+
+    <script>
+        // Global test variables
+        let securityService, apiKeyManager, inputValidator, privacyManager;
+        let secureAuth, secureAI, secureDB, privacyUI;
+        let encryptedTestData = null;
+
+        // Initialize security services
+        function initializeServices() {
+            try {
+                securityService = new SecurityService();
+                apiKeyManager = new APIKeyManager();
+                inputValidator = new InputValidator();
+                privacyManager = new PrivacyManager();
+                secureAuth = new SecureAuthService();
+                secureAI = new SecureAIService();
+                secureDB = new SecureDatabaseService();
+                privacyUI = new PrivacyUI();
+                
+                log('security-report', 'Security services initialized successfully', 'success');
+            } catch (error) {
+                log('security-report', `Failed to initialize services: ${error.message}`, 'error');
+            }
+        }
+
+        // Encryption Tests
+        async function testEncryption() {
+            try {
+                const data = JSON.parse(document.getElementById('encryption-data').value || '{"test": "data"}');
+                encryptedTestData = await securityService.encryptHealthData(data);
+                log('encryption-output', `Encryption successful:\nOriginal: ${JSON.stringify(data, null, 2)}\nEncrypted: ${encryptedTestData}`, 'success');
+            } catch (error) {
+                log('encryption-output', `Encryption failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDecryption() {
+            try {
+                if (!encryptedTestData) {
+                    throw new Error('No encrypted data available. Run encryption test first.');
+                }
+                const decrypted = await securityService.decryptHealthData(encryptedTestData);
+                log('encryption-output', `Decryption successful:\nDecrypted: ${JSON.stringify(decrypted, null, 2)}`, 'success');
+            } catch (error) {
+                log('encryption-output', `Decryption failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSecureStorage() {
+            try {
+                const data = JSON.parse(document.getElementById('encryption-data').value || '{"test": "storage"}');
+                const stored = await securityService.secureStore('test-key', data, true);
+                const retrieved = await securityService.secureRetrieve('test-key');
+                
+                log('encryption-output', `Secure storage test:\nStored: ${stored}\nRetrieved: ${JSON.stringify(retrieved, null, 2)}`, stored ? 'success' : 'error');
+            } catch (error) {
+                log('encryption-output', `Secure storage failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Validation Tests
+        function testValidation() {
+            try {
+                const type = document.getElementById('validation-type').value;
+                const data = JSON.parse(document.getElementById('validation-data').value || '{}');
+                
+                let result;
+                switch (type) {
+                    case 'user_registration':
+                        result = inputValidator.validateUserRegistration(data);
+                        break;
+                    case 'risk_assessment':
+                        result = inputValidator.validateRiskAssessment(data);
+                        break;
+                    case 'mood_entry':
+                        result = inputValidator.validateMoodEntry(data);
+                        break;
+                    case 'nutrition_plan':
+                        result = inputValidator.validateNutritionPlan(data);
+                        break;
+                    default:
+                        throw new Error('Unknown validation type');
+                }
+                
+                log('validation-output', `Validation result for ${type}:\nValid: ${result.isValid}\nErrors: ${JSON.stringify(result.errors, null, 2)}\nSanitized: ${JSON.stringify(result.sanitizedData, null, 2)}`, result.isValid ? 'success' : 'warning');
+            } catch (error) {
+                log('validation-output', `Validation failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testSanitization() {
+            try {
+                const maliciousData = {
+                    name: "John<script>alert('XSS')</script>Doe",
+                    email: "test@example.com'; DROP TABLE users; --",
+                    notes: "This contains <img src=x onerror=alert(1)> malicious content"
+                };
+                
+                const sanitized = {
+                    name: inputValidator.sanitizeXSS(maliciousData.name),
+                    email: inputValidator.sanitizeSQL(maliciousData.email),
+                    notes: inputValidator.sanitizeHTML(maliciousData.notes)
+                };
+                
+                log('validation-output', `Sanitization test:\nOriginal: ${JSON.stringify(maliciousData, null, 2)}\nSanitized: ${JSON.stringify(sanitized, null, 2)}`, 'success');
+            } catch (error) {
+                log('validation-output', `Sanitization failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testRateLimit() {
+            try {
+                const userId = 'test-user';
+                const action = 'test-action';
+                
+                // Test multiple attempts
+                const results = [];
+                for (let i = 0; i < 7; i++) {
+                    const result = inputValidator.checkRateLimit(userId, action, 5, 60000);
+                    results.push(`Attempt ${i + 1}: ${result.allowed ? 'Allowed' : 'Blocked'} (Remaining: ${result.remaining || 'N/A'})`);
+                }
+                
+                log('validation-output', `Rate limiting test:\n${results.join('\n')}`, 'success');
+            } catch (error) {
+                log('validation-output', `Rate limiting failed: ${error.message}`, 'error');
+            }
+        }
+
+        // API Key Management Tests
+        function testAPIKeyStorage() {
+            try {
+                const key = document.getElementById('api-key').value;
+                const service = document.getElementById('api-service').value;
+                
+                if (!key) {
+                    throw new Error('Please enter an API key');
+                }
+                
+                apiKeyManager.storeAPIKey(key, service);
+                log('api-key-output', `API key stored successfully for service: ${service}`, 'success');
+            } catch (error) {
+                log('api-key-output', `API key storage failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testAPIKeyRetrieval() {
+            try {
+                const service = document.getElementById('api-service').value;
+                const key = apiKeyManager.getAPIKey(service);
+                
+                if (key) {
+                    log('api-key-output', `API key retrieved: ${key.substring(0, 10)}...${key.substring(key.length - 5)}`, 'success');
+                } else {
+                    log('api-key-output', `No API key found for service: ${service}`, 'warning');
+                }
+            } catch (error) {
+                log('api-key-output', `API key retrieval failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testAPIKeyValidation() {
+            try {
+                const key = document.getElementById('api-key').value;
+                const service = document.getElementById('api-service').value;
+                
+                if (!key) {
+                    throw new Error('Please enter an API key');
+                }
+                
+                const isValid = apiKeyManager.validateKeyFormat(key, service);
+                log('api-key-output', `API key validation: ${isValid ? 'Valid' : 'Invalid'} format for ${service}`, isValid ? 'success' : 'warning');
+            } catch (error) {
+                log('api-key-output', `API key validation failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testAPIKeyRotation() {
+            try {
+                const service = document.getElementById('api-service').value;
+                const needsRotation = apiKeyManager.needsRotation(service);
+                log('api-key-output', `Key rotation check for ${service}: ${needsRotation ? 'Needs rotation' : 'Current key is valid'}`, needsRotation ? 'warning' : 'success');
+            } catch (error) {
+                log('api-key-output', `Key rotation check failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Privacy Management Tests
+        function testPrivacyInit() {
+            try {
+                const userId = document.getElementById('privacy-user-id').value || 'test-user-123';
+                const settings = privacyManager.initializePrivacySettings(userId);
+                log('privacy-output', `Privacy settings initialized for user: ${userId}\n${JSON.stringify(settings, null, 2)}`, 'success');
+            } catch (error) {
+                log('privacy-output', `Privacy initialization failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testConsentUpdate() {
+            try {
+                const userId = document.getElementById('privacy-user-id').value || 'test-user-123';
+                const consentType = document.getElementById('consent-type').value;
+                const granted = Math.random() > 0.5; // Random consent for testing
+                
+                const success = privacyManager.updateConsent(userId, consentType, granted);
+                log('privacy-output', `Consent update: ${success ? 'Success' : 'Failed'}\nUser: ${userId}\nType: ${consentType}\nGranted: ${granted}`, success ? 'success' : 'error');
+            } catch (error) {
+                log('privacy-output', `Consent update failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDataExport() {
+            try {
+                const userId = document.getElementById('privacy-user-id').value || 'test-user-123';
+                
+                // Create some test data first
+                await securityService.secureStore(`user_${userId}`, { name: 'Test User', email: 'test@example.com' }, true);
+                await securityService.secureStore(`health_data_${userId}`, { riskScore: 15, mood: 4 }, true);
+                
+                const success = await privacyManager.exportUserData(userId);
+                log('privacy-output', `Data export: ${success ? 'Success - Check downloads' : 'Failed'}`, success ? 'success' : 'error');
+            } catch (error) {
+                log('privacy-output', `Data export failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDataDeletion() {
+            try {
+                const userId = document.getElementById('privacy-user-id').value || 'test-user-123';
+                const success = await privacyManager.deleteAllUserData(userId);
+                log('privacy-output', `Data deletion: ${success ? 'Success' : 'Failed'}`, success ? 'success' : 'error');
+            } catch (error) {
+                log('privacy-output', `Data deletion failed: ${error.message}`, 'error');
+            }
+        }
+
+        function showPrivacyUI() {
+            try {
+                const userId = document.getElementById('privacy-user-id').value || 'test-user-123';
+                privacyUI.init(userId);
+                log('privacy-output', `Privacy UI initialized for user: ${userId}`, 'success');
+            } catch (error) {
+                log('privacy-output', `Privacy UI failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Integration Tests
+        async function testSecureAuth() {
+            try {
+                const userData = JSON.parse(document.getElementById('integration-user').value || '{"name": "Test User", "email": "test@example.com", "age": 30, "gender": "female"}');
+                
+                const result = await secureAuth.registerUser(userData);
+                log('integration-output', `Secure auth test:\n${JSON.stringify(result, null, 2)}`, result.success ? 'success' : 'error');
+            } catch (error) {
+                log('integration-output', `Secure auth failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSecureAI() {
+            try {
+                const prompt = document.getElementById('integration-prompt').value || 'Generate a health tip';
+                const userId = 'test-user-123';
+                
+                // Set up consent first
+                privacyManager.initializePrivacySettings(userId);
+                privacyManager.updateConsent(userId, 'ai_processing', true);
+                
+                const result = await secureAI.makeSecureAIRequest(prompt, userId, 'general');
+                log('integration-output', `Secure AI test:\n${JSON.stringify(result, null, 2)}`, result.success ? 'success' : 'warning');
+            } catch (error) {
+                log('integration-output', `Secure AI failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSecureDatabase() {
+            try {
+                const userId = 'test-user-123';
+                const testData = { mood: 4, notes: 'Feeling good today', date: '2024-01-15' };
+                
+                // Set up consent
+                privacyManager.initializePrivacySettings(userId);
+                privacyManager.updateConsent(userId, 'health_data', true);
+                
+                const storeResult = await secureDB.storeHealthData(userId, 'mood_entry', testData);
+                const retrieveResult = await secureDB.retrieveHealthData(userId, 'mood_entry', 5);
+                
+                log('integration-output', `Secure database test:\nStore: ${JSON.stringify(storeResult, null, 2)}\nRetrieve: ${JSON.stringify(retrieveResult, null, 2)}`, storeResult.success ? 'success' : 'error');
+            } catch (error) {
+                log('integration-output', `Secure database failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testSecurityConfig() {
+            try {
+                const config = SecurityConfig.settings;
+                const validation = SecurityConfig.validateConfig();
+                const report = SecurityConfig.generateSecurityReport();
+                
+                log('integration-output', `Security configuration:\nValidation: ${JSON.stringify(validation, null, 2)}\nFeatures: ${JSON.stringify(report.features, null, 2)}`, validation.isValid ? 'success' : 'warning');
+            } catch (error) {
+                log('integration-output', `Security config failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Security Report
+        function generateSecurityReport() {
+            try {
+                const report = SecurityConfig.generateSecurityReport();
+                log('security-report', `Security Report Generated:\n${JSON.stringify(report, null, 2)}`, 'success');
+            } catch (error) {
+                log('security-report', `Security report failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            log('security-report', 'Running comprehensive security test suite...', 'success');
+            
+            // Initialize services
+            initializeServices();
+            
+            // Run encryption tests
+            await testEncryption();
+            await testDecryption();
+            await testSecureStorage();
+            
+            // Run validation tests
+            testValidation();
+            testSanitization();
+            testRateLimit();
+            
+            // Run API key tests
+            document.getElementById('api-key').value = 'AIzaSyDummyKeyForTesting123456789012345';
+            testAPIKeyStorage();
+            testAPIKeyRetrieval();
+            testAPIKeyValidation();
+            
+            // Run privacy tests
+            testPrivacyInit();
+            testConsentUpdate();
+            
+            // Run integration tests
+            await testSecureAuth();
+            await testSecureAI();
+            await testSecureDatabase();
+            testSecurityConfig();
+            
+            // Generate final report
+            generateSecurityReport();
+            
+            log('security-report', 'All security tests completed!', 'success');
+        }
+
+        // Clear functions
+        function clearEncryptionTest() { document.getElementById('encryption-output').innerHTML = ''; }
+        function clearValidationTest() { document.getElementById('validation-output').innerHTML = ''; }
+        function clearAPIKeyTest() { document.getElementById('api-key-output').innerHTML = ''; }
+        function clearPrivacyTest() { document.getElementById('privacy-output').innerHTML = ''; }
+        function clearIntegrationTest() { document.getElementById('integration-output').innerHTML = ''; }
+        function clearAllTests() {
+            clearEncryptionTest();
+            clearValidationTest();
+            clearAPIKeyTest();
+            clearPrivacyTest();
+            clearIntegrationTest();
+            document.getElementById('security-report').innerHTML = '';
+        }
+
+        // Utility function for logging
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const statusClass = type === 'success' ? 'status-success' : type === 'error' ? 'status-error' : 'status-warning';
+            
+            element.innerHTML += `[${timestamp}] ${message}<span class="status-indicator ${statusClass}">${type.toUpperCase()}</span>\n\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeServices();
+            
+            // Set default test data
+            document.getElementById('encryption-data').value = JSON.stringify({
+                name: "John Doe",
+                age: 35,
+                riskScore: 15,
+                healthData: "sensitive information"
+            }, null, 2);
+            
+            document.getElementById('validation-data').value = JSON.stringify({
+                name: "John<script>alert('XSS')</script>Doe",
+                email: "invalid-email-format",
+                age: "not-a-number",
+                gender: "invalid-gender"
+            }, null, 2);
+            
+            document.getElementById('integration-user').value = JSON.stringify({
+                name: "Jane Doe",
+                email: "jane@example.com",
+                age: 28,
+                gender: "female"
+            }, null, 2);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Gemini API Integration</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.2s ease;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .test-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #007FFF;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .success { border-left-color: #28a745; }
+        .error { border-left-color: #dc3545; }
+        .warning { border-left-color: #ffc107; }
+        
+        .api-key-display {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Gemini API Integration Test</h1>
+        <p>Test the Google Gemini API integration for GlucoBalance AI features.</p>
+        
+        <div class="api-info">
+            <h3>API Configuration</h3>
+            <p><strong>API Key:</strong></p>
+            <div class="api-key-display" id="api-key-display">Loading...</div>
+            <p><strong>Endpoint:</strong> https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent</p>
+        </div>
+        
+        <div class="test-controls">
+            <h3>Test Functions</h3>
+            <button class="test-button" onclick="testBasicConnection()">🔗 Test Basic Connection</button>
+            <button class="test-button" onclick="testHealthInsight()">💡 Test Health Insight Generation</button>
+            <button class="test-button" onclick="testNutritionAdvice()">🍎 Test Nutrition Advice</button>
+            <button class="test-button" onclick="testMoodAnalysis()">💙 Test Mood Analysis</button>
+            <button class="test-button" onclick="clearResults()">🗑️ Clear Results</button>
+        </div>
+        
+        <div class="results">
+            <h3>Test Results</h3>
+            <div id="results" class="result-box">
+Ready to test Gemini API integration...
+Click any test button above to begin.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyDvMbUBFIrZFQjOOFih5ck_yEwHlXia2Js';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        
+        // Display API key (masked for security)
+        document.getElementById('api-key-display').textContent = 
+            API_KEY.substring(0, 10) + '...' + API_KEY.substring(API_KEY.length - 10);
+        
+        function logResult(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const results = document.getElementById('results');
+            const typeEmoji = {
+                'info': 'ℹ️',
+                'success': '✅',
+                'error': '❌',
+                'warning': '⚠️'
+            };
+            
+            results.textContent += `\n[${timestamp}] ${typeEmoji[type]} ${message}`;
+            results.scrollTop = results.scrollHeight;
+            
+            // Update result box styling
+            results.className = `result-box ${type}`;
+            setTimeout(() => {
+                results.className = 'result-box';
+            }, 2000);
+        }
+        
+        function clearResults() {
+            document.getElementById('results').textContent = 'Results cleared. Ready for new tests...';
+        }
+        
+        async function makeGeminiRequest(prompt, testName) {
+            logResult(`Starting ${testName}...`, 'info');
+            
+            try {
+                const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 1024,
+                        }
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    const generatedText = data.candidates[0].content.parts[0].text;
+                    logResult(`${testName} SUCCESS:`, 'success');
+                    logResult(generatedText.substring(0, 200) + '...', 'info');
+                    return generatedText;
+                } else {
+                    throw new Error('Invalid response format from Gemini API');
+                }
+                
+            } catch (error) {
+                logResult(`${testName} FAILED: ${error.message}`, 'error');
+                return null;
+            }
+        }
+        
+        async function testBasicConnection() {
+            const prompt = "Hello! Please respond with a brief confirmation that you're working correctly.";
+            await makeGeminiRequest(prompt, 'Basic Connection Test');
+        }
+        
+        async function testHealthInsight() {
+            const prompt = `As a health AI assistant for GlucoBalance, provide a brief health insight for someone with:
+            - Age: 35
+            - BMI: 26.5
+            - Family history of diabetes: Yes
+            - Exercise: 2-3 times per week
+            - Diet: Moderate carbs, some processed foods
+            
+            Provide a personalized insight in 2-3 sentences.`;
+            
+            await makeGeminiRequest(prompt, 'Health Insight Generation');
+        }
+        
+        async function testNutritionAdvice() {
+            const prompt = `As a nutrition expert for GlucoBalance, suggest 3 healthy meal ideas for diabetes prevention:
+            - Focus on low glycemic index foods
+            - Include portion guidance
+            - Make it practical for busy people
+            
+            Keep response concise and actionable.`;
+            
+            await makeGeminiRequest(prompt, 'Nutrition Advice Generation');
+        }
+        
+        async function testMoodAnalysis() {
+            const prompt = `As a wellness coach for GlucoBalance, analyze this mood pattern:
+            - Week 1: Mostly 3/5 (neutral)
+            - Week 2: Mix of 2-4/5 (variable)
+            - Week 3: Mostly 4/5 (good)
+            - Week 4: Consistent 4-5/5 (very good)
+            
+            Provide encouraging feedback and one suggestion in 2-3 sentences.`;
+            
+            await makeGeminiRequest(prompt, 'Mood Analysis');
+        }
+        
+        // Test API availability on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            logResult('Gemini API Test Page Loaded', 'success');
+            logResult('API Key configured: ' + (API_KEY ? 'Yes' : 'No'), API_KEY ? 'success' : 'error');
+            
+            if (API_KEY) {
+                logResult('Ready to test API functionality', 'info');
+            } else {
+                logResult('API Key not configured - tests will fail', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

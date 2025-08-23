@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Visibility Fix Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .test-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 100px; /* Account for fixed nav */
+        }
+        
+        .test-section {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section-header {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            padding: 20px 30px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .test-section-content {
+            padding: 30px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            padding: 80px 30px 60px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 16px;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .features-section {
+            padding: 60px 0;
+            background: #f8fafc;
+            border-radius: 16px;
+            margin: 30px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 127, 255, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            color: #1f2937;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .about-section {
+            padding: 60px 30px;
+            background: white;
+            border-radius: 16px;
+            margin: 30px 0;
+        }
+        
+        .contact-section {
+            padding: 60px 30px;
+            background: #1f2937;
+            color: white;
+            border-radius: 16px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .test-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e5e7eb;
+            z-index: 8888;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 127, 255, 0.3);
+        }
+        
+        .test-btn.success {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+        
+        .test-btn.warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+        }
+        
+        .test-btn.danger {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: rgba(0, 127, 255, 0.1);
+            border: 2px solid #007FFF;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.8rem;
+            color: #007FFF;
+            z-index: 8887;
+        }
+        
+        .nav-status {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e5e7eb;
+            z-index: 8886;
+            font-size: 0.9rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-visible { background: #10B981; }
+        .status-hidden { background: #EF4444; }
+        .status-partial { background: #F59E0B; }
+        
+        .long-content {
+            height: 200vh;
+            background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #64748b;
+            margin: 30px 0;
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1>GlucoBalance</h1>
+            </div>
+
+            <!-- Desktop Menu -->
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#privacy" class="nav-link">Privacy</a></li>
+            </ul>
+
+            <!-- Action Buttons -->
+            <div class="nav-actions">
+                <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <ul class="mobile-nav-links">
+                <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                <li><a href="#about" class="mobile-nav-link">About</a></li>
+                <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+            </ul>
+            <div class="mobile-action-buttons">
+                <button class="btn-outline mobile-dashboard">Dashboard</button>
+                <button class="btn-primary mobile-signup">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧭 Navigation Visibility Fix Test</h1>
+            <p>Testing that the navigation bar remains visible when scrolling to different sections</p>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">GlucoBalance</h1>
+            <p class="hero-subtitle">Your comprehensive companion for diabetes prevention</p>
+        </div>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <h2 class="section-title">Comprehensive Health Management</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Risk Assessment</h3>
+                    <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🍎</div>
+                    <h3>Nutrition Planning</h3>
+                    <p>Personalized meal plans adapted to your local cuisine</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💙</div>
+                    <h3>Mental Health</h3>
+                    <p>Daily mood tracking with AI-generated support</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Progress Tracking</h3>
+                    <p>Visual insights and comprehensive health reports</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Long Content for Scroll Testing -->
+        <div class="long-content">
+            <div>
+                <h2>Scroll Test Area</h2>
+                <p>This is a long content area to test navigation visibility during scrolling.</p>
+                <p>The navigation should remain visible at all times.</p>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <h2 class="section-title">About GlucoBalance</h2>
+            <p>GlucoBalance is a comprehensive diabetes prevention and management platform designed to empower individuals in their health journey. Our AI-powered insights and evidence-based approach help you make informed decisions about your health.</p>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2 class="section-title">Contact Us</h2>
+            <p>Get in touch with our team for support and inquiries.</p>
+        </section>
+
+        <!-- Privacy Section -->
+        <section id="privacy" class="about-section">
+            <h2 class="section-title">Privacy Policy</h2>
+            <p>Your privacy is important to us. Learn about how we protect your data and respect your privacy.</p>
+        </section>
+    </div>
+
+    <!-- Navigation Status Indicator -->
+    <div class="nav-status" id="nav-status">
+        <div><span class="status-indicator status-visible"></span>Navigation Status: <span id="nav-status-text">Checking...</span></div>
+        <div style="margin-top: 5px; font-size: 0.8rem; color: #64748b;">Z-Index: <span id="nav-zindex">-</span></div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div>Scroll Position: <span id="scroll-position">0</span>px</div>
+        <div>Nav Height: <span id="nav-height">-</span>px</div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <h4 style="margin: 0 0 15px 0; color: #1f2937;">Navigation Tests</h4>
+        <div>
+            <button class="test-btn" onclick="scrollToSection('features')">📋 Scroll to Features</button>
+            <button class="test-btn" onclick="scrollToSection('about')">ℹ️ Scroll to About</button>
+            <button class="test-btn" onclick="scrollToSection('contact')">📞 Scroll to Contact</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="test-btn success" onclick="testNavigationVisibility()">✅ Test Visibility</button>
+            <button class="test-btn warning" onclick="refreshNavigation()">🔄 Refresh Nav</button>
+            <button class="test-btn danger" onclick="simulateHideNav()">❌ Simulate Hide</button>
+        </div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script src="js/app.js"></script>
+    <script src="fix-navigation-visibility.js"></script>
+
+    <script>
+        // Navigation Visibility Test Framework
+        class NavigationVisibilityTester {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                console.log('🧭 Navigation Visibility Tester initialized');
+                this.startMonitoring();
+                this.setupScrollTracking();
+            }
+
+            startMonitoring() {
+                setInterval(() => {
+                    this.checkNavigationStatus();
+                }, 500);
+            }
+
+            setupScrollTracking() {
+                window.addEventListener('scroll', () => {
+                    this.updateScrollIndicator();
+                }, { passive: true });
+                
+                // Initial update
+                this.updateScrollIndicator();
+            }
+
+            checkNavigationStatus() {
+                const topNav = document.querySelector('.top-nav');
+                const statusText = document.getElementById('nav-status-text');
+                const statusIndicator = document.querySelector('.nav-status .status-indicator');
+                const zIndexDisplay = document.getElementById('nav-zindex');
+
+                if (!topNav || !statusText || !statusIndicator) return;
+
+                const computedStyle = window.getComputedStyle(topNav);
+                const isVisible = computedStyle.display !== 'none' && 
+                                 computedStyle.visibility !== 'hidden' && 
+                                 computedStyle.opacity !== '0';
+
+                const rect = topNav.getBoundingClientRect();
+                const isInViewport = rect.top >= -10 && rect.top <= 10; // Allow small margin
+
+                if (isVisible && isInViewport) {
+                    statusText.textContent = 'Visible ✅';
+                    statusIndicator.className = 'status-indicator status-visible';
+                } else if (isVisible && !isInViewport) {
+                    statusText.textContent = 'Displaced ⚠️';
+                    statusIndicator.className = 'status-indicator status-partial';
+                } else {
+                    statusText.textContent = 'Hidden ❌';
+                    statusIndicator.className = 'status-indicator status-hidden';
+                }
+
+                zIndexDisplay.textContent = computedStyle.zIndex || 'auto';
+            }
+
+            updateScrollIndicator() {
+                const scrollPosition = document.getElementById('scroll-position');
+                const navHeight = document.getElementById('nav-height');
+                const topNav = document.querySelector('.top-nav');
+
+                if (scrollPosition) {
+                    scrollPosition.textContent = Math.round(window.scrollY);
+                }
+
+                if (navHeight && topNav) {
+                    navHeight.textContent = topNav.offsetHeight;
+                }
+            }
+
+            testNavigationVisibility() {
+                console.log('🧪 Testing navigation visibility...');
+                
+                const topNav = document.querySelector('.top-nav');
+                if (!topNav) {
+                    alert('❌ Navigation element not found!');
+                    return;
+                }
+
+                const computedStyle = window.getComputedStyle(topNav);
+                const rect = topNav.getBoundingClientRect();
+
+                const results = {
+                    display: computedStyle.display,
+                    visibility: computedStyle.visibility,
+                    opacity: computedStyle.opacity,
+                    zIndex: computedStyle.zIndex,
+                    position: computedStyle.position,
+                    top: computedStyle.top,
+                    left: computedStyle.left,
+                    right: computedStyle.right,
+                    width: computedStyle.width,
+                    height: topNav.offsetHeight,
+                    boundingRect: {
+                        top: rect.top,
+                        left: rect.left,
+                        width: rect.width,
+                        height: rect.height
+                    }
+                };
+
+                console.table(results);
+
+                const isVisible = results.display !== 'none' && 
+                                 results.visibility !== 'hidden' && 
+                                 results.opacity !== '0';
+
+                const message = isVisible ? 
+                    '✅ Navigation is visible and properly positioned!' :
+                    '❌ Navigation has visibility issues!';
+
+                alert(message + '\n\nCheck console for detailed results.');
+            }
+        }
+
+        // Test Functions
+        function scrollToSection(sectionId) {
+            console.log(`📍 Scrolling to ${sectionId}`);
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function refreshNavigation() {
+            console.log('🔄 Refreshing navigation...');
+            if (window.refreshNavigation) {
+                window.refreshNavigation();
+                alert('✅ Navigation refreshed!');
+            } else {
+                alert('⚠️ Navigation refresh function not available');
+            }
+        }
+
+        function simulateHideNav() {
+            console.log('❌ Simulating navigation hide...');
+            const topNav = document.querySelector('.top-nav');
+            if (topNav) {
+                // Temporarily hide navigation to test recovery
+                topNav.style.display = 'none';
+                
+                setTimeout(() => {
+                    alert('🔧 Navigation should automatically recover in a few seconds...');
+                }, 1000);
+            }
+        }
+
+        function testNavigationVisibility() {
+            navTester.testNavigationVisibility();
+        }
+
+        // Initialize tester
+        const navTester = new NavigationVisibilityTester();
+
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        console.log('✅ Navigation Visibility Test initialized!');
+    </script>
+</body>
+</html>

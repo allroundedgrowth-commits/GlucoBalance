@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero and Modal Fixes Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .test-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 100px;
+        }
+        
+        .test-section {
+            background: white;
+            margin-bottom: 30px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-section-header {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            padding: 20px 30px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .test-section-content {
+            padding: 30px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            padding: 80px 30px 60px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            pointer-events: none;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .title-highlight {
+            display: inline-block;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 0.5rem;
+        }
+        
+        .title-main {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 2.8rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero-trust {
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .trust-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .features-section {
+            padding: 60px 0;
+            background: #f8fafc;
+            border-radius: 16px;
+            margin: 30px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 127, 255, 0.2);
+            border-color: #007FFF;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            color: #1f2937;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .card-arrow {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #007FFF;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-card:hover .card-arrow {
+            opacity: 1;
+        }
+        
+        .test-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e5e7eb;
+            z-index: 8888;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 127, 255, 0.3);
+        }
+        
+        .test-btn.success {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+        
+        .test-btn.warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+        }
+        
+        .test-btn.danger {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
+        
+        .test-log {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-success { background: #10B981; }
+        .status-error { background: #EF4444; }
+        .status-warning { background: #F59E0B; }
+        .status-info { background: #3B82F6; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1>GlucoBalance</h1>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#privacy" class="nav-link">Privacy</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎭 Hero and Modal Fixes Test</h1>
+            <p>Testing hero button removal and feature modal functionality</p>
+        </div>
+
+        <!-- Hero Section Test -->
+        <div class="test-section">
+            <div class="test-section-header">
+                🦸‍♂️ Hero Section - Buttons Removed
+            </div>
+            <div class="test-section-content">
+                <div class="hero-section">
+                    <div class="hero-badge">
+                        <span class="badge-icon">🏆</span>
+                        <span class="badge-text">WHO/ADA Compliant</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="title-highlight">Prevent.</span>
+                        <span class="title-highlight">Support.</span>
+                        <span class="title-highlight">Thrive.</span>
+                        <br>
+                        <span class="title-main">with GlucoBalance</span>
+                    </h1>
+                    <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection, and ongoing management with AI-powered insights</p>
+
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">95%</div>
+                            <div class="stat-label">Accuracy Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Users Helped</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">AI Support</div>
+                        </div>
+                    </div>
+
+                    <!-- NO BUTTONS HERE - REMOVED AS REQUESTED -->
+
+                    <div class="hero-trust">
+                        <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                        <div class="trust-badges">
+                            <span class="trust-badge">🔒 HIPAA Compliant</span>
+                            <span class="trust-badge">🛡️ Privacy First</span>
+                            <span class="trust-badge">🌟 Evidence-Based</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p><strong>✅ Expected:</strong> Hero section should have no "Start Risk Assessment" or "Explore Features" buttons.</p>
+            </div>
+        </div>
+
+        <!-- Features Section Test -->
+        <div class="test-section">
+            <div class="test-section-header">
+                🎯 Features Section - Modal Testing
+            </div>
+            <div class="test-section-content">
+                <section id="features" class="features-section">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-prefetch-module="risk-assessment" data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="nutrition-service" data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="mental-health" data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="progress-dashboard" data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <div style="background: #f0f9ff; border-left: 4px solid #007FFF; padding: 20px; border-radius: 0 8px 8px 0; margin-top: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: #1e40af;">Expected Behavior:</h4>
+                    <ul style="margin: 0; color: #1e40af;">
+                        <li><strong>🎯 Risk Assessment:</strong> Should launch questionnaire directly (no modal)</li>
+                        <li><strong>🍎 Nutrition:</strong> Should show feature modal and stay visible</li>
+                        <li><strong>💙 Mental Health:</strong> Should show feature modal and stay visible</li>
+                        <li><strong>📊 Progress:</strong> Should show feature modal and stay visible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-section">
+            <div class="test-section-header">
+                📊 Test Results
+            </div>
+            <div class="test-section-content">
+                <div id="test-results">
+                    <p>Click the feature cards above to test modal functionality.</p>
+                </div>
+                
+                <div class="test-log" id="test-log">
+                    <div><span class="status-info">●</span> Hero and Modal Fixes Test initialized</div>
+                    <div><span class="status-info">●</span> Ready to test feature card modals</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Modal -->
+    <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Feature Details</h2>
+                <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                <button class="btn-primary" id="modal-action">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <h4 style="margin: 0 0 15px 0; color: #1f2937;">Modal Tests</h4>
+        <div>
+            <button class="test-btn" onclick="testNutritionModal()">🍎 Test Nutrition</button>
+            <button class="test-btn" onclick="testMentalHealthModal()">💙 Test Mental Health</button>
+            <button class="test-btn" onclick="testProgressModal()">📊 Test Progress</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button class="test-btn success" onclick="testAllModals()">✅ Test All</button>
+            <button class="test-btn warning" onclick="clearResults()">🔄 Clear Results</button>
+        </div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script src="js/app.js"></script>
+    <script src="fix-navigation-visibility.js"></script>
+    <script src="js/landing-page-enhanced.js"></script>
+
+    <script>
+        // Modal Test Framework
+        class ModalTester {
+            constructor() {
+                this.testResults = [];
+                this.init();
+            }
+
+            init() {
+                console.log('🎭 Modal Tester initialized');
+                this.log('🎭 Modal Tester initialized', 'info');
+                
+                // Initialize enhanced landing page manager
+                if (!window.enhancedLandingPageManager) {
+                    window.enhancedLandingPageManager = new EnhancedLandingPageManager();
+                    this.log('✅ Enhanced Landing Page Manager initialized', 'success');
+                }
+            }
+
+            log(message, type = 'info') {
+                const logElement = document.getElementById('test-log');
+                const timestamp = new Date().toLocaleTimeString();
+                const statusClass = `status-${type}`;
+                
+                logElement.innerHTML += `<div><span class="${statusClass}">●</span> [${timestamp}] ${message}</div>`;
+                logElement.scrollTop = logElement.scrollHeight;
+                console.log(message);
+            }
+
+            testFeatureCard(featureType) {
+                this.log(`🧪 Testing ${featureType} feature card...`, 'info');
+                
+                const card = document.querySelector(`[data-feature="${featureType}"]`);
+                if (!card) {
+                    this.log(`❌ ${featureType} card not found`, 'error');
+                    return false;
+                }
+                
+                // Click the card
+                card.click();
+                
+                // Check results after a delay
+                setTimeout(() => {
+                    this.checkModalResult(featureType);
+                }, 500);
+                
+                return true;
+            }
+
+            checkModalResult(featureType) {
+                const modal = document.getElementById('feature-modal');
+                const assessmentContainer = document.getElementById('risk-assessment-container');
+                
+                if (featureType === 'risk-assessment') {
+                    // Risk assessment should launch questionnaire directly
+                    if (assessmentContainer) {
+                        this.log(`✅ ${featureType}: Questionnaire launched correctly`, 'success');
+                        this.updateResults(featureType, 'success', 'Launched questionnaire directly');
+                    } else {
+                        this.log(`⚠️ ${featureType}: Questionnaire not found, checking for modal...`, 'warning');
+                        if (modal && modal.classList.contains('active')) {
+                            this.log(`❌ ${featureType}: Showed modal instead of questionnaire`, 'error');
+                            this.updateResults(featureType, 'error', 'Showed modal instead of questionnaire');
+                        } else {
+                            this.log(`❌ ${featureType}: No response detected`, 'error');
+                            this.updateResults(featureType, 'error', 'No response detected');
+                        }
+                    }
+                } else {
+                    // Other features should show modal
+                    if (modal && modal.classList.contains('active')) {
+                        const computedStyle = window.getComputedStyle(modal);
+                        const isVisible = computedStyle.display !== 'none' && 
+                                         computedStyle.visibility !== 'hidden' && 
+                                         computedStyle.opacity !== '0';
+                        
+                        if (isVisible) {
+                            this.log(`✅ ${featureType}: Modal displayed and visible`, 'success');
+                            this.updateResults(featureType, 'success', 'Modal displayed correctly');
+                            
+                            // Auto-close modal after 2 seconds for testing
+                            setTimeout(() => {
+                                if (window.enhancedLandingPageManager) {
+                                    window.enhancedLandingPageManager.closeModal();
+                                }
+                            }, 2000);
+                        } else {
+                            this.log(`❌ ${featureType}: Modal exists but not visible`, 'error');
+                            this.updateResults(featureType, 'error', 'Modal not visible');
+                        }
+                    } else {
+                        this.log(`❌ ${featureType}: Modal not displayed`, 'error');
+                        this.updateResults(featureType, 'error', 'Modal not displayed');
+                    }
+                }
+            }
+
+            updateResults(featureType, status, message) {
+                const resultsElement = document.getElementById('test-results');
+                const statusIcon = status === 'success' ? '✅' : status === 'error' ? '❌' : '⚠️';
+                const statusClass = status === 'success' ? 'success' : status === 'error' ? 'error' : 'warning';
+                
+                const resultDiv = document.createElement('div');
+                resultDiv.style.cssText = `
+                    padding: 12px;
+                    margin: 8px 0;
+                    border-radius: 8px;
+                    border-left: 4px solid ${status === 'success' ? '#10B981' : status === 'error' ? '#EF4444' : '#F59E0B'};
+                    background: ${status === 'success' ? '#f0fdf4' : status === 'error' ? '#fef2f2' : '#fffbeb'};
+                `;
+                
+                resultDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.2rem;">${statusIcon}</span>
+                        <div>
+                            <strong>${featureType.charAt(0).toUpperCase() + featureType.slice(1).replace('-', ' ')}</strong>
+                            <div style="font-size: 0.9rem; color: #64748b; margin-top: 4px;">${message}</div>
+                        </div>
+                    </div>
+                `;
+                
+                resultsElement.appendChild(resultDiv);
+                
+                // Store result
+                this.testResults.push({ featureType, status, message, timestamp: Date.now() });
+            }
+
+            testAllFeatures() {
+                this.log('🚀 Testing all feature cards...', 'info');
+                
+                const features = ['nutrition', 'mental-health', 'progress'];
+                let index = 0;
+                
+                const testNext = () => {
+                    if (index < features.length) {
+                        this.testFeatureCard(features[index]);
+                        index++;
+                        setTimeout(testNext, 3000); // Wait 3 seconds between tests
+                    } else {
+                        this.log('🎉 All feature tests completed!', 'success');
+                    }
+                };
+                
+                testNext();
+            }
+
+            clearResults() {
+                document.getElementById('test-results').innerHTML = '<p>Click the feature cards above to test modal functionality.</p>';
+                this.testResults = [];
+                this.log('🔄 Test results cleared', 'info');
+            }
+        }
+
+        // Initialize tester
+        const modalTester = new ModalTester();
+
+        // Test Functions
+        function testNutritionModal() {
+            modalTester.testFeatureCard('nutrition');
+        }
+
+        function testMentalHealthModal() {
+            modalTester.testFeatureCard('mental-health');
+        }
+
+        function testProgressModal() {
+            modalTester.testFeatureCard('progress');
+        }
+
+        function testAllModals() {
+            modalTester.testAllFeatures();
+        }
+
+        function clearResults() {
+            modalTester.clearResults();
+        }
+
+        // Auto-test after page load
+        setTimeout(() => {
+            modalTester.log('🔍 Checking hero section for buttons...', 'info');
+            
+            const heroButtons = document.querySelectorAll('.hero-cta .hero-btn');
+            if (heroButtons.length === 0) {
+                modalTester.log('✅ Hero buttons successfully removed', 'success');
+            } else {
+                modalTester.log(`❌ Found ${heroButtons.length} hero buttons (should be 0)`, 'error');
+            }
+            
+            modalTester.log('✨ Ready for modal testing! Click feature cards or use test buttons.', 'info');
+        }, 1000);
+
+        console.log('✅ Hero and Modal Fixes Test initialized!');
+    </script>
+</body>
+</html>

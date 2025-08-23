@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Signup and Login Functionality</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .test-result {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .test-result.success {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+        }
+        
+        .test-result.error {
+            background: #ffeaea;
+            border: 1px solid #f44336;
+            color: #c62828;
+        }
+        
+        .test-result.info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1565c0;
+        }
+        
+        .auth-status {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        
+        .auth-status.authenticated {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .auth-status.unauthenticated {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .user-info {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        
+        .navigation-test {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Navigation Bar -->
+    <nav class="top-nav navigation-test" role="navigation">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1>GlucoBalance Test</h1>
+            </div>
+            
+            <div class="nav-actions">
+                <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                <button id="nav-profile-btn" class="btn-outline" style="display: none;" title="Profile">
+                    <span class="btn-text">Profile</span>
+                </button>
+                <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                <button id="nav-logout-btn" class="btn-secondary logout-btn" style="display: none;">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="test-container">
+        <h1>🧪 Signup and Login Functionality Test</h1>
+        <p>This page tests the complete signup and login functionality for new and existing users.</p>
+        
+        <!-- Authentication Status -->
+        <div class="test-section">
+            <h2>🔐 Authentication Status</h2>
+            <div id="auth-status" class="auth-status unauthenticated">
+                Not Authenticated
+            </div>
+            <div id="user-info" class="user-info" style="display: none;">
+                <h4>Current User:</h4>
+                <div id="user-details"></div>
+            </div>
+            <button class="btn-secondary" onclick="checkAuthStatus()">Refresh Status</button>
+        </div>
+        
+        <!-- Button Tests -->
+        <div class="test-section">
+            <h2>🔘 Navigation Button Tests</h2>
+            <p>Test the navigation buttons to ensure they trigger the correct actions:</p>
+            
+            <div class="test-buttons">
+                <button class="btn-primary" onclick="testSignupButton()">Test Signup Button</button>
+                <button class="btn-primary" onclick="testDashboardButton()">Test Dashboard Button</button>
+                <button class="btn-primary" onclick="testGetStartedButton()">Test Get Started Button</button>
+                <button class="btn-secondary" onclick="testLogoutButton()">Test Logout Button</button>
+            </div>
+            
+            <div id="button-test-results" class="test-result info">
+                Click buttons above to test functionality...
+            </div>
+        </div>
+        
+        <!-- Manual Registration Test -->
+        <div class="test-section">
+            <h2>📝 Manual Registration Test</h2>
+            <p>Test user registration with sample data:</p>
+            
+            <div class="test-buttons">
+                <button class="btn-primary" onclick="testRegistration()">Register Test User</button>
+                <button class="btn-secondary" onclick="clearTestUser()">Clear Test User</button>
+            </div>
+            
+            <div id="registration-test-results" class="test-result info">
+                Click "Register Test User" to test registration...
+            </div>
+        </div>
+        
+        <!-- Manual Login Test -->
+        <div class="test-section">
+            <h2>🔑 Manual Login Test</h2>
+            <p>Test user login with existing account:</p>
+            
+            <div class="test-buttons">
+                <button class="btn-primary" onclick="testLogin()">Login Test User</button>
+                <button class="btn-secondary" onclick="testLoginNonExistent()">Test Non-existent User</button>
+            </div>
+            
+            <div id="login-test-results" class="test-result info">
+                Click "Login Test User" to test login...
+            </div>
+        </div>
+        
+        <!-- Flow Test -->
+        <div class="test-section">
+            <h2>🔄 Complete Flow Test</h2>
+            <p>Test the complete user flow from signup to dashboard access:</p>
+            
+            <div class="test-buttons">
+                <button class="btn-primary" onclick="testCompleteFlow()">Test Complete Flow</button>
+                <button class="btn-secondary" onclick="resetFlow()">Reset Flow</button>
+            </div>
+            
+            <div id="flow-test-results" class="test-result info">
+                Click "Test Complete Flow" to run end-to-end test...
+            </div>
+        </div>
+        
+        <!-- System Status -->
+        <div class="test-section">
+            <h2>⚙️ System Status</h2>
+            <div id="system-status" class="test-result info">
+                Checking system status...
+            </div>
+            <button class="btn-secondary" onclick="checkSystemStatus()">Refresh System Status</button>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="fix-signup-login-functionality.js"></script>
+
+    <script>
+        // Test functions
+        let testResults = [];
+        
+        function logResult(test, status, message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const result = `[${timestamp}] ${test}: ${status.toUpperCase()} - ${message}`;
+            testResults.push(result);
+            console.log(result);
+            return result;
+        }
+        
+        function updateResultDisplay(elementId, results) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = results.join('\n');
+                element.className = 'test-result ' + (results.some(r => r.includes('FAIL')) ? 'error' : 'success');
+            }
+        }
+        
+        // Check authentication status
+        function checkAuthStatus() {
+            const statusElement = document.getElementById('auth-status');
+            const userInfoElement = document.getElementById('user-info');
+            const userDetailsElement = document.getElementById('user-details');
+            
+            if (window.authService) {
+                const isAuthenticated = window.authService.isAuthenticated();
+                const currentUser = window.authService.getCurrentUser();
+                
+                if (isAuthenticated && currentUser) {
+                    statusElement.textContent = 'Authenticated';
+                    statusElement.className = 'auth-status authenticated';
+                    
+                    userDetailsElement.innerHTML = `
+                        <p><strong>Name:</strong> ${currentUser.name}</p>
+                        <p><strong>Email:</strong> ${currentUser.email}</p>
+                        <p><strong>Age:</strong> ${currentUser.age}</p>
+                        <p><strong>Gender:</strong> ${currentUser.gender}</p>
+                        <p><strong>User ID:</strong> ${currentUser.id}</p>
+                    `;
+                    userInfoElement.style.display = 'block';
+                } else {
+                    statusElement.textContent = 'Not Authenticated';
+                    statusElement.className = 'auth-status unauthenticated';
+                    userInfoElement.style.display = 'none';
+                }
+            } else {
+                statusElement.textContent = 'Auth Service Not Available';
+                statusElement.className = 'auth-status error';
+                userInfoElement.style.display = 'none';
+            }
+        }
+        
+        // Test signup button
+        function testSignupButton() {
+            const results = [];
+            
+            try {
+                const signupBtn = document.getElementById('nav-signup-btn');
+                if (!signupBtn) {
+                    results.push(logResult('Signup Button', 'fail', 'Button not found in DOM'));
+                } else {
+                    results.push(logResult('Signup Button', 'pass', 'Button found in DOM'));
+                    
+                    // Test click
+                    signupBtn.click();
+                    
+                    // Check if modal appeared
+                    setTimeout(() => {
+                        const modal = document.getElementById('auth-modal');
+                        if (modal) {
+                            results.push(logResult('Signup Modal', 'pass', 'Registration modal appeared'));
+                            
+                            // Check modal content
+                            const title = modal.querySelector('h2');
+                            if (title && title.textContent.includes('Create')) {
+                                results.push(logResult('Modal Content', 'pass', 'Correct registration form displayed'));
+                            } else {
+                                results.push(logResult('Modal Content', 'fail', 'Incorrect modal content'));
+                            }
+                            
+                            // Close modal
+                            const closeBtn = modal.querySelector('.close-btn');
+                            if (closeBtn) closeBtn.click();
+                        } else {
+                            results.push(logResult('Signup Modal', 'fail', 'Registration modal did not appear'));
+                        }
+                        
+                        updateResultDisplay('button-test-results', results);
+                    }, 500);
+                }
+            } catch (error) {
+                results.push(logResult('Signup Button', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('button-test-results', results);
+        }
+        
+        // Test dashboard button
+        function testDashboardButton() {
+            const results = [];
+            
+            try {
+                const dashboardBtn = document.getElementById('nav-dashboard-btn');
+                if (!dashboardBtn) {
+                    results.push(logResult('Dashboard Button', 'fail', 'Button not found in DOM'));
+                } else {
+                    results.push(logResult('Dashboard Button', 'pass', 'Button found in DOM'));
+                    
+                    const isAuthenticated = window.authService && window.authService.isAuthenticated();
+                    
+                    // Test click
+                    dashboardBtn.click();
+                    
+                    setTimeout(() => {
+                        if (isAuthenticated) {
+                            // Should go to dashboard
+                            const dashboardPage = document.getElementById('dashboard-page');
+                            if (dashboardPage && dashboardPage.classList.contains('active')) {
+                                results.push(logResult('Dashboard Navigation', 'pass', 'Navigated to dashboard'));
+                            } else {
+                                results.push(logResult('Dashboard Navigation', 'fail', 'Did not navigate to dashboard'));
+                            }
+                        } else {
+                            // Should show login modal
+                            const modal = document.getElementById('auth-modal');
+                            if (modal) {
+                                results.push(logResult('Login Modal', 'pass', 'Login modal appeared'));
+                                
+                                const title = modal.querySelector('h2');
+                                if (title && title.textContent.includes('Welcome')) {
+                                    results.push(logResult('Modal Content', 'pass', 'Correct login form displayed'));
+                                } else {
+                                    results.push(logResult('Modal Content', 'fail', 'Incorrect modal content'));
+                                }
+                                
+                                // Close modal
+                                const closeBtn = modal.querySelector('.close-btn');
+                                if (closeBtn) closeBtn.click();
+                            } else {
+                                results.push(logResult('Login Modal', 'fail', 'Login modal did not appear'));
+                            }
+                        }
+                        
+                        updateResultDisplay('button-test-results', results);
+                    }, 500);
+                }
+            } catch (error) {
+                results.push(logResult('Dashboard Button', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('button-test-results', results);
+        }
+        
+        // Test get started button
+        function testGetStartedButton() {
+            const results = [];
+            
+            try {
+                const getStartedBtn = document.getElementById('nav-get-started-btn');
+                if (!getStartedBtn) {
+                    results.push(logResult('Get Started Button', 'fail', 'Button not found in DOM'));
+                } else {
+                    results.push(logResult('Get Started Button', 'pass', 'Button found in DOM'));
+                    
+                    // Test click
+                    getStartedBtn.click();
+                    
+                    setTimeout(() => {
+                        const modal = document.getElementById('auth-modal');
+                        if (modal) {
+                            results.push(logResult('Get Started Action', 'pass', 'Modal appeared (signup or assessment)'));
+                            
+                            // Close modal
+                            const closeBtn = modal.querySelector('.close-btn');
+                            if (closeBtn) closeBtn.click();
+                        } else {
+                            // Check if assessment page opened
+                            const assessmentPage = document.getElementById('assessment-page');
+                            if (assessmentPage && assessmentPage.classList.contains('active')) {
+                                results.push(logResult('Get Started Action', 'pass', 'Assessment page opened'));
+                            } else {
+                                results.push(logResult('Get Started Action', 'fail', 'No action taken'));
+                            }
+                        }
+                        
+                        updateResultDisplay('button-test-results', results);
+                    }, 500);
+                }
+            } catch (error) {
+                results.push(logResult('Get Started Button', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('button-test-results', results);
+        }
+        
+        // Test logout button
+        function testLogoutButton() {
+            const results = [];
+            
+            try {
+                const logoutBtn = document.getElementById('nav-logout-btn');
+                if (!logoutBtn) {
+                    results.push(logResult('Logout Button', 'info', 'Button not visible (user not logged in)'));
+                } else {
+                    results.push(logResult('Logout Button', 'pass', 'Button found in DOM'));
+                    
+                    // Test click
+                    logoutBtn.click();
+                    
+                    setTimeout(() => {
+                        const isAuthenticated = window.authService && window.authService.isAuthenticated();
+                        if (!isAuthenticated) {
+                            results.push(logResult('Logout Action', 'pass', 'User successfully logged out'));
+                        } else {
+                            results.push(logResult('Logout Action', 'fail', 'User still logged in'));
+                        }
+                        
+                        updateResultDisplay('button-test-results', results);
+                        checkAuthStatus();
+                    }, 500);
+                }
+            } catch (error) {
+                results.push(logResult('Logout Button', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('button-test-results', results);
+        }
+        
+        // Test registration
+        async function testRegistration() {
+            const results = [];
+            
+            try {
+                if (!window.authService) {
+                    results.push(logResult('Registration Test', 'fail', 'Auth service not available'));
+                    updateResultDisplay('registration-test-results', results);
+                    return;
+                }
+                
+                const testUser = {
+                    name: 'Test User',
+                    email: 'test@example.com',
+                    age: 30,
+                    gender: 'other'
+                };
+                
+                results.push(logResult('Registration Test', 'info', 'Starting registration test...'));
+                
+                const result = await window.authService.register(testUser);
+                
+                if (result.success) {
+                    results.push(logResult('Registration Test', 'pass', 'User registered successfully'));
+                    results.push(logResult('User Data', 'info', `User: ${result.user.name} (${result.user.email})`));
+                    
+                    // Check if user is now authenticated
+                    const isAuthenticated = window.authService.isAuthenticated();
+                    if (isAuthenticated) {
+                        results.push(logResult('Auto Login', 'pass', 'User automatically logged in after registration'));
+                    } else {
+                        results.push(logResult('Auto Login', 'fail', 'User not logged in after registration'));
+                    }
+                } else {
+                    results.push(logResult('Registration Test', 'fail', `Registration failed: ${result.error}`));
+                }
+                
+            } catch (error) {
+                results.push(logResult('Registration Test', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('registration-test-results', results);
+            checkAuthStatus();
+        }
+        
+        // Clear test user
+        async function clearTestUser() {
+            const results = [];
+            
+            try {
+                // Logout first
+                if (window.authService && window.authService.isAuthenticated()) {
+                    await window.authService.logout();
+                    results.push(logResult('Logout', 'pass', 'User logged out'));
+                }
+                
+                // Clear from localStorage (simplified for demo)
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                const filteredUsers = users.filter(u => u.email !== 'test@example.com');
+                localStorage.setItem('users', JSON.stringify(filteredUsers));
+                
+                results.push(logResult('Clear User', 'pass', 'Test user cleared from storage'));
+                
+            } catch (error) {
+                results.push(logResult('Clear User', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('registration-test-results', results);
+            checkAuthStatus();
+        }
+        
+        // Test login
+        async function testLogin() {
+            const results = [];
+            
+            try {
+                if (!window.authService) {
+                    results.push(logResult('Login Test', 'fail', 'Auth service not available'));
+                    updateResultDisplay('login-test-results', results);
+                    return;
+                }
+                
+                const credentials = {
+                    email: 'test@example.com'
+                };
+                
+                results.push(logResult('Login Test', 'info', 'Starting login test...'));
+                
+                const result = await window.authService.login(credentials);
+                
+                if (result.success) {
+                    results.push(logResult('Login Test', 'pass', 'User logged in successfully'));
+                    results.push(logResult('User Data', 'info', `User: ${result.user.name} (${result.user.email})`));
+                } else {
+                    results.push(logResult('Login Test', 'fail', `Login failed: ${result.error}`));
+                }
+                
+            } catch (error) {
+                results.push(logResult('Login Test', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('login-test-results', results);
+            checkAuthStatus();
+        }
+        
+        // Test login with non-existent user
+        async function testLoginNonExistent() {
+            const results = [];
+            
+            try {
+                if (!window.authService) {
+                    results.push(logResult('Login Test', 'fail', 'Auth service not available'));
+                    updateResultDisplay('login-test-results', results);
+                    return;
+                }
+                
+                const credentials = {
+                    email: 'nonexistent@example.com'
+                };
+                
+                results.push(logResult('Login Test', 'info', 'Testing login with non-existent user...'));
+                
+                const result = await window.authService.login(credentials);
+                
+                if (!result.success) {
+                    results.push(logResult('Login Test', 'pass', `Correctly rejected: ${result.error}`));
+                } else {
+                    results.push(logResult('Login Test', 'fail', 'Should have failed for non-existent user'));
+                }
+                
+            } catch (error) {
+                results.push(logResult('Login Test', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('login-test-results', results);
+        }
+        
+        // Test complete flow
+        async function testCompleteFlow() {
+            const results = [];
+            
+            try {
+                results.push(logResult('Complete Flow', 'info', 'Starting complete flow test...'));
+                
+                // Step 1: Clear any existing user
+                await clearTestUser();
+                results.push(logResult('Step 1', 'pass', 'Cleared existing test user'));
+                
+                // Step 2: Register new user
+                const testUser = {
+                    name: 'Flow Test User',
+                    email: 'flowtest@example.com',
+                    age: 25,
+                    gender: 'female'
+                };
+                
+                const registerResult = await window.authService.register(testUser);
+                if (registerResult.success) {
+                    results.push(logResult('Step 2', 'pass', 'User registration successful'));
+                } else {
+                    results.push(logResult('Step 2', 'fail', `Registration failed: ${registerResult.error}`));
+                    updateResultDisplay('flow-test-results', results);
+                    return;
+                }
+                
+                // Step 3: Verify authentication
+                const isAuthenticated = window.authService.isAuthenticated();
+                if (isAuthenticated) {
+                    results.push(logResult('Step 3', 'pass', 'User is authenticated after registration'));
+                } else {
+                    results.push(logResult('Step 3', 'fail', 'User not authenticated after registration'));
+                }
+                
+                // Step 4: Test dashboard access
+                if (window.glucoApp && typeof window.glucoApp.showDashboard === 'function') {
+                    window.glucoApp.showDashboard();
+                    
+                    setTimeout(() => {
+                        const dashboardPage = document.getElementById('dashboard-page');
+                        if (dashboardPage && dashboardPage.classList.contains('active')) {
+                            results.push(logResult('Step 4', 'pass', 'Dashboard access successful'));
+                        } else {
+                            results.push(logResult('Step 4', 'fail', 'Dashboard access failed'));
+                        }
+                        
+                        // Step 5: Test logout
+                        window.authService.logout().then(logoutResult => {
+                            if (logoutResult.success) {
+                                results.push(logResult('Step 5', 'pass', 'Logout successful'));
+                            } else {
+                                results.push(logResult('Step 5', 'fail', 'Logout failed'));
+                            }
+                            
+                            results.push(logResult('Complete Flow', 'pass', 'All steps completed successfully'));
+                            updateResultDisplay('flow-test-results', results);
+                            checkAuthStatus();
+                        });
+                    }, 1000);
+                } else {
+                    results.push(logResult('Step 4', 'info', 'Dashboard function not available, skipping'));
+                    results.push(logResult('Complete Flow', 'pass', 'Flow completed (dashboard test skipped)'));
+                    updateResultDisplay('flow-test-results', results);
+                }
+                
+            } catch (error) {
+                results.push(logResult('Complete Flow', 'fail', `Error: ${error.message}`));
+                updateResultDisplay('flow-test-results', results);
+            }
+        }
+        
+        // Reset flow
+        async function resetFlow() {
+            const results = [];
+            
+            try {
+                // Logout and clear test users
+                if (window.authService && window.authService.isAuthenticated()) {
+                    await window.authService.logout();
+                }
+                
+                // Clear flow test user
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                const filteredUsers = users.filter(u => u.email !== 'flowtest@example.com');
+                localStorage.setItem('users', JSON.stringify(filteredUsers));
+                
+                results.push(logResult('Reset Flow', 'pass', 'Flow reset completed'));
+                
+            } catch (error) {
+                results.push(logResult('Reset Flow', 'fail', `Error: ${error.message}`));
+            }
+            
+            updateResultDisplay('flow-test-results', results);
+            checkAuthStatus();
+        }
+        
+        // Check system status
+        function checkSystemStatus() {
+            const results = [];
+            
+            // Check if required services are available
+            const services = [
+                { name: 'Auth Service', obj: window.authService, methods: ['register', 'login', 'logout'] },
+                { name: 'Auth UI', obj: window.authUI, methods: ['showRegistrationForm', 'showLoginForm'] },
+                { name: 'Database', obj: window.kiroDb, methods: ['createUser', 'getUser'] },
+                { name: 'Landing Page Manager', obj: window.landingPageManager, methods: [] },
+                { name: 'Main App', obj: window.glucoApp, methods: ['showDashboard'] }
+            ];
+            
+            services.forEach(service => {
+                if (service.obj) {
+                    results.push(logResult(service.name, 'pass', 'Service available'));
+                    
+                    // Check methods
+                    service.methods.forEach(method => {
+                        if (typeof service.obj[method] === 'function') {
+                            results.push(logResult(`${service.name}.${method}`, 'pass', 'Method available'));
+                        } else {
+                            results.push(logResult(`${service.name}.${method}`, 'fail', 'Method not available'));
+                        }
+                    });
+                } else {
+                    results.push(logResult(service.name, 'fail', 'Service not available'));
+                }
+            });
+            
+            // Check DOM elements
+            const elements = [
+                'nav-signup-btn',
+                'nav-dashboard-btn',
+                'nav-get-started-btn',
+                'nav-profile-btn',
+                'nav-logout-btn'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    results.push(logResult(`Element ${id}`, 'pass', 'Found in DOM'));
+                } else {
+                    results.push(logResult(`Element ${id}`, 'fail', 'Not found in DOM'));
+                }
+            });
+            
+            updateResultDisplay('system-status', results);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Test page loaded');
+            
+            // Wait for services to load
+            setTimeout(() => {
+                checkAuthStatus();
+                checkSystemStatus();
+            }, 1000);
+        });
+        
+        // Listen for auth state changes
+        document.addEventListener('authStateChanged', function(event) {
+            console.log('🔄 Auth state changed in test page:', event.detail);
+            checkAuthStatus();
+        });
+    </script>
+</body>
+</html>

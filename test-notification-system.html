@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Notification System Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .test-section h3 {
+            color: #007FFF;
+            margin-bottom: 15px;
+        }
+
+        .test-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .test-btn {
+            padding: 10px 16px;
+            background: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .test-btn:hover {
+            background: #0066CC;
+        }
+
+        .test-btn.secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .test-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.success {
+            background: #28a745;
+        }
+
+        .status-indicator.error {
+            background: #dc3545;
+        }
+
+        .status-indicator.warning {
+            background: #ffc107;
+        }
+
+        .test-results {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ai-status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .ai-status.available {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .ai-status.unavailable {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .preference-preview {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .engagement-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007FFF;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔔 Notification System Test</h1>
+        <p>Test the AI-powered notification and engagement system functionality.</p>
+
+        <!-- AI Status Section -->
+        <div class="test-section">
+            <h3>AI Service Status</h3>
+            <div id="ai-status" class="ai-status">
+                <span class="status-indicator"></span>
+                <span id="ai-status-text">Checking AI service...</span>
+            </div>
+            <button class="test-btn secondary" onclick="checkAIStatus()">Refresh AI Status</button>
+            <button class="test-btn secondary" onclick="configureAI()">Configure AI</button>
+        </div>
+
+        <!-- Notification Permission Section -->
+        <div class="test-section">
+            <h3>Notification Permissions</h3>
+            <div id="permission-status">
+                <span class="status-indicator"></span>
+                <span id="permission-text">Checking permissions...</span>
+            </div>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="requestNotificationPermission()">Request Permission</button>
+                <button class="test-btn secondary" onclick="checkPermissionStatus()">Check Status</button>
+            </div>
+        </div>
+
+        <!-- Test Notifications Section -->
+        <div class="test-section">
+            <h3>Test Notifications</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testDailyAssessmentReminder()">Daily Assessment Reminder</button>
+                <button class="test-btn" onclick="testDailyMoodReminder()">Daily Mood Reminder</button>
+                <button class="test-btn" onclick="testWeeklyNutritionSummary()">Weekly Nutrition Summary</button>
+                <button class="test-btn" onclick="testMotivationalMessage()">Motivational Message</button>
+                <button class="test-btn" onclick="testReEngagementNotification()">Re-engagement Notification</button>
+            </div>
+            <div class="test-buttons">
+                <button class="test-btn secondary" onclick="testInAppNotification()">Test In-App Notification</button>
+                <button class="test-btn secondary" onclick="testBrowserNotification()">Test Browser Notification</button>
+            </div>
+        </div>
+
+        <!-- Notification Preferences Section -->
+        <div class="test-section">
+            <h3>Notification Preferences</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="showNotificationPreferences()">Open Preferences</button>
+                <button class="test-btn secondary" onclick="loadCurrentPreferences()">Load Current Preferences</button>
+                <button class="test-btn secondary" onclick="resetPreferences()">Reset to Defaults</button>
+            </div>
+            <div id="preference-preview" class="preference-preview" style="display: none;">
+                <h4>Current Preferences:</h4>
+                <pre id="preference-data"></pre>
+            </div>
+        </div>
+
+        <!-- Engagement Tracking Section -->
+        <div class="test-section">
+            <h3>Engagement Tracking</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="simulateEngagement()">Simulate User Engagement</button>
+                <button class="test-btn secondary" onclick="viewEngagementStats()">View Engagement Stats</button>
+                <button class="test-btn secondary" onclick="clearEngagementData()">Clear Engagement Data</button>
+            </div>
+            <div id="engagement-stats" class="engagement-stats" style="display: none;"></div>
+        </div>
+
+        <!-- Notification Optimization Section -->
+        <div class="test-section">
+            <h3>AI-Powered Optimization</h3>
+            <div class="test-buttons">
+                <button class="test-btn" onclick="testNotificationOptimization()">Test Optimization</button>
+                <button class="test-btn secondary" onclick="analyzeEngagementPatterns()">Analyze Patterns</button>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-section">
+            <h3>Test Results</h3>
+            <button class="test-btn secondary" onclick="clearResults()">Clear Results</button>
+            <div id="test-results" class="test-results"></div>
+        </div>
+    </div>
+
+    <!-- Include required scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/notification-service.js"></script>
+    <script src="js/notification-ui.js"></script>
+
+    <script>
+        // Test functions
+        let testResults = [];
+
+        function logResult(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            testResults.push(`[${timestamp}] ${type.toUpperCase()}: ${message}`);
+            updateResultsDisplay();
+        }
+
+        function updateResultsDisplay() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = testResults.join('\n');
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function clearResults() {
+            testResults = [];
+            updateResultsDisplay();
+        }
+
+        // AI Status Functions
+        async function checkAIStatus() {
+            try {
+                const aiService = window.aiService;
+                const statusDiv = document.getElementById('ai-status');
+                const statusText = document.getElementById('ai-status-text');
+                const indicator = statusDiv.querySelector('.status-indicator');
+
+                if (aiService && aiService.isAvailable()) {
+                    statusDiv.className = 'ai-status available';
+                    indicator.className = 'status-indicator success';
+                    statusText.textContent = 'AI Service Available';
+                    logResult('AI service is available and ready', 'success');
+                } else {
+                    statusDiv.className = 'ai-status unavailable';
+                    indicator.className = 'status-indicator error';
+                    statusText.textContent = 'AI Service Not Available - Configure API Key';
+                    logResult('AI service not available - API key required', 'warning');
+                }
+            } catch (error) {
+                logResult(`Error checking AI status: ${error.message}`, 'error');
+            }
+        }
+
+        async function configureAI() {
+            try {
+                if (window.geminiAI) {
+                    const success = await window.geminiAI.promptForApiKey();
+                    if (success) {
+                        logResult('AI configured successfully', 'success');
+                        await checkAIStatus();
+                    } else {
+                        logResult('AI configuration cancelled', 'warning');
+                    }
+                }
+            } catch (error) {
+                logResult(`Error configuring AI: ${error.message}`, 'error');
+            }
+        }
+
+        // Permission Functions
+        async function checkPermissionStatus() {
+            const statusDiv = document.getElementById('permission-status');
+            const statusText = document.getElementById('permission-text');
+            const indicator = statusDiv.querySelector('.status-indicator');
+
+            if (!('Notification' in window)) {
+                indicator.className = 'status-indicator error';
+                statusText.textContent = 'Notifications not supported in this browser';
+                logResult('Browser does not support notifications', 'error');
+                return;
+            }
+
+            const permission = Notification.permission;
+            switch (permission) {
+                case 'granted':
+                    indicator.className = 'status-indicator success';
+                    statusText.textContent = 'Notifications enabled';
+                    logResult('Notification permission granted', 'success');
+                    break;
+                case 'denied':
+                    indicator.className = 'status-indicator error';
+                    statusText.textContent = 'Notifications blocked';
+                    logResult('Notification permission denied', 'error');
+                    break;
+                default:
+                    indicator.className = 'status-indicator warning';
+                    statusText.textContent = 'Permission not requested';
+                    logResult('Notification permission not yet requested', 'warning');
+            }
+        }
+
+        async function requestNotificationPermission() {
+            try {
+                if (window.notificationService) {
+                    const granted = await window.notificationService.requestNotificationPermission();
+                    if (granted) {
+                        logResult('Notification permission granted successfully', 'success');
+                    } else {
+                        logResult('Notification permission denied by user', 'warning');
+                    }
+                    await checkPermissionStatus();
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error requesting permission: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Notification Functions
+        async function testDailyAssessmentReminder() {
+            try {
+                logResult('Testing daily assessment reminder...', 'info');
+                if (window.notificationUI) {
+                    await window.notificationUI.sendDailyAssessmentReminder();
+                    logResult('Daily assessment reminder sent successfully', 'success');
+                } else {
+                    logResult('Notification UI not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error sending daily assessment reminder: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDailyMoodReminder() {
+            try {
+                logResult('Testing daily mood reminder...', 'info');
+                if (window.notificationUI) {
+                    await window.notificationUI.sendDailyMoodReminder();
+                    logResult('Daily mood reminder sent successfully', 'success');
+                } else {
+                    logResult('Notification UI not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error sending daily mood reminder: ${error.message}`, 'error');
+            }
+        }
+
+        async function testWeeklyNutritionSummary() {
+            try {
+                logResult('Testing weekly nutrition summary...', 'info');
+                if (window.notificationUI) {
+                    await window.notificationUI.sendWeeklyNutritionSummary();
+                    logResult('Weekly nutrition summary sent successfully', 'success');
+                } else {
+                    logResult('Notification UI not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error sending weekly nutrition summary: ${error.message}`, 'error');
+            }
+        }
+
+        async function testMotivationalMessage() {
+            try {
+                logResult('Testing motivational message...', 'info');
+                if (window.notificationUI) {
+                    await window.notificationUI.sendMotivationalMessage({
+                        recentProgress: 'improving',
+                        streakDays: 5
+                    });
+                    logResult('Motivational message sent successfully', 'success');
+                } else {
+                    logResult('Notification UI not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error sending motivational message: ${error.message}`, 'error');
+            }
+        }
+
+        async function testReEngagementNotification() {
+            try {
+                logResult('Testing re-engagement notification...', 'info');
+                if (window.notificationService) {
+                    const user = await window.notificationService.getCurrentUser();
+                    if (user) {
+                        await window.notificationService.sendReEngagementNotification(user, 3);
+                        logResult('Re-engagement notification sent successfully', 'success');
+                    } else {
+                        logResult('No user found - please log in first', 'warning');
+                    }
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error sending re-engagement notification: ${error.message}`, 'error');
+            }
+        }
+
+        async function testInAppNotification() {
+            try {
+                logResult('Testing in-app notification...', 'info');
+                if (window.notificationUI) {
+                    window.notificationUI.showInAppNotification({
+                        id: 'test_in_app',
+                        title: 'Test In-App Notification 🧪',
+                        body: 'This is a test of the in-app notification system. It should appear in the top-right corner.',
+                        actions: [{
+                            label: 'Test Action',
+                            type: 'function',
+                            handler: () => logResult('Test action clicked!', 'success')
+                        }]
+                    });
+                    logResult('In-app notification displayed successfully', 'success');
+                } else {
+                    logResult('Notification UI not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error showing in-app notification: ${error.message}`, 'error');
+            }
+        }
+
+        async function testBrowserNotification() {
+            try {
+                logResult('Testing browser notification...', 'info');
+                if (window.notificationService) {
+                    const success = await window.notificationService.sendNotification({
+                        title: 'Test Browser Notification 🧪',
+                        body: 'This is a test of the browser notification system.',
+                        type: 'test'
+                    });
+                    if (success) {
+                        logResult('Browser notification sent successfully', 'success');
+                    } else {
+                        logResult('Browser notification failed - check permissions', 'warning');
+                    }
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error sending browser notification: ${error.message}`, 'error');
+            }
+        }
+
+        // Preference Functions
+        function showNotificationPreferences() {
+            try {
+                logResult('Opening notification preferences...', 'info');
+                if (window.notificationUI) {
+                    window.notificationUI.showNotificationPreferences();
+                    logResult('Notification preferences modal opened', 'success');
+                } else {
+                    logResult('Notification UI not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error opening preferences: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadCurrentPreferences() {
+            try {
+                logResult('Loading current preferences...', 'info');
+                if (window.notificationService) {
+                    const preferences = await window.notificationService.loadUserPreferences();
+                    const previewDiv = document.getElementById('preference-preview');
+                    const dataDiv = document.getElementById('preference-data');
+                    
+                    dataDiv.textContent = JSON.stringify(preferences, null, 2);
+                    previewDiv.style.display = 'block';
+                    
+                    logResult('Current preferences loaded successfully', 'success');
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error loading preferences: ${error.message}`, 'error');
+            }
+        }
+
+        async function resetPreferences() {
+            try {
+                logResult('Resetting preferences to defaults...', 'info');
+                if (window.notificationService) {
+                    const user = await window.notificationService.getCurrentUser();
+                    if (user) {
+                        const defaultPrefs = window.notificationService.getDefaultPreferences();
+                        await window.notificationService.db.updateUser(user.id, {
+                            notificationPreferences: defaultPrefs
+                        });
+                        logResult('Preferences reset to defaults successfully', 'success');
+                        await loadCurrentPreferences();
+                    } else {
+                        logResult('No user found - please log in first', 'warning');
+                    }
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error resetting preferences: ${error.message}`, 'error');
+            }
+        }
+
+        // Engagement Functions
+        async function simulateEngagement() {
+            try {
+                logResult('Simulating user engagement...', 'info');
+                if (window.notificationService) {
+                    // Simulate various engagement events
+                    const engagements = [
+                        { action: 'sent', type: 'daily_assessment' },
+                        { action: 'delivered', type: 'daily_assessment' },
+                        { action: 'clicked', type: 'daily_assessment' },
+                        { action: 'sent', type: 'daily_mood' },
+                        { action: 'delivered', type: 'daily_mood' },
+                        { action: 'dismissed', type: 'daily_mood' },
+                        { action: 'sent', type: 'motivational' },
+                        { action: 'delivered', type: 'motivational' },
+                        { action: 'clicked', type: 'motivational' }
+                    ];
+
+                    for (const engagement of engagements) {
+                        await window.notificationService.trackNotificationEngagement(
+                            `sim_${Date.now()}_${Math.random()}`,
+                            engagement.action
+                        );
+                    }
+
+                    logResult(`Simulated ${engagements.length} engagement events`, 'success');
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error simulating engagement: ${error.message}`, 'error');
+            }
+        }
+
+        async function viewEngagementStats() {
+            try {
+                logResult('Loading engagement statistics...', 'info');
+                if (window.notificationService) {
+                    const user = await window.notificationService.getCurrentUser();
+                    if (user) {
+                        const history = await window.notificationService.engagementTracker.getUserEngagementHistory(user.id);
+                        const analysis = window.notificationService.analyzeEngagementPatterns(history);
+                        
+                        const statsDiv = document.getElementById('engagement-stats');
+                        statsDiv.innerHTML = `
+                            <div class="stat-card">
+                                <div class="stat-value">${analysis.totalEngagements}</div>
+                                <div class="stat-label">Total Engagements</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${analysis.bestHours.join(', ')}</div>
+                                <div class="stat-label">Best Hours</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${analysis.bestDays.join(', ')}</div>
+                                <div class="stat-label">Best Days</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${Object.keys(analysis.engagementByType).length}</div>
+                                <div class="stat-label">Notification Types</div>
+                            </div>
+                        `;
+                        statsDiv.style.display = 'grid';
+                        
+                        logResult('Engagement statistics loaded successfully', 'success');
+                    } else {
+                        logResult('No user found - please log in first', 'warning');
+                    }
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error loading engagement stats: ${error.message}`, 'error');
+            }
+        }
+
+        async function clearEngagementData() {
+            try {
+                logResult('Clearing engagement data...', 'info');
+                localStorage.removeItem('glucobalance_engagements');
+                document.getElementById('engagement-stats').style.display = 'none';
+                logResult('Engagement data cleared successfully', 'success');
+            } catch (error) {
+                logResult(`Error clearing engagement data: ${error.message}`, 'error');
+            }
+        }
+
+        // Optimization Functions
+        async function testNotificationOptimization() {
+            try {
+                logResult('Testing notification optimization...', 'info');
+                if (window.notificationService) {
+                    const user = await window.notificationService.getCurrentUser();
+                    if (user) {
+                        const mockEngagement = {
+                            notificationId: 'test_optimization',
+                            action: 'clicked',
+                            timestamp: new Date().toISOString(),
+                            userId: user.id
+                        };
+                        
+                        await window.notificationService.optimizeNotificationTiming(mockEngagement);
+                        logResult('Notification optimization test completed', 'success');
+                    } else {
+                        logResult('No user found - please log in first', 'warning');
+                    }
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error testing optimization: ${error.message}`, 'error');
+            }
+        }
+
+        async function analyzeEngagementPatterns() {
+            try {
+                logResult('Analyzing engagement patterns...', 'info');
+                if (window.notificationService) {
+                    const user = await window.notificationService.getCurrentUser();
+                    if (user) {
+                        const history = await window.notificationService.engagementTracker.getUserEngagementHistory(user.id);
+                        const analysis = window.notificationService.analyzeEngagementPatterns(history);
+                        
+                        logResult(`Analysis complete: ${JSON.stringify(analysis, null, 2)}`, 'success');
+                    } else {
+                        logResult('No user found - please log in first', 'warning');
+                    }
+                } else {
+                    logResult('Notification service not available', 'error');
+                }
+            } catch (error) {
+                logResult(`Error analyzing patterns: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            logResult('Notification system test page loaded', 'info');
+            
+            // Wait for services to initialize
+            setTimeout(async () => {
+                await checkAIStatus();
+                await checkPermissionStatus();
+                logResult('Initial status checks completed', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

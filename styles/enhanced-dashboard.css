@@ -1,0 +1,1946 @@
+/* Enhanced Dashboard Styles */
+
+/* Dashboard Header */
+.app-header {
+    background: linear-gradient(135deg, var(--azure-blue) 0%, var(--azure-dark) 100%);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 127, 255, 0.3);
+    border-bottom: none;
+}
+
+.app-header .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem 0;
+}
+
+.header-title h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    color: white;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+    font-weight: 400;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-icon {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    color: white;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.profile-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-icon.refreshing {
+    animation: spin 1s linear infinite;
+}
+
+/* Enhanced Dashboard Grid */
+.dashboard-main {
+    padding: 2rem 0;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    min-height: calc(100vh - 200px);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Interactive Cards */
+.interactive-card {
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.interactive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 127, 255, 0.15);
+    border-color: var(--azure-blue);
+}
+
+.interactive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--azure-blue), var(--azure-light));
+    border-radius: 16px 16px 0 0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.card-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.card-icon {
+    font-size: 1.2rem;
+}
+
+.card-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.trend-icon {
+    font-size: 1rem;
+}
+
+.trend-icon.up {
+    color: var(--success);
+}
+
+.trend-icon.down {
+    color: var(--error);
+}
+
+.trend-icon.stable {
+    color: var(--azure-blue);
+}
+
+/* Risk Status Card */
+.risk-status-card .risk-display {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.risk-score {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.risk-score.risk-low {
+    color: var(--success);
+}
+
+.risk-score.risk-increased {
+    color: var(--warning);
+}
+
+.risk-score.risk-high {
+    color: var(--error);
+}
+
+.risk-score.risk-possible-diabetes {
+    color: var(--error);
+}
+
+.risk-category {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.risk-details {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.risk-chart-mini {
+    height: 40px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 1rem;
+}
+
+.risk-chart-mini .mini-bar {
+    width: 8px;
+    background: var(--medium-gray);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+.risk-chart-mini .mini-bar.risk-low {
+    background: var(--success);
+}
+
+.risk-chart-mini .mini-bar.risk-increased {
+    background: var(--warning);
+}
+
+.risk-chart-mini .mini-bar.risk-high {
+    background: var(--error);
+}
+
+/* Mood Tracker Card */
+.mood-display {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.current-mood,
+.mood-average {
+    text-align: center;
+}
+
+.mood-value,
+.avg-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--azure-blue);
+}
+
+.mood-label,
+.avg-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.mood-selector {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.mood-btn {
+    background: none;
+    border: 2px solid var(--medium-gray);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mood-btn:hover {
+    border-color: var(--azure-blue);
+    transform: scale(1.05);
+}
+
+.mood-btn.selected {
+    border-color: var(--azure-blue);
+    background: var(--azure-blue);
+    color: white;
+    transform: scale(1.1);
+}
+
+.mood-chart-mini {
+    height: 30px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 1px;
+}
+
+.mood-chart-mini .mini-bar {
+    width: 6px;
+    background: var(--azure-blue);
+    border-radius: 1px;
+    opacity: 0.7;
+}
+
+/* Nutrition Snapshot Card */
+.nutrition-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--azure-blue);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.nutrition-progress {
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--light-gray);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success), var(--azure-blue));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* AI Insights Card */
+.ai-insights-content {
+    min-height: 120px;
+}
+
+.insights-placeholder {
+    text-align: center;
+    padding: 1rem;
+}
+
+.placeholder-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.insights-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--light-gray);
+    border-top: 3px solid var(--azure-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+.insight-section {
+    margin-bottom: 1rem;
+}
+
+.insight-section h5 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--azure-blue);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.insight-section p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.recommendations-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recommendations-list li {
+    font-size: 0.85rem;
+    padding: 0.25rem 0;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.recommendations-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--azure-blue);
+    font-weight: bold;
+}
+
+.motivational-message {
+    font-style: italic;
+    color: var(--success);
+    font-weight: 500;
+}
+
+.data-quality-indicator {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.quality-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--light-gray);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.quality-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--error), var(--warning), var(--success));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.ai-disclaimer {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--light-gray);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.btn-card-action {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--azure-blue);
+    background: var(--azure-blue);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.btn-card-action:hover {
+    background: var(--azure-dark);
+    border-color: var(--azure-dark);
+}
+
+.btn-card-action.secondary {
+    background: transparent;
+    color: var(--azure-blue);
+}
+
+.btn-card-action.secondary:hover {
+    background: var(--azure-blue);
+    color: white;
+}
+
+/* Charts Section */
+.charts-section {
+    margin: 3rem 0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.section-subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.chart-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.chart-select {
+    padding: 0.5rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 6px;
+    background: white;
+    font-size: 0.9rem;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .charts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .charts-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.chart-container {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--medium-gray);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.chart-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.chart-legend {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+}
+
+.legend-item.risk-low {
+    background: var(--success);
+}
+
+.legend-item.risk-increased {
+    background: var(--warning);
+}
+
+.legend-item.risk-high {
+    background: var(--error);
+}
+
+.legend-item.risk-possible {
+    background: var(--error);
+}
+
+.interactive-chart {
+    height: 200px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 4px;
+    padding: 1rem 0;
+    position: relative;
+}
+
+.chart-content {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 4px;
+    height: 100%;
+    width: 100%;
+}
+
+.chart-bar {
+    min-width: 20px;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.chart-bar:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.bar-value,
+.bar-emoji {
+    position: absolute;
+    bottom: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.chart-bar.risk-low {
+    background: var(--success);
+}
+
+.chart-bar.risk-increased {
+    background: var(--warning);
+}
+
+.chart-bar.risk-high {
+    background: var(--error);
+}
+
+.chart-bar.risk-possible-diabetes {
+    background: var(--error);
+}
+
+.chart-bar.mood-level-1 {
+    background: #ff6b6b;
+}
+
+.chart-bar.mood-level-2 {
+    background: #ffa726;
+}
+
+.chart-bar.mood-level-3 {
+    background: #ffcc02;
+}
+
+.chart-bar.mood-level-4 {
+    background: #66bb6a;
+}
+
+.chart-bar.mood-level-5 {
+    background: var(--success);
+}
+
+.chart-bar.nutrition-excellent {
+    background: var(--success);
+}
+
+.chart-bar.nutrition-good {
+    background: var(--azure-blue);
+}
+
+.chart-bar.nutrition-fair {
+    background: var(--warning);
+}
+
+.chart-bar.nutrition-needs-improvement {
+    background: var(--error);
+}
+
+.chart-footer {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--light-gray);
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.no-data-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.no-data-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Quick Actions Section */
+.quick-actions-section {
+    margin: 3rem 0;
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border: 2px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+}
+
+.action-btn:hover {
+    border-color: var(--azure-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.action-btn.primary {
+    border-color: var(--azure-blue);
+    background: var(--azure-blue);
+    color: white;
+}
+
+.action-btn.recommended {
+    border-color: var(--success);
+    background: rgba(16, 124, 16, 0.1);
+}
+
+.action-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.action-content {
+    flex: 1;
+}
+
+.action-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: inherit;
+}
+
+.action-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.action-btn.primary .action-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Health Summary Section */
+.health-summary-section {
+    margin: 3rem 0;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.summary-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--medium-gray);
+    transition: var(--transition);
+}
+
+.summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.summary-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.summary-content {
+    flex: 1;
+}
+
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--azure-blue);
+    margin-bottom: 0.25rem;
+}
+
+.summary-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Chart Tooltip */
+.chart-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+/* Loading States */
+.dashboard-main.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.dashboard-main.loading::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--light-gray);
+    border-top: 4px solid var(--azure-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1000;
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card,
+.chart-container,
+.summary-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Enhanced Mobile-First Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .chart-controls {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .mood-selector {
+        gap: 0.25rem;
+        justify-content: space-around;
+    }
+    
+    .mood-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .action-btn {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .action-icon {
+        font-size: 1.5rem;
+    }
+    
+    /* Enhanced card layout for mobile */
+    .card {
+        margin: 0 0.5rem;
+    }
+    
+    .card-header h3 {
+        font-size: 1rem;
+    }
+    
+    .card-content {
+        padding: 0.75rem 0;
+    }
+    
+    /* Better touch targets */
+    .btn-card-action {
+        min-height: 44px;
+        font-size: 0.9rem;
+    }
+    
+    .chart-bar {
+        min-width: 24px;
+    }
+    
+    /* Improved readability */
+    .risk-score {
+        font-size: 2rem;
+    }
+    
+    .mood-value,
+    .avg-value,
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-actions {
+        flex-direction: column;
+    }
+    
+    .chart-legend {
+        justify-content: center;
+    }
+    
+    .legend-item {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.3rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .chart-container,
+    .summary-card,
+    .action-btn {
+        background: var(--dark-gray);
+        border-color: #404040;
+        color: var(--text-primary);
+    }
+    
+    .chart-tooltip {
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--dark-gray);
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .interactive-card,
+    .chart-container,
+    .summary-card,
+    .action-btn {
+        border-width: 2px;
+    }
+    
+    .chart-bar {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .interactive-card,
+    .chart-bar,
+    .action-btn,
+    .summary-card {
+        transition: none;
+    }
+    
+    .loading-spinner {
+        animation: none;
+    }
+    
+    .dashboard-main.loading::after {
+        animation: none;
+    }
+}/* Add
+itional styles for enhanced dashboard features */
+
+/* Notification System */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-hover);
+    border-left: 4px solid var(--azure-blue);
+    padding: 1rem;
+    z-index: 1000;
+    max-width: 300px;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.notification-success {
+    border-left-color: var(--success);
+}
+
+.notification-error {
+    border-left-color: var(--error);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+}
+
+.notification-message {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Login Prompt */
+.login-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+}
+
+.prompt-content {
+    max-width: 400px;
+    padding: 2rem;
+}
+
+.prompt-content h2 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.prompt-content p {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+
+/* Insufficient Data State */
+.insufficient-data {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.data-requirements {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--light-gray);
+    border-radius: 8px;
+}
+
+.data-requirements h6 {
+    margin-bottom: 0.75rem;
+    color: var(--azure-blue);
+    font-size: 0.9rem;
+}
+
+.requirements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.requirements-list li {
+    padding: 0.25rem 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.quick-start-actions {
+    margin-top: 1.5rem;
+}
+
+/* Enhanced Chart Tooltips */
+.chart-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: var(--shadow);
+}
+
+.chart-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Enhanced Mini Charts */
+.risk-chart-mini,
+.mood-chart-mini {
+    height: 40px;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+}
+
+.mini-bar {
+    width: 8px;
+    background: var(--medium-gray);
+    border-radius: 2px;
+    transition: var(--transition);
+    min-height: 4px;
+}
+
+.no-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Enhanced Action Buttons */
+.action-btn.recommended::before {
+    content: '⭐';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+}
+
+.action-btn {
+    position: relative;
+}
+
+/* Enhanced Progress Indicators */
+.progress-fill {
+    background: linear-gradient(90deg, var(--error) 0%, var(--warning) 50%, var(--success) 100%);
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0 4px 4px 0;
+}
+
+/* Enhanced Card Interactions */
+.interactive-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.interactive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.interactive-card:hover::before {
+    left: 100%;
+}
+
+/* Enhanced Mood Selector */
+.mood-btn.selected {
+    animation: moodPulse 0.3s ease-out;
+}
+
+@keyframes moodPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1.1); }
+}
+
+/* Enhanced Data Quality Indicator */
+.data-quality-indicator {
+    position: relative;
+}
+
+.quality-fill {
+    position: relative;
+    overflow: hidden;
+}
+
+.quality-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.1) 50%, transparent 50%, transparent 75%, rgba(255,255,255,0.1) 75%);
+    background-size: 8px 8px;
+    animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 0 0; }
+    100% { background-position: 16px 0; }
+}
+
+/* Enhanced Loading States */
+.insights-loading {
+    position: relative;
+}
+
+.loading-spinner {
+    position: relative;
+}
+
+.loading-spinner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--azure-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Enhanced Chart Bars */
+.chart-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.chart-bar:hover {
+    filter: brightness(1.1);
+}
+
+/* Enhanced Summary Cards */
+.summary-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--azure-blue);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.summary-card:hover::after {
+    opacity: 1;
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+    .interactive-card::before,
+    .quality-fill::after,
+    .loading-spinner::after {
+        animation: none;
+    }
+    
+    .mood-btn.selected {
+        animation: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .chart-bar,
+    .mini-bar {
+        border: 2px solid currentColor;
+    }
+    
+    .progress-fill {
+        border: 1px solid var(--text-primary);
+    }
+    
+    .notification {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .charts-section,
+    .quick-actions-section {
+        page-break-inside: avoid;
+    }
+    
+    .interactive-card,
+    .chart-container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .btn-card-action,
+    .action-btn {
+        display: none;
+    }
+}
+
+/* Enhanced Mobile Landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .charts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1600px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .charts-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .container {
+        max-width: 1400px;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .interactive-card:hover {
+        transform: none;
+    }
+    
+    .chart-bar:hover {
+        filter: none;
+    }
+    
+    .btn-card-action,
+    .action-btn,
+    .mood-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+/* Add
+itional Visual Enhancements */
+
+/* Improved Section Headers */
+.section-header {
+    background: linear-gradient(135deg, rgba(0, 127, 255, 0.1) 0%, rgba(64, 224, 255, 0.05) 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 127, 255, 0.1);
+}
+
+.section-header h2 {
+    color: var(--azure-blue);
+    font-weight: 700;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.section-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0.5rem 0 0 0;
+}
+
+/* Enhanced Quick Actions */
+.quick-actions-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    margin: 2rem 0;
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.action-btn {
+    background: white;
+    border: 2px solid rgba(0, 127, 255, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 127, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.action-btn:hover::before {
+    left: 100%;
+}
+
+.action-btn:hover {
+    border-color: var(--azure-blue);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 127, 255, 0.15);
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, var(--azure-blue) 0%, var(--azure-light) 100%);
+    color: white;
+    border-color: var(--azure-blue);
+}
+
+.action-btn.primary .action-description {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.action-btn.recommended {
+    border-color: var(--success);
+    background: linear-gradient(135deg, rgba(16, 124, 16, 0.1) 0%, rgba(16, 124, 16, 0.05) 100%);
+}
+
+/* Enhanced Charts Section */
+.charts-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    margin: 2rem 0;
+}
+
+.chart-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--azure-blue), var(--azure-light));
+}
+
+/* Enhanced Health Summary */
+.health-summary-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    margin: 2rem 0;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--azure-blue);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.summary-card:hover::before {
+    opacity: 1;
+}
+
+.summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 127, 255, 0.15);
+    border-color: var(--azure-blue);
+}
+
+.summary-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.summary-value {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--azure-blue) 0%, var(--azure-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Improved Card Actions */
+.card-actions {
+    background: rgba(0, 127, 255, 0.05);
+    margin: 1rem -1.5rem -1.5rem -1.5rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(0, 127, 255, 0.1);
+}
+
+.btn-card-action {
+    background: var(--azure-blue);
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-card-action::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-card-action:hover::before {
+    left: 100%;
+}
+
+.btn-card-action:hover {
+    background: var(--azure-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 127, 255, 0.3);
+}
+
+.btn-card-action.secondary {
+    background: transparent;
+    border: 2px solid var(--azure-blue);
+    color: var(--azure-blue);
+}
+
+.btn-card-action.secondary:hover {
+    background: var(--azure-blue);
+    color: white;
+}
+
+/* Enhanced Mood Selector */
+.mood-selector {
+    background: rgba(0, 127, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 127, 255, 0.1);
+}
+
+.mood-btn {
+    background: white;
+    border: 2px solid rgba(0, 127, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mood-btn:hover {
+    border-color: var(--azure-blue);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 127, 255, 0.2);
+}
+
+.mood-btn.selected {
+    background: var(--azure-blue);
+    border-color: var(--azure-blue);
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(0, 127, 255, 0.3);
+}
+
+/* Enhanced Progress Bars */
+.progress-bar {
+    background: rgba(0, 127, 255, 0.1);
+    border: 1px solid rgba(0, 127, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, var(--azure-blue) 0%, var(--azure-light) 100%);
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 127, 255, 0.3);
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Enhanced Chart Bars */
+.chart-bar {
+    position: relative;
+    border-radius: 6px 6px 0 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.chart-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+    border-radius: 6px 6px 0 0;
+}
+
+.chart-bar:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .dashboard-main {
+        padding: 1rem 0;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .section-header {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .quick-actions-section,
+    .charts-section,
+    .health-summary-section {
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+    
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .action-btn {
+        padding: 1rem;
+    }
+    
+    .action-icon {
+        font-size: 1.5rem;
+    }
+    
+    .summary-value {
+        font-size: 1.5rem;
+    }
+    
+    .summary-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mood-selector {
+        padding: 0.75rem;
+    }
+    
+    .mood-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .card-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    .dashboard-main {
+        background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+    
+    .interactive-card,
+    .quick-actions-section,
+    .charts-section,
+    .health-summary-section {
+        background: #2d2d2d;
+        border-color: #404040;
+    }
+    
+    .section-header {
+        background: linear-gradient(135deg, rgba(64, 224, 255, 0.1) 0%, rgba(0, 127, 255, 0.05) 100%);
+        border-color: #404040;
+    }
+    
+    .chart-container,
+    .summary-card {
+        background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+        border-color: #404040;
+    }
+    
+    .action-btn {
+        background: #2d2d2d;
+        border-color: #404040;
+        color: var(--text-primary);
+    }
+    
+    .mood-selector {
+        background: rgba(64, 224, 255, 0.1);
+        border-color: #404040;
+    }
+    
+    .progress-bar {
+        background: rgba(64, 224, 255, 0.1);
+        border-color: #404040;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .dashboard-main {
+        background: white !important;
+    }
+    
+    .interactive-card,
+    .quick-actions-section,
+    .charts-section,
+    .health-summary-section {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        background: white !important;
+    }
+    
+    .btn-card-action,
+    .action-btn {
+        display: none !important;
+    }
+    
+    .header-actions {
+        display: none !important;
+    }
+}

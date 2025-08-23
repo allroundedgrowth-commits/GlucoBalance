@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Flow Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            max-width: 350px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        .test-panel h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+        .test-steps {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .test-steps li {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .step-status {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ffc107;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+        .step-status.complete {
+            background: #fff;
+            color: #28a745;
+        }
+        .auto-fill-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .auto-fill-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-panel">
+        <h3>🧪 Registration Flow Test</h3>
+        <ol class="test-steps">
+            <li>
+                <span class="step-status" id="step1">1</span>
+                <span>Click "Sign Up" button</span>
+            </li>
+            <li>
+                <span class="step-status" id="step2">2</span>
+                <span>Fill registration form</span>
+            </li>
+            <li>
+                <span class="step-status" id="step3">3</span>
+                <span>Click "Create Account"</span>
+            </li>
+            <li>
+                <span class="step-status" id="step4">4</span>
+                <span>Access dashboard</span>
+            </li>
+        </ol>
+        <button class="auto-fill-btn" onclick="autoFillForm()">Auto-Fill Test Data</button>
+    </div>
+
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <span class="badge-icon">🏆</span>
+                            <span class="badge-text">WHO/ADA Compliant</span>
+                        </div>
+                        <h1 class="hero-title">
+                            <span class="title-highlight">Prevent.</span>
+                            <span class="title-highlight">Support.</span>
+                            <span class="title-highlight">Thrive.</span>
+                            <br>
+                            <span class="title-main">with GlucoBalance</span>
+                        </h1>
+                        <p class="hero-subtitle">Your comprehensive companion for diabetes prevention, early detection,
+                            and ongoing management with AI-powered insights</p>
+
+                        <div class="hero-cta">
+                            <button class="hero-btn primary">
+                                <span class="btn-icon">🎯</span>
+                                Start Free Risk Assessment
+                            </button>
+                            <button class="hero-btn secondary">
+                                <span class="btn-icon">📋</span>
+                                Explore Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Test Registration Process</h2>
+                    <div class="cta-section">
+                        <p class="cta-text">Click the "Sign Up" button above to start the registration test!</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <header class="app-header">
+                <div class="container">
+                    <h1>Dashboard</h1>
+                    <button id="profile-btn" class="profile-btn">👤</button>
+                </div>
+            </header>
+
+            <main class="container">
+                <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                    <div class="card welcome-card">
+                        <h3>Welcome to GlucoBalance!</h3>
+                        <p class="welcome-message">Welcome back!</p>
+                        <p>Your account has been created successfully. You can now access all features of the platform.</p>
+                        <button class="btn-primary" onclick="window.landingPageManager.showLandingPage()">Back to Home</button>
+                    </div>
+
+                    <div class="card risk-status-card">
+                        <h3>Risk Status</h3>
+                        <div id="risk-display" class="risk-display">
+                            <div class="risk-score">--</div>
+                            <div class="risk-category">Take Assessment</div>
+                        </div>
+                    </div>
+
+                    <div class="card mood-card">
+                        <h3>Today's Mood</h3>
+                        <div id="mood-selector" class="mood-selector">
+                            <button class="mood-btn" data-mood="1">😢</button>
+                            <button class="mood-btn" data-mood="2">😕</button>
+                            <button class="mood-btn" data-mood="3">😐</button>
+                            <button class="mood-btn" data-mood="4">😊</button>
+                            <button class="mood-btn" data-mood="5">😄</button>
+                        </div>
+                    </div>
+
+                    <div class="card nutrition-card">
+                        <h3>Nutrition Snapshot</h3>
+                        <div id="nutrition-summary">
+                            <p>Start your meal planning journey</p>
+                            <button class="btn-secondary" id="nutrition-btn">View Meal Plans</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn" id="assessment-btn">📋 Risk Assessment</button>
+                    <button class="action-btn" id="progress-btn">📈 Progress</button>
+                    <button class="action-btn" id="report-btn">📄 Doctor Report</button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Feature Detail Modal -->
+        <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Feature Details</h2>
+                    <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                    <button class="btn-primary" id="modal-action">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="js/landing-page.js"></script>
+    <script>
+        // Initialize the landing page manager
+        window.landingPageManager = new LandingPageManager();
+        
+        console.log('🧪 Registration flow test loaded!');
+        
+        // Test progress tracking
+        let currentStep = 1;
+        
+        function updateStepStatus(step, complete = false) {
+            const stepElement = document.getElementById(`step${step}`);
+            if (stepElement) {
+                if (complete) {
+                    stepElement.className = 'step-status complete';
+                    stepElement.textContent = '✓';
+                } else {
+                    stepElement.className = 'step-status';
+                    stepElement.textContent = step;
+                }
+            }
+        }
+
+        // Auto-fill form function
+        function autoFillForm() {
+            setTimeout(() => {
+                const nameField = document.getElementById('signup-page-name');
+                const emailField = document.getElementById('signup-page-email');
+                const ageField = document.getElementById('signup-page-age');
+                const passwordField = document.getElementById('signup-page-password');
+                const confirmField = document.getElementById('signup-page-confirm');
+                const termsCheckbox = document.getElementById('signup-page-terms');
+
+                if (nameField) {
+                    nameField.value = 'Test User';
+                    emailField.value = 'test@example.com';
+                    ageField.value = '30';
+                    passwordField.value = 'password123';
+                    confirmField.value = 'password123';
+                    termsCheckbox.checked = true;
+                    
+                    updateStepStatus(2, true);
+                    
+                    if (window.landingPageManager && window.landingPageManager.showNotification) {
+                        window.landingPageManager.showNotification('✅ Form auto-filled! Now click "Create Account & Access Dashboard"', 'success');
+                    }
+                }
+            }, 500);
+        }
+
+        // Monitor for page changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    // Check for signup page
+                    if (document.getElementById('signup-page')) {
+                        updateStepStatus(1, true);
+                        currentStep = 2;
+                        console.log('✅ Step 1 complete: Signup page shown');
+                        
+                        if (window.landingPageManager && window.landingPageManager.showNotification) {
+                            window.landingPageManager.showNotification('✅ Step 1 complete! Fill out the form and click "Create Account"', 'info');
+                        }
+                    }
+                    
+                    // Check for dashboard page
+                    if (document.getElementById('dashboard-page') && document.getElementById('dashboard-page').classList.contains('active')) {
+                        updateStepStatus(3, true);
+                        updateStepStatus(4, true);
+                        console.log('✅ Registration complete: Dashboard accessed');
+                        
+                        if (window.landingPageManager && window.landingPageManager.showNotification) {
+                            window.landingPageManager.showNotification('🎉 Registration successful! Welcome to GlucoBalance!', 'success');
+                        }
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.getElementById('app'), {
+            childList: true,
+            subtree: true
+        });
+
+        // Show initial instructions
+        setTimeout(() => {
+            if (window.landingPageManager && window.landingPageManager.showNotification) {
+                window.landingPageManager.showNotification('🎯 Click "Sign Up" to start the registration test!', 'info');
+            }
+        }, 1000);
+
+        // Monitor form submission
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.textContent && e.target.textContent.includes('Create Account')) {
+                updateStepStatus(3, true);
+                console.log('✅ Step 3 complete: Create Account button clicked');
+            }
+        });
+
+        // Clear any existing users for clean test
+        localStorage.removeItem('glucobalance-users');
+        localStorage.removeItem('glucobalance-current-user');
+        console.log('🧹 Cleared existing user data for clean test');
+    </script>
+</body>
+</html>

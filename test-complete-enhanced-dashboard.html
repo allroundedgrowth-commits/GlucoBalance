@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Enhanced Dashboard Test - GlucoBalance</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    
+    <style>
+        /* Test-specific enhancements */
+        .test-header {
+            background: linear-gradient(135deg, var(--azure-blue), #0056b3);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .test-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .test-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .demo-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 280px;
+            border: 2px solid var(--azure-blue);
+        }
+        
+        .demo-controls h4 {
+            margin: 0 0 1rem 0;
+            color: var(--azure-blue);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .demo-btn {
+            display: block;
+            width: 100%;
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .demo-btn:hover {
+            background: var(--azure-dark);
+            transform: translateY(-1px);
+        }
+        
+        .demo-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .demo-btn.success {
+            background: var(--success);
+        }
+        
+        .demo-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: var(--light-gray);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border-left: 4px solid var(--azure-blue);
+        }
+        
+        .status-success { 
+            background: #d4edda; 
+            color: #155724; 
+            border-left-color: var(--success);
+        }
+        
+        .status-error { 
+            background: #f8d7da; 
+            color: #721c24; 
+            border-left-color: var(--error);
+        }
+        
+        .status-info { 
+            background: #d1ecf1; 
+            color: #0c5460; 
+            border-left-color: var(--azure-blue);
+        }
+        
+        /* Enhanced animations */
+        .dashboard-grid .card {
+            animation: slideInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .dashboard-grid .card:nth-child(1) { animation-delay: 0.1s; }
+        .dashboard-grid .card:nth-child(2) { animation-delay: 0.2s; }
+        .dashboard-grid .card:nth-child(3) { animation-delay: 0.3s; }
+        .dashboard-grid .card:nth-child(4) { animation-delay: 0.4s; }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile responsive demo controls */
+        @media (max-width: 768px) {
+            .demo-controls {
+                position: relative;
+                margin: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .test-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .test-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-content {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .loading-spinner-large {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--light-gray);
+            border-top: 4px solid var(--azure-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <h3>Loading Dashboard...</h3>
+            <p>Preparing your personalized health insights</p>
+        </div>
+    </div>
+
+    <!-- Test Header -->
+    <div class="test-header">
+        <div class="container">
+            <h1>🏥 GlucoBalance Enhanced Dashboard</h1>
+            <p>Complete diabetes prevention and management platform with AI-powered insights</p>
+        </div>
+    </div>
+
+    <!-- Demo Controls -->
+    <div class="demo-controls">
+        <h4>🎮 Demo Controls</h4>
+        <button class="demo-btn" onclick="initializeDashboard()">
+            🚀 Initialize Dashboard
+        </button>
+        <button class="demo-btn" onclick="loadSampleData()">
+            📊 Load Sample Data
+        </button>
+        <button class="demo-btn" onclick="simulateUserActivity()">
+            👤 Simulate User Activity
+        </button>
+        <button class="demo-btn" onclick="testAIFeatures()">
+            🤖 Test AI Features
+        </button>
+        <button class="demo-btn" onclick="testMobileView()">
+            📱 Test Mobile View
+        </button>
+        <button class="demo-btn secondary" onclick="runVerification()">
+            🧪 Run Verification
+        </button>
+        <button class="demo-btn success" onclick="exportResults()">
+            📄 Export Results
+        </button>
+        <div id="demo-status" class="demo-status">Ready to test enhanced dashboard features...</div>
+    </div>
+
+    <div id="app">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="header-title">
+                            <h1>Health Dashboard</h1>
+                            <p class="header-subtitle">Your personalized health overview with AI insights</p>
+                        </div>
+                        <div class="header-actions">
+                            <button id="refresh-dashboard" class="btn-icon" title="Refresh Dashboard">🔄</button>
+                            <button id="settings-btn" class="btn-icon" title="Settings">⚙️</button>
+                            <button id="profile-btn" class="profile-btn" title="Profile">👤</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container dashboard-main">
+                <!-- Dashboard Cards Grid -->
+                <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                    <!-- Risk Status Card -->
+                    <div class="card risk-status-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                            <div class="card-trend" id="risk-trend">
+                                <span class="trend-icon">📈</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="risk-display" class="risk-display">
+                                <div class="risk-score">--</div>
+                                <div class="risk-category">Take Assessment</div>
+                                <div class="risk-details">
+                                    <small class="last-updated">Never assessed</small>
+                                </div>
+                            </div>
+                            <div class="risk-chart-mini" id="risk-chart-mini">
+                                <!-- Mini chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="take-assessment-btn">
+                                📋 Take Assessment
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mood Tracker Card -->
+                    <div class="card mood-tracker-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                            <div class="card-trend" id="mood-trend">
+                                <span class="trend-icon">📊</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="mood-display">
+                                <div class="current-mood">
+                                    <div class="mood-value" id="current-mood-value">--</div>
+                                    <div class="mood-label">Today's Mood</div>
+                                </div>
+                                <div class="mood-average">
+                                    <div class="avg-value" id="avg-mood-value">--</div>
+                                    <div class="avg-label">30-day Average</div>
+                                </div>
+                            </div>
+                            <div id="mood-selector" class="mood-selector">
+                                <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                                <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                                <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                                <button class="mood-btn" data-mood="4" title="Happy">😊</button>
+                                <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                            </div>
+                            <div class="mood-chart-mini" id="mood-chart-mini">
+                                <!-- Mini mood trend chart -->
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="log-mood-btn">
+                                💙 Log Mood
+                            </button>
+                            <button class="btn-card-action secondary" id="view-mood-history-btn">
+                                📈 View History
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Snapshot Card -->
+                    <div class="card nutrition-snapshot-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                            <div class="card-trend" id="nutrition-trend">
+                                <span class="trend-icon">🥗</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="nutrition-summary" class="nutrition-summary">
+                                <div class="nutrition-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="meal-plans-count">0</div>
+                                        <div class="stat-label">Meal Plans</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="adherence-rate">--%</div>
+                                        <div class="stat-label">Adherence</div>
+                                    </div>
+                                </div>
+                                <div class="nutrition-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="nutrition-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <small class="progress-text">Weekly nutrition goal</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="create-meal-plan-btn">
+                                🍽️ Create Plan
+                            </button>
+                            <button class="btn-card-action secondary" id="view-nutrition-btn">
+                                📋 View Plans
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Health Insights Card -->
+                    <div class="card ai-insights-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                            <div class="card-actions-header">
+                                <button class="btn-icon refresh-insights" id="refresh-insights-btn" title="Refresh Insights">
+                                    🔄
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="ai-insights" class="ai-insights-content">
+                                <div class="insights-placeholder">
+                                    <div class="placeholder-icon">🤖</div>
+                                    <p>Complete your risk assessment to receive personalized AI insights</p>
+                                    <button class="btn-primary" onclick="loadSampleData()">
+                                        Get Started
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Charts Section -->
+                <div class="charts-section">
+                    <div class="section-header">
+                        <h2>Health Trends & Analytics</h2>
+                        <div class="chart-controls">
+                            <select id="chart-timeframe" class="chart-select">
+                                <option value="7">Last 7 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="90">Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Risk Score Trends</h4>
+                                <div class="chart-legend">
+                                    <span class="legend-item risk-low">Low</span>
+                                    <span class="legend-item risk-increased">Increased</span>
+                                    <span class="legend-item risk-high">High</span>
+                                    <span class="legend-item risk-possible">Possible Diabetes</span>
+                                </div>
+                            </div>
+                            <div id="risk-trend-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Mood Trends</h4>
+                                <div class="mood-stats">
+                                    <span id="mood-trend-stat">Stable</span>
+                                </div>
+                            </div>
+                            <div id="mood-trend-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Nutrition Adherence</h4>
+                                <div class="nutrition-stats-header">
+                                    <span id="nutrition-trend-stat">Getting Started</span>
+                                </div>
+                            </div>
+                            <div id="nutrition-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Section -->
+                <div class="quick-actions-section">
+                    <div class="section-header">
+                        <h2>Quick Actions</h2>
+                        <p class="section-subtitle">Take action on your health journey</p>
+                    </div>
+                    
+                    <div class="quick-actions-grid" id="quick-actions">
+                        <button class="action-btn primary" id="assessment-btn">
+                            <div class="action-icon">📋</div>
+                            <div class="action-content">
+                                <div class="action-title">Start Risk Assessment</div>
+                                <div class="action-description">Evaluate your diabetes risk</div>
+                            </div>
+                        </button>
+
+                        <button class="action-btn" id="mood-log-btn">
+                            <div class="action-icon">💙</div>
+                            <div class="action-content">
+                                <div class="action-title">Log Mood</div>
+                                <div class="action-description">Track your emotional wellbeing</div>
+                            </div>
+                        </button>
+
+                        <button class="action-btn" id="meal-plan-btn">
+                            <div class="action-icon">🍎</div>
+                            <div class="action-content">
+                                <div class="action-title">View Meal Plan</div>
+                                <div class="action-description">Access your nutrition guide</div>
+                            </div>
+                        </button>
+
+                        <button class="action-btn" id="generate-report-btn">
+                            <div class="action-icon">📄</div>
+                            <div class="action-content">
+                                <div class="action-title">Generate Report</div>
+                                <div class="action-description">Create health summary</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Health Summary Section -->
+                <div class="health-summary-section">
+                    <div class="section-header">
+                        <h2>Health Summary</h2>
+                        <div class="summary-period">
+                            <span id="summary-period-text">Last 30 days</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-icon">📊</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="total-assessments">0</div>
+                                <div class="summary-label">Risk Assessments</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">💙</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="mood-entries-count">0</div>
+                                <div class="summary-label">Mood Entries</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">🔥</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="streak-days">0</div>
+                                <div class="summary-label">Day Streak</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">📈</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="improvement-score">--%</div>
+                                <div class="summary-label">Improvement</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+    <script src="verify-enhanced-dashboard.js"></script>
+
+    <script>
+        // Demo Functions
+        let demoUserId = 'demo-user-enhanced-123';
+        let demoData = {};
+        
+        function updateDemoStatus(message, type = 'info') {
+            const status = document.getElementById('demo-status');
+            status.textContent = message;
+            status.className = `demo-status status-${type}`;
+        }
+
+        function showLoadingOverlay(show = true) {
+            const overlay = document.getElementById('loading-overlay');
+            if (show) {
+                overlay.classList.add('show');
+            } else {
+                overlay.classList.remove('show');
+            }
+        }
+
+        async function initializeDashboard() {
+            updateDemoStatus('Initializing enhanced dashboard...', 'info');
+            showLoadingOverlay(true);
+            
+            try {
+                // Initialize dashboard with demo user
+                if (window.enhancedDashboard) {
+                    window.enhancedDashboard.setCurrentUser(demoUserId);
+                    await window.enhancedDashboard.loadDashboard();
+                }
+                
+                setTimeout(() => {
+                    showLoadingOverlay(false);
+                    updateDemoStatus('Dashboard initialized successfully!', 'success');
+                }, 2000);
+                
+            } catch (error) {
+                showLoadingOverlay(false);
+                updateDemoStatus('Failed to initialize dashboard: ' + error.message, 'error');
+            }
+        }
+
+        async function loadSampleData() {
+            updateDemoStatus('Loading comprehensive sample data...', 'info');
+            
+            // Create comprehensive mock database
+            window.kiroDb = {
+                getUserAssessments: async (userId, limit) => demoData.assessments?.slice(0, limit) || [],
+                getUserMoods: async (userId, days) => demoData.moods?.slice(0, days) || [],
+                getUserNutritionPlans: async (userId, limit) => demoData.nutritionPlans?.slice(0, limit) || [],
+                getUserProgress: async (userId, type, days) => demoData.progress?.slice(0, days) || [],
+                saveMood: async (moodData) => {
+                    if (!demoData.moods) demoData.moods = [];
+                    demoData.moods.unshift(moodData);
+                    return moodData;
+                }
+            };
+
+            // Create rich sample data
+            demoData.assessments = [
+                {
+                    id: 1,
+                    userId: demoUserId,
+                    riskScore: 8,
+                    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+                    responses: { age: 2, gender: 1, family_history: 2, bmi: 1, physical_activity: 2 }
+                },
+                {
+                    id: 2,
+                    userId: demoUserId,
+                    riskScore: 12,
+                    createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+                    responses: { age: 2, gender: 1, family_history: 3, bmi: 2, physical_activity: 2 }
+                },
+                {
+                    id: 3,
+                    userId: demoUserId,
+                    riskScore: 15,
+                    createdAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
+                    responses: { age: 2, gender: 1, family_history: 5, bmi: 3, physical_activity: 2 }
+                }
+            ];
+
+            // Generate 30 days of mood data with realistic patterns
+            demoData.moods = [];
+            for (let i = 0; i < 30; i++) {
+                const baseDate = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+                const dayOfWeek = baseDate.getDay();
+                
+                // Simulate mood patterns (weekends slightly higher, mid-week dips)
+                let baseMood = 3.5;
+                if (dayOfWeek === 0 || dayOfWeek === 6) baseMood += 0.5; // Weekend boost
+                if (dayOfWeek === 2 || dayOfWeek === 3) baseMood -= 0.3; // Mid-week dip
+                
+                const mood = Math.max(1, Math.min(5, Math.round(baseMood + (Math.random() - 0.5) * 1.5)));
+                
+                demoData.moods.push({
+                    id: i + 1,
+                    userId: demoUserId,
+                    mood: mood,
+                    date: baseDate.toISOString().split('T')[0],
+                    timestamp: baseDate.toISOString(),
+                    notes: i === 0 ? 'Feeling great today!' : ''
+                });
+            }
+
+            demoData.nutritionPlans = [
+                {
+                    id: 1,
+                    userId: demoUserId,
+                    planType: '3-day',
+                    cuisine: 'Mediterranean',
+                    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+                    meals: []
+                },
+                {
+                    id: 2,
+                    userId: demoUserId,
+                    planType: '7-day',
+                    cuisine: 'Asian',
+                    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+                    meals: []
+                },
+                {
+                    id: 3,
+                    userId: demoUserId,
+                    planType: '3-day',
+                    cuisine: 'American',
+                    createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+                    meals: []
+                }
+            ];
+
+            demoData.progress = [
+                {
+                    id: 1,
+                    userId: demoUserId,
+                    metricType: 'mood_average',
+                    value: 3.8,
+                    date: new Date().toISOString().split('T')[0]
+                },
+                {
+                    id: 2,
+                    userId: demoUserId,
+                    metricType: 'risk_improvement',
+                    value: 25,
+                    date: new Date().toISOString().split('T')[0]
+                }
+            ];
+
+            // Initialize enhanced AI service
+            window.geminiAI = {
+                isInitialized: () => true,
+                generateContent: async (prompt, context) => {
+                    // Simulate AI processing delay
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    return `🎉 Excellent progress on your health journey! Your data shows remarkable consistency and improvement.
+
+Your health metrics demonstrate strong commitment:
+• Risk score improved from 15 to 8 (47% reduction) 
+• Maintained ${context.streakDays || 7}-day tracking streak
+• Average mood of ${context.averageMood?.toFixed(1) || '3.8'}/5 shows positive wellbeing
+
+Personalized recommendations for continued success:
+1. Continue your consistent daily mood tracking - your patterns show weekend mood boosts and mid-week stability
+2. Your risk reduction trend is excellent - maintain current lifestyle changes and consider reassessment in 30 days  
+3. Expand your nutrition variety with your successful ${demoData.nutritionPlans.length} meal plans across different cuisines
+
+Focus area: Build on your strong foundation by exploring stress management techniques during mid-week periods when mood dips slightly.
+
+Your dedication to health monitoring is truly inspiring! You've created sustainable habits that will benefit your long-term wellness. Keep celebrating these wins! 🌟`;
+                }
+            };
+
+            // Load dashboard with sample data
+            if (window.enhancedDashboard) {
+                window.enhancedDashboard.setCurrentUser(demoUserId);
+                await window.enhancedDashboard.loadDashboard();
+            }
+            
+            updateDemoStatus('Sample data loaded successfully! Dashboard populated with 30 days of data.', 'success');
+        }
+
+        async function simulateUserActivity() {
+            updateDemoStatus('Simulating user interactions...', 'info');
+            
+            // Simulate mood logging
+            const randomMood = Math.floor(Math.random() * 5) + 1;
+            if (window.enhancedDashboard) {
+                await window.enhancedDashboard.recordMood(randomMood);
+            }
+            
+            // Simulate chart interactions
+            setTimeout(() => {
+                const chartBars = document.querySelectorAll('.chart-bar');
+                if (chartBars.length > 0) {
+                    const randomBar = chartBars[Math.floor(Math.random() * chartBars.length)];
+                    randomBar.dispatchEvent(new MouseEvent('mouseenter'));
+                    setTimeout(() => {
+                        randomBar.dispatchEvent(new MouseEvent('mouseleave'));
+                    }, 2000);
+                }
+            }, 1000);
+            
+            // Simulate data refresh
+            setTimeout(() => {
+                if (window.enhancedDashboard) {
+                    window.enhancedDashboard.refreshDashboard();
+                }
+            }, 2000);
+            
+            updateDemoStatus('User activity simulation complete!', 'success');
+        }
+
+        async function testAIFeatures() {
+            updateDemoStatus('Testing AI-powered features...', 'info');
+            
+            if (window.enhancedDashboard) {
+                // Test AI insights generation
+                await window.enhancedDashboard.generateAIInsights();
+                
+                // Test AI affirmation
+                await window.enhancedDashboard.generateMoodAffirmation(4);
+            }
+            
+            updateDemoStatus('AI features tested successfully!', 'success');
+        }
+
+        function testMobileView() {
+            updateDemoStatus('Testing mobile responsiveness...', 'info');
+            
+            // Simulate mobile viewport
+            const viewport = document.querySelector('meta[name=viewport]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=375, initial-scale=1.0');
+            }
+            
+            // Add mobile test class
+            document.body.classList.add('mobile-test');
+            
+            // Test touch interactions
+            const cards = document.querySelectorAll('.interactive-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 200);
+                }, index * 300);
+            });
+            
+            setTimeout(() => {
+                document.body.classList.remove('mobile-test');
+                updateDemoStatus('Mobile view tested successfully!', 'success');
+            }, 3000);
+        }
+
+        function runVerification() {
+            updateDemoStatus('Running comprehensive verification...', 'info');
+            
+            // Run the verification script
+            if (window.DashboardVerification) {
+                new window.DashboardVerification();
+                updateDemoStatus('Verification complete! Check results panel.', 'success');
+            } else {
+                updateDemoStatus('Verification script not loaded', 'error');
+            }
+        }
+
+        function exportResults() {
+            updateDemoStatus('Exporting dashboard data...', 'info');
+            
+            const dashboardData = window.enhancedDashboard?.dashboardData || {};
+            const exportData = {
+                timestamp: new Date().toISOString(),
+                userId: demoUserId,
+                dashboardData: dashboardData,
+                summary: {
+                    totalAssessments: dashboardData.summary?.totalAssessments || 0,
+                    totalMoodEntries: dashboardData.summary?.totalMoodEntries || 0,
+                    averageMood: dashboardData.summary?.averageMood || 0,
+                    streakDays: dashboardData.summary?.streakDays || 0,
+                    improvementScore: dashboardData.summary?.improvementScore || 0
+                }
+            };
+            
+            // Create and download JSON file
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `glucobalance-dashboard-export-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            updateDemoStatus('Dashboard data exported successfully!', 'success');
+        }
+
+        // Initialize demo on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDemoStatus('Enhanced dashboard demo ready. Click buttons to test features.', 'info');
+            
+            // Auto-initialize after a short delay
+            setTimeout(() => {
+                initializeDashboard();
+            }, 1000);
+            
+            // Auto-load sample data after initialization
+            setTimeout(() => {
+                loadSampleData();
+            }, 3000);
+        });
+
+        // Add interactive demo features
+        document.addEventListener('click', (e) => {
+            // Add click feedback for interactive elements
+            if (e.target.matches('.interactive-card, .chart-bar, .action-btn, .summary-card')) {
+                e.target.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    e.target.style.transform = '';
+                }, 150);
+            }
+        });
+
+        // Add keyboard navigation demo
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                // Highlight focused elements
+                setTimeout(() => {
+                    const focused = document.activeElement;
+                    if (focused && focused.matches('button, .interactive-card')) {
+                        focused.style.outline = '2px solid var(--azure-blue)';
+                        setTimeout(() => {
+                            focused.style.outline = '';
+                        }, 2000);
+                    }
+                }, 10);
+            }
+        });
+    </script>
+</body>
+</html>

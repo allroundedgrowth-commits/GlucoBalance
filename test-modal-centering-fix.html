@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Centering Fix Test - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-result {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .iframe-container {
+            margin: 2rem 0;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 600px;
+            position: relative;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .modal-test-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.1);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .center-guide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 2px;
+            background: red;
+            z-index: 2;
+        }
+        .center-guide::before,
+        .center-guide::after {
+            content: '';
+            position: absolute;
+            background: red;
+        }
+        .center-guide::before {
+            top: -50px;
+            left: -1px;
+            width: 2px;
+            height: 100px;
+        }
+        .center-guide::after {
+            top: -1px;
+            left: -50px;
+            width: 100px;
+            height: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎯 Modal Centering Fix Test</h1>
+        <p>This test verifies that the feature card modals appear centered in the middle of the screen and stay open until the user closes them.</p>
+
+        <div class="test-section">
+            <h2>🧪 Test Controls</h2>
+            <button class="test-button" onclick="testModalCentering()">Test Modal Centering</button>
+            <button class="test-button" onclick="testAllFeatureCards()">Test All Feature Cards</button>
+            <button class="test-button" onclick="testModalPersistence()">Test Modal Persistence</button>
+            <button class="test-button" onclick="openLandingPageInNewTab()">Open Landing Page</button>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Test Results</h2>
+            <div id="test-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 Visual Test</h2>
+            <p>The red crosshairs below show the exact center of the iframe. When you click feature cards, the modal should appear centered on these crosshairs.</p>
+            <div class="iframe-container">
+                <div class="modal-test-overlay"></div>
+                <div class="center-guide"></div>
+                <iframe id="landing-page-frame" src="index.html" title="Landing Page"></iframe>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Manual Test Instructions</h2>
+            <ol>
+                <li><strong>Click any feature card</strong> in the "Comprehensive Health Management" section</li>
+                <li><strong>Verify the modal appears in the center</strong> (aligned with red crosshairs)</li>
+                <li><strong>Check that the modal stays open</strong> until you click the close button</li>
+                <li><strong>Test all 4 feature cards:</strong>
+                    <ul>
+                        <li>🎯 Risk Assessment</li>
+                        <li>🍎 Nutrition Planning</li>
+                        <li>💙 Mental Health</li>
+                        <li>📊 Progress Tracking</li>
+                    </ul>
+                </li>
+                <li><strong>Test closing methods:</strong>
+                    <ul>
+                        <li>Click the × button</li>
+                        <li>Click "Learn More" button</li>
+                        <li>Press Escape key</li>
+                        <li>Click outside the modal (on dark background)</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function addTestResult(test, status, message) {
+            const result = { test, status, message, timestamp: new Date().toLocaleTimeString() };
+            testResults.push(result);
+            updateTestDisplay();
+        }
+
+        function updateTestDisplay() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = testResults.map(result => 
+                `<div class="test-result ${result.status}">
+                    <strong>[${result.timestamp}] ${result.test}:</strong> ${result.message}
+                </div>`
+            ).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearResults() {
+            testResults = [];
+            updateTestDisplay();
+        }
+
+        async function testModalCentering() {
+            clearResults();
+            addTestResult('Modal Centering', 'info', 'Testing modal positioning...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                
+                // Check if modal exists
+                const modal = frameDoc.getElementById('feature-modal');
+                if (!modal) {
+                    addTestResult('Modal Element', 'fail', 'Modal element not found');
+                    return;
+                }
+                
+                addTestResult('Modal Element', 'pass', 'Modal element found');
+                
+                // Check modal CSS properties
+                const modalStyles = getComputedStyle(modal);
+                const isFixed = modalStyles.position === 'fixed';
+                const hasProperZIndex = parseInt(modalStyles.zIndex) >= 9999;
+                const hasFlexDisplay = modalStyles.display === 'flex' || modal.classList.contains('active');
+                
+                if (isFixed) {
+                    addTestResult('Modal Position', 'pass', 'Modal has fixed positioning');
+                } else {
+                    addTestResult('Modal Position', 'fail', `Modal position is ${modalStyles.position}, should be fixed`);
+                }
+                
+                if (hasProperZIndex) {
+                    addTestResult('Modal Z-Index', 'pass', `Modal z-index is ${modalStyles.zIndex}`);
+                } else {
+                    addTestResult('Modal Z-Index', 'fail', `Modal z-index is ${modalStyles.zIndex}, should be >= 9999`);
+                }
+                
+                // Test modal content centering
+                const modalContent = modal.querySelector('.modal-content');
+                if (modalContent) {
+                    addTestResult('Modal Content', 'pass', 'Modal content element found');
+                    
+                    const contentStyles = getComputedStyle(modalContent);
+                    const hasMaxWidth = parseInt(contentStyles.maxWidth) > 0;
+                    const hasProperWidth = contentStyles.width.includes('%') || parseInt(contentStyles.width) > 0;
+                    
+                    if (hasMaxWidth && hasProperWidth) {
+                        addTestResult('Modal Content Size', 'pass', 'Modal content has proper sizing');
+                    } else {
+                        addTestResult('Modal Content Size', 'fail', 'Modal content sizing issues');
+                    }
+                } else {
+                    addTestResult('Modal Content', 'fail', 'Modal content element not found');
+                }
+                
+                // Test enhanced landing page manager
+                const frameWindow = frame.contentWindow;
+                if (frameWindow.enhancedLandingPageManager) {
+                    addTestResult('Enhanced Manager', 'pass', 'Enhanced landing page manager found');
+                    
+                    // Test if showModal method exists
+                    if (typeof frameWindow.enhancedLandingPageManager.showModal === 'function') {
+                        addTestResult('Show Modal Method', 'pass', 'showModal method exists');
+                    } else {
+                        addTestResult('Show Modal Method', 'fail', 'showModal method not found');
+                    }
+                } else {
+                    addTestResult('Enhanced Manager', 'fail', 'Enhanced landing page manager not found');
+                }
+                
+            } catch (error) {
+                addTestResult('Modal Centering', 'fail', `Error testing modal: ${error.message}`);
+            }
+        }
+
+        async function testAllFeatureCards() {
+            addTestResult('Feature Cards', 'info', 'Testing all feature cards...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                
+                const featureCards = frameDoc.querySelectorAll('.feature-card.clickable');
+                const expectedFeatures = ['risk-assessment', 'nutrition', 'mental-health', 'progress'];
+                
+                if (featureCards.length >= 4) {
+                    addTestResult('Card Count', 'pass', `Found ${featureCards.length} feature cards`);
+                    
+                    let validCards = 0;
+                    featureCards.forEach((card, index) => {
+                        const feature = card.dataset.feature;
+                        if (expectedFeatures.includes(feature)) {
+                            validCards++;
+                            addTestResult(`Card ${index + 1}`, 'pass', `${feature} card is properly configured`);
+                        } else {
+                            addTestResult(`Card ${index + 1}`, 'fail', `Card has invalid feature: ${feature}`);
+                        }
+                    });
+                    
+                    if (validCards === expectedFeatures.length) {
+                        addTestResult('All Cards', 'pass', 'All expected feature cards found and configured');
+                    } else {
+                        addTestResult('All Cards', 'fail', `Only ${validCards}/${expectedFeatures.length} cards properly configured`);
+                    }
+                } else {
+                    addTestResult('Card Count', 'fail', `Only found ${featureCards.length} cards, expected 4`);
+                }
+                
+            } catch (error) {
+                addTestResult('Feature Cards', 'fail', `Error testing feature cards: ${error.message}`);
+            }
+        }
+
+        async function testModalPersistence() {
+            addTestResult('Modal Persistence', 'info', 'Testing modal persistence...');
+            
+            try {
+                const frame = document.getElementById('landing-page-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                const frameWindow = frame.contentWindow;
+                
+                const modal = frameDoc.getElementById('feature-modal');
+                const firstCard = frameDoc.querySelector('.feature-card.clickable');
+                
+                if (!modal || !firstCard) {
+                    addTestResult('Modal Persistence', 'fail', 'Required elements not found');
+                    return;
+                }
+                
+                // Simulate clicking a feature card
+                if (frameWindow.enhancedLandingPageManager) {
+                    const feature = firstCard.dataset.feature;
+                    frameWindow.enhancedLandingPageManager.handleFeatureCardClick(feature);
+                    
+                    // Check if modal is displayed
+                    setTimeout(() => {
+                        const isVisible = modal.classList.contains('active') || 
+                                         getComputedStyle(modal).display === 'flex';
+                        
+                        if (isVisible) {
+                            addTestResult('Modal Display', 'pass', 'Modal appears when card is clicked');
+                            
+                            // Test that modal stays open
+                            setTimeout(() => {
+                                const stillVisible = modal.classList.contains('active') || 
+                                                   getComputedStyle(modal).display === 'flex';
+                                
+                                if (stillVisible) {
+                                    addTestResult('Modal Persistence', 'pass', 'Modal stays open as expected');
+                                } else {
+                                    addTestResult('Modal Persistence', 'fail', 'Modal disappeared unexpectedly');
+                                }
+                            }, 2000);
+                            
+                        } else {
+                            addTestResult('Modal Display', 'fail', 'Modal does not appear when card is clicked');
+                        }
+                    }, 500);
+                } else {
+                    addTestResult('Modal Persistence', 'fail', 'Enhanced manager not available for testing');
+                }
+                
+            } catch (error) {
+                addTestResult('Modal Persistence', 'fail', `Error testing persistence: ${error.message}`);
+            }
+        }
+
+        function openLandingPageInNewTab() {
+            window.open('index.html', '_blank');
+        }
+
+        // Auto-run basic tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addTestResult('Page Load', 'info', 'Test page loaded, ready for testing');
+            }, 1000);
+        });
+
+        // Test iframe load
+        document.getElementById('landing-page-frame').addEventListener('load', () => {
+            addTestResult('Landing Page', 'pass', 'Landing page loaded successfully');
+            setTimeout(testModalCentering, 1000);
+        });
+    </script>
+</body>
+</html>

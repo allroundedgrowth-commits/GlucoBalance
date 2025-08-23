@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Navigation Fix Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        /* Test-specific styles to ensure navigation is visible */
+        .test-content {
+            padding: 2rem;
+            margin-top: 100px;
+            background: #f0f0f0;
+            min-height: 200vh;
+        }
+        
+        .test-section {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .test-button:hover {
+            background: #005A9E;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-pass {
+            background: #107C10;
+            color: white;
+        }
+        
+        .status-fail {
+            background: #D13438;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Top Navigation Bar - Should always be visible -->
+        <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                </ul>
+
+                <!-- Action Buttons -->
+                <div class="nav-actions">
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <div class="test-content">
+                <div class="test-section">
+                    <h1>🔧 Navigation Fix Test</h1>
+                    <p>This page tests whether the navigation bar stays visible and functional.</p>
+                    
+                    <h3>Test Results:</h3>
+                    <div id="test-results">
+                        <p>Navigation exists: <span id="nav-exists">Testing...</span></p>
+                        <p>Navigation visible: <span id="nav-visible">Testing...</span></p>
+                        <p>Navigation fixed position: <span id="nav-fixed">Testing...</span></p>
+                        <p>Navigation outside pages: <span id="nav-outside">Testing...</span></p>
+                        <p>Hero section margin: <span id="hero-margin">Testing...</span></p>
+                    </div>
+                    
+                    <h3>Interactive Tests:</h3>
+                    <button class="test-button" onclick="testPageSwitching()">Test Page Switching</button>
+                    <button class="test-button" onclick="testScrollBehavior()">Test Scroll Behavior</button>
+                    <button class="test-button" onclick="testMobileMenu()">Test Mobile Menu</button>
+                    <button class="test-button" onclick="runAllTests()">Run All Tests</button>
+                </div>
+                
+                <div class="test-section">
+                    <h2>Scroll Test Area</h2>
+                    <p>Scroll down to test if the navigation remains fixed at the top.</p>
+                    <div style="height: 50vh; background: linear-gradient(to bottom, #e0e0e0, #d0d0d0); padding: 2rem;">
+                        <h3>Middle Section</h3>
+                        <p>The navigation should still be visible at the top of the page.</p>
+                    </div>
+                </div>
+                
+                <div class="test-section">
+                    <h2>Page Switching Test</h2>
+                    <p>These buttons test if navigation remains visible when switching between pages.</p>
+                    <button class="test-button" onclick="showDashboard()">Show Dashboard</button>
+                    <button class="test-button" onclick="showLanding()">Show Landing</button>
+                    <button class="test-button" onclick="hideLanding()">Hide Landing</button>
+                </div>
+                
+                <div class="test-section">
+                    <h2>Bottom Section</h2>
+                    <p>Even at the bottom of the page, the navigation should remain fixed at the top.</p>
+                    <div style="height: 50vh; background: linear-gradient(to bottom, #d0d0d0, #c0c0c0); padding: 2rem;">
+                        <h3>Final Test Area</h3>
+                        <p>Navigation should still be functional here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <div class="test-content">
+                <div class="test-section">
+                    <h1>📊 Dashboard Page</h1>
+                    <p>This is the dashboard page. The navigation should still be visible.</p>
+                    <button class="test-button" onclick="showLanding()">Back to Landing</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="verify-navigation-fix.js"></script>
+    <script>
+        // Test functions
+        function updateTestResult(elementId, passed, message = '') {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const status = passed ? 'PASS' : 'FAIL';
+                const className = passed ? 'status-pass' : 'status-fail';
+                element.innerHTML = `<span class="status-indicator ${className}">${status}</span> ${message}`;
+            }
+        }
+
+        function testPageSwitching() {
+            console.log('🔄 Testing page switching...');
+            const landing = document.getElementById('landing-page');
+            const dashboard = document.getElementById('dashboard-page');
+            const nav = document.querySelector('.top-nav');
+            
+            // Hide landing, show dashboard
+            landing.classList.remove('active');
+            dashboard.classList.add('active');
+            
+            setTimeout(() => {
+                const navVisible = nav && nav.getBoundingClientRect().width > 0;
+                console.log('Navigation visible on dashboard:', navVisible);
+                
+                // Switch back
+                setTimeout(() => {
+                    dashboard.classList.remove('active');
+                    landing.classList.add('active');
+                    
+                    const navStillVisible = nav && nav.getBoundingClientRect().width > 0;
+                    console.log('Navigation visible back on landing:', navStillVisible);
+                    
+                    alert(`Page switching test: ${navVisible && navStillVisible ? 'PASSED' : 'FAILED'}`);
+                }, 1000);
+            }, 1000);
+        }
+
+        function testScrollBehavior() {
+            console.log('📜 Testing scroll behavior...');
+            const nav = document.querySelector('.top-nav');
+            const initialRect = nav.getBoundingClientRect();
+            
+            // Scroll down
+            window.scrollTo({ top: 500, behavior: 'smooth' });
+            
+            setTimeout(() => {
+                const scrolledRect = nav.getBoundingClientRect();
+                const staysFixed = Math.abs(scrolledRect.top - initialRect.top) < 5;
+                
+                console.log('Navigation stays fixed during scroll:', staysFixed);
+                alert(`Scroll behavior test: ${staysFixed ? 'PASSED' : 'FAILED'}`);
+                
+                // Scroll back to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1000);
+        }
+
+        function testMobileMenu() {
+            console.log('📱 Testing mobile menu...');
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const nav = document.querySelector('.top-nav');
+            
+            if (toggle) {
+                toggle.click();
+                
+                setTimeout(() => {
+                    const navStillVisible = nav && nav.getBoundingClientRect().width > 0;
+                    console.log('Navigation visible with mobile menu open:', navStillVisible);
+                    
+                    // Close menu
+                    toggle.click();
+                    alert(`Mobile menu test: ${navStillVisible ? 'PASSED' : 'FAILED'}`);
+                }, 500);
+            } else {
+                alert('Mobile menu toggle not found');
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('landing-page').classList.remove('active');
+            document.getElementById('dashboard-page').classList.add('active');
+        }
+
+        function showLanding() {
+            document.getElementById('dashboard-page').classList.remove('active');
+            document.getElementById('landing-page').classList.add('active');
+        }
+
+        function hideLanding() {
+            document.getElementById('landing-page').classList.remove('active');
+        }
+
+        function runAllTests() {
+            console.log('🚀 Running all navigation tests...');
+            
+            // Run verification
+            const results = window.verifyNavigationFix();
+            
+            // Update UI
+            updateTestResult('nav-exists', results.navigationExists);
+            updateTestResult('nav-visible', results.navigationVisible);
+            updateTestResult('nav-fixed', results.navigationFixed);
+            updateTestResult('nav-outside', results.navigationOutsidePages);
+            updateTestResult('nav-hero-margin', results.heroSectionMargin);
+            
+            // Run interactive tests
+            setTimeout(() => testScrollBehavior(), 1000);
+            setTimeout(() => testPageSwitching(), 3000);
+        }
+
+        // Auto-run tests on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runAllTests, 1000);
+        });
+    </script>
+</body>
+</html>

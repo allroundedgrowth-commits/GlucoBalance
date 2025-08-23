@@ -1,0 +1,41 @@
+{
+  "name": "glucobalance-app",
+  "version": "1.0.0",
+  "description": "GlucoBalance - Diabetes Prevention and Management PWA",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "server": "node server.js",
+    "serve:dev": "node server.js",
+    "serve:8080": "PORT=8080 node server.js",
+    "serve:3000": "PORT=3000 node server.js",
+    "serve:5000": "PORT=5000 node server.js",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "build": "node build.js",
+    "build:dev": "NODE_ENV=development node build.js",
+    "build:staging": "NODE_ENV=staging node build.js",
+    "build:prod": "NODE_ENV=production node build.js",
+    "deploy": "node deploy.js",
+    "deploy:staging": "NODE_ENV=staging node deploy.js",
+    "deploy:prod": "NODE_ENV=production node deploy.js",
+    "analyze": "node -e \"console.log('Bundle analysis would run here')\"",
+    "serve": "python -m http.server 8000 --directory dist",
+    "performance": "node -e \"console.log('Performance audit would run here')\""
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "jsdom": "^23.0.0",
+    "playwright": "^1.40.0",
+    "@playwright/test": "^1.40.0",
+    "fake-indexeddb": "^5.0.0",
+    "c8": "^8.0.0"
+  },
+  "type": "module"
+}

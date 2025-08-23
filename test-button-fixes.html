@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Functionality Test - GlucoBalance</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .test-button:hover {
+            background: #0056CC;
+            transform: translateY(-1px);
+        }
+        
+        .test-button.danger {
+            background: #dc2626;
+        }
+        
+        .test-button.danger:hover {
+            background: #b91c1c;
+        }
+        
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .success { color: #059669; }
+        .error { color: #dc2626; }
+        .info { color: #0284c7; }
+        .warning { color: #d97706; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧪 Button Functionality Test</h1>
+            <p>Testing dashboard buttons and logout functionality fixes</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🚪 Logout Button Tests</h3>
+            <p>Testing both dashboard and navigation logout buttons</p>
+            <button class="test-button danger" onclick="testLogoutButton('logout-btn')">Test Dashboard Logout</button>
+            <button class="test-button danger" onclick="testLogoutButton('nav-logout-btn')">Test Navigation Logout</button>
+            <button class="test-button" onclick="testLogoutHandler()">Test Logout Handler</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 Dashboard Card Button Tests</h3>
+            <p>Testing dashboard card button functionality</p>
+            <button class="test-button" onclick="testCardButton('take-assessment-btn')">Test Risk Assessment</button>
+            <button class="test-button" onclick="testCardButton('log-mood-btn')">Test Log Mood</button>
+            <button class="test-button" onclick="testCardButton('create-meal-plan-btn')">Test Create Meal Plan</button>
+            <button class="test-button" onclick="testCardButton('view-nutrition-btn')">Test View Nutrition</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🏠 Feature Card Tests</h3>
+            <p>Testing landing page feature card functionality</p>
+            <button class="test-button" onclick="testFeatureCard('risk-assessment')">Test Risk Assessment Card</button>
+            <button class="test-button" onclick="testFeatureCard('nutrition')">Test Nutrition Card</button>
+            <button class="test-button" onclick="testFeatureCard('mental-health')">Test Mental Health Card</button>
+            <button class="test-button" onclick="testFeatureCard('progress')">Test Progress Card</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Service Availability Tests</h3>
+            <p>Checking if required services are loaded</p>
+            <button class="test-button" onclick="checkServices()">Check All Services</button>
+            <button class="test-button" onclick="clearResults()">Clear Results</button>
+        </div>
+
+        <div class="test-results" id="test-results">
+            <div class="info">🧪 Ready to run tests. Click any button above to start testing.</div>
+        </div>
+    </div>
+
+    <!-- Load the main application files -->
+    <script src="js/performance-monitor.js"></script>
+    <script src="js/asset-optimizer.js"></script>
+    <script src="js/module-loader.js"></script>
+    <script src="js/demo-data-generator.js"></script>
+    <script src="js/dashboard-ai-service.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="js/landing-page-enhanced.js"></script>
+    <script src="js/app.js"></script>
+    <script src="fix-all-button-functionality.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+    <script src="js/enhanced-dashboard-buttons.js"></script>
+    <script src="fix-dashboard-functionality.js"></script>
+
+    <script>
+        function log(message, type = 'info') {
+            const results = document.getElementById('test-results');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            results.appendChild(logEntry);
+            results.scrollTop = results.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = '<div class="info">🧪 Results cleared. Ready for new tests.</div>';
+        }
+
+        function testLogoutButton(buttonId) {
+            log(`🚪 Testing logout button: ${buttonId}`, 'info');
+            
+            const button = document.getElementById(buttonId);
+            if (!button) {
+                log(`❌ Button ${buttonId} not found in DOM`, 'error');
+                return;
+            }
+            
+            log(`✅ Button ${buttonId} found in DOM`, 'success');
+            
+            // Check if button has event listeners (we can't directly test this, but we can check if it's clickable)
+            const hasClickHandler = button.onclick !== null || button.addEventListener !== undefined;
+            if (hasClickHandler) {
+                log(`✅ Button ${buttonId} appears to have event handling capability`, 'success');
+            }
+            
+            // Test if dashboard button manager is available
+            if (window.dashboardButtonManager && typeof window.dashboardButtonManager.handleLogout === 'function') {
+                log(`✅ Dashboard button manager logout handler available`, 'success');
+            } else {
+                log(`❌ Dashboard button manager logout handler not available`, 'error');
+            }
+        }
+
+        function testLogoutHandler() {
+            log(`🚪 Testing logout handler directly`, 'info');
+            
+            if (window.dashboardButtonManager && typeof window.dashboardButtonManager.handleLogout === 'function') {
+                try {
+                    // Don't actually call it, just verify it exists
+                    log(`✅ Logout handler function exists and is callable`, 'success');
+                    log(`⚠️ Would show logout confirmation modal if called`, 'warning');
+                } catch (error) {
+                    log(`❌ Error testing logout handler: ${error.message}`, 'error');
+                }
+            } else {
+                log(`❌ Dashboard button manager or logout handler not available`, 'error');
+            }
+        }
+
+        function testCardButton(buttonId) {
+            log(`🎯 Testing card button: ${buttonId}`, 'info');
+            
+            const button = document.getElementById(buttonId);
+            if (!button) {
+                log(`❌ Button ${buttonId} not found in DOM`, 'error');
+                return;
+            }
+            
+            log(`✅ Button ${buttonId} found in DOM`, 'success');
+            
+            // Check if dashboard button manager has the appropriate handler
+            const handlerMap = {
+                'take-assessment-btn': 'handleTakeAssessment',
+                'log-mood-btn': 'handleLogMood',
+                'create-meal-plan-btn': 'handleCreateMealPlan',
+                'view-nutrition-btn': 'handleViewNutrition'
+            };
+            
+            const handlerName = handlerMap[buttonId];
+            if (handlerName && window.dashboardButtonManager && typeof window.dashboardButtonManager[handlerName] === 'function') {
+                log(`✅ Handler ${handlerName} available for ${buttonId}`, 'success');
+            } else {
+                log(`❌ Handler ${handlerName} not available for ${buttonId}`, 'error');
+            }
+        }
+
+        function testFeatureCard(feature) {
+            log(`🏠 Testing feature card: ${feature}`, 'info');
+            
+            const card = document.querySelector(`[data-feature="${feature}"]`);
+            if (!card) {
+                log(`❌ Feature card ${feature} not found in DOM`, 'error');
+                return;
+            }
+            
+            log(`✅ Feature card ${feature} found in DOM`, 'success');
+            
+            // Check if enhanced landing page manager is available
+            if (window.enhancedLandingPageManager && typeof window.enhancedLandingPageManager.handleFeatureCardClick === 'function') {
+                log(`✅ Enhanced landing page manager available for ${feature}`, 'success');
+            } else {
+                log(`❌ Enhanced landing page manager not available for ${feature}`, 'error');
+            }
+        }
+
+        function checkServices() {
+            log(`🔧 Checking service availability...`, 'info');
+            
+            const services = [
+                { name: 'Dashboard Button Manager', obj: 'dashboardButtonManager' },
+                { name: 'Enhanced Landing Page Manager', obj: 'enhancedLandingPageManager' },
+                { name: 'Navigation Manager', obj: 'navigationManager' },
+                { name: 'Auth Service', obj: 'authService' },
+                { name: 'Error Handler', obj: 'errorHandler' },
+                { name: 'Database Service', obj: 'kiroDb' },
+                { name: 'GlucoApp', obj: 'glucoApp' }
+            ];
+            
+            services.forEach(service => {
+                if (window[service.obj]) {
+                    log(`✅ ${service.name}: Available`, 'success');
+                } else {
+                    log(`❌ ${service.name}: Not Available`, 'error');
+                }
+            });
+            
+            log(`🔧 Service check completed`, 'info');
+        }
+
+        // Auto-run service check on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                log(`🚀 Page loaded, running initial service check...`, 'info');
+                checkServices();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

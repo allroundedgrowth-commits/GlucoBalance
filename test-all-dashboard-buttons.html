@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Dashboard Buttons Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #007FFF, #0066CC);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 127, 255, 0.3);
+        }
+        
+        .test-btn.success {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+        
+        .test-btn.warning {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+        }
+        
+        .test-btn.danger {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
+        
+        .dashboard-preview {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        .test-log {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-success { background: #10B981; }
+        .status-error { background: #EF4444; }
+        .status-warning { background: #F59E0B; }
+        .status-info { background: #3B82F6; }
+        
+        .button-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .button-status-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 4px solid #10B981;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .button-status-item.error {
+            border-left-color: #EF4444;
+        }
+        
+        .button-status-item.warning {
+            border-left-color: #F59E0B;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1>GlucoBalance</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-outline">Settings</button>
+                <button class="btn-primary">Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="test-header">
+        <h1>🔘 All Dashboard Buttons Test</h1>
+        <p>Comprehensive testing of every button on the dashboard</p>
+    </div>
+
+    <div class="test-container">
+        <!-- Dashboard Preview -->
+        <div class="test-section">
+            <h3>🎛️ Dashboard Button Status</h3>
+            <div class="button-status" id="button-status">
+                <!-- Button status will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Dashboard Replica -->
+        <div class="test-section">
+            <h3>🎯 Dashboard Replica - Test All Buttons</h3>
+            
+            <div class="dashboard-preview">
+                <!-- Dashboard Page -->
+                <div id="dashboard-page" class="page active">
+                    <header class="app-header">
+                        <div class="container">
+                            <div class="header-content">
+                                <div class="header-title">
+                                    <h1>Health Dashboard</h1>
+                                    <p class="header-subtitle">Your personalized health overview</p>
+                                </div>
+                                <div class="header-actions">
+                                    <button id="refresh-dashboard" class="btn-icon" title="Refresh Dashboard">🔄</button>
+                                    <button id="profile-btn" class="profile-btn">👤</button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main class="container dashboard-main">
+                        <!-- Dashboard Cards Grid -->
+                        <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                            <!-- Risk Status Card -->
+                            <div class="card risk-status-card interactive-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div id="risk-display" class="risk-display">
+                                        <div class="risk-score">--</div>
+                                        <div class="risk-category">Take Assessment</div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-card-action" id="take-assessment-btn">
+                                        📋 Take Assessment
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Mood Tracker Card -->
+                            <div class="card mood-tracker-card interactive-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="mood-display">
+                                        <div class="current-mood">
+                                            <div class="mood-value" id="current-mood-value">--</div>
+                                            <div class="mood-label">Today's Mood</div>
+                                        </div>
+                                    </div>
+                                    <div id="mood-selector" class="mood-selector">
+                                        <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                                        <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                                        <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                                        <button class="mood-btn" data-mood="4" title="Happy">😊</button>
+                                        <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-card-action" id="log-mood-btn">
+                                        💙 Log Mood
+                                    </button>
+                                    <button class="btn-card-action secondary" id="view-mood-history-btn">
+                                        📈 View History
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Nutrition Snapshot Card -->
+                            <div class="card nutrition-snapshot-card interactive-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="nutrition-stats">
+                                        <div class="stat-item">
+                                            <div class="stat-value" id="meal-plans-count">0</div>
+                                            <div class="stat-label">Meal Plans</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-value" id="adherence-rate">--%</div>
+                                            <div class="stat-label">Adherence</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-card-action" id="create-meal-plan-btn">
+                                        🍽️ Create Plan
+                                    </button>
+                                    <button class="btn-card-action secondary" id="view-nutrition-btn">
+                                        📋 View Plans
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- AI Health Insights Card -->
+                            <div class="card ai-insights-card interactive-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                                    <div class="card-actions-header">
+                                        <button class="btn-icon refresh-insights" id="refresh-insights-btn" title="Refresh Insights">
+                                            🔄
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div id="ai-insights" class="ai-insights-content">
+                                        <div class="insights-placeholder">
+                                            <div class="placeholder-icon">🤖</div>
+                                            <p>AI insights will appear here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions Section -->
+                        <div class="quick-actions-section">
+                            <div class="section-header">
+                                <h2>Quick Actions</h2>
+                            </div>
+
+                            <div class="quick-actions-grid">
+                                <button class="action-btn primary" id="assessment-btn">
+                                    <div class="action-icon">📋</div>
+                                    <div class="action-content">
+                                        <div class="action-title">Start Risk Assessment</div>
+                                        <div class="action-description">Evaluate your diabetes risk</div>
+                                    </div>
+                                </button>
+
+                                <button class="action-btn" id="mood-log-btn">
+                                    <div class="action-icon">💙</div>
+                                    <div class="action-content">
+                                        <div class="action-title">Log Mood</div>
+                                        <div class="action-description">Track your emotional wellbeing</div>
+                                    </div>
+                                </button>
+
+                                <button class="action-btn" id="meal-plan-btn">
+                                    <div class="action-icon">🍎</div>
+                                    <div class="action-content">
+                                        <div class="action-title">View Meal Plan</div>
+                                        <div class="action-description">Access your nutrition guide</div>
+                                    </div>
+                                </button>
+
+                                <button class="action-btn" id="generate-report-btn">
+                                    <div class="action-icon">📄</div>
+                                    <div class="action-content">
+                                        <div class="action-title">Generate Report</div>
+                                        <div class="action-description">Create health summary</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="test-section">
+            <h3>🧪 Button Testing Controls</h3>
+            
+            <div class="button-grid">
+                <button class="test-btn" onclick="testHeaderButtons()">
+                    🔄 Test Header Buttons
+                </button>
+                <button class="test-btn" onclick="testCardButtons()">
+                    🎯 Test Card Buttons
+                </button>
+                <button class="test-btn" onclick="testQuickActions()">
+                    ⚡ Test Quick Actions
+                </button>
+                <button class="test-btn" onclick="testMoodButtons()">
+                    💙 Test Mood Buttons
+                </button>
+                <button class="test-btn success" onclick="testAllButtons()">
+                    ✅ Test All Buttons
+                </button>
+                <button class="test-btn warning" onclick="generateSampleData()">
+                    📈 Generate Sample Data
+                </button>
+                <button class="test-btn danger" onclick="clearTestData()">
+                    🗑️ Clear Test Data
+                </button>
+            </div>
+            
+            <div class="test-log" id="test-log">
+                <div><span class="status-info">●</span> Dashboard Buttons Test initialized</div>
+                <div><span class="status-info">●</span> Ready to test all dashboard functionality</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+    <script src="js/enhanced-dashboard-buttons.js"></script>
+    <script src="fix-dashboard-functionality.js"></script>
+    <script src="enhanced-dashboard-redesign.js"></script>
+    <script src="dashboard-buttons-fix.js"></script>
+    <script src="fix-navigation-visibility.js"></script>
+
+    <script>
+        // Test Framework
+        class DashboardButtonTester {
+            constructor() {
+                this.testResults = [];
+                this.init();
+            }
+
+            init() {
+                this.log('🔘 Dashboard Button Tester initialized', 'info');
+                this.checkButtonAvailability();
+            }
+
+            log(message, type = 'info') {
+                const logElement = document.getElementById('test-log');
+                const timestamp = new Date().toLocaleTimeString();
+                const statusClass = `status-${type}`;
+                
+                logElement.innerHTML += `<div><span class="${statusClass}">●</span> [${timestamp}] ${message}</div>`;
+                logElement.scrollTop = logElement.scrollHeight;
+                console.log(message);
+            }
+
+            checkButtonAvailability() {
+                const buttons = [
+                    { id: 'refresh-dashboard', name: 'Refresh Dashboard' },
+                    { id: 'profile-btn', name: 'Profile' },
+                    { id: 'take-assessment-btn', name: 'Take Assessment' },
+                    { id: 'log-mood-btn', name: 'Log Mood' },
+                    { id: 'view-mood-history-btn', name: 'View Mood History' },
+                    { id: 'create-meal-plan-btn', name: 'Create Meal Plan' },
+                    { id: 'view-nutrition-btn', name: 'View Nutrition' },
+                    { id: 'refresh-insights-btn', name: 'Refresh Insights' },
+                    { id: 'assessment-btn', name: 'Quick Assessment' },
+                    { id: 'mood-log-btn', name: 'Quick Mood Log' },
+                    { id: 'meal-plan-btn', name: 'Quick Meal Plan' },
+                    { id: 'generate-report-btn', name: 'Generate Report' }
+                ];
+
+                const statusContainer = document.getElementById('button-status');
+                statusContainer.innerHTML = '';
+
+                buttons.forEach(button => {
+                    const element = document.getElementById(button.id);
+                    const status = element ? 'success' : 'error';
+                    const statusClass = status === 'success' ? '' : 'error';
+                    
+                    const statusItem = document.createElement('div');
+                    statusItem.className = `button-status-item ${statusClass}`;
+                    statusItem.innerHTML = `
+                        <span class="status-indicator status-${status}"></span>
+                        <span>${button.name}</span>
+                    `;
+                    statusContainer.appendChild(statusItem);
+                    
+                    if (status === 'success') {
+                        this.log(`✅ Button found: ${button.name}`, 'success');
+                    } else {
+                        this.log(`❌ Button missing: ${button.name}`, 'error');
+                    }
+                });
+            }
+
+            testButton(buttonId, buttonName) {
+                this.log(`🧪 Testing ${buttonName}...`, 'info');
+                
+                const button = document.getElementById(buttonId);
+                if (!button) {
+                    this.log(`❌ ${buttonName} not found`, 'error');
+                    return false;
+                }
+                
+                try {
+                    // Simulate click
+                    button.click();
+                    this.log(`✅ ${buttonName} clicked successfully`, 'success');
+                    return true;
+                } catch (error) {
+                    this.log(`❌ ${buttonName} click failed: ${error.message}`, 'error');
+                    return false;
+                }
+            }
+
+            testAllDashboardButtons() {
+                const buttons = [
+                    { id: 'refresh-dashboard', name: 'Refresh Dashboard' },
+                    { id: 'profile-btn', name: 'Profile' },
+                    { id: 'take-assessment-btn', name: 'Take Assessment' },
+                    { id: 'log-mood-btn', name: 'Log Mood' },
+                    { id: 'view-mood-history-btn', name: 'View Mood History' },
+                    { id: 'create-meal-plan-btn', name: 'Create Meal Plan' },
+                    { id: 'view-nutrition-btn', name: 'View Nutrition' },
+                    { id: 'refresh-insights-btn', name: 'Refresh Insights' },
+                    { id: 'assessment-btn', name: 'Quick Assessment' },
+                    { id: 'mood-log-btn', name: 'Quick Mood Log' },
+                    { id: 'meal-plan-btn', name: 'Quick Meal Plan' },
+                    { id: 'generate-report-btn', name: 'Generate Report' }
+                ];
+
+                let working = 0;
+                buttons.forEach((button, index) => {
+                    setTimeout(() => {
+                        if (this.testButton(button.id, button.name)) {
+                            working++;
+                        }
+                        
+                        if (index === buttons.length - 1) {
+                            setTimeout(() => {
+                                this.log(`🎉 Button test completed: ${working}/${buttons.length} working`, working === buttons.length ? 'success' : 'warning');
+                            }, 500);
+                        }
+                    }, index * 200);
+                });
+            }
+        }
+
+        // Initialize tester
+        const buttonTester = new DashboardButtonTester();
+
+        // Test Functions
+        function testHeaderButtons() {
+            buttonTester.log('🔄 Testing header buttons...', 'info');
+            buttonTester.testButton('refresh-dashboard', 'Refresh Dashboard');
+            setTimeout(() => buttonTester.testButton('profile-btn', 'Profile'), 500);
+        }
+
+        function testCardButtons() {
+            buttonTester.log('🎯 Testing card buttons...', 'info');
+            const cardButtons = [
+                { id: 'take-assessment-btn', name: 'Take Assessment' },
+                { id: 'log-mood-btn', name: 'Log Mood' },
+                { id: 'view-mood-history-btn', name: 'View Mood History' },
+                { id: 'create-meal-plan-btn', name: 'Create Meal Plan' },
+                { id: 'view-nutrition-btn', name: 'View Nutrition' },
+                { id: 'refresh-insights-btn', name: 'Refresh Insights' }
+            ];
+            
+            cardButtons.forEach((button, index) => {
+                setTimeout(() => {
+                    buttonTester.testButton(button.id, button.name);
+                }, index * 300);
+            });
+        }
+
+        function testQuickActions() {
+            buttonTester.log('⚡ Testing quick action buttons...', 'info');
+            const quickButtons = [
+                { id: 'assessment-btn', name: 'Quick Assessment' },
+                { id: 'mood-log-btn', name: 'Quick Mood Log' },
+                { id: 'meal-plan-btn', name: 'Quick Meal Plan' },
+                { id: 'generate-report-btn', name: 'Generate Report' }
+            ];
+            
+            quickButtons.forEach((button, index) => {
+                setTimeout(() => {
+                    buttonTester.testButton(button.id, button.name);
+                }, index * 300);
+            });
+        }
+
+        function testMoodButtons() {
+            buttonTester.log('💙 Testing mood selector buttons...', 'info');
+            const moodButtons = document.querySelectorAll('.mood-btn');
+            
+            moodButtons.forEach((btn, index) => {
+                setTimeout(() => {
+                    try {
+                        btn.click();
+                        buttonTester.log(`✅ Mood button ${index + 1} working`, 'success');
+                    } catch (error) {
+                        buttonTester.log(`❌ Mood button ${index + 1} failed`, 'error');
+                    }
+                }, index * 200);
+            });
+        }
+
+        function testAllButtons() {
+            buttonTester.log('🚀 Testing all dashboard buttons...', 'info');
+            buttonTester.testAllDashboardButtons();
+        }
+
+        function generateSampleData() {
+            buttonTester.log('📈 Generating sample data...', 'info');
+            
+            if (window.enhancedDashboardRedesign) {
+                window.enhancedDashboardRedesign.generateComprehensiveSampleData();
+                buttonTester.log('✅ Sample data generated', 'success');
+            } else if (window.dashboardButtonsFix) {
+                // Generate basic sample data
+                const userId = window.dashboardButtonsFix.getCurrentUserId();
+                
+                // Create sample assessment
+                const assessment = {
+                    userId: userId,
+                    score: Math.floor(Math.random() * 20) + 5,
+                    createdAt: new Date().toISOString()
+                };
+                
+                const assessments = JSON.parse(localStorage.getItem(`risk-assessments-${userId}`) || '[]');
+                assessments.unshift(assessment);
+                localStorage.setItem(`risk-assessments-${userId}`, JSON.stringify(assessments));
+                
+                buttonTester.log('✅ Basic sample data generated', 'success');
+            }
+        }
+
+        function clearTestData() {
+            buttonTester.log('🗑️ Clearing test data...', 'warning');
+            
+            const userId = window.dashboardButtonsFix?.getCurrentUserId() || 'demo-user';
+            localStorage.removeItem(`risk-assessments-${userId}`);
+            localStorage.removeItem(`mood-entries-${userId}`);
+            localStorage.removeItem(`nutrition-plans-${userId}`);
+            
+            buttonTester.log('✅ Test data cleared', 'success');
+        }
+
+        // Auto-run basic checks
+        setTimeout(() => {
+            buttonTester.log('🔍 Running automatic button availability check...', 'info');
+            
+            if (window.dashboardButtonsFix) {
+                buttonTester.log('✅ Dashboard Buttons Fix is available', 'success');
+                
+                // Test if buttons fix is working
+                const testResult = window.dashboardButtonsFix.testAllButtons();
+                if (testResult) {
+                    buttonTester.log('✅ All buttons are properly connected', 'success');
+                } else {
+                    buttonTester.log('⚠️ Some buttons may have issues', 'warning');
+                }
+            } else {
+                buttonTester.log('❌ Dashboard Buttons Fix not found', 'error');
+            }
+            
+            buttonTester.log('✨ Ready for manual testing! Use the buttons above.', 'info');
+        }, 2000);
+    </script>
+</body>
+</html>

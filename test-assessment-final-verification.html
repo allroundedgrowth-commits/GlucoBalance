@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Final Verification</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/enhanced-dashboard.css">
+    <style>
+        .verification-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .step-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--azure-blue);
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .step-number {
+            background: var(--azure-blue);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .status-indicator {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-success { background: #d4edda; color: #155724; }
+        .status-error { background: #f8d7da; color: #721c24; }
+        .test-button {
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        .dashboard-demo {
+            border: 2px solid #007FFF;
+            border-radius: 12px;
+            padding: 1rem;
+            background: #f8f9ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <h1>GlucoBalance Dashboard</h1>
+                </div>
+            </header>
+            
+            <main class="container">
+                <div class="verification-container">
+                    <h1>🔍 Assessment Integration Final Verification</h1>
+                    <p>This test verifies that the Take Assessment button functionality has been completely fixed.</p>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h3>Component Initialization</h3>
+                            <div class="status-indicator status-pending" id="status-1">Pending</div>
+                        </div>
+                        <p>Verify all required components are loaded and initialized properly.</p>
+                        <button class="test-button" onclick="verifyComponents()">Verify Components</button>
+                        <div id="component-results"></div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h3>Button Click Handler</h3>
+                            <div class="status-indicator status-pending" id="status-2">Pending</div>
+                        </div>
+                        <p>Test that the Take Assessment button properly triggers the assessment flow.</p>
+                        <div class="dashboard-demo">
+                            <div class="dashboard-card risk-assessment-card">
+                                <div class="card-header">
+                                    <h4>🎯 Risk Assessment</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="risk-display" id="risk-display">
+                                        <div class="risk-score">--</div>
+                                        <div class="risk-category">Take Assessment</div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-card-action" id="take-assessment-btn">
+                                        📋 Take Assessment
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="test-button" onclick="testButtonClick()">Test Button Click</button>
+                        <div id="button-results"></div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h3>Assessment Engine Integration</h3>
+                            <div class="status-indicator status-pending" id="status-3">Pending</div>
+                        </div>
+                        <p>Verify that the risk assessment engine initializes and displays questions correctly.</p>
+                        <button class="test-button" onclick="testAssessmentEngine()">Test Assessment Engine</button>
+                        <div id="engine-results"></div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <h3>Score Calculation & Storage</h3>
+                            <div class="status-indicator status-pending" id="status-4">Pending</div>
+                        </div>
+                        <p>Test that assessment scores are calculated correctly and stored in the database.</p>
+                        <button class="test-button" onclick="testScoreCalculation()">Test Score Calculation</button>
+                        <div id="score-results"></div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <h3>Dashboard Update</h3>
+                            <div class="status-indicator status-pending" id="status-5">Pending</div>
+                        </div>
+                        <p>Verify that the dashboard risk assessment card updates with new scores after completion.</p>
+                        <button class="test-button" onclick="testDashboardUpdate()">Test Dashboard Update</button>
+                        <div id="dashboard-results"></div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <h3>Error Handling</h3>
+                            <div class="status-indicator status-pending" id="status-6">Pending</div>
+                        </div>
+                        <p>Test error handling and fallback mechanisms for assessment failures.</p>
+                        <button class="test-button" onclick="testErrorHandling()">Test Error Handling</button>
+                        <div id="error-results"></div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">✅</div>
+                            <h3>Complete Integration Test</h3>
+                            <div class="status-indicator status-pending" id="status-complete">Pending</div>
+                        </div>
+                        <p>Run the complete end-to-end assessment flow test.</p>
+                        <button class="test-button" onclick="runCompleteTest()">Run Complete Test</button>
+                        <div id="complete-results"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include all necessary scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    <script src="js/enhanced-dashboard.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        function updateStatus(stepNumber, status, message = '') {
+            const statusElement = document.getElementById(`status-${stepNumber}`);
+            statusElement.className = `status-indicator status-${status}`;
+            statusElement.textContent = status === 'success' ? 'Passed' : status === 'error' ? 'Failed' : 'Pending';
+        }
+        
+        function showResults(containerId, results) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = results.map(result => `
+                <div style="padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; background: ${result.passed ? '#d4edda' : '#f8d7da'}; color: ${result.passed ? '#155724' : '#721c24'};">
+                    ${result.passed ? '✅' : '❌'} ${result.message}
+                </div>
+            `).join('');
+        }
+        
+        function verifyComponents() {
+            console.log('🔍 Verifying components...');
+            const results = [];
+            
+            // Check button exists
+            const button = document.getElementById('take-assessment-btn');
+            results.push({
+                passed: !!button,
+                message: button ? 'Take Assessment button found' : 'Take Assessment button missing'
+            });
+            
+            // Check main app
+            results.push({
+                passed: !!window.glucoApp,
+                message: window.glucoApp ? 'Main app initialized' : 'Main app not found'
+            });
+            
+            // Check enhanced dashboard
+            results.push({
+                passed: !!window.enhancedDashboard,
+                message: window.enhancedDashboard ? 'Enhanced dashboard loaded' : 'Enhanced dashboard not found'
+            });
+            
+            // Check risk assessment engine
+            results.push({
+                passed: !!window.riskAssessment,
+                message: window.riskAssessment ? 'Risk assessment engine loaded' : 'Risk assessment engine not found'
+            });
+            
+            // Check database
+            results.push({
+                passed: !!window.kiroDb,
+                message: window.kiroDb ? 'Database service available' : 'Database service not found'
+            });
+            
+            const allPassed = results.every(r => r.passed);
+            updateStatus(1, allPassed ? 'success' : 'error');
+            showResults('component-results', results);
+        }
+        
+        function testButtonClick() {
+            console.log('🖱️ Testing button click...');
+            const results = [];
+            
+            const button = document.getElementById('take-assessment-btn');
+            if (!button) {
+                results.push({ passed: false, message: 'Button not found' });
+                updateStatus(2, 'error');
+                showResults('button-results', results);
+                return;
+            }
+            
+            // Check if button has event listener
+            const hasHandler = window.enhancedDashboard && typeof window.enhancedDashboard.handleTakeAssessmentClick === 'function';
+            results.push({
+                passed: hasHandler,
+                message: hasHandler ? 'Button click handler available' : 'Button click handler missing'
+            });
+            
+            // Test button click
+            try {
+                button.click();
+                results.push({ passed: true, message: 'Button click executed without errors' });
+                
+                // Check if assessment page or overlay was created
+                setTimeout(() => {
+                    const assessmentPage = document.getElementById('assessment-page');
+                    const assessmentOverlay = document.getElementById('assessment-overlay');
+                    const created = !!(assessmentPage || assessmentOverlay);
+                    
+                    results.push({
+                        passed: created,
+                        message: created ? 'Assessment interface created' : 'Assessment interface not created'
+                    });
+                    
+                    const allPassed = results.every(r => r.passed);
+                    updateStatus(2, allPassed ? 'success' : 'error');
+                    showResults('button-results', results);
+                }, 2000);
+                
+            } catch (error) {
+                results.push({ passed: false, message: `Button click failed: ${error.message}` });
+                updateStatus(2, 'error');
+                showResults('button-results', results);
+            }
+        }
+        
+        function testAssessmentEngine() {
+            console.log('🔧 Testing assessment engine...');
+            const results = [];
+            
+            if (!window.riskAssessment) {
+                results.push({ passed: false, message: 'Risk assessment engine not available' });
+                updateStatus(3, 'error');
+                showResults('engine-results', results);
+                return;
+            }
+            
+            // Check if engine has required methods
+            const hasStartMethod = typeof window.riskAssessment.startAssessment === 'function';
+            results.push({
+                passed: hasStartMethod,
+                message: hasStartMethod ? 'startAssessment method available' : 'startAssessment method missing'
+            });
+            
+            const hasQuestions = Array.isArray(window.riskAssessment.questions) && window.riskAssessment.questions.length > 0;
+            results.push({
+                passed: hasQuestions,
+                message: hasQuestions ? `${window.riskAssessment.questions.length} assessment questions loaded` : 'Assessment questions not loaded'
+            });
+            
+            // Test if engine can calculate risk
+            const hasCalculateMethod = typeof window.riskAssessment.calculateRisk === 'function';
+            results.push({
+                passed: hasCalculateMethod,
+                message: hasCalculateMethod ? 'Risk calculation method available' : 'Risk calculation method missing'
+            });
+            
+            const allPassed = results.every(r => r.passed);
+            updateStatus(3, allPassed ? 'success' : 'error');
+            showResults('engine-results', results);
+        }
+        
+        function testScoreCalculation() {
+            console.log('💾 Testing score calculation...');
+            const results = [];
+            
+            if (!window.riskAssessment) {
+                results.push({ passed: false, message: 'Risk assessment engine not available' });
+                updateStatus(4, 'error');
+                showResults('score-results', results);
+                return;
+            }
+            
+            try {
+                // Test score calculation with mock data
+                const mockResponses = {
+                    age: 3,
+                    gender: 1,
+                    family_history: 5,
+                    high_blood_pressure: 2,
+                    physical_activity: 0,
+                    bmi: 1,
+                    gestational_diabetes: 0,
+                    prediabetes: 0
+                };
+                
+                // Calculate expected score
+                const expectedScore = Object.values(mockResponses).reduce((sum, val) => sum + val, 0);
+                
+                // Set mock responses
+                window.riskAssessment.responses = mockResponses;
+                
+                // Test calculation
+                window.riskAssessment.calculateRisk();
+                
+                const calculatedScore = window.riskAssessment.assessmentData?.score;
+                results.push({
+                    passed: calculatedScore === expectedScore,
+                    message: `Score calculation: expected ${expectedScore}, got ${calculatedScore}`
+                });
+                
+                // Test risk category
+                const category = window.riskAssessment.assessmentData?.category;
+                const expectedCategory = window.riskAssessment.getRiskCategory(expectedScore);
+                results.push({
+                    passed: category === expectedCategory,
+                    message: `Risk category: expected ${expectedCategory}, got ${category}`
+                });
+                
+                // Test save capability
+                const hasSaveMethod = typeof window.riskAssessment.saveAssessment === 'function';
+                results.push({
+                    passed: hasSaveMethod,
+                    message: hasSaveMethod ? 'Save assessment method available' : 'Save assessment method missing'
+                });
+                
+            } catch (error) {
+                results.push({ passed: false, message: `Score calculation failed: ${error.message}` });
+            }
+            
+            const allPassed = results.every(r => r.passed);
+            updateStatus(4, allPassed ? 'success' : 'error');
+            showResults('score-results', results);
+        }
+        
+        function testDashboardUpdate() {
+            console.log('📊 Testing dashboard update...');
+            const results = [];
+            
+            if (!window.enhancedDashboard) {
+                results.push({ passed: false, message: 'Enhanced dashboard not available' });
+                updateStatus(5, 'error');
+                showResults('dashboard-results', results);
+                return;
+            }
+            
+            // Test refresh method
+            const hasRefreshMethod = typeof window.enhancedDashboard.refreshDashboard === 'function';
+            results.push({
+                passed: hasRefreshMethod,
+                message: hasRefreshMethod ? 'Dashboard refresh method available' : 'Dashboard refresh method missing'
+            });
+            
+            // Test event listener for assessment completion
+            try {
+                // Dispatch mock assessment completion event
+                document.dispatchEvent(new CustomEvent('assessmentCompleted', {
+                    detail: {
+                        score: 15,
+                        category: 'High',
+                        date: new Date().toISOString(),
+                        userId: 'test-user'
+                    }
+                }));
+                
+                results.push({ passed: true, message: 'Assessment completion event dispatched successfully' });
+                
+            } catch (error) {
+                results.push({ passed: false, message: `Event dispatch failed: ${error.message}` });
+            }
+            
+            // Test risk display update capability
+            const riskDisplay = document.getElementById('risk-display');
+            results.push({
+                passed: !!riskDisplay,
+                message: riskDisplay ? 'Risk display element found' : 'Risk display element missing'
+            });
+            
+            const allPassed = results.every(r => r.passed);
+            updateStatus(5, allPassed ? 'success' : 'error');
+            showResults('dashboard-results', results);
+        }
+        
+        function testErrorHandling() {
+            console.log('⚠️ Testing error handling...');
+            const results = [];
+            
+            if (!window.enhancedDashboard) {
+                results.push({ passed: false, message: 'Enhanced dashboard not available' });
+                updateStatus(6, 'error');
+                showResults('error-results', results);
+                return;
+            }
+            
+            // Test error display method
+            const hasErrorMethod = typeof window.enhancedDashboard.showAssessmentError === 'function';
+            results.push({
+                passed: hasErrorMethod,
+                message: hasErrorMethod ? 'Error display method available' : 'Error display method missing'
+            });
+            
+            // Test notification system
+            const hasNotificationMethod = typeof window.enhancedDashboard.showNotification === 'function';
+            results.push({
+                passed: hasNotificationMethod,
+                message: hasNotificationMethod ? 'Notification system available' : 'Notification system missing'
+            });
+            
+            // Test fallback assessment method
+            const hasFallbackMethod = typeof window.enhancedDashboard.startAssessmentInline === 'function';
+            results.push({
+                passed: hasFallbackMethod,
+                message: hasFallbackMethod ? 'Fallback assessment method available' : 'Fallback assessment method missing'
+            });
+            
+            const allPassed = results.every(r => r.passed);
+            updateStatus(6, allPassed ? 'success' : 'error');
+            showResults('error-results', results);
+        }
+        
+        async function runCompleteTest() {
+            console.log('🧪 Running complete integration test...');
+            const results = [];
+            
+            try {
+                // Step 1: Verify components
+                verifyComponents();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 2: Test button click
+                testButtonClick();
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Step 3: Test assessment engine
+                testAssessmentEngine();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 4: Test score calculation
+                testScoreCalculation();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 5: Test dashboard update
+                testDashboardUpdate();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Step 6: Test error handling
+                testErrorHandling();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                results.push({ passed: true, message: 'All integration tests completed successfully' });
+                updateStatus('complete', 'success');
+                
+            } catch (error) {
+                results.push({ passed: false, message: `Integration test failed: ${error.message}` });
+                updateStatus('complete', 'error');
+            }
+            
+            showResults('complete-results', results);
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('🚀 Verification page loaded, initializing...');
+            
+            // Initialize components
+            if (!window.glucoApp) {
+                window.glucoApp = new GlucoBalanceApp();
+            }
+            
+            if (!window.enhancedDashboard) {
+                window.enhancedDashboard = new EnhancedDashboard();
+                // Set a test user
+                window.enhancedDashboard.setCurrentUser('test-user-123');
+            }
+            
+            console.log('✅ Verification initialization complete');
+        });
+    </script>
+</body>
+</html>

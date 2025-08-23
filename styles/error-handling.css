@@ -1,0 +1,393 @@
+/* GlucoBalance - Error Handling and Notification Styles */
+
+/* Notification System */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 400px;
+    min-width: 300px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    border-left: 4px solid #007FFF;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification.success {
+    border-left-color: #28a745;
+}
+
+.notification.error {
+    border-left-color: #dc3545;
+}
+
+.notification.warning {
+    border-left-color: #ffc107;
+}
+
+.notification.info {
+    border-left-color: #007FFF;
+}
+
+.notification-content {
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.notification-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.notification-message {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.notification-action {
+    background: #007FFF;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.notification-action:hover {
+    background: #0056b3;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.notification-close:hover {
+    color: #333;
+}
+
+/* Error Highlighting */
+.error-highlight {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Cache Guidance Styles */
+.cache-guidance {
+    max-width: 350px;
+}
+
+.cache-guidance h4 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.cache-guidance p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.cache-guidance ol {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #555;
+}
+
+.cache-guidance li {
+    margin-bottom: 4px;
+}
+
+.cache-guidance kbd {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 2px 4px;
+    font-size: 11px;
+    font-family: monospace;
+}
+
+/* Circuit Breaker Status Indicator */
+.circuit-breaker-status {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 9999;
+    display: none;
+}
+
+.circuit-breaker-status.show {
+    display: block;
+}
+
+.circuit-breaker-status.open {
+    background: rgba(220, 53, 69, 0.9);
+}
+
+.circuit-breaker-status.half-open {
+    background: rgba(255, 193, 7, 0.9);
+    color: #333;
+}
+
+.circuit-breaker-status.closed {
+    background: rgba(40, 167, 69, 0.9);
+}
+
+/* Offline Mode Indicator */
+.offline-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ffc107;
+    color: #333;
+    text-align: center;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10001;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.offline-indicator.show {
+    transform: translateY(0);
+}
+
+/* Recovery Progress Indicator */
+.recovery-progress {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 10002;
+    text-align: center;
+    min-width: 250px;
+}
+
+.recovery-progress h4 {
+    margin: 0 0 16px 0;
+    color: #333;
+}
+
+.recovery-progress .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #007FFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 16px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.recovery-progress p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Error Log Viewer */
+.error-log-viewer {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 10003;
+    display: none;
+    flex-direction: column;
+}
+
+.error-log-viewer.show {
+    display: flex;
+}
+
+.error-log-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error-log-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.error-log-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.error-entry {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.error-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.error-type {
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.error-timestamp {
+    font-size: 12px;
+    color: #666;
+}
+
+.error-message {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.error-context {
+    font-size: 12px;
+    color: #666;
+    background: white;
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #e9ecef;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        min-width: auto;
+    }
+    
+    .notification-actions {
+        flex-direction: column;
+    }
+    
+    .notification-action {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .error-log-viewer {
+        top: 5%;
+        left: 5%;
+        right: 5%;
+        bottom: 5%;
+    }
+    
+    .cache-guidance {
+        max-width: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .notification {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+    
+    .notification-message {
+        color: #e2e8f0;
+    }
+    
+    .notification-close {
+        color: #a0aec0;
+    }
+    
+    .notification-close:hover {
+        color: #e2e8f0;
+    }
+    
+    .cache-guidance h4 {
+        color: #e2e8f0;
+    }
+    
+    .cache-guidance p {
+        color: #a0aec0;
+    }
+    
+    .cache-guidance ol {
+        color: #cbd5e0;
+    }
+    
+    .error-entry {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .error-context {
+        background: #1a202c;
+        border-color: #4a5568;
+    }
+}

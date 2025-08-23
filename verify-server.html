@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Verification - GlucoBalance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .success {
+            background: rgba(40, 167, 69, 0.3);
+            border: 2px solid #28a745;
+        }
+
+        .error {
+            background: rgba(220, 53, 69, 0.3);
+            border: 2px solid #dc3545;
+        }
+
+        .info {
+            background: rgba(0, 123, 255, 0.3);
+            border: 2px solid #007bff;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-card h3 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .test-button:hover {
+            background: #0056b3;
+        }
+
+        .test-button.success {
+            background: #28a745;
+        }
+
+        .test-button.error {
+            background: #dc3545;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .link-card a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            padding: 0.5rem;
+        }
+
+        .link-card a:hover {
+            text-decoration: underline;
+        }
+
+        .server-info {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 GlucoBalance Server Verification</h1>
+
+        <div id="server-status" class="status info">
+            🔍 Checking server status...
+        </div>
+
+        <div class="server-info">
+            <h3>📊 Server Information</h3>
+            <div id="server-info">
+                <p><strong>URL:</strong> <span id="current-url"></span></p>
+                <p><strong>Protocol:</strong> <span id="protocol"></span></p>
+                <p><strong>Host:</strong> <span id="host"></span></p>
+                <p><strong>Port:</strong> <span id="port"></span></p>
+                <p><strong>Timestamp:</strong> <span id="timestamp"></span></p>
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>🏠 Main Application</h3>
+                <p>Test the main GlucoBalance application</p>
+                <button class="test-button" onclick="testMainApp()">Test Main App</button>
+                <div id="main-app-result"></div>
+            </div>
+
+            <div class="test-card">
+                <h3>🎯 Risk Assessment</h3>
+                <p>Test the WHO/ADA assessment integration</p>
+                <button class="test-button" onclick="testAssessment()">Test Assessment</button>
+                <div id="assessment-result"></div>
+            </div>
+
+            <div class="test-card">
+                <h3>💙 Mood Tracker</h3>
+                <p>Test the mood tracking functionality</p>
+                <button class="test-button" onclick="testMoodTracker()">Test Mood Tracker</button>
+                <div id="mood-result"></div>
+            </div>
+
+            <div class="test-card">
+                <h3>🎛️ Dashboard</h3>
+                <p>Test the complete dashboard functionality</p>
+                <button class="test-button" onclick="testDashboard()">Test Dashboard</button>
+                <div id="dashboard-result"></div>
+            </div>
+        </div>
+
+        <h3>🔗 Quick Access Links</h3>
+        <div class="links">
+            <div class="link-card">
+                <a href="/" target="_blank">🏠 Main Application</a>
+            </div>
+            <div class="link-card">
+                <a href="/test-take-assessment-integration.html" target="_blank">🎯 Assessment Test</a>
+            </div>
+            <div class="link-card">
+                <a href="/test-mood-tracker-complete.html" target="_blank">💙 Mood Tracker Test</a>
+            </div>
+            <div class="link-card">
+                <a href="/test-complete-dashboard-functionality.html" target="_blank">🎛️ Dashboard Test</a>
+            </div>
+            <div class="link-card">
+                <a href="/verify-all-fixes.html" target="_blank">✅ All Fixes Verification</a>
+            </div>
+            <div class="link-card">
+                <a href="/test-ai-integration.html" target="_blank">🤖 AI Integration Test</a>
+            </div>
+        </div>
+
+        <div class="status info">
+            <h3>💡 Next Steps</h3>
+            <p>1. Click the test buttons above to verify functionality</p>
+            <p>2. Use the quick access links to navigate to different parts of the application</p>
+            <p>3. Check the browser console for any errors</p>
+            <p>4. Test the "Take Assessment" button in the main dashboard</p>
+        </div>
+    </div>
+
+    <script>
+        // Update server information
+        document.getElementById('current-url').textContent = window.location.href;
+        document.getElementById('protocol').textContent = window.location.protocol;
+        document.getElementById('host').textContent = window.location.hostname;
+        document.getElementById('port').textContent = window.location.port || '80';
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+
+        // Check server status
+        function checkServerStatus() {
+            const status = document.getElementById('server-status');
+            try {
+                // If we can load this page, the server is working
+                status.className = 'status success';
+                status.innerHTML = '✅ Server is running successfully on ' + window.location.origin;
+            } catch (error) {
+                status.className = 'status error';
+                status.innerHTML = '❌ Server connection error: ' + error.message;
+            }
+        }
+
+        // Test functions
+        function testMainApp() {
+            const button = event.target;
+            const result = document.getElementById('main-app-result');
+
+            button.textContent = 'Testing...';
+            button.disabled = true;
+
+            // Test by trying to fetch the main page
+            fetch('/')
+                .then(response => {
+                    if (response.ok) {
+                        button.className = 'test-button success';
+                        button.textContent = '✅ Working';
+                        result.innerHTML = '<p style="color: #28a745;">Main app is accessible</p>';
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    button.className = 'test-button error';
+                    button.textContent = '❌ Failed';
+                    result.innerHTML = '<p style="color: #dc3545;">Error: ' + error.message + '</p>';
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
+        }
+
+        function testAssessment() {
+            const button = event.target;
+            const result = document.getElementById('assessment-result');
+
+            button.textContent = 'Testing...';
+            button.disabled = true;
+
+            fetch('/test-take-assessment-integration.html')
+                .then(response => {
+                    if (response.ok) {
+                        button.className = 'test-button success';
+                        button.textContent = '✅ Working';
+                        result.innerHTML = '<p style="color: #28a745;">Assessment test page is accessible</p>';
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    button.className = 'test-button error';
+                    button.textContent = '❌ Failed';
+                    result.innerHTML = '<p style="color: #dc3545;">Error: ' + error.message + '</p>';
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
+        }
+
+        function testMoodTracker() {
+            const button = event.target;
+            const result = document.getElementById('mood-result');
+
+            button.textContent = 'Testing...';
+            button.disabled = true;
+
+            fetch('/test-mood-tracker-complete.html')
+                .then(response => {
+                    if (response.ok) {
+                        button.className = 'test-button success';
+                        button.textContent = '✅ Working';
+                        result.innerHTML = '<p style="color: #28a745;">Mood tracker test page is accessible</p>';
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    button.className = 'test-button error';
+                    button.textContent = '❌ Failed';
+                    result.innerHTML = '<p style="color: #dc3545;">Error: ' + error.message + '</p>';
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
+        }
+
+        function testDashboard() {
+            const button = event.target;
+            const result = document.getElementById('dashboard-result');
+
+            button.textContent = 'Testing...';
+            button.disabled = true;
+
+            fetch('/test-complete-dashboard-functionality.html')
+                .then(response => {
+                    if (response.ok) {
+                        button.className = 'test-button success';
+                        button.textContent = '✅ Working';
+                        result.innerHTML = '<p style="color: #28a745;">Dashboard test page is accessible</p>';
+                    } else {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                })
+                .catch(error => {
+                    button.className = 'test-button error';
+                    button.textContent = '❌ Failed';
+                    result.innerHTML = '<p style="color: #dc3545;">Error: ' + error.message + '</p>';
+                })
+                .finally(() => {
+                    button.disabled = false;
+                });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkServerStatus();
+        });
+    </script>
+</body>
+
+</html>

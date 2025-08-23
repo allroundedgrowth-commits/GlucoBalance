@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Risk Assessment - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/risk-assessment.css">
+    <style>
+        .demo-controls {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border: 1px solid #e1bee7;
+        }
+        
+        .demo-controls h3 {
+            margin: 0 0 1rem;
+            color: var(--primary-purple);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .demo-buttons button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--azure-blue);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-buttons button:hover {
+            background: var(--primary-purple);
+            transform: translateY(-2px);
+        }
+        
+        .feature-showcase {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .feature-showcase h4 {
+            margin: 0 0 1rem;
+            color: var(--azure-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .feature-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-green);
+        }
+        
+        .feature-item h5 {
+            margin: 0 0 0.5rem;
+            color: var(--primary-purple);
+        }
+        
+        .feature-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-indicator.online {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-indicator.offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="assessment-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <h1>🧬 Enhanced WHO/ADA Risk Assessment</h1>
+                    <p>Experience the next generation of diabetes risk assessment with AI-powered insights</p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="assessment-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </header>
+            
+            <main class="container">
+                <!-- Demo Controls -->
+                <div class="demo-controls">
+                    <h3>🎮 Demo Controls</h3>
+                    <div class="demo-buttons">
+                        <button id="demo-low-risk">Demo Low Risk</button>
+                        <button id="demo-increased-risk">Demo Increased Risk</button>
+                        <button id="demo-high-risk">Demo High Risk</button>
+                        <button id="demo-possible-diabetes">Demo Possible Diabetes</button>
+                        <button id="reset-assessment">Reset Assessment</button>
+                        <button id="toggle-ai">Toggle AI Mode</button>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <span class="status-indicator" id="ai-status">
+                            <span class="status-dot">●</span>
+                            <span class="status-text">Checking AI Status...</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Feature Showcase -->
+                <div class="feature-showcase">
+                    <h4>✨ Enhanced Features</h4>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <h5>🤖 AI-Powered Explanations</h5>
+                            <p>Empathetic, personalized explanations using Gemini AI with fallback support</p>
+                        </div>
+                        <div class="feature-item">
+                            <h5>📊 Visual Risk Breakdown</h5>
+                            <p>Interactive charts showing risk factor contributions and modifiability</p>
+                        </div>
+                        <div class="feature-item">
+                            <h5>💾 Enhanced Data Storage</h5>
+                            <p>Comprehensive storage in Kiro RiskAssessments table with metadata</p>
+                        </div>
+                        <div class="feature-item">
+                            <h5>🎯 Personalized Action Plans</h5>
+                            <p>Tailored recommendations based on individual risk factors</p>
+                        </div>
+                        <div class="feature-item">
+                            <h5>💙 Emotional Support</h5>
+                            <p>Compassionate messaging and mental health considerations</p>
+                        </div>
+                        <div class="feature-item">
+                            <h5>📱 Enhanced UI/UX</h5>
+                            <p>Modern, accessible design with smooth animations and interactions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Assessment Form -->
+                <div class="assessment-form">
+                    <div id="assessment-content">
+                        <!-- Assessment questions will be loaded here -->
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="prev-question" class="btn-secondary" style="display: none;">Previous</button>
+                        <button id="next-question" class="btn-primary">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Results Display -->
+                <div id="assessment-result" class="card" style="display: none;">
+                    <h3>Your Enhanced Risk Assessment Result</h3>
+                    <div id="risk-result-display"></div>
+                    <div id="ai-explanation"></div>
+                    
+                    <div class="result-actions">
+                        <button id="save-assessment" class="btn-primary">Save Assessment</button>
+                        <button id="retake-assessment" class="btn-secondary">Retake Assessment</button>
+                        <button id="view-history" class="btn-secondary">View History</button>
+                    </div>
+                </div>
+
+                <!-- Assessment History -->
+                <div id="assessment-history" style="display: none;">
+                    <!-- History will be loaded here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/risk-assessment.js"></script>
+    
+    <script>
+        // Enhanced test environment with demo capabilities
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mock user for testing
+            window.glucoApp = {
+                userData: { 
+                    id: 1, 
+                    name: 'Test User',
+                    email: 'test@example.com'
+                },
+                showNotification: (message, type) => {
+                    console.log(`${type.toUpperCase()}: ${message}`);
+                    
+                    // Create enhanced visual notification
+                    const notification = document.createElement('div');
+                    notification.className = `notification ${type} show`;
+                    notification.innerHTML = `
+                        <div class="notification-icon">
+                            ${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${type.toUpperCase()}</div>
+                            <div class="notification-message">${message}</div>
+                        </div>
+                        <button class="notification-close">&times;</button>
+                    `;
+                    
+                    document.body.appendChild(notification);
+                    
+                    // Close button functionality
+                    notification.querySelector('.notification-close').addEventListener('click', () => {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            if (document.body.contains(notification)) {
+                                document.body.removeChild(notification);
+                            }
+                        }, 300);
+                    });
+                    
+                    // Auto-remove after 5 seconds
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            notification.classList.remove('show');
+                            setTimeout(() => {
+                                if (document.body.contains(notification)) {
+                                    document.body.removeChild(notification);
+                                }
+                            }, 300);
+                        }
+                    }, 5000);
+                },
+                saveUserData: () => Promise.resolve(),
+                showDashboard: () => {
+                    console.log('Navigating to dashboard...');
+                    window.glucoApp.showNotification('Assessment complete! Navigating to dashboard...', 'success');
+                },
+                showHealthPlan: (assessmentData) => {
+                    console.log('Creating health plan with assessment data:', assessmentData);
+                    window.glucoApp.showNotification('Health plan feature would open here', 'info');
+                }
+            };
+            
+            // Initialize AI with provided API key
+            if (window.aiService && window.geminiAI) {
+                const apiKey = 'AIzaSyDvMbUBFIrZFQjOOFih5ck_yEwHlXia2Js';
+                window.geminiAI.initialize(apiKey, 'environment');
+                console.log('✅ AI service initialized with provided API key');
+                updateAIStatus();
+            }
+
+            // Demo Controls
+            document.getElementById('demo-low-risk').addEventListener('click', () => {
+                simulateAssessment({
+                    age: 0, gender: 0, family_history: 0, high_blood_pressure: 0,
+                    physical_activity: 0, bmi: 0, gestational_diabetes: 0, prediabetes: 0
+                });
+            });
+
+            document.getElementById('demo-increased-risk').addEventListener('click', () => {
+                simulateAssessment({
+                    age: 2, gender: 1, family_history: 2, high_blood_pressure: 0,
+                    physical_activity: 2, bmi: 1, gestational_diabetes: 0, prediabetes: 0
+                });
+            });
+
+            document.getElementById('demo-high-risk').addEventListener('click', () => {
+                simulateAssessment({
+                    age: 3, gender: 1, family_history: 5, high_blood_pressure: 2,
+                    physical_activity: 2, bmi: 3, gestational_diabetes: 0, prediabetes: 0
+                });
+            });
+
+            document.getElementById('demo-possible-diabetes').addEventListener('click', () => {
+                simulateAssessment({
+                    age: 4, gender: 1, family_history: 5, high_blood_pressure: 2,
+                    physical_activity: 2, bmi: 3, gestational_diabetes: 0, prediabetes: 5
+                });
+            });
+
+            document.getElementById('reset-assessment').addEventListener('click', () => {
+                if (window.riskAssessment) {
+                    window.riskAssessment.restartAssessment();
+                    window.glucoApp.showNotification('Assessment reset successfully', 'info');
+                }
+            });
+
+            document.getElementById('toggle-ai').addEventListener('click', async () => {
+                if (window.aiService.isAvailable()) {
+                    window.aiService.clearApiKey();
+                    window.glucoApp.showNotification('AI mode disabled - using fallback responses', 'info');
+                } else {
+                    const hasKey = await window.geminiAI.promptForApiKey();
+                    if (hasKey) {
+                        window.glucoApp.showNotification('AI mode enabled successfully', 'success');
+                    }
+                }
+                updateAIStatus();
+            });
+
+            document.getElementById('view-history').addEventListener('click', () => {
+                if (window.riskAssessment) {
+                    const historyDiv = document.getElementById('assessment-history');
+                    if (historyDiv.style.display === 'none') {
+                        historyDiv.style.display = 'block';
+                        window.riskAssessment.displayAssessmentHistory('assessment-history');
+                        document.getElementById('view-history').textContent = 'Hide History';
+                    } else {
+                        historyDiv.style.display = 'none';
+                        document.getElementById('view-history').textContent = 'View History';
+                    }
+                }
+            });
+
+            function simulateAssessment(responses) {
+                if (!window.riskAssessment) return;
+                
+                // Set responses
+                window.riskAssessment.responses = responses;
+                
+                // Calculate and display results
+                window.riskAssessment.calculateRisk();
+                
+                // Hide form and show results
+                const assessmentForm = document.querySelector('.assessment-form');
+                const resultContainer = document.getElementById('assessment-result');
+                
+                if (assessmentForm) assessmentForm.style.display = 'none';
+                if (resultContainer) resultContainer.style.display = 'block';
+                
+                window.glucoApp.showNotification('Demo assessment completed!', 'success');
+            }
+
+            function updateAIStatus() {
+                const status = window.aiService.getStatus();
+                const statusElement = document.getElementById('ai-status');
+                
+                if (status.available) {
+                    statusElement.className = 'status-indicator online';
+                    statusElement.innerHTML = `
+                        <span class="status-dot">●</span>
+                        <span class="status-text">AI Available (${status.source})</span>
+                    `;
+                } else {
+                    statusElement.className = 'status-indicator offline';
+                    statusElement.innerHTML = `
+                        <span class="status-dot">●</span>
+                        <span class="status-text">AI Unavailable (Fallback Mode)</span>
+                    `;
+                }
+            }
+
+            // Start the assessment
+            if (window.riskAssessment) {
+                window.riskAssessment.startAssessment();
+            }
+
+            // Initial status update
+            setTimeout(updateAIStatus, 1000);
+
+            // Add custom event listeners for enhanced features
+            document.addEventListener('riskAssessmentCompleted', (event) => {
+                console.log('Risk assessment completed:', event.detail);
+                window.glucoApp.showNotification('Assessment data saved with enhanced metadata!', 'success');
+            });
+
+            // Add keyboard shortcuts for demo
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case '1':
+                            e.preventDefault();
+                            document.getElementById('demo-low-risk').click();
+                            break;
+                        case '2':
+                            e.preventDefault();
+                            document.getElementById('demo-increased-risk').click();
+                            break;
+                        case '3':
+                            e.preventDefault();
+                            document.getElementById('demo-high-risk').click();
+                            break;
+                        case '4':
+                            e.preventDefault();
+                            document.getElementById('demo-possible-diabetes').click();
+                            break;
+                        case 'r':
+                            e.preventDefault();
+                            document.getElementById('reset-assessment').click();
+                            break;
+                    }
+                }
+            });
+
+            // Add tooltip for keyboard shortcuts
+            const demoControls = document.querySelector('.demo-controls');
+            const shortcutsInfo = document.createElement('div');
+            shortcutsInfo.innerHTML = `
+                <small style="color: #6c757d; margin-top: 0.5rem; display: block;">
+                    💡 Keyboard shortcuts: Ctrl+1-4 for demos, Ctrl+R to reset
+                </small>
+            `;
+            demoControls.appendChild(shortcutsInfo);
+        });
+    </script>
+</body>
+</html>

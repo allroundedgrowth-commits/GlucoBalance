@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Button Flow Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        .test-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            border-left: 3px solid #007FFF;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 10000;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .test-header {
+            background: #007FFF;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .test-section h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        .test-btn {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+            width: 100%;
+        }
+        .test-btn:hover {
+            background: #0056b3;
+        }
+        .test-btn.secondary {
+            background: #6c757d;
+        }
+        .test-btn.danger {
+            background: #dc3545;
+        }
+        .status-display {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .status-authenticated {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-unauthenticated {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .main-content {
+            margin-right: 420px;
+        }
+        .demo-user-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Panel -->
+    <div class="test-panel">
+        <div class="test-header">
+            <h2>🧪 Dashboard Button Test</h2>
+            <p>Test authentication flow and dashboard access</p>
+        </div>
+
+        <!-- Authentication Status -->
+        <div class="test-section">
+            <h4>🔐 Authentication Status</h4>
+            <div id="auth-status" class="status-display">Checking...</div>
+            <button class="test-btn" onclick="checkAuthStatus()">Refresh Status</button>
+        </div>
+
+        <!-- Test Actions -->
+        <div class="test-section">
+            <h4>🎯 Test Actions</h4>
+            <button class="test-btn" onclick="testDashboardButton()">Test Dashboard Button</button>
+            <button class="test-btn secondary" onclick="simulateLogin()">Simulate Login</button>
+            <button class="test-btn secondary" onclick="simulateSignup()">Simulate Signup</button>
+            <button class="test-btn danger" onclick="clearAuth()">Clear Authentication</button>
+        </div>
+
+        <!-- Demo User Info -->
+        <div class="demo-user-info">
+            <strong>Demo User Credentials:</strong><br>
+            Email: demo@glucobalance.com<br>
+            Password: demo123<br>
+            <small>Use these credentials to test login flow</small>
+        </div>
+
+        <!-- Quick Setup -->
+        <div class="test-section">
+            <h4>⚡ Quick Setup</h4>
+            <button class="test-btn" onclick="createDemoUser()">Create Demo User</button>
+            <button class="test-btn secondary" onclick="loginAsDemoUser()">Login as Demo User</button>
+        </div>
+
+        <!-- Test Log -->
+        <div class="test-section">
+            <h4>📋 Test Log</h4>
+            <div id="test-log" class="test-log">Ready to test...\n</div>
+            <button class="test-btn secondary" onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Include the main HTML structure -->
+        <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+            <!-- Landing Page -->
+            <div id="landing-page" class="page active">
+                <!-- Top Navigation Bar -->
+                <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                    <div class="container nav-container">
+                        <div class="logo">
+                            <h1>GlucoBalance</h1>
+                        </div>
+
+                        <!-- Desktop Menu -->
+                        <ul class="nav-menu" id="nav-menu">
+                            <li><a href="#features" class="nav-link">Features</a></li>
+                            <li><a href="#about" class="nav-link">About</a></li>
+                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                            <li><a href="#privacy" class="nav-link">Privacy</a></li>
+                        </ul>
+
+                        <!-- Action Buttons -->
+                        <div class="nav-actions">
+                            <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                            <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                        </div>
+
+                        <!-- Mobile Menu Toggle -->
+                        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                            <span class="hamburger-line"></span>
+                            <span class="hamburger-line"></span>
+                            <span class="hamburger-line"></span>
+                        </button>
+                    </div>
+                </nav>
+
+                <header class="hero-section">
+                    <div class="container">
+                        <div class="hero-content">
+                            <div class="hero-badge">
+                                <span class="badge-icon">🏆</span>
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                            </div>
+                            <h1 class="hero-title">
+                                <span class="title-highlight">Prevent.</span>
+                                <span class="title-highlight">Support.</span>
+                                <span class="title-highlight">Thrive.</span>
+                                <br>
+                                <span class="title-main">with GlucoBalance</span>
+                            </h1>
+                            <p class="hero-subtitle">Test the dashboard button functionality below</p>
+
+                            <div class="hero-cta">
+                                <button class="hero-btn primary" onclick="testDashboardButton()">
+                                    <span class="btn-icon">🎯</span>
+                                    Test Dashboard Access
+                                </button>
+                                <button class="hero-btn secondary" onclick="document.querySelector('#nav-dashboard-btn').click()">
+                                    <span class="btn-icon">🏠</span>
+                                    Click Dashboard Button
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <main id="main-content" class="container">
+                    <section class="test-instructions">
+                        <h2>🧪 Dashboard Button Flow Test</h2>
+                        <p>This page tests the complete dashboard button functionality:</p>
+                        <ol>
+                            <li><strong>Unauthenticated User:</strong> Dashboard button should show login page</li>
+                            <li><strong>After Login:</strong> User should be redirected to dashboard</li>
+                            <li><strong>Authenticated User:</strong> Dashboard button should go directly to dashboard</li>
+                        </ol>
+                        <p>Use the test panel on the right to control authentication state and test the flow.</p>
+                    </section>
+                </main>
+            </div>
+
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page">
+                <header class="app-header">
+                    <div class="container">
+                        <h1>🎉 Dashboard - Test Successful!</h1>
+                        <button id="profile-btn" class="profile-btn">👤</button>
+                    </div>
+                </header>
+
+                <main class="container">
+                    <div class="success-message" style="background: #d4edda; color: #155724; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
+                        <h2>✅ Dashboard Access Successful!</h2>
+                        <p>The dashboard button correctly authenticated the user and navigated to the dashboard.</p>
+                        <button class="btn-primary" onclick="window.landingPageManager?.showLandingPage()">← Back to Landing Page</button>
+                    </div>
+
+                    <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                        <div class="card risk-status-card">
+                            <h3>Risk Status</h3>
+                            <div id="risk-display" class="risk-display">
+                                <div class="risk-score">✅</div>
+                                <div class="risk-category">Test Passed</div>
+                            </div>
+                        </div>
+
+                        <div class="card mood-card">
+                            <h3>Test Status</h3>
+                            <div class="mood-selector">
+                                <span style="font-size: 2em;">😊</span>
+                                <p>Dashboard button working correctly!</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- Feature Detail Modal -->
+            <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Feature Details</h2>
+                        <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <!-- Dynamic content will be inserted here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                        <button class="btn-primary" id="modal-action">Get Started</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+                <div class="mobile-menu-content">
+                    <ul class="mobile-nav-links">
+                        <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                        <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                    </ul>
+                    <div class="mobile-action-buttons">
+                        <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                        <button class="btn-primary mobile-signup">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="js/app.js"></script>
+    <script src="fix-all-button-functionality.js"></script>
+
+    <script>
+        let testLog = [];
+
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            testLog.push(logMessage);
+            console.log(logMessage);
+            updateLogDisplay();
+        }
+
+        function updateLogDisplay() {
+            const logElement = document.getElementById('test-log');
+            logElement.textContent = testLog.slice(-20).join('\n') + '\n';
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function clearLog() {
+            testLog = [];
+            updateLogDisplay();
+        }
+
+        function checkAuthStatus() {
+            log('🔍 Checking authentication status...');
+            
+            let isAuthenticated = false;
+            let userInfo = 'No user data found';
+            
+            // Check if LandingPageManager is available
+            if (window.landingPageManager && typeof window.landingPageManager.checkUserAuthentication === 'function') {
+                isAuthenticated = window.landingPageManager.checkUserAuthentication();
+                log(`✅ LandingPageManager auth check: ${isAuthenticated}`);
+            } else {
+                log('⚠️ LandingPageManager not available, checking manually...');
+            }
+            
+            // Check local storage
+            const currentUser = localStorage.getItem('glucobalance-current-user');
+            if (currentUser) {
+                try {
+                    const user = JSON.parse(currentUser);
+                    userInfo = `${user.name} (${user.email})`;
+                    isAuthenticated = true;
+                    log(`👤 Found user in localStorage: ${userInfo}`);
+                } catch (error) {
+                    log(`❌ Error parsing user data: ${error.message}`);
+                }
+            } else {
+                log('📭 No user found in localStorage');
+            }
+            
+            // Update status display
+            const statusElement = document.getElementById('auth-status');
+            if (isAuthenticated) {
+                statusElement.className = 'status-display status-authenticated';
+                statusElement.innerHTML = `✅ Authenticated<br><small>${userInfo}</small>`;
+                log('✅ User is authenticated');
+            } else {
+                statusElement.className = 'status-display status-unauthenticated';
+                statusElement.innerHTML = '❌ Not Authenticated<br><small>User needs to sign in</small>';
+                log('❌ User is not authenticated');
+            }
+            
+            return isAuthenticated;
+        }
+
+        function testDashboardButton() {
+            log('🧪 Testing dashboard button functionality...');
+            
+            const dashboardBtn = document.getElementById('nav-dashboard-btn');
+            if (!dashboardBtn) {
+                log('❌ Dashboard button not found!');
+                return;
+            }
+            
+            log('🖱️ Clicking dashboard button...');
+            dashboardBtn.click();
+            
+            // Check what happened after a short delay
+            setTimeout(() => {
+                const currentPage = document.querySelector('.page.active');
+                if (currentPage) {
+                    const pageId = currentPage.id;
+                    log(`📄 Current active page: ${pageId}`);
+                    
+                    if (pageId === 'dashboard-page') {
+                        log('✅ SUCCESS: Dashboard page is now active!');
+                    } else if (pageId === 'login-page') {
+                        log('🔐 Login page shown (user not authenticated)');
+                    } else {
+                        log(`⚠️ Unexpected page active: ${pageId}`);
+                    }
+                } else {
+                    log('❌ No active page found');
+                }
+            }, 500);
+        }
+
+        function createDemoUser() {
+            log('👤 Creating demo user...');
+            
+            const demoUser = {
+                id: 'demo-user-123',
+                name: 'Demo User',
+                email: 'demo@glucobalance.com',
+                age: 30,
+                password: 'demo123',
+                createdAt: new Date().toISOString(),
+                isActive: true
+            };
+            
+            // Add to users list
+            const users = JSON.parse(localStorage.getItem('glucobalance-users') || '[]');
+            const existingUserIndex = users.findIndex(u => u.email === demoUser.email);
+            
+            if (existingUserIndex >= 0) {
+                users[existingUserIndex] = demoUser;
+                log('📝 Updated existing demo user');
+            } else {
+                users.push(demoUser);
+                log('➕ Added new demo user');
+            }
+            
+            localStorage.setItem('glucobalance-users', JSON.stringify(users));
+            log('💾 Demo user saved to localStorage');
+            
+            checkAuthStatus();
+        }
+
+        function loginAsDemoUser() {
+            log('🔐 Logging in as demo user...');
+            
+            const currentUserData = {
+                id: 'demo-user-123',
+                name: 'Demo User',
+                email: 'demo@glucobalance.com',
+                age: 30
+            };
+            
+            localStorage.setItem('glucobalance-current-user', JSON.stringify(currentUserData));
+            log('✅ Demo user logged in successfully');
+            
+            checkAuthStatus();
+        }
+
+        function simulateLogin() {
+            log('🔐 Simulating login process...');
+            
+            // Create and login demo user
+            createDemoUser();
+            setTimeout(() => {
+                loginAsDemoUser();
+                log('✅ Login simulation complete');
+            }, 500);
+        }
+
+        function simulateSignup() {
+            log('📝 Simulating signup process...');
+            
+            // This would normally go through the signup flow
+            // For testing, we'll just create and login the user
+            simulateLogin();
+            log('✅ Signup simulation complete (user logged in)');
+        }
+
+        function clearAuth() {
+            log('🗑️ Clearing authentication...');
+            
+            localStorage.removeItem('glucobalance-current-user');
+            localStorage.removeItem('glucobalance-users');
+            
+            log('✅ Authentication cleared');
+            checkAuthStatus();
+        }
+
+        // Initialize test
+        window.addEventListener('load', () => {
+            log('🚀 Dashboard button flow test initialized');
+            
+            setTimeout(() => {
+                checkAuthStatus();
+                log('📋 Test ready! Use the buttons above to test the dashboard flow.');
+            }, 1000);
+        });
+
+        // Monitor page changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const target = mutation.target;
+                    if (target.classList.contains('page') && target.classList.contains('active')) {
+                        log(`📄 Page changed to: ${target.id}`);
+                    }
+                }
+            });
+        });
+
+        // Start observing
+        document.addEventListener('DOMContentLoaded', () => {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                observer.observe(page, { attributes: true, attributeFilter: ['class'] });
+            });
+        });
+    </script>
+</body>
+</html>

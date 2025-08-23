@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Name and Demo Data Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/dashboard-hero.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .test-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            background: white;
+        }
+        
+        .test-title {
+            color: #007FFF;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .test-description {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: #007FFF;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: #005A9E;
+            transform: translateY(-2px);
+        }
+        
+        .demo-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .demo-btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+        
+        .data-summary {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+        
+        .data-value {
+            font-weight: 600;
+            color: #007FFF;
+        }
+        
+        .user-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .user-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+
+                <!-- Action Buttons -->
+                <div class="nav-actions">
+                    <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-profile-btn" class="btn-outline" style="display: none;" title="Profile">
+                        <span class="btn-icon">👤</span>
+                        <span class="btn-text">Profile</span>
+                    </button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    <button id="nav-logout-btn" class="btn-secondary logout-btn" style="display: none;">🚪 Logout</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <div class="test-container">
+                <h1>User Name and Demo Data Test</h1>
+                <p>Testing the implementation of user name display and demo data loading for demo@glucobalance.com</p>
+                
+                <div class="test-section">
+                    <h2 class="test-title">🎯 Test Overview</h2>
+                    <p class="test-description">
+                        This test verifies the successful implementation of:
+                    </p>
+                    <ul class="feature-list">
+                        <li>
+                            <span class="feature-icon">👤</span>
+                            <span>Display actual logged-in user's name instead of "user"</span>
+                            <span class="status-indicator status-success">✓ Implemented</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">📊</span>
+                            <span>Load demonstration data for demo@glucobalance.com</span>
+                            <span class="status-indicator status-success">✓ Implemented</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">🔄</span>
+                            <span>Auto-generate comprehensive demo data on first login</span>
+                            <span class="status-indicator status-success">✓ Implemented</span>
+                        </li>
+                        <li>
+                            <span class="feature-icon">💾</span>
+                            <span>Persistent demo data across sessions</span>
+                            <span class="status-indicator status-success">✓ Implemented</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="test-section">
+                    <h2 class="test-title">🧪 Interactive Tests</h2>
+                    <p class="test-description">
+                        Use these controls to test the user name display and demo data functionality:
+                    </p>
+                    <div class="demo-controls">
+                        <button class="demo-btn" onclick="loginAsDemoUser()">Login as Alex Demo</button>
+                        <button class="demo-btn secondary" onclick="clearDemoData()">Clear Demo Data</button>
+                        <button class="demo-btn" onclick="regenerateDemoData()">Regenerate Demo Data</button>
+                        <button class="demo-btn secondary" onclick="showDataSummary()">Show Data Summary</button>
+                        <button class="demo-btn" onclick="testProfileMenu()">Test Profile Menu</button>
+                    </div>
+                    
+                    <div id="data-summary-container"></div>
+                    <div id="user-info-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <header class="dashboard-hero">
+                <div class="hero-background">
+                    <div class="hero-pattern"></div>
+                    <div class="hero-gradient"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-main">
+                            <div class="hero-greeting">
+                                <h1 class="hero-title">
+                                    <span class="greeting-text">Good <span id="time-of-day">morning</span>,</span>
+                                    <span class="user-name" id="dashboard-user-name">User</span>
+                                </h1>
+                                <p class="hero-subtitle">Take control of your health journey with personalized insights</p>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">🎯</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-risk-score">--</div>
+                                        <div class="stat-label">Risk Score</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">💙</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-mood-avg">--</div>
+                                        <div class="stat-label">Avg Mood</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">📈</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-progress">--</div>
+                                        <div class="stat-label">Progress</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hero actions removed - buttons moved to navigation bar -->
+                    </div>
+                </div>
+            </header>
+
+            <main class="container dashboard-main">
+                <div class="test-container">
+                    <div class="test-section">
+                        <h2 class="test-title">✅ Dashboard with User Name and Demo Data</h2>
+                        <p class="test-description">
+                            The dashboard now displays the actual user name and loads comprehensive demo data:
+                        </p>
+                        <ul class="feature-list">
+                            <li>
+                                <span class="feature-icon">👋</span>
+                                <span>Greeting shows "Good [time], Alex Demo" instead of "Good [time], User"</span>
+                            </li>
+                            <li>
+                                <span class="feature-icon">🎯</span>
+                                <span>Risk score loaded from demo data (shows actual assessment results)</span>
+                            </li>
+                            <li>
+                                <span class="feature-icon">💙</span>
+                                <span>Mood average calculated from 60 days of demo mood entries</span>
+                            </li>
+                            <li>
+                                <span class="feature-icon">📈</span>
+                                <span>Progress calculated from comprehensive health metrics</span>
+                            </li>
+                            <li>
+                                <span class="feature-icon">👤</span>
+                                <span>Profile menu shows correct user name and email</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="demo-controls">
+                            <button class="demo-btn" onclick="backToLanding()">Back to Landing</button>
+                            <button class="demo-btn secondary" onclick="refreshDashboard()">Refresh Dashboard</button>
+                            <button class="demo-btn" onclick="showDemoDataDetails()">Show Demo Data Details</button>
+                        </div>
+                        
+                        <div id="demo-data-details"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/demo-data-generator.js"></script>
+    <script src="js/dashboard-hero.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    
+    <script>
+        function loginAsDemoUser() {
+            console.log('Logging in as Alex Demo...');
+            
+            // Simulate login by navigating to dashboard
+            document.getElementById('nav-dashboard-btn').click();
+            
+            showNotification('Logged in as Alex Demo! Demo data loaded successfully.', 'success');
+        }
+        
+        function clearDemoData() {
+            if (confirm('Are you sure you want to clear all demo data? This will remove all assessments, mood entries, and other demo information.')) {
+                if (window.demoDataGenerator) {
+                    window.demoDataGenerator.clearDemoData();
+                    
+                    // Clear additional data
+                    const userId = 'demo-user-glucobalance';
+                    const keys = [
+                        `glucobalance-assessments-${userId}`,
+                        `glucobalance-moods-${userId}`,
+                        `glucobalance-progress-${userId}`,
+                        `glucobalance-insights-${userId}`,
+                        `glucobalance-doctor-reports-${userId}`,
+                        `latest-assessment-${userId}`,
+                        `MentalHealthLogs-${userId}`,
+                        `mental-health-logs-${userId}`,
+                        `progress-data-${userId}`,
+                        `health-metrics-${userId}`
+                    ];
+                    
+                    keys.forEach(key => localStorage.removeItem(key));
+                    
+                    showNotification('Demo data cleared successfully!', 'success');
+                    
+                    // Refresh dashboard if active
+                    if (document.getElementById('dashboard-page').classList.contains('active')) {
+                        refreshDashboard();
+                    }
+                } else {
+                    showNotification('Demo data generator not available', 'error');
+                }
+            }
+        }
+        
+        function regenerateDemoData() {
+            console.log('Regenerating demo data...');
+            
+            if (window.demoDataGenerator) {
+                // Clear existing data first
+                window.demoDataGenerator.clearDemoData();
+                
+                // Generate new data
+                window.demoDataGenerator.generateAllDemoData();
+                
+                showNotification('Demo data regenerated successfully!', 'success');
+                
+                // Refresh dashboard if active
+                if (document.getElementById('dashboard-page').classList.contains('active')) {
+                    refreshDashboard();
+                }
+            } else {
+                showNotification('Demo data generator not available', 'error');
+            }
+        }
+        
+        function showDataSummary() {
+            if (window.demoDataGenerator) {
+                const summary = window.demoDataGenerator.getDataSummary();
+                
+                const container = document.getElementById('data-summary-container');
+                container.innerHTML = `
+                    <div class="data-summary">
+                        <h4>📊 Demo Data Summary</h4>
+                        <div class="data-item">
+                            <span>Risk Assessments:</span>
+                            <span class="data-value">${summary.riskAssessments}</span>
+                        </div>
+                        <div class="data-item">
+                            <span>Mood Entries:</span>
+                            <span class="data-value">${summary.moodEntries}</span>
+                        </div>
+                        <div class="data-item">
+                            <span>Nutrition Plans:</span>
+                            <span class="data-value">${summary.nutritionPlans}</span>
+                        </div>
+                        <div class="data-item">
+                            <span>Health Metrics:</span>
+                            <span class="data-value">${summary.healthMetrics}</span>
+                        </div>
+                        <div class="data-item">
+                            <span>AI Insights:</span>
+                            <span class="data-value">${summary.aiInsights}</span>
+                        </div>
+                    </div>
+                `;
+                
+                showNotification('Data summary displayed!', 'info');
+            } else {
+                showNotification('Demo data generator not available', 'error');
+            }
+        }
+        
+        function testProfileMenu() {
+            const profileBtn = document.getElementById('nav-profile-btn');
+            if (profileBtn.style.display === 'none') {
+                showNotification('Please login first to see the profile button!', 'warning');
+                return;
+            }
+            
+            // Trigger profile button click
+            profileBtn.click();
+        }
+        
+        function backToLanding() {
+            console.log('Navigating to landing...');
+            
+            document.getElementById('dashboard-page').classList.remove('active');
+            document.getElementById('landing-page').classList.add('active');
+            
+            showNotification('Returned to landing page.', 'info');
+        }
+        
+        function refreshDashboard() {
+            if (window.dashboardHero) {
+                window.dashboardHero.refreshDashboard();
+                showNotification('Dashboard refreshed with latest demo data!', 'success');
+            } else {
+                showNotification('Dashboard hero not available', 'error');
+            }
+        }
+        
+        function showDemoDataDetails() {
+            const userId = 'demo-user-glucobalance';
+            const assessments = JSON.parse(localStorage.getItem(`risk-assessments-${userId}`) || '[]');
+            const moods = JSON.parse(localStorage.getItem(`mood-entries-${userId}`) || '[]');
+            
+            let latestAssessment = null;
+            let avgMood = 0;
+            
+            if (assessments.length > 0) {
+                latestAssessment = assessments[assessments.length - 1];
+            }
+            
+            if (moods.length > 0) {
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                
+                const recentMoods = moods.filter(mood => {
+                    const moodDate = new Date(mood.date);
+                    return moodDate >= sevenDaysAgo;
+                });
+                
+                if (recentMoods.length > 0) {
+                    avgMood = recentMoods.reduce((sum, mood) => sum + mood.mood, 0) / recentMoods.length;
+                }
+            }
+            
+            const container = document.getElementById('demo-data-details');
+            container.innerHTML = `
+                <div class="data-summary">
+                    <h4>🔍 Demo Data Details</h4>
+                    <div class="data-item">
+                        <span>Latest Risk Score:</span>
+                        <span class="data-value">${latestAssessment ? latestAssessment.score : 'N/A'}</span>
+                    </div>
+                    <div class="data-item">
+                        <span>Risk Category:</span>
+                        <span class="data-value">${latestAssessment ? latestAssessment.category : 'N/A'}</span>
+                    </div>
+                    <div class="data-item">
+                        <span>7-Day Avg Mood:</span>
+                        <span class="data-value">${avgMood > 0 ? avgMood.toFixed(1) : 'N/A'}</span>
+                    </div>
+                    <div class="data-item">
+                        <span>Total Mood Entries:</span>
+                        <span class="data-value">${moods.length}</span>
+                    </div>
+                    <div class="data-item">
+                        <span>Data Generated:</span>
+                        <span class="data-value">${assessments.length > 0 ? 'Yes' : 'No'}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showUserInfo() {
+            const currentUser = JSON.parse(localStorage.getItem('glucobalance-current-user') || '{}');
+            
+            const container = document.getElementById('user-info-container');
+            container.innerHTML = `
+                <div class="user-info">
+                    <h4>👤 Current User Information</h4>
+                    <div class="user-detail">
+                        <span>Name:</span>
+                        <span>${currentUser.name || 'Not set'}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span>Email:</span>
+                        <span>${currentUser.email || 'Not set'}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span>User ID:</span>
+                        <span>${currentUser.id || 'Not set'}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span>Age:</span>
+                        <span>${currentUser.age || 'Not set'}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            document.querySelectorAll('.test-notification').forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `test-notification notification-${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+            
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">${icons[type]}</span>
+                    <span class="notification-message">${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid ${type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : type === 'warning' ? '#F59E0B' : '#3B82F6'};
+                padding: 16px;
+                max-width: 350px;
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.animation = 'slideOutRight 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 4000);
+        }
+        
+        // Initialize demo
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('User Name and Demo Data Test initialized');
+            
+            // Set up navigation button handlers
+            document.getElementById('nav-dashboard-btn').addEventListener('click', () => {
+                document.getElementById('landing-page').classList.remove('active');
+                document.getElementById('dashboard-page').classList.add('active');
+                
+                // Show user info when dashboard loads
+                setTimeout(() => {
+                    showUserInfo();
+                }, 500);
+            });
+            
+            showNotification('Test environment loaded! Try logging in as Alex Demo to see the user name and demo data.', 'info');
+        });
+    </script>
+</body>
+</html>

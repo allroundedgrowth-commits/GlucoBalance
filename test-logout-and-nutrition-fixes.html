@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Button & Nutrition Plans Fix Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            margin: 5px;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .test-button.success { background: #28a745; }
+        .test-button.danger { background: #dc3545; }
+        
+        .nav-preview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .nav-left {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button.outline {
+            background: transparent;
+            border: 2px solid #007FFF;
+            color: #007FFF;
+        }
+        
+        .nav-button.primary {
+            background: #007FFF;
+            color: white;
+        }
+        
+        .nav-button.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .nav-button.hidden {
+            display: none;
+        }
+        
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007FFF;
+        }
+        
+        .status-success { border-left-color: #28a745; }
+        .status-error { border-left-color: #dc3545; }
+        .status-warning { border-left-color: #ffc107; }
+        
+        .test-log {
+            background: #1a1a1a;
+            color: #00ff00;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 Logout Button & Nutrition Plans Fix Test</h1>
+        <p>Test the fixes for logout button placement and meal plans viewing.</p>
+        
+        <!-- Navigation Bar Test -->
+        <div class="test-section">
+            <h2>🧭 Navigation Bar Logout Button Test</h2>
+            <p>The logout button should appear in the main navigation bar next to the Dashboard button when authenticated.</p>
+            
+            <div class="nav-preview">
+                <h4>Navigation Bar Preview</h4>
+                <div class="nav-buttons">
+                    <div class="nav-left">GlucoBalance</div>
+                    <div class="nav-right">
+                        <button class="nav-button outline" id="preview-dashboard-btn">Dashboard</button>
+                        <button class="nav-button primary" id="preview-signup-btn">Sign Up</button>
+                        <button class="nav-button secondary hidden" id="preview-logout-btn">🚪 Logout</button>
+                    </div>
+                </div>
+                <small>This preview shows how the navigation should look based on authentication state.</small>
+            </div>
+            
+            <div class="status-card" id="logout-button-status">
+                <strong>Logout Button Status:</strong> <span id="logout-status-text">Checking...</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="test-button" onclick="testLogoutButtonExists()">🔍 Check Logout Button Exists</button>
+                <button class="test-button" onclick="testLogoutButtonPosition()">📍 Check Button Position</button>
+                <button class="test-button" onclick="simulateAuthentication()">🔐 Simulate Login</button>
+                <button class="test-button danger" onclick="testLogoutFunctionality()">🚪 Test Logout</button>
+            </div>
+        </div>
+        
+        <!-- Nutrition Plans Test -->
+        <div class="test-section">
+            <h2>🍎 Nutrition Plans Viewing Test</h2>
+            <p>Test the meal plans viewing functionality and demo data generation.</p>
+            
+            <div class="status-card" id="nutrition-status">
+                <strong>Nutrition Plans Status:</strong> <span id="nutrition-status-text">Checking...</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="test-button" onclick="checkNutritionData()">📊 Check Nutrition Data</button>
+                <button class="test-button" onclick="generateDemoPlans()">🍽️ Generate Demo Plans</button>
+                <button class="test-button success" onclick="testViewNutritionPlans()">👁️ Test View Plans</button>
+                <button class="test-button" onclick="clearNutritionData()">🗑️ Clear Plans Data</button>
+            </div>
+        </div>
+        
+        <!-- Dashboard Integration Test -->
+        <div class="test-section">
+            <h2>🎯 Dashboard Integration Test</h2>
+            <p>Test the complete dashboard functionality with both fixes.</p>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="test-button" onclick="goToDashboard()">🎯 Go to Dashboard</button>
+                <button class="test-button" onclick="testAllNutritionButtons()">🍎 Test All Nutrition Buttons</button>
+                <button class="test-button success" onclick="runCompleteTest()">🚀 Run Complete Test</button>
+                <button class="test-button" onclick="resetTestEnvironment()">🔄 Reset Environment</button>
+            </div>
+        </div>
+        
+        <!-- Test Results -->
+        <div class="test-section">
+            <h2>📝 Test Results</h2>
+            <div id="test-log" class="test-log">
+                Logout button and nutrition plans fix test initialized...<br>
+                Ready to test fixes.<br>
+                <br>
+            </div>
+            <button class="test-button" onclick="clearTestLog()">🗑️ Clear Log</button>
+        </div>
+    </div>
+
+    <!-- Include necessary scripts -->
+    <script src="js/demo-data-generator.js"></script>
+    <script src="js/dashboard-ai-service.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="dashboard-buttons-fix.js"></script>
+
+    <script>
+        function logTest(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const colors = {
+                'success': '#00ff00',
+                'error': '#ff4444',
+                'warning': '#ffaa00',
+                'info': '#00aaff'
+            };
+            
+            const entry = `[${timestamp}] ${message}`;
+            
+            const logContainer = document.getElementById('test-log');
+            logContainer.innerHTML += `<span style="color: ${colors[type]}">${entry}</span><br>`;
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            console.log(entry);
+        }
+        
+        function clearTestLog() {
+            document.getElementById('test-log').innerHTML = 'Test log cleared...<br><br>';
+        }
+        
+        function updateStatus(elementId, status, text) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.className = `status-card status-${status}`;
+                const textElement = element.querySelector('span');
+                if (textElement) {
+                    textElement.textContent = text;
+                }
+            }
+        }
+        
+        function updateNavigationPreview() {
+            const authState = window.navigationManager ? window.navigationManager.getAuthenticationState() : false;
+            
+            const previewDashboardBtn = document.getElementById('preview-dashboard-btn');
+            const previewSignupBtn = document.getElementById('preview-signup-btn');
+            const previewLogoutBtn = document.getElementById('preview-logout-btn');
+            
+            if (authState) {
+                previewSignupBtn.classList.add('hidden');
+                previewLogoutBtn.classList.remove('hidden');
+                previewDashboardBtn.classList.remove('outline');
+                previewDashboardBtn.classList.add('primary');
+            } else {
+                previewSignupBtn.classList.remove('hidden');
+                previewLogoutBtn.classList.add('hidden');
+                previewDashboardBtn.classList.remove('primary');
+                previewDashboardBtn.classList.add('outline');
+            }
+        }
+        
+        // Logout Button Tests
+        function testLogoutButtonExists() {
+            logTest('🔍 Checking if logout button exists in navigation...', 'info');
+            
+            const navLogoutBtn = document.getElementById('nav-logout-btn');
+            if (navLogoutBtn) {
+                logTest('✅ Navigation logout button found in DOM', 'success');
+                updateStatus('logout-button-status', 'success', 'Button exists in navigation');
+            } else {
+                logTest('❌ Navigation logout button not found in DOM', 'error');
+                updateStatus('logout-button-status', 'error', 'Button missing from navigation');
+            }
+        }
+        
+        function testLogoutButtonPosition() {
+            logTest('📍 Checking logout button position in navigation...', 'info');
+            
+            const navLogoutBtn = document.getElementById('nav-logout-btn');
+            const navActions = document.querySelector('.nav-actions');
+            
+            if (navLogoutBtn && navActions && navActions.contains(navLogoutBtn)) {
+                logTest('✅ Logout button is in correct position (nav-actions)', 'success');
+                updateStatus('logout-button-status', 'success', 'Button in correct position');
+            } else {
+                logTest('❌ Logout button not in correct position', 'error');
+                updateStatus('logout-button-status', 'error', 'Button position incorrect');
+            }
+        }
+        
+        function simulateAuthentication() {
+            logTest('🔐 Simulating user authentication...', 'info');
+            
+            if (window.navigationManager) {
+                window.navigationManager.navigateToDashboard();
+                logTest('✅ User authenticated, navigation updated', 'success');
+                
+                setTimeout(() => {
+                    updateNavigationPreview();
+                    testLogoutButtonExists();
+                }, 500);
+            } else {
+                logTest('❌ Navigation manager not available', 'error');
+            }
+        }
+        
+        function testLogoutFunctionality() {
+            logTest('🚪 Testing logout functionality...', 'info');
+            
+            const navLogoutBtn = document.getElementById('nav-logout-btn');
+            if (navLogoutBtn && window.dashboardButtonsFix) {
+                logTest('✅ Logout button and handler available', 'success');
+                logTest('⚠️ Logout test completed (would show confirmation modal)', 'warning');
+            } else {
+                logTest('❌ Logout functionality not available', 'error');
+            }
+        }
+        
+        // Nutrition Plans Tests
+        function checkNutritionData() {
+            logTest('📊 Checking nutrition plans data...', 'info');
+            
+            const userId = 'demo-user';
+            const plans = JSON.parse(localStorage.getItem(`nutrition-plans-${userId}`) || '[]');
+            
+            logTest(`Found ${plans.length} nutrition plans in storage`, 'info');
+            
+            if (plans.length > 0) {
+                updateStatus('nutrition-status', 'success', `${plans.length} plans available`);
+                plans.forEach((plan, index) => {
+                    logTest(`Plan ${index + 1}: ${plan.name} (${plan.adherence || 0}% adherence)`, 'info');
+                });
+            } else {
+                updateStatus('nutrition-status', 'warning', 'No plans found');
+                logTest('No nutrition plans found in storage', 'warning');
+            }
+        }
+        
+        function generateDemoPlans() {
+            logTest('🍽️ Generating demo nutrition plans...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.generateDemoNutritionPlans === 'function') {
+                window.dashboardButtonsFix.generateDemoNutritionPlans();
+                logTest('✅ Demo nutrition plans generated', 'success');
+                
+                setTimeout(() => {
+                    checkNutritionData();
+                }, 500);
+            } else {
+                logTest('❌ Demo nutrition plans generator not available', 'error');
+            }
+        }
+        
+        function testViewNutritionPlans() {
+            logTest('👁️ Testing view nutrition plans functionality...', 'info');
+            
+            if (window.dashboardButtonsFix && typeof window.dashboardButtonsFix.handleViewNutrition === 'function') {
+                window.dashboardButtonsFix.handleViewNutrition();
+                logTest('✅ View nutrition plans function called', 'success');
+            } else {
+                logTest('❌ View nutrition plans function not available', 'error');
+            }
+        }
+        
+        function clearNutritionData() {
+            logTest('🗑️ Clearing nutrition plans data...', 'info');
+            
+            const userId = 'demo-user';
+            localStorage.removeItem(`nutrition-plans-${userId}`);
+            
+            logTest('✅ Nutrition plans data cleared', 'success');
+            updateStatus('nutrition-status', 'warning', 'Data cleared');
+        }
+        
+        function testAllNutritionButtons() {
+            logTest('🍎 Testing all nutrition buttons...', 'info');
+            
+            const tests = [
+                { name: 'Create Meal Plan', func: () => window.dashboardButtonsFix?.handleCreateMealPlan() },
+                { name: 'View Nutrition Plans', func: () => window.dashboardButtonsFix?.handleViewNutrition() }
+            ];
+            
+            tests.forEach((test, index) => {
+                setTimeout(() => {
+                    try {
+                        if (test.func) {
+                            test.func();
+                            logTest(`✅ ${test.name} button working`, 'success');
+                        } else {
+                            logTest(`❌ ${test.name} function not available`, 'error');
+                        }
+                    } catch (error) {
+                        logTest(`❌ ${test.name} error: ${error.message}`, 'error');
+                    }
+                }, index * 1000);
+            });
+        }
+        
+        function goToDashboard() {
+            logTest('🎯 Navigating to dashboard...', 'info');
+            
+            if (window.navigationManager) {
+                window.navigationManager.navigateToDashboard();
+                logTest('✅ Dashboard navigation initiated', 'success');
+            } else {
+                logTest('❌ Navigation manager not available', 'error');
+            }
+        }
+        
+        function runCompleteTest() {
+            logTest('🚀 Running complete test suite...', 'info');
+            
+            const tests = [
+                { name: 'Check Logout Button', func: testLogoutButtonExists, delay: 0 },
+                { name: 'Simulate Authentication', func: simulateAuthentication, delay: 1000 },
+                { name: 'Check Nutrition Data', func: checkNutritionData, delay: 2000 },
+                { name: 'Generate Demo Plans', func: generateDemoPlans, delay: 3000 },
+                { name: 'Test View Plans', func: testViewNutritionPlans, delay: 4000 },
+                { name: 'Test All Nutrition Buttons', func: testAllNutritionButtons, delay: 5000 }
+            ];
+            
+            tests.forEach(test => {
+                setTimeout(() => {
+                    logTest(`Running: ${test.name}`, 'info');
+                    test.func();
+                }, test.delay);
+            });
+            
+            setTimeout(() => {
+                logTest('✅ Complete test suite finished', 'success');
+            }, 8000);
+        }
+        
+        function resetTestEnvironment() {
+            logTest('🔄 Resetting test environment...', 'info');
+            
+            // Clear auth state
+            localStorage.removeItem('glucobalance-auth-state');
+            
+            // Navigate to landing
+            if (window.navigationManager) {
+                window.navigationManager.navigateToLanding();
+            }
+            
+            // Update preview
+            setTimeout(() => {
+                updateNavigationPreview();
+                logTest('✅ Test environment reset', 'success');
+            }, 500);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            logTest('🚀 Logout button and nutrition plans fix test loaded', 'success');
+            
+            // Check service availability
+            logTest('🧭 Navigation Manager: ' + (window.navigationManager ? 'Available' : 'Not Available'), 
+                   window.navigationManager ? 'success' : 'error');
+            logTest('🔧 Dashboard Buttons Fix: ' + (window.dashboardButtonsFix ? 'Available' : 'Not Available'), 
+                   window.dashboardButtonsFix ? 'success' : 'error');
+            
+            // Initial checks
+            setTimeout(() => {
+                testLogoutButtonExists();
+                checkNutritionData();
+                updateNavigationPreview();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

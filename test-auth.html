@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Authentication Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div id="app">
+        <div class="container" style="padding: 2rem;">
+            <h1>Authentication System Test</h1>
+            
+            <div class="card">
+                <h3>Test Authentication Features</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0;">
+                    <button id="test-register" class="btn-primary">Test Registration</button>
+                    <button id="test-login" class="btn-secondary">Test Login</button>
+                    <button id="test-profile" class="btn-secondary">Test Profile</button>
+                    <button id="test-logout" class="btn-secondary">Test Logout</button>
+                </div>
+                
+                <div id="test-results" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                    <h4>Test Results:</h4>
+                    <div id="results-content">Click a test button to see results...</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Current Authentication State</h3>
+                <div id="auth-status">
+                    <p><strong>Authenticated:</strong> <span id="is-authenticated">Checking...</span></p>
+                    <p><strong>Current User:</strong> <span id="current-user">None</span></p>
+                    <p><strong>Session Valid:</strong> <span id="session-valid">Checking...</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    
+    <script>
+        // Test authentication system
+        document.addEventListener('DOMContentLoaded', async () => {
+            const resultsContent = document.getElementById('results-content');
+            const isAuthenticatedSpan = document.getElementById('is-authenticated');
+            const currentUserSpan = document.getElementById('current-user');
+            const sessionValidSpan = document.getElementById('session-valid');
+            
+            function updateAuthStatus() {
+                if (window.authService) {
+                    const isAuth = window.authService.isAuthenticated();
+                    const user = window.authService.getCurrentUser();
+                    
+                    isAuthenticatedSpan.textContent = isAuth ? 'Yes' : 'No';
+                    currentUserSpan.textContent = user ? `${user.name} (${user.email})` : 'None';
+                    sessionValidSpan.textContent = isAuth ? 'Yes' : 'No';
+                } else {
+                    isAuthenticatedSpan.textContent = 'Auth service not available';
+                    currentUserSpan.textContent = 'N/A';
+                    sessionValidSpan.textContent = 'N/A';
+                }
+            }
+            
+            function logResult(message, success = true) {
+                const timestamp = new Date().toLocaleTimeString();
+                const color = success ? '#28a745' : '#dc3545';
+                resultsContent.innerHTML += `<div style="color: ${color}; margin: 0.5rem 0;">[${timestamp}] ${message}</div>`;
+                updateAuthStatus();
+            }
+            
+            // Wait for auth service to initialize
+            setTimeout(() => {
+                updateAuthStatus();
+                logResult('Authentication system initialized');
+            }, 500);
+            
+            // Test registration
+            document.getElementById('test-register').addEventListener('click', async () => {
+                try {
+                    const testUser = {
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        age: 30,
+                        gender: 'other'
+                    };
+                    
+                    const result = await window.authService.register(testUser);
+                    
+                    if (result.success) {
+                        logResult(`Registration successful: ${result.user.name}`);
+                    } else {
+                        logResult(`Registration failed: ${result.error}`, false);
+                    }
+                } catch (error) {
+                    logResult(`Registration error: ${error.message}`, false);
+                }
+            });
+            
+            // Test login
+            document.getElementById('test-login').addEventListener('click', async () => {
+                try {
+                    const result = await window.authService.login({ email: 'test@example.com' });
+                    
+                    if (result.success) {
+                        logResult(`Login successful: ${result.user.name}`);
+                    } else {
+                        logResult(`Login failed: ${result.error}`, false);
+                    }
+                } catch (error) {
+                    logResult(`Login error: ${error.message}`, false);
+                }
+            });
+            
+            // Test profile update
+            document.getElementById('test-profile').addEventListener('click', async () => {
+                try {
+                    if (!window.authService.isAuthenticated()) {
+                        logResult('Must be logged in to update profile', false);
+                        return;
+                    }
+                    
+                    const updates = {
+                        name: 'Updated Test User',
+                        age: 31
+                    };
+                    
+                    const result = await window.authService.updateProfile(updates);
+                    
+                    if (result.success) {
+                        logResult(`Profile updated: ${result.user.name}`);
+                    } else {
+                        logResult(`Profile update failed: ${result.error}`, false);
+                    }
+                } catch (error) {
+                    logResult(`Profile update error: ${error.message}`, false);
+                }
+            });
+            
+            // Test logout
+            document.getElementById('test-logout').addEventListener('click', async () => {
+                try {
+                    const result = await window.authService.logout();
+                    
+                    if (result.success) {
+                        logResult('Logout successful');
+                    } else {
+                        logResult(`Logout failed: ${result.error}`, false);
+                    }
+                } catch (error) {
+                    logResult(`Logout error: ${error.message}`, false);
+                }
+            });
+            
+            // Listen for auth state changes
+            document.addEventListener('authStateChanged', (event) => {
+                const { isAuthenticated, user } = event.detail;
+                logResult(`Auth state changed: ${isAuthenticated ? 'Logged in' : 'Logged out'}`);
+                updateAuthStatus();
+            });
+        });
+    </script>
+</body>
+</html>

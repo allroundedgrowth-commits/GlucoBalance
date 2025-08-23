@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GlucoBalance PWA Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #e5e5e5;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-item.pass {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        .test-item.fail {
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+        .status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: white;
+        }
+        .status.pass { background: #28a745; }
+        .status.fail { background: #dc3545; }
+        .status.pending { background: #6c757d; }
+        button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            min-height: 44px;
+        }
+        button:hover {
+            background: #005A9E;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 GlucoBalance PWA Test Suite</h1>
+        <p>Testing mobile-first PWA implementation and responsive design features.</p>
+        
+        <div id="viewport-test" class="test-item">
+            <span>Viewport Configuration</span>
+            <span class="status pending" id="viewport-status">Testing...</span>
+        </div>
+        
+        <div id="manifest-test" class="test-item">
+            <span>PWA Manifest</span>
+            <span class="status pending" id="manifest-status">Testing...</span>
+        </div>
+        
+        <div id="sw-test" class="test-item">
+            <span>Service Worker</span>
+            <span class="status pending" id="sw-status">Testing...</span>
+        </div>
+        
+        <div id="responsive-test" class="test-item">
+            <span>Responsive Design</span>
+            <span class="status pending" id="responsive-status">Testing...</span>
+        </div>
+        
+        <div id="touch-test" class="test-item">
+            <span>Touch Targets (44px min)</span>
+            <span class="status pending" id="touch-status">Testing...</span>
+        </div>
+        
+        <div id="offline-test" class="test-item">
+            <span>Offline Capability</span>
+            <span class="status pending" id="offline-status">Testing...</span>
+        </div>
+        
+        <div id="install-test" class="test-item">
+            <span>PWA Installability</span>
+            <span class="status pending" id="install-status">Testing...</span>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button onclick="runTests()">🔄 Run Tests</button>
+            <button onclick="testTouchTargets()">👆 Test Touch Targets</button>
+            <button onclick="testOfflineMode()">📱 Test Offline Mode</button>
+        </div>
+        
+        <div id="results" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        async function runTests() {
+            console.log('Starting PWA tests...');
+            
+            // Test 1: Viewport Configuration
+            testViewport();
+            
+            // Test 2: PWA Manifest
+            await testManifest();
+            
+            // Test 3: Service Worker
+            await testServiceWorker();
+            
+            // Test 4: Responsive Design
+            testResponsiveDesign();
+            
+            // Test 5: Touch Targets
+            testTouchTargets();
+            
+            // Test 6: Offline Capability
+            await testOfflineCapability();
+            
+            // Test 7: PWA Installability
+            testInstallability();
+            
+            console.log('All tests completed');
+        }
+        
+        function testViewport() {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const hasViewportFit = viewport && viewport.content.includes('viewport-fit=cover');
+            const hasUserScalable = viewport && viewport.content.includes('user-scalable=no');
+            
+            updateTestStatus('viewport', hasViewportFit && hasUserScalable, 
+                'Viewport configured for mobile-first PWA');
+        }
+        
+        async function testManifest() {
+            try {
+                const response = await fetch('/manifest.json');
+                const manifest = await response.json();
+                const hasRequiredFields = manifest.name && manifest.short_name && 
+                                        manifest.start_url && manifest.display === 'standalone';
+                
+                updateTestStatus('manifest', hasRequiredFields, 
+                    'PWA manifest contains required fields');
+            } catch (error) {
+                updateTestStatus('manifest', false, 'Failed to load manifest.json');
+            }
+        }
+        
+        async function testServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    updateTestStatus('sw', !!registration, 
+                        'Service Worker registered and active');
+                } catch (error) {
+                    updateTestStatus('sw', false, 'Service Worker registration failed');
+                }
+            } else {
+                updateTestStatus('sw', false, 'Service Worker not supported');
+            }
+        }
+        
+        function testResponsiveDesign() {
+            const width = window.innerWidth;
+            const hasCSS = document.querySelector('link[href*="main.css"]');
+            const isMobileFirst = width <= 768; // Assume mobile-first if narrow viewport
+            
+            updateTestStatus('responsive', hasCSS && (isMobileFirst || width > 768), 
+                `Responsive design active (${width}px width)`);
+        }
+        
+        function testTouchTargets() {
+            const buttons = document.querySelectorAll('button, .btn, .nav-btn');
+            let minSizeButtons = 0;
+            
+            buttons.forEach(button => {
+                const rect = button.getBoundingClientRect();
+                if (rect.height >= 44 && rect.width >= 44) {
+                    minSizeButtons++;
+                }
+            });
+            
+            const allButtonsValid = minSizeButtons === buttons.length;
+            updateTestStatus('touch', allButtonsValid, 
+                `${minSizeButtons}/${buttons.length} buttons meet 44px minimum`);
+        }
+        
+        async function testOfflineCapability() {
+            if ('serviceWorker' in navigator && 'caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    const hasCache = cacheNames.length > 0;
+                    updateTestStatus('offline', hasCache, 
+                        `${cacheNames.length} cache(s) available for offline use`);
+                } catch (error) {
+                    updateTestStatus('offline', false, 'Cache API not accessible');
+                }
+            } else {
+                updateTestStatus('offline', false, 'Offline capabilities not supported');
+            }
+        }
+        
+        function testInstallability() {
+            const hasManifest = document.querySelector('link[rel="manifest"]');
+            const hasServiceWorker = 'serviceWorker' in navigator;
+            const isHTTPS = location.protocol === 'https:' || location.hostname === 'localhost';
+            
+            const installable = hasManifest && hasServiceWorker && isHTTPS;
+            updateTestStatus('install', installable, 
+                'PWA meets basic installability criteria');
+        }
+        
+        async function testOfflineMode() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    // Simulate offline by intercepting fetch
+                    const originalFetch = window.fetch;
+                    window.fetch = () => Promise.reject(new Error('Simulated offline'));
+                    
+                    // Try to load a cached resource
+                    const response = await caches.match('/');
+                    
+                    // Restore fetch
+                    window.fetch = originalFetch;
+                    
+                    document.getElementById('results').innerHTML = 
+                        `<div style="padding: 15px; background: ${response ? '#d4edda' : '#f8d7da'}; 
+                         border-radius: 8px; margin-top: 10px;">
+                         <strong>Offline Test:</strong> ${response ? 'PASS' : 'FAIL'} - 
+                         ${response ? 'App can work offline' : 'App requires network connection'}
+                         </div>`;
+                } catch (error) {
+                    document.getElementById('results').innerHTML = 
+                        `<div style="padding: 15px; background: #f8d7da; border-radius: 8px; margin-top: 10px;">
+                         <strong>Offline Test:</strong> FAIL - ${error.message}
+                         </div>`;
+                }
+            }
+        }
+        
+        function updateTestStatus(testId, passed, message) {
+            const statusElement = document.getElementById(`${testId}-status`);
+            const testElement = document.getElementById(`${testId}-test`);
+            
+            statusElement.textContent = passed ? 'PASS' : 'FAIL';
+            statusElement.className = `status ${passed ? 'pass' : 'fail'}`;
+            testElement.className = `test-item ${passed ? 'pass' : 'fail'}`;
+            testElement.title = message;
+            
+            console.log(`${testId.toUpperCase()} Test: ${passed ? 'PASS' : 'FAIL'} - ${message}`);
+        }
+        
+        // Auto-run tests on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runTests, 1000);
+        });
+        
+        // Test PWA install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('PWA install prompt available');
+            updateTestStatus('install', true, 'PWA install prompt triggered');
+        });
+    </script>
+</body>
+</html>

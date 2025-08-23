@@ -1,0 +1,506 @@
+/* Enhanced Dashboard Cards - Modern, Visually Appealing Design */
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin: 2rem 0;
+    padding: 0 1rem;
+}
+
+/* Enhanced Card Base Styles */
+.dashboard-grid .card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0, 127, 255, 0.08);
+    border: 1px solid rgba(0, 127, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
+}
+
+.dashboard-grid .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #007FFF, #40E0FF, #007FFF);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: 200% 0; }
+    50% { background-position: -200% 0; }
+}
+
+.dashboard-grid .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 127, 255, 0.15);
+    border-color: rgba(0, 127, 255, 0.3);
+}
+
+/* Card Header Styling */
+.dashboard-grid .card-header {
+    padding: 24px 24px 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: transparent;
+    border-bottom: none;
+}
+
+.dashboard-grid .card-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.dashboard-grid .card-icon {
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #007FFF, #40E0FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 4px rgba(0, 127, 255, 0.2));
+}
+
+.dashboard-grid .card-trend {
+    background: rgba(0, 127, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #007FFF;
+    font-weight: 600;
+}
+
+/* Card Content Styling */
+.dashboard-grid .card-content {
+    padding: 0 24px 20px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Specific Card Type Enhancements */
+
+/* Risk Status Card */
+.risk-status-card {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+    border-left: 4px solid #ef4444;
+}
+
+.risk-status-card .card-icon {
+    background: linear-gradient(135deg, #ef4444, #f87171);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.risk-status-card .risk-display {
+    text-align: center;
+    padding: 16px 0;
+}
+
+.risk-status-card .risk-score {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ef4444, #f87171);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.risk-status-card .risk-category {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #7f1d1d;
+    margin-bottom: 4px;
+}
+
+/* Mood Tracker Card */
+.mood-tracker-card {
+    background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+    border-left: 4px solid #3b82f6;
+}
+
+.mood-tracker-card .card-icon {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mood-tracker-card .mood-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.mood-tracker-card .current-mood,
+.mood-tracker-card .mood-average {
+    text-align: center;
+    padding: 12px;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.mood-tracker-card .mood-value,
+.mood-tracker-card .avg-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 4px;
+}
+
+.mood-tracker-card .mood-selector {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.mood-tracker-card .mood-btn {
+    background: rgba(59, 130, 246, 0.1);
+    border: 2px solid rgba(59, 130, 246, 0.2);
+    border-radius: 12px;
+    padding: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mood-tracker-card .mood-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+    transform: scale(1.1);
+}
+
+.mood-tracker-card .mood-btn.selected {
+    background: #3b82f6;
+    border-color: #1e40af;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Nutrition Snapshot Card */
+.nutrition-snapshot-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+    border-left: 4px solid #22c55e;
+}
+
+.nutrition-snapshot-card .card-icon {
+    background: linear-gradient(135deg, #22c55e, #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nutrition-snapshot-card .nutrition-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.nutrition-snapshot-card .stat-item {
+    text-align: center;
+    padding: 12px;
+    background: rgba(34, 197, 94, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(34, 197, 94, 0.1);
+}
+
+.nutrition-snapshot-card .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 4px;
+}
+
+.nutrition-snapshot-card .progress-bar {
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+    margin: 12px 0 8px 0;
+}
+
+.nutrition-snapshot-card .progress-fill {
+    background: linear-gradient(90deg, #22c55e, #4ade80);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* AI Health Insights Card */
+.ai-insights-card {
+    background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+    border-left: 4px solid #8b5cf6;
+}
+
+.ai-insights-card .card-icon {
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ai-insights-card .insights-placeholder {
+    text-align: center;
+    padding: 20px;
+    background: rgba(139, 92, 246, 0.05);
+    border-radius: 16px;
+    border: 2px dashed rgba(139, 92, 246, 0.2);
+    margin: 16px 0;
+}
+
+.ai-insights-card .placeholder-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    opacity: 0.7;
+}
+
+/* Enhanced Card Actions */
+.dashboard-grid .card-actions {
+    padding: 20px 24px 24px 24px;
+    background: rgba(248, 250, 252, 0.8);
+    border-top: 1px solid rgba(0, 127, 255, 0.1);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Beautiful Button Styles */
+.dashboard-grid .btn-card-action {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Primary Button Style */
+.dashboard-grid .btn-card-action:not(.secondary) {
+    background: linear-gradient(135deg, #007FFF 0%, #0066cc 100%);
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 127, 255, 0.3);
+}
+
+.dashboard-grid .btn-card-action:not(.secondary):hover {
+    background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 127, 255, 0.4);
+}
+
+.dashboard-grid .btn-card-action:not(.secondary):active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 127, 255, 0.3);
+}
+
+/* Secondary Button Style */
+.dashboard-grid .btn-card-action.secondary {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #475569;
+    border: 2px solid rgba(0, 127, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-grid .btn-card-action.secondary:hover {
+    background: linear-gradient(135deg, #007FFF 0%, #0066cc 100%);
+    color: white;
+    border-color: #007FFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 127, 255, 0.3);
+}
+
+.dashboard-grid .btn-card-action.secondary:active {
+    transform: translateY(0);
+}
+
+/* Button Ripple Effect */
+.dashboard-grid .btn-card-action::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.dashboard-grid .btn-card-action:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Card-Specific Button Colors */
+
+/* Risk Assessment Card Buttons */
+.risk-status-card .btn-card-action:not(.secondary) {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.risk-status-card .btn-card-action:not(.secondary):hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+}
+
+/* Mood Tracker Card Buttons */
+.mood-tracker-card .btn-card-action:not(.secondary) {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.mood-tracker-card .btn-card-action:not(.secondary):hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
+
+/* Nutrition Card Buttons */
+.nutrition-snapshot-card .btn-card-action:not(.secondary) {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+}
+
+.nutrition-snapshot-card .btn-card-action:not(.secondary):hover {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+}
+
+/* AI Insights Card Buttons */
+.ai-insights-card .btn-card-action:not(.secondary) {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+}
+
+.ai-insights-card .btn-card-action:not(.secondary):hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 0.5rem;
+    }
+    
+    .dashboard-grid .card {
+        min-height: 260px;
+    }
+    
+    .dashboard-grid .card-header {
+        padding: 20px 20px 12px 20px;
+    }
+    
+    .dashboard-grid .card-content {
+        padding: 0 20px 16px 20px;
+    }
+    
+    .dashboard-grid .card-actions {
+        padding: 16px 20px 20px 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dashboard-grid .btn-card-action {
+        min-width: 100%;
+        flex: none;
+    }
+    
+    .mood-tracker-card .mood-display {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .nutrition-snapshot-card .nutrition-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-grid .card-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .dashboard-grid .card-icon {
+        font-size: 1.5rem;
+    }
+    
+    .mood-tracker-card .mood-btn {
+        font-size: 1rem;
+        padding: 6px;
+    }
+    
+    .risk-status-card .risk-score {
+        font-size: 2.5rem;
+    }
+}
+
+/* Animation for card loading */
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dashboard-grid .card {
+    animation: cardSlideIn 0.6s ease-out;
+}
+
+.dashboard-grid .card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-grid .card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-grid .card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-grid .card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Focus states for accessibility */
+.dashboard-grid .btn-card-action:focus {
+    outline: 3px solid rgba(0, 127, 255, 0.5);
+    outline-offset: 2px;
+}
+
+.mood-tracker-card .mood-btn:focus {
+    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 2px;
+}

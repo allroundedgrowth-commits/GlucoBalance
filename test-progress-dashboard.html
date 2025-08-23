@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Dashboard Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Progress Dashboard Test Page -->
+        <div id="progress-page" class="page active">
+            <header class="app-header">
+                <div class="container">
+                    <h1>📊 Progress Dashboard</h1>
+                    <p class="page-subtitle">Track your health journey with AI-powered insights</p>
+                </div>
+            </header>
+            
+            <main class="container">
+                <div id="progress-dashboard-content">
+                    <!-- Dashboard Overview Cards -->
+                    <div class="dashboard-overview">
+                        <div id="dashboard-cards" class="dashboard-cards-grid">
+                            <!-- Test cards -->
+                            <div class="dashboard-card risk-status-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                                    <div class="card-trend improving">📈</div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="metric-display">
+                                        <div class="metric-value risk-score-increased">12</div>
+                                        <div class="metric-label">Increased Risk</div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small>Last updated: 2 days ago</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card mood-tracker-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                                    <div class="card-trend stable">😐</div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="metric-display">
+                                        <div class="metric-value mood-medium">3.4</div>
+                                        <div class="metric-label">Average Mood (30 days)</div>
+                                    </div>
+                                    <div class="mood-mini-chart">
+                                        <span class="mini-mood-point">😊</span>
+                                        <span class="mini-mood-point">😐</span>
+                                        <span class="mini-mood-point">😊</span>
+                                        <span class="mini-mood-point">😄</span>
+                                        <span class="mini-mood-point">😐</span>
+                                        <span class="mini-mood-point">😊</span>
+                                        <span class="mini-mood-point">😊</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card nutrition-snapshot-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                                    <div class="card-action">
+                                        <button class="btn-link">View Plans</button>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="metric-display">
+                                        <div class="metric-value nutrition-high">85%</div>
+                                        <div class="metric-label">Adherence Rate</div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small>3 meal plans created</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card ai-insights-card">
+                                <div class="card-header">
+                                    <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                                    <div class="card-action">
+                                        <button class="btn-link refresh-insights">
+                                            <span class="refresh-icon">🔄</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div id="ai-insights-content" class="ai-insights-content">
+                                        <div class="insight-section">
+                                            <h5>📊 Progress Analysis</h5>
+                                            <p>Your risk score has improved by 15% over the past month. Your consistent mood tracking and nutrition adherence are contributing to positive health outcomes.</p>
+                                        </div>
+                                        
+                                        <div class="insight-section">
+                                            <h5>💡 Personalized Recommendations</h5>
+                                            <ul class="recommendations-list">
+                                                <li>Continue your excellent nutrition plan adherence</li>
+                                                <li>Consider adding 30 minutes of walking to your daily routine</li>
+                                                <li>Your mood stability is supporting your health goals</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="insight-section">
+                                            <h5>🎯 Focus Areas</h5>
+                                            <p>Focus on maintaining your current healthy habits. Small, consistent changes in physical activity will have the biggest impact on your health journey.</p>
+                                        </div>
+                                        
+                                        <div class="ai-disclaimer">
+                                            <small>💡 AI-generated insights based on your health data. Always consult healthcare professionals for medical advice.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Progress Charts -->
+                    <div class="progress-charts-section">
+                        <div class="section-header">
+                            <h3>📈 Progress Trends</h3>
+                            <div class="chart-controls">
+                                <button class="chart-period-btn active" data-period="7">7 Days</button>
+                                <button class="chart-period-btn" data-period="30">30 Days</button>
+                                <button class="chart-period-btn" data-period="90">90 Days</button>
+                            </div>
+                        </div>
+                        
+                        <div class="charts-grid">
+                            <div class="chart-container">
+                                <div id="risk-trend-chart" class="interactive-chart-wrapper">
+                                    <div class="chart-header">
+                                        <h4>Risk Score Trend</h4>
+                                        <div class="chart-legend">
+                                            <span class="legend-item risk-low">Low</span>
+                                            <span class="legend-item risk-increased">Increased</span>
+                                            <span class="legend-item risk-high">High</span>
+                                        </div>
+                                    </div>
+                                    <div class="interactive-chart risk-chart">
+                                        <div class="chart-bar risk-high" style="height: 80%" title="Score: 16 (High) - 3 weeks ago"></div>
+                                        <div class="chart-bar risk-high" style="height: 75%" title="Score: 15 (Increased) - 2 weeks ago"></div>
+                                        <div class="chart-bar risk-increased" style="height: 70%" title="Score: 14 (Increased) - 1 week ago"></div>
+                                        <div class="chart-bar risk-increased" style="height: 60%" title="Score: 12 (Increased) - Today"></div>
+                                    </div>
+                                    <div class="chart-footer">
+                                        <small>Last 4 assessments</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <div id="mood-trend-chart" class="interactive-chart-wrapper">
+                                    <div class="chart-header">
+                                        <h4>Mood Trend (14 days)</h4>
+                                        <div class="mood-average">Avg: 3.4/5</div>
+                                    </div>
+                                    <div class="interactive-chart mood-chart">
+                                        <div class="chart-bar mood-level-4" style="height: 80%" title="Mood: 4/5 😊"></div>
+                                        <div class="chart-bar mood-level-3" style="height: 60%" title="Mood: 3/5 😐"></div>
+                                        <div class="chart-bar mood-level-4" style="height: 80%" title="Mood: 4/5 😊"></div>
+                                        <div class="chart-bar mood-level-5" style="height: 100%" title="Mood: 5/5 😄"></div>
+                                        <div class="chart-bar mood-level-3" style="height: 60%" title="Mood: 3/5 😐"></div>
+                                        <div class="chart-bar mood-level-4" style="height: 80%" title="Mood: 4/5 😊"></div>
+                                        <div class="chart-bar mood-level-4" style="height: 80%" title="Mood: 4/5 😊"></div>
+                                    </div>
+                                    <div class="chart-footer">
+                                        <small>Trend: Stable</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <div id="nutrition-chart" class="interactive-chart-wrapper">
+                                    <div class="chart-header">
+                                        <h4>Nutrition Adherence</h4>
+                                        <div class="adherence-average">Avg: 85%</div>
+                                    </div>
+                                    <div class="interactive-chart nutrition-chart">
+                                        <div class="chart-bar nutrition-high" style="height: 90%" title="Adherence: 90%"></div>
+                                        <div class="chart-bar nutrition-high" style="height: 85%" title="Adherence: 85%"></div>
+                                        <div class="chart-bar nutrition-high" style="height: 80%" title="Adherence: 80%"></div>
+                                    </div>
+                                    <div class="chart-footer">
+                                        <small>3 meal plans created</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-container">
+                                <div id="streak-chart" class="interactive-chart-wrapper">
+                                    <div class="streak-display">
+                                        <div class="streak-number">7</div>
+                                        <div class="streak-label">Day Streak</div>
+                                        <div class="streak-description">Consecutive days with mood logging</div>
+                                    </div>
+                                    <div class="streak-calendar">
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Mon</div>
+                                            <div class="day-number">15</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Tue</div>
+                                            <div class="day-number">16</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Wed</div>
+                                            <div class="day-number">17</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Thu</div>
+                                            <div class="day-number">18</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Fri</div>
+                                            <div class="day-number">19</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Sat</div>
+                                            <div class="day-number">20</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                        <div class="streak-day has-data">
+                                            <div class="day-name">Sun</div>
+                                            <div class="day-number">21</div>
+                                            <div class="day-indicator active"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions Section -->
+                    <div class="quick-actions-section">
+                        <div class="quick-actions-header">
+                            <h4>Recommended Actions</h4>
+                        </div>
+                        <div id="quick-actions" class="quick-actions-container">
+                            <div class="actions-grid">
+                                <button class="quick-action-btn priority-medium">
+                                    <div class="action-icon">🔄</div>
+                                    <div class="action-content">
+                                        <div class="action-title">Update Risk Assessment</div>
+                                        <div class="action-description">Reassess your risk factors</div>
+                                    </div>
+                                </button>
+                                
+                                <button class="quick-action-btn priority-high">
+                                    <div class="action-icon">💙</div>
+                                    <div class="action-content">
+                                        <div class="action-title">Log Today's Mood</div>
+                                        <div class="action-description">Track your emotional wellbeing</div>
+                                    </div>
+                                </button>
+                                
+                                <button class="quick-action-btn priority-low">
+                                    <div class="action-icon">📄</div>
+                                    <div class="action-content">
+                                        <div class="action-title">Generate Report</div>
+                                        <div class="action-description">Create health summary for doctor</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/progress-dashboard.js"></script>
+    
+    <script>
+        // Test script to demonstrate functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Progress Dashboard Test Page Loaded');
+            
+            // Add interactivity to chart period buttons
+            document.querySelectorAll('.chart-period-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.chart-period-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    console.log('Chart period changed to:', e.target.dataset.period);
+                });
+            });
+            
+            // Add hover effects to chart bars
+            document.querySelectorAll('.chart-bar').forEach(bar => {
+                bar.addEventListener('mouseenter', (e) => {
+                    console.log('Chart bar hovered:', e.target.getAttribute('title'));
+                });
+            });
+            
+            // Add click handlers to quick action buttons
+            document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const title = e.currentTarget.querySelector('.action-title').textContent;
+                    console.log('Quick action clicked:', title);
+                    alert(`Action: ${title}`);
+                });
+            });
+            
+            // Test refresh insights button
+            document.querySelector('.refresh-insights')?.addEventListener('click', () => {
+                console.log('Refreshing AI insights...');
+                const content = document.getElementById('ai-insights-content');
+                content.innerHTML = `
+                    <div class="loading-insights">
+                        <div class="spinner"></div>
+                        <p>Generating personalized insights...</p>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    content.innerHTML = `
+                        <div class="insight-section">
+                            <h5>📊 Progress Analysis</h5>
+                            <p>Updated insights: Your health metrics show continued improvement. Keep up the excellent work!</p>
+                        </div>
+                        <div class="ai-disclaimer">
+                            <small>💡 AI-generated insights refreshed successfully.</small>
+                        </div>
+                    `;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Buttons Removed Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/hero-enhanced.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <style>
+        .test-header {
+            background: var(--azure-blue);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+        }
+        
+        .hero-section {
+            margin-top: 60px;
+        }
+        
+        .test-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            max-width: 300px;
+            z-index: 1002;
+        }
+        
+        .removed-item {
+            text-decoration: line-through;
+            color: #dc3545;
+        }
+        
+        .kept-item {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🗑️ Demo Buttons Removal Test</h1>
+        <p>Verifying that Try Demo buttons have been removed from navigation and hero section</p>
+    </div>
+
+    <div id="app">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+
+                <!-- Action Buttons - Demo button removed -->
+                <div class="nav-actions">
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    <button id="nav-logout-btn" class="btn-secondary logout-btn" style="display: none;">🚪 Logout</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+
+        <div id="landing-page" class="page active">
+            <header class="hero-section">
+                <!-- Hero Background with Azure Theme -->
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                    <div class="floating-elements">
+                        <div class="floating-element element-1">💙</div>
+                        <div class="floating-element element-2">🎯</div>
+                        <div class="floating-element element-3">📊</div>
+                        <div class="floating-element element-4">🍎</div>
+                        <div class="floating-element element-5">⚡</div>
+                        <div class="floating-element element-6">🌟</div>
+                    </div>
+                </div>
+                
+                <div class="container">
+                    <div class="hero-layout">
+                        <!-- Main Content Section -->
+                        <div class="hero-content">
+                            <!-- Certification Badge -->
+                            <div class="hero-badge">
+                                <span class="badge-icon">🏆</span>
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                                <div class="badge-glow"></div>
+                            </div>
+                            
+                            <!-- Main Title -->
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+                            
+                            <!-- Subtitle -->
+                            <p class="hero-subtitle">
+                                Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with <span class="highlight-text">AI-powered insights</span>
+                            </p>
+
+                            <!-- Call-to-Action Buttons - Demo button removed -->
+                            <div class="hero-cta">
+                                <button id="hero-get-started-btn" class="hero-btn primary">
+                                    <span class="btn-icon">🚀</span>
+                                    <span class="btn-text">Get Started Free</span>
+                                    <div class="btn-glow"></div>
+                                </button>
+                                <!-- Try Demo button removed -->
+                            </div>
+
+                            <!-- Key Statistics -->
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">🎯</div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">98%</div>
+                                        <div class="stat-label">Risk Detection Accuracy</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">❤️</div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">5K+</div>
+                                        <div class="stat-label">Lives Improved</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">🤖</div>
+                                    <div class="stat-content">
+                                        <div class="stat-number">24/7</div>
+                                        <div class="stat-label">AI Health Assistant</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Trust Indicators -->
+                            <div class="hero-trust">
+                                <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🔒</span>
+                                        <span class="trust-label">HIPAA Compliant</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🛡️</span>
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🌟</span>
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Illustration Section -->
+                        <div class="hero-visual">
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-icon">💙</div>
+                                        <div class="main-text">Health</div>
+                                    </div>
+                                </div>
+                                <div class="illustration-circle orbit-1">
+                                    <div class="orbit-icon">🎯</div>
+                                </div>
+                                <div class="illustration-circle orbit-2">
+                                    <div class="orbit-icon">📊</div>
+                                </div>
+                                <div class="illustration-circle orbit-3">
+                                    <div class="orbit-icon">🍎</div>
+                                </div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
+
+    <div class="test-info">
+        <h4>✅ Changes Applied:</h4>
+        <ul>
+            <li class="removed-item">🎯 Try Demo (Navigation)</li>
+            <li class="removed-item">🎯 Try Demo (Hero Section)</li>
+            <li class="kept-item">🚀 Get Started Free</li>
+            <li class="kept-item">Dashboard Button</li>
+            <li class="kept-item">Sign Up Button</li>
+        </ul>
+        <p><strong>Result:</strong> Cleaner, more focused UI</p>
+    </div>
+</body>
+</html>

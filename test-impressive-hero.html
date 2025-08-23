@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressive Hero Section - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/hero-impressive.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .test-info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            z-index: 10000;
+            font-size: 0.9rem;
+            max-width: 300px;
+        }
+        
+        .test-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10000;
+        }
+        
+        .test-btn {
+            padding: 0.5rem 1rem;
+            background: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .test-btn:hover {
+            background: #005A9E;
+        }
+        
+        .features-section {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Information -->
+    <div class="test-info">
+        <h4>🧪 Hero Section Test</h4>
+        <p>Testing the impressive hero section design with:</p>
+        <ul>
+            <li>✨ Advanced animations</li>
+            <li>🎨 Modern gradients</li>
+            <li>📱 Mobile responsive</li>
+            <li>♿ Accessibility features</li>
+            <li>🚀 Interactive elements</li>
+        </ul>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <button class="test-btn" onclick="testAnimations()">Test Animations</button>
+        <button class="test-btn" onclick="testResponsive()">Test Mobile</button>
+        <button class="test-btn" onclick="testInteractions()">Test Interactions</button>
+        <button class="test-btn" onclick="resetView()">Reset</button>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="top-nav" role="navigation" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div class="container nav-container">
+            <div class="logo">
+                <h1>GlucoBalance</h1>
+            </div>
+            
+            <div class="nav-actions">
+                <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Impressive Hero Section -->
+    <header class="hero-section">
+        <!-- Advanced Background Effects -->
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-pattern"></div>
+            <div class="floating-elements"></div>
+        </div>
+
+        <div class="hero-layout">
+            <!-- Main Content Section -->
+            <div class="hero-content">
+                <!-- Premium Certification Badge -->
+                <div class="hero-badge">
+                    <span class="badge-text">WHO/ADA Certified Platform</span>
+                </div>
+
+                <!-- Spectacular Title -->
+                <h1 class="hero-title">
+                    <span class="title-line">
+                        <span class="title-word prevent">Prevent.</span>
+                        <span class="title-word detect">Detect.</span>
+                        <span class="title-word support">Support.</span>
+                    </span>
+                    <span class="title-main">
+                        <span class="title-with">with</span>
+                        <span class="title-brand">GlucoBalance</span>
+                    </span>
+                </h1>
+
+                <!-- Enhanced Trust Section -->
+                <div class="hero-trust">
+                    <p class="trust-text">Empowering 50,000+ users worldwide with AI-driven health insights</p>
+                    <div class="trust-badges">
+                        <div class="trust-badge">
+                            <span class="trust-label">HIPAA Secure</span>
+                        </div>
+                        <div class="trust-badge">
+                            <span class="trust-label">Privacy First</span>
+                        </div>
+                        <div class="trust-badge">
+                            <span class="trust-label">Evidence-Based</span>
+                        </div>
+                        <div class="trust-badge">
+                            <span class="trust-label">FDA Recognized</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call-to-Action Buttons -->
+                <div class="hero-cta">
+                    <button class="hero-btn primary" id="hero-start-assessment">
+                        🎯 Start Free Assessment
+                    </button>
+                    <button class="hero-btn secondary" id="hero-explore-features">
+                        ✨ Explore Features
+                    </button>
+                </div>
+            </div>
+
+            <!-- Revolutionary Visual Section -->
+            <div class="hero-visual">
+                <p class="hero-subtitle">
+                    Transform your health journey with personalized diabetes prevention, 
+                    early detection, and comprehensive management powered by 
+                    <span class="highlight-text">cutting-edge AI technology</span>
+                </p>
+
+                <div class="hero-illustration">
+                    <div class="illustration-circle main-circle">
+                        <div class="circle-content">
+                            <div class="main-text">Health+</div>
+                        </div>
+                    </div>
+                    <div class="pulse-ring ring-1"></div>
+                    <div class="pulse-ring ring-2"></div>
+                    <div class="pulse-ring ring-3"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section for Testing -->
+    <section id="features" class="features-section">
+        <h2 class="section-title">Comprehensive Health Management</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🎯 Risk Assessment</h3>
+                <p>WHO/ADA-compliant questionnaire with AI-powered insights for accurate diabetes risk evaluation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🍎 Nutrition Planning</h3>
+                <p>Personalized meal plans adapted to your local cuisine and dietary preferences.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💙 Mental Health</h3>
+                <p>Daily mood tracking with AI-generated support and wellness recommendations.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Progress Tracking</h3>
+                <p>Visual insights and comprehensive health reports to monitor your journey.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/hero-impressive.js"></script>
+
+    <script>
+        // Test functions
+        function testAnimations() {
+            console.log('🎬 Testing animations...');
+            
+            // Reset and replay title animations
+            const titleWords = document.querySelectorAll('.title-word');
+            titleWords.forEach((word, index) => {
+                word.style.animation = 'none';
+                word.offsetHeight; // Trigger reflow
+                word.style.animation = `titleDrop 1s ease-out ${0.3 + (index * 0.3)}s forwards`;
+            });
+            
+            // Test badge shimmer
+            const badge = document.querySelector('.hero-badge');
+            if (badge) {
+                badge.style.animation = 'none';
+                badge.offsetHeight;
+                badge.style.animation = 'badgeGlow 3s ease-in-out infinite alternate';
+            }
+            
+            // Test circle animation
+            const mainCircle = document.querySelector('.main-circle');
+            if (mainCircle) {
+                mainCircle.click();
+            }
+            
+            showTestMessage('Animations tested! 🎬', 'success');
+        }
+        
+        function testResponsive() {
+            console.log('📱 Testing responsive design...');
+            
+            const currentWidth = window.innerWidth;
+            
+            if (currentWidth > 768) {
+                // Simulate mobile view
+                document.body.style.width = '375px';
+                document.body.style.margin = '0 auto';
+                document.body.style.border = '2px solid #007FFF';
+                showTestMessage('Mobile view simulated! 📱', 'info');
+            } else {
+                resetView();
+                showTestMessage('Desktop view restored! 💻', 'info');
+            }
+        }
+        
+        function testInteractions() {
+            console.log('🖱️ Testing interactions...');
+            
+            // Test trust badge hovers
+            const trustBadges = document.querySelectorAll('.trust-badge');
+            trustBadges.forEach((badge, index) => {
+                setTimeout(() => {
+                    badge.dispatchEvent(new Event('mouseenter'));
+                    setTimeout(() => {
+                        badge.dispatchEvent(new Event('mouseleave'));
+                    }, 1000);
+                }, index * 200);
+            });
+            
+            // Test button clicks
+            setTimeout(() => {
+                const startBtn = document.getElementById('hero-start-assessment');
+                if (startBtn) {
+                    startBtn.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        startBtn.style.transform = '';
+                    }, 200);
+                }
+            }, 2000);
+            
+            showTestMessage('Interactions tested! 🖱️', 'success');
+        }
+        
+        function resetView() {
+            console.log('🔄 Resetting view...');
+            
+            document.body.style.width = '';
+            document.body.style.margin = '';
+            document.body.style.border = '';
+            
+            // Reset animations
+            const animatedElements = document.querySelectorAll('[style*="animation"]');
+            animatedElements.forEach(el => {
+                el.style.animation = '';
+            });
+            
+            showTestMessage('View reset! 🔄', 'info');
+        }
+        
+        function showTestMessage(message, type) {
+            const messageEl = document.createElement('div');
+            messageEl.textContent = message;
+            messageEl.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: ${type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#2196f3'};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 10001;
+                font-weight: 600;
+                font-size: 1.1rem;
+                animation: messagePopIn 0.3s ease-out;
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes messagePopIn {
+                    from {
+                        opacity: 0;
+                        transform: translate(-50%, -50%) scale(0.8);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translate(-50%, -50%) scale(1);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(messageEl);
+            
+            setTimeout(() => {
+                messageEl.style.animation = 'messagePopIn 0.3s ease-out reverse';
+                setTimeout(() => {
+                    if (messageEl.parentElement) {
+                        messageEl.remove();
+                    }
+                }, 300);
+            }, 2000);
+        }
+        
+        // Initialize test environment
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Hero section test environment ready');
+            
+            // Add some demo functionality
+            document.getElementById('hero-start-assessment').addEventListener('click', () => {
+                showTestMessage('Assessment would start here! 🎯', 'success');
+            });
+            
+            document.getElementById('hero-explore-features').addEventListener('click', () => {
+                document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+                showTestMessage('Scrolling to features! ✨', 'info');
+            });
+        });
+        
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            const loadTime = performance.now();
+            console.log(`⚡ Page loaded in ${Math.round(loadTime)}ms`);
+            
+            setTimeout(() => {
+                showTestMessage(`Page loaded in ${Math.round(loadTime)}ms ⚡`, 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

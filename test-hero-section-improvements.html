@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Section Improvements Test</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/hero-enhanced.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <style>
+        .test-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 2px solid #007FFF;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 300px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .test-result {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .test-result.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .test-result.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .test-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+            width: 100%;
+        }
+        .test-button:hover {
+            background: #0066CC;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <header class="hero-section">
+                <!-- Hero Background with Azure Theme -->
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                    <div class="floating-elements">
+                        <div class="floating-element element-1">💙</div>
+                        <div class="floating-element element-2">🎯</div>
+                        <div class="floating-element element-3">📊</div>
+                        <div class="floating-element element-4">🍎</div>
+                        <div class="floating-element element-5">⚡</div>
+                        <div class="floating-element element-6">🌟</div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="hero-layout">
+                        <!-- Main Content Section -->
+                        <div class="hero-content">
+                            <!-- Certification Badge -->
+                            <div class="hero-badge">
+                                <span class="badge-icon">🏆</span>
+                                <span class="badge-text">WHO/ADA Compliant</span>
+                                <div class="badge-glow"></div>
+                            </div>
+
+                            <!-- Main Title -->
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+
+                            <!-- Subtitle -->
+                            <p class="hero-subtitle">
+                                Your comprehensive companion for diabetes prevention, early detection,
+                                and ongoing management with <span class="highlight-text">AI-powered insights</span>
+                            </p>
+
+                            <!-- Trust Indicators -->
+                            <div class="hero-trust">
+                                <p class="trust-text">Trusted by healthcare professionals worldwide</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🔒</span>
+                                        <span class="trust-label">HIPAA Compliant</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🛡️</span>
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-icon">🌟</span>
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual Illustration Section -->
+                        <div class="hero-visual">
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-icon">💙</div>
+                                        <div class="main-text">Health</div>
+                                    </div>
+                                </div>
+                                <div class="illustration-circle orbit-1">
+                                    <div class="orbit-icon">🎯</div>
+                                </div>
+                                <div class="illustration-circle orbit-2">
+                                    <div class="orbit-icon">📊</div>
+                                </div>
+                                <div class="illustration-circle orbit-3">
+                                    <div class="orbit-icon">🍎</div>
+                                </div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container">
+                <section id="features" class="features-section">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-feature="risk-assessment">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        <div class="feature-card clickable" data-feature="nutrition">
+                            <div class="feature-icon">🍎</div>
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        <div class="feature-card clickable" data-feature="mental-health">
+                            <div class="feature-icon">💙</div>
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                        <div class="feature-card clickable" data-feature="progress">
+                            <div class="feature-icon">📊</div>
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                            <div class="card-arrow">→</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Test Panel -->
+    <div class="test-container">
+        <h3 style="margin: 0 0 10px 0; color: #007FFF;">Hero Section Test</h3>
+        <div id="test-results"></div>
+        <button class="test-button" onclick="runTests()">Run Tests</button>
+        <button class="test-button" onclick="testGetStartedButton()">Test Get Started Button</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/risk-assessment.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="js/landing-page-enhanced.js"></script>
+
+    <script>
+        function addTestResult(test, status, message) {
+            const resultsDiv = document.getElementById('test-results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${status}`;
+            resultDiv.textContent = `${test}: ${message}`;
+            resultsDiv.appendChild(resultDiv);
+        }
+
+        function clearResults() {
+            document.getElementById('test-results').innerHTML = '';
+        }
+
+        function runTests() {
+            clearResults();
+            
+            // Test 1: Check hero section height reduction
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                const computedStyle = window.getComputedStyle(heroSection);
+                const minHeight = computedStyle.minHeight;
+                if (minHeight === '70vh' || minHeight.includes('70vh')) {
+                    addTestResult('Hero Height', 'pass', 'Hero section height reduced to 70vh');
+                } else {
+                    addTestResult('Hero Height', 'fail', `Hero section height is ${minHeight}, expected 70vh`);
+                }
+            }
+
+            // Test 2: Check if statistics section is removed
+            const heroStats = document.querySelector('.hero-stats');
+            if (!heroStats) {
+                addTestResult('Statistics Removal', 'pass', 'Statistics section successfully removed');
+            } else {
+                addTestResult('Statistics Removal', 'fail', 'Statistics section still present');
+            }
+
+            // Test 3: Check layout structure (text left, graphics right)
+            const heroLayout = document.querySelector('.hero-layout');
+            if (heroLayout) {
+                const computedStyle = window.getComputedStyle(heroLayout);
+                if (computedStyle.display === 'grid' && computedStyle.gridTemplateColumns.includes('1fr 1fr')) {
+                    addTestResult('Layout Structure', 'pass', 'Text left, graphics right layout maintained');
+                } else {
+                    addTestResult('Layout Structure', 'fail', 'Layout structure not as expected');
+                }
+            }
+
+            // Test 4: Check if Get Started button exists in navigation
+            const getStartedBtn = document.getElementById('nav-get-started-btn');
+            if (getStartedBtn) {
+                addTestResult('Get Started Button', 'pass', 'Get Started Free button found in navigation');
+            } else {
+                addTestResult('Get Started Button', 'fail', 'Get Started Free button not found in navigation');
+            }
+
+            // Test 5: Check if enhanced landing page manager is loaded
+            if (window.enhancedLandingPageManager) {
+                addTestResult('Enhanced Manager', 'pass', 'Enhanced landing page manager loaded');
+                
+                // Test if startRiskAssessment method exists
+                if (typeof window.enhancedLandingPageManager.startRiskAssessment === 'function') {
+                    addTestResult('Risk Assessment Method', 'pass', 'startRiskAssessment method available');
+                } else {
+                    addTestResult('Risk Assessment Method', 'fail', 'startRiskAssessment method not found');
+                }
+            } else {
+                addTestResult('Enhanced Manager', 'fail', 'Enhanced landing page manager not loaded');
+            }
+
+            // Test 6: Check trust indicators positioning
+            const heroTrust = document.querySelector('.hero-trust');
+            if (heroTrust) {
+                addTestResult('Trust Indicators', 'pass', 'Trust indicators present and positioned correctly');
+            } else {
+                addTestResult('Trust Indicators', 'fail', 'Trust indicators not found');
+            }
+        }
+
+        function testGetStartedButton() {
+            clearResults();
+            addTestResult('Button Test', 'info', 'Testing Get Started Free button...');
+            
+            const getStartedBtn = document.getElementById('nav-get-started-btn');
+            if (getStartedBtn) {
+                // Simulate click
+                try {
+                    getStartedBtn.click();
+                    addTestResult('Button Click', 'pass', 'Get Started Free button clicked successfully');
+                    
+                    // Check if assessment overlay appears
+                    setTimeout(() => {
+                        const assessmentOverlay = document.querySelector('.assessment-overlay');
+                        if (assessmentOverlay) {
+                            addTestResult('Assessment Launch', 'pass', 'Risk assessment questionnaire launched');
+                        } else {
+                            addTestResult('Assessment Launch', 'fail', 'Risk assessment questionnaire did not launch');
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    addTestResult('Button Click', 'fail', `Error clicking button: ${error.message}`);
+                }
+            } else {
+                addTestResult('Button Click', 'fail', 'Get Started Free button not found');
+            }
+        }
+
+        // Auto-run tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 1000);
+        });
+    </script>
+</body>
+</html>

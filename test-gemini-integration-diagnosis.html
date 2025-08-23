@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Integration Diagnosis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        h1 {
+            color: #007FFF;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007FFF;
+            padding-bottom: 5px;
+        }
+        .test-button {
+            background: #007FFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007FFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 Gemini AI Integration Diagnosis</h1>
+    
+    <div class="test-container">
+        <h2>Service Availability Tests</h2>
+        <div id="service-tests"></div>
+        <button class="test-button" onclick="runServiceTests()">Run Service Tests</button>
+    </div>
+
+    <div class="test-container">
+        <h2>API Connection Tests</h2>
+        <div id="api-tests"></div>
+        <button class="test-button" onclick="runAPITests()">Test API Connection</button>
+    </div>
+
+    <div class="test-container">
+        <h2>Meal Plan Generation Test</h2>
+        <div id="meal-plan-tests"></div>
+        <button class="test-button" onclick="testMealPlanGeneration()">Test Meal Plan Generation</button>
+    </div>
+
+    <div class="test-container">
+        <h2>Recipe Generation Test</h2>
+        <div id="recipe-tests"></div>
+        <button class="test-button" onclick="testRecipeGeneration()">Test Recipe Generation</button>
+    </div>
+
+    <div class="test-container">
+        <h2>Dashboard Integration Test</h2>
+        <div id="dashboard-tests"></div>
+        <button class="test-button" onclick="testDashboardIntegration()">Test Dashboard Integration</button>
+    </div>
+
+    <!-- Include the necessary scripts -->
+    <script src="js/dashboard-ai-service.js"></script>
+    
+    <script>
+        let testResults = {
+            service: [],
+            api: [],
+            mealPlan: [],
+            recipe: [],
+            dashboard: []
+        };
+
+        function displayResult(containerId, result) {
+            const container = document.getElementById(containerId);
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${result.status}`;
+            resultDiv.innerHTML = `
+                <strong>${result.test}:</strong> ${result.message}
+                ${result.details ? `<div class="code-block">${result.details}</div>` : ''}
+            `;
+            container.appendChild(resultDiv);
+        }
+
+        function runServiceTests() {
+            const container = document.getElementById('service-tests');
+            container.innerHTML = '';
+            
+            // Test 1: Check if DashboardAIService class exists
+            const hasClass = typeof DashboardAIService !== 'undefined';
+            displayResult('service-tests', {
+                test: 'DashboardAIService Class',
+                status: hasClass ? 'pass' : 'fail',
+                message: hasClass ? 'Class is available' : 'Class not found'
+            });
+
+            // Test 2: Check if window.dashboardAI exists
+            const hasInstance = typeof window.dashboardAI !== 'undefined';
+            displayResult('service-tests', {
+                test: 'window.dashboardAI Instance',
+                status: hasInstance ? 'pass' : 'fail',
+                message: hasInstance ? 'Instance is available' : 'Instance not found'
+            });
+
+            // Test 3: Check if required methods exist
+            if (hasInstance) {
+                const methods = ['generateMealPlan', 'generateHealthInsights', 'makeGeminiRequest'];
+                methods.forEach(method => {
+                    const hasMethod = typeof window.dashboardAI[method] === 'function';
+                    displayResult('service-tests', {
+                        test: `Method: ${method}`,
+                        status: hasMethod ? 'pass' : 'fail',
+                        message: hasMethod ? 'Method available' : 'Method missing'
+                    });
+                });
+            }
+
+            // Test 4: Check API key
+            if (hasInstance && window.dashboardAI.apiKey) {
+                const keyFormat = window.dashboardAI.apiKey.startsWith('AIza');
+                displayResult('service-tests', {
+                    test: 'API Key Format',
+                    status: keyFormat ? 'pass' : 'warning',
+                    message: keyFormat ? 'API key format appears valid' : 'API key format may be invalid',
+                    details: keyFormat ? 'Key starts with AIza' : 'Key does not start with AIza'
+                });
+            }
+        }
+
+        async function runAPITests() {
+            const container = document.getElementById('api-tests');
+            container.innerHTML = '<div class="test-result info"><div class="loading"></div> Testing API connection...</div>';
+            
+            if (!window.dashboardAI) {
+                displayResult('api-tests', {
+                    test: 'API Connection',
+                    status: 'fail',
+                    message: 'Dashboard AI service not available'
+                });
+                return;
+            }
+
+            try {
+                // Test basic API call
+                const response = await window.dashboardAI.makeGeminiRequest('Hello, respond with "API working"');
+                
+                container.innerHTML = '';
+                displayResult('api-tests', {
+                    test: 'Basic API Call',
+                    status: 'pass',
+                    message: 'API responded successfully',
+                    details: `Response: ${response.substring(0, 200)}...`
+                });
+            } catch (error) {
+                container.innerHTML = '';
+                displayResult('api-tests', {
+                    test: 'Basic API Call',
+                    status: 'fail',
+                    message: 'API call failed',
+                    details: `Error: ${error.message}`
+                });
+            }
+        }
+
+        async function testMealPlanGeneration() {
+            const container = document.getElementById('meal-plan-tests');
+            container.innerHTML = '<div class="test-result info"><div class="loading"></div> Generating meal plan...</div>';
+            
+            if (!window.dashboardAI) {
+                displayResult('meal-plan-tests', {
+                    test: 'Meal Plan Generation',
+                    status: 'fail',
+                    message: 'Dashboard AI service not available'
+                });
+                return;
+            }
+
+            try {
+                const preferences = {
+                    restrictions: 'vegetarian',
+                    cuisine: 'mediterranean',
+                    cookingTime: 'quick',
+                    budget: 'moderate'
+                };
+
+                const mealPlan = await window.dashboardAI.generateMealPlan(preferences);
+                
+                container.innerHTML = '';
+                displayResult('meal-plan-tests', {
+                    test: 'Meal Plan Generation',
+                    status: 'pass',
+                    message: 'Meal plan generated successfully',
+                    details: `Generated plan (first 300 chars): ${mealPlan.substring(0, 300)}...`
+                });
+            } catch (error) {
+                container.innerHTML = '';
+                displayResult('meal-plan-tests', {
+                    test: 'Meal Plan Generation',
+                    status: 'fail',
+                    message: 'Meal plan generation failed',
+                    details: `Error: ${error.message}`
+                });
+            }
+        }
+
+        async function testRecipeGeneration() {
+            const container = document.getElementById('recipe-tests');
+            container.innerHTML = '<div class="test-result info"><div class="loading"></div> Generating recipe...</div>';
+            
+            if (!window.dashboardAI) {
+                displayResult('recipe-tests', {
+                    test: 'Recipe Generation',
+                    status: 'fail',
+                    message: 'Dashboard AI service not available'
+                });
+                return;
+            }
+
+            try {
+                // Test recipe generation with a custom prompt
+                const recipePrompt = `Generate a detailed recipe for a diabetes-friendly Mediterranean breakfast dish. Include ingredients, instructions, and nutritional benefits.`;
+                
+                const recipe = await window.dashboardAI.makeGeminiRequest(recipePrompt);
+                
+                container.innerHTML = '';
+                displayResult('recipe-tests', {
+                    test: 'Recipe Generation',
+                    status: 'pass',
+                    message: 'Recipe generated successfully',
+                    details: `Generated recipe (first 300 chars): ${recipe.substring(0, 300)}...`
+                });
+            } catch (error) {
+                container.innerHTML = '';
+                displayResult('recipe-tests', {
+                    test: 'Recipe Generation',
+                    status: 'fail',
+                    message: 'Recipe generation failed',
+                    details: `Error: ${error.message}`
+                });
+            }
+        }
+
+        function testDashboardIntegration() {
+            const container = document.getElementById('dashboard-tests');
+            container.innerHTML = '';
+            
+            // Test if dashboard buttons exist
+            const createMealPlanBtn = document.getElementById('create-meal-plan-btn');
+            displayResult('dashboard-tests', {
+                test: 'Create Meal Plan Button',
+                status: createMealPlanBtn ? 'pass' : 'warning',
+                message: createMealPlanBtn ? 'Button exists in DOM' : 'Button not found (may be in iframe)'
+            });
+
+            // Test if dashboard button fix exists
+            const hasDashboardFix = typeof window.dashboardButtonsFix !== 'undefined' || 
+                                  typeof window.DashboardButtonsFix !== 'undefined';
+            displayResult('dashboard-tests', {
+                test: 'Dashboard Button Fix',
+                status: hasDashboardFix ? 'pass' : 'warning',
+                message: hasDashboardFix ? 'Dashboard button fix available' : 'Dashboard button fix not detected'
+            });
+
+            // Test if main app exists
+            const hasMainApp = typeof window.glucoApp !== 'undefined';
+            displayResult('dashboard-tests', {
+                test: 'Main App Instance',
+                status: hasMainApp ? 'pass' : 'warning',
+                message: hasMainApp ? 'Main app instance available' : 'Main app instance not found'
+            });
+        }
+
+        // Auto-run service tests on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runServiceTests, 1000);
+        });
+    </script>
+</body>
+</html>
