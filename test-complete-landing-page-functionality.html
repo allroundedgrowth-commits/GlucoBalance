@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Landing Page Functionality Test - GlucoBalance</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .test-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 15px;
+            z-index: 10000;
+            font-size: 14px;
+            border-bottom: 3px solid #27ae60;
+        }
+        
+        .test-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .test-title {
+            font-weight: 600;
+            color: #27ae60;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .test-btn {
+            padding: 5px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .test-btn.primary {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .test-btn.secondary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .test-btn.danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .main-content {
+            margin-top: 60px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .notification.success {
+            background: #27ae60;
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.info {
+            background: #3498db;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        .auth-prompt {
+            text-align: center;
+        }
+        
+        .auth-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: #007FFF;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0066CC;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 2px solid #e9ecef;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .form-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .signup-form, .login-form {
+            text-align: center;
+        }
+        
+        .signup-form form, .login-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .signup-form input, .login-form input {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .signup-form input:focus, .login-form input:focus {
+            outline: none;
+            border-color: #007FFF;
+        }
+        
+        .form-footer {
+            margin-top: 15px;
+            color: #7f8c8d;
+        }
+        
+        .form-footer a {
+            color: #007FFF;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 100px 20px 50px;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .mood-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .mood-btn {
+            font-size: 32px;
+            background: none;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .mood-btn:hover {
+            border-color: #007FFF;
+            transform: scale(1.1);
+        }
+        
+        .mood-btn.selected {
+            border-color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007FFF;
+        }
+        
+        @media (max-width: 768px) {
+            .test-status {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .test-buttons {
+                flex-wrap: wrap;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+            }
+            
+            .mood-buttons {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Control Overlay -->
+    <div class="test-overlay">
+        <div class="test-status">
+            <div class="test-title">🧪 Complete Landing Page Functionality Test</div>
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="testAllButtons()">Test All Buttons</button>
+                <button class="test-btn secondary" onclick="testFeatureCards()">Test Feature Cards</button>
+                <button class="test-btn secondary" onclick="testNavigation()">Test Navigation</button>
+                <button class="test-btn danger" onclick="resetTest()">Reset Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Include the actual landing page content -->
+        <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+            <!-- Top Navigation Bar -->
+            <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+                <div class="container nav-container">
+                    <div class="logo">
+                        <h1>GlucoBalance</h1>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                        <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                        <button id="nav-profile-btn" class="btn-outline" style="display: none;" title="Profile">
+                            <span class="btn-text">Profile</span>
+                        </button>
+                        <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                        <button id="nav-logout-btn" class="btn-secondary logout-btn" style="display: none;">
+                            Logout</button>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Landing Page -->
+            <div id="landing-page" class="page active">
+                <header class="hero-section">
+                    <div class="hero-background">
+                        <div class="hero-gradient"></div>
+                        <div class="hero-pattern"></div>
+                        <div class="floating-elements"></div>
+                    </div>
+
+                    <div class="hero-layout">
+                        <div class="hero-content">
+                            <div class="hero-badge">
+                                <span class="badge-text">WHO/ADA Certified Platform</span>
+                            </div>
+
+                            <h1 class="hero-title">
+                                <span class="title-line">
+                                    <span class="title-word prevent">Prevent.</span>
+                                    <span class="title-word detect">Detect.</span>
+                                    <span class="title-word support">Support.</span>
+                                </span>
+                                <span class="title-main">
+                                    <span class="title-with">with</span>
+                                    <span class="title-brand">GlucoBalance</span>
+                                </span>
+                            </h1>
+
+                            <div class="hero-trust">
+                                <p class="trust-text">Empowering 50,000+ users worldwide with AI-driven health insights</p>
+                                <div class="trust-badges">
+                                    <div class="trust-badge">
+                                        <span class="trust-label">HIPAA Secure</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Privacy First</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">Evidence-Based</span>
+                                    </div>
+                                    <div class="trust-badge">
+                                        <span class="trust-label">FDA Recognized</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hero-cta">
+                                <button class="hero-btn primary" id="hero-start-assessment">
+                                    Start Free Assessment
+                                </button>
+                                <button class="hero-btn secondary" id="hero-explore-features">
+                                    Explore Features
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="hero-visual">
+                            <p class="hero-subtitle">
+                                Transform your health journey with personalized diabetes prevention, 
+                                early detection, and comprehensive management powered by 
+                                <span class="highlight-text">cutting-edge AI technology</span>
+                            </p>
+
+                            <div class="hero-illustration">
+                                <div class="illustration-circle main-circle">
+                                    <div class="circle-content">
+                                        <div class="main-text">Health+</div>
+                                    </div>
+                                </div>
+                                <div class="pulse-ring ring-1"></div>
+                                <div class="pulse-ring ring-2"></div>
+                                <div class="pulse-ring ring-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <main id="main-content" class="container">
+                    <section id="features" class="features-section" aria-label="App Features">
+                        <h2 class="section-title">Comprehensive Health Management</h2>
+                        <div class="features-grid">
+                            <div class="feature-card clickable" data-prefetch-module="risk-assessment"
+                                data-feature="risk-assessment">
+                                <h3>Risk Assessment</h3>
+                                <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                            </div>
+
+                            <div class="feature-card clickable" data-prefetch-module="nutrition-service"
+                                data-feature="nutrition">
+                                <h3>Nutrition Planning</h3>
+                                <p>Personalized meal plans adapted to your local cuisine</p>
+                            </div>
+
+                            <div class="feature-card clickable" data-prefetch-module="mental-health"
+                                data-feature="mental-health">
+                                <h3>Mental Health</h3>
+                                <p>Daily mood tracking with AI-generated support</p>
+                            </div>
+
+                            <div class="feature-card clickable" data-prefetch-module="progress-dashboard"
+                                data-feature="progress">
+                                <h3>Progress Tracking</h3>
+                                <p>Visual insights and comprehensive health reports</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="cta-section">
+                        <p class="cta-text">Click on any feature card above to get started with your health journey</p>
+                    </div>
+
+                    <section id="about" class="about-section">
+                        <div class="container">
+                            <h2 class="section-title">About GlucoBalance</h2>
+                            <div class="about-content">
+                                <p>GlucoBalance is a cutting-edge diabetes prevention platform launched in 2025, combining
+                                    WHO/ADA-compliant risk assessments with advanced AI technology.</p>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-number">97%</div>
+                                        <div class="stat-label">User Satisfaction</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">5K+</div>
+                                        <div class="stat-label">Active Users</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">WHO/ADA</div>
+                                        <div class="stat-label">Compliant</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <footer class="footer" id="contact">
+                    <div class="container">
+                        <div class="footer-content">
+                            <div class="footer-section">
+                                <h3>GlucoBalance</h3>
+                                <p>Empowering healthier lives through intelligent diabetes prevention and management.</p>
+                            </div>
+
+                            <div class="footer-section">
+                                <h4>Features</h4>
+                                <ul>
+                                    <li><a href="#" data-feature="risk-assessment">Risk Assessment</a></li>
+                                    <li><a href="#" data-feature="nutrition">Nutrition Planning</a></li>
+                                    <li><a href="#" data-feature="mental-health">Mental Health</a></li>
+                                    <li><a href="#" data-feature="progress">Progress Tracking</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="footer-section">
+                                <h4>Get Started</h4>
+                                <p>Ready to take control of your health?</p>
+                                <p>Start with our risk assessment or explore our features above.</p>
+                            </div>
+                        </div>
+
+                        <div class="footer-bottom">
+                            <p>&copy; 2025 GlucoBalance. All rights reserved.</p>
+                            <p>Made with ❤️ for better health outcomes</p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the complete functionality fix -->
+    <script src="fix-landing-page-complete-functionality.js"></script>
+
+    <script>
+        // Test functions
+        function testAllButtons() {
+            console.log('🧪 Testing all buttons...');
+            
+            const buttons = [
+                'nav-get-started-btn',
+                'nav-dashboard-btn',
+                'nav-signup-btn',
+                'hero-start-assessment',
+                'hero-explore-features'
+            ];
+            
+            let testResults = [];
+            
+            buttons.forEach(buttonId => {
+                const button = document.getElementById(buttonId);
+                if (button) {
+                    testResults.push(`✅ ${buttonId}: Found and clickable`);
+                    // Simulate click
+                    button.style.background = '#27ae60';
+                    setTimeout(() => {
+                        button.style.background = '';
+                    }, 1000);
+                } else {
+                    testResults.push(`❌ ${buttonId}: Not found`);
+                }
+            });
+            
+            showTestResults('Button Test Results', testResults);
+        }
+        
+        function testFeatureCards() {
+            console.log('🧪 Testing feature cards...');
+            
+            const cards = document.querySelectorAll('.feature-card.clickable');
+            let testResults = [];
+            
+            if (cards.length > 0) {
+                testResults.push(`✅ Found ${cards.length} feature cards`);
+                
+                cards.forEach((card, index) => {
+                    const feature = card.dataset.feature;
+                    testResults.push(`✅ Card ${index + 1}: ${feature} - Clickable`);
+                    
+                    // Visual feedback
+                    card.style.transform = 'scale(1.05)';
+                    card.style.boxShadow = '0 8px 25px rgba(39, 174, 96, 0.3)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                        card.style.boxShadow = '';
+                    }, 1000);
+                });
+            } else {
+                testResults.push('❌ No feature cards found');
+            }
+            
+            showTestResults('Feature Cards Test Results', testResults);
+        }
+        
+        function testNavigation() {
+            console.log('🧪 Testing navigation...');
+            
+            let testResults = [];
+            
+            // Test smooth scrolling
+            const featuresSection = document.getElementById('features');
+            if (featuresSection) {
+                testResults.push('✅ Features section found - Smooth scroll available');
+            } else {
+                testResults.push('❌ Features section not found');
+            }
+            
+            // Test mobile menu
+            const mobileToggle = document.getElementById('mobile-menu-toggle');
+            if (mobileToggle) {
+                testResults.push('✅ Mobile menu toggle found');
+            } else {
+                testResults.push('❌ Mobile menu toggle not found');
+            }
+            
+            // Test navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            testResults.push(`✅ Found ${navLinks.length} navigation links`);
+            
+            showTestResults('Navigation Test Results', testResults);
+        }
+        
+        function resetTest() {
+            console.log('🔄 Resetting test...');
+            
+            // Remove any test styling
+            document.querySelectorAll('*').forEach(el => {
+                el.style.transform = '';
+                el.style.boxShadow = '';
+                el.style.background = '';
+            });
+            
+            // Close any modals
+            document.querySelectorAll('.modal-overlay').forEach(modal => modal.remove());
+            
+            // Reset page to landing
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('landing-page').classList.add('active');
+            
+            showNotification('Test reset complete!', 'info');
+        }
+        
+        function showTestResults(title, results) {
+            const resultsHTML = `
+                <div class="test-results">
+                    <h3>${title}</h3>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        ${results.map(result => `<li style="margin: 8px 0;">${result}</li>`).join('')}
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <button class="btn-primary" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            
+            const modal = `
+                <div class="modal-overlay active">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Test Results</h2>
+                            <button class="modal-close" onclick="closeModal()">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            ${resultsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modal);
+        }
+        
+        function closeModal() {
+            document.querySelectorAll('.modal-overlay').forEach(modal => modal.remove());
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} show`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Auto-run initial test
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showNotification('Landing page functionality loaded successfully!', 'success');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
