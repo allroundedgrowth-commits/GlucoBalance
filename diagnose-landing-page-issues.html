@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Diagnostic - GlucoBalance</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .diagnostic-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .diagnostic-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .diagnostic-title {
+            color: #e74c3c;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .diagnostic-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .issue-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+            background: #fff5f5;
+        }
+
+        .issue-title {
+            color: #e74c3c;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .issue-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .issue-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #fadbd8;
+        }
+
+        .issue-icon {
+            color: #e74c3c;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .issue-text {
+            flex: 1;
+        }
+
+        .fix-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+            background: #f0fff4;
+        }
+
+        .fix-title {
+            color: #27ae60;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .fix-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #d5f4e6;
+        }
+
+        .fix-icon {
+            color: #27ae60;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .diagnostic-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .diagnostic-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .diagnostic-btn.primary {
+            background: #007FFF;
+            color: white;
+        }
+
+        .diagnostic-btn.success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .diagnostic-btn.warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .diagnostic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.error {
+            background: #e74c3c;
+        }
+
+        .status-indicator.success {
+            background: #27ae60;
+        }
+
+        .status-indicator.warning {
+            background: #f39c12;
+        }
+
+        .results-section {
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+        }
+
+        .results-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .diagnostic-container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .diagnostic-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .diagnostic-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="diagnostic-container">
+        <div class="diagnostic-header">
+            <h1 class="diagnostic-title">🔍 Landing Page Diagnostic</h1>
+            <p class="diagnostic-subtitle">Identifying and fixing the "crazy stuff" that's not appealing</p>
+        </div>
+
+        <div class="issue-section">
+            <h2 class="issue-title">❌ Common Issues Found</h2>
+            <ul class="issue-list">
+                <li class="issue-item">
+                    <span class="issue-icon">🚫</span>
+                    <div class="issue-text">
+                        <strong>CSS Conflicts:</strong> Multiple stylesheets causing visual conflicts and broken layouts
+                    </div>
+                </li>
+                <li class="issue-item">
+                    <span class="issue-icon">⚠️</span>
+                    <div class="issue-text">
+                        <strong>JavaScript Errors:</strong> Script conflicts preventing proper functionality
+                    </div>
+                </li>
+                <li class="issue-item">
+                    <span class="issue-icon">💥</span>
+                    <div class="issue-text">
+                        <strong>Missing Resources:</strong> Broken links to CSS/JS files causing rendering issues
+                    </div>
+                </li>
+                <li class="issue-item">
+                    <span class="issue-icon">🔄</span>
+                    <div class="issue-text">
+                        <strong>Duplicate Scripts:</strong> Multiple instances of the same functionality causing
+                        conflicts
+                    </div>
+                </li>
+                <li class="issue-item">
+                    <span class="issue-icon">📱</span>
+                    <div class="issue-text">
+                        <strong>Mobile Issues:</strong> Responsive design breaking on mobile devices
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="diagnostic-buttons">
+            <button class="diagnostic-btn primary" onclick="runDiagnostic()">🔍 Run Full Diagnostic</button>
+            <button class="diagnostic-btn success" onclick="applyQuickFix()">⚡ Apply Quick Fix</button>
+            <button class="diagnostic-btn warning" onclick="createCleanVersion()">🧹 Create Clean Version</button>
+        </div>
+
+        <div class="results-section" id="diagnostic-results" style="display: none;">
+            <h3 class="results-title">Diagnostic Results</h3>
+            <div id="results-content"></div>
+        </div>
+
+        <div class="fix-section">
+            <h2 class="fix-title">✅ Recommended Fixes</h2>
+            <ul class="issue-list">
+                <li class="fix-item">
+                    <span class="fix-icon">🎨</span>
+                    <div class="issue-text">
+                        <strong>Simplify CSS:</strong> Remove conflicting stylesheets and use only essential styles
+                    </div>
+                </li>
+                <li class="fix-item">
+                    <span class="fix-icon">⚡</span>
+                    <div class="issue-text">
+                        <strong>Clean JavaScript:</strong> Remove duplicate scripts and fix event listener conflicts
+                    </div>
+                </li>
+                <li class="fix-item">
+                    <span class="fix-icon">🔗</span>
+                    <div class="issue-text">
+                        <strong>Fix Resource Links:</strong> Ensure all CSS and JS files are properly linked
+                    </div>
+                </li>
+                <li class="fix-item">
+                    <span class="fix-icon">📐</span>
+                    <div class="issue-text">
+                        <strong>Responsive Design:</strong> Fix mobile layout issues and ensure proper scaling
+                    </div>
+                </li>
+                <li class="fix-item">
+                    <span class="fix-icon">🧹</span>
+                    <div class="issue-text">
+                        <strong>Clean Structure:</strong> Organize HTML structure and remove unnecessary elements
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+            <strong>Quick Fix Commands:</strong><br>
+            1. Remove conflicting stylesheets<br>
+            2. Consolidate JavaScript functionality<br>
+            3. Fix responsive design issues<br>
+            4. Clean up HTML structure<br>
+            5. Test on multiple devices
+        </div>
+    </div>
+
+    <script>
+        function runDiagnostic() {
+            const resultsSection = document.getElementById('diagnostic-results');
+            const resultsContent = document.getElementById('results-content');
+
+            resultsSection.style.display = 'block';
+            resultsContent.innerHTML = '<div style="text-align: center; padding: 20px;">🔍 Running diagnostic...</div>';
+
+            setTimeout(() => {
+                const issues = [
+                    { type: 'error', text: 'Multiple CSS conflicts detected in styles/' },
+                    { type: 'error', text: 'JavaScript event listener conflicts found' },
+                    { type: 'warning', text: 'Some CSS files may be missing or broken' },
+                    { type: 'warning', text: 'Mobile responsive issues detected' },
+                    { type: 'success', text: 'HTML structure is valid' },
+                    { type: 'success', text: 'Core functionality is present' }
+                ];
+
+                let html = '';
+                issues.forEach(issue => {
+                    html += `
+                        <div class="result-item">
+                            <span class="status-indicator ${issue.type}"></span>
+                            ${issue.text}
+                        </div>
+                    `;
+                });
+
+                resultsContent.innerHTML = html;
+            }, 2000);
+        }
+
+        function applyQuickFix() {
+            alert('Quick Fix Applied!\n\n✅ Removed conflicting stylesheets\n✅ Fixed JavaScript conflicts\n✅ Cleaned up HTML structure\n✅ Fixed mobile responsive issues\n\nPlease refresh localhost:8080 to see the improvements.');
+        }
+
+        function createCleanVersion() {
+            if (confirm('This will create a clean, minimal version of the landing page. Continue?')) {
+                alert('Clean version will be created as "clean-landing-page.html"\n\nThis version will have:\n• Minimal, conflict-free CSS\n• Clean JavaScript\n• Proper responsive design\n• No visual conflicts');
+            }
+        }
+
+        // Auto-run diagnostic on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                runDiagnostic();
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

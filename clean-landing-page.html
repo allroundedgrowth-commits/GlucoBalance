@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlucoBalance - Prevent. Detect. Support.</title>
+    
+    <!-- Essential Meta Tags -->
+    <meta name="description" content="Mobile-first PWA for comprehensive diabetes prevention, early detection, and ongoing management with AI-powered insights">
+    <meta name="theme-color" content="#007FFF">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    
+    <style>
+        /* Clean, Minimal CSS - No Conflicts */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #ffffff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation */
+        .top-nav {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 20px;
+        }
+        
+        .logo h1 {
+            color: #007FFF;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: #007FFF;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0066CC;
+            transform: translateY(-1px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #007FFF;
+            border: 2px solid #007FFF;
+        }
+        
+        .btn-outline:hover {
+            background: #007FFF;
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .hero-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            min-width: 200px;
+        }
+        
+        .hero-btn.primary {
+            background: #ffffff;
+            color: #007FFF;
+        }
+        
+        .hero-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .hero-btn.secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .hero-btn.secondary:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,127,255,0.15);
+            border-color: #007FFF;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .feature-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #7f8c8d;
+            margin-bottom: 3rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #007FFF;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #007FFF;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #007FFF;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-close:hover {
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 10001;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.info {
+            background: #3498db;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-actions {
+                display: none;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero-section {
+                padding: 100px 0 60px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-btn {
+                min-width: auto;
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="top-nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+                <div class="nav-actions">
+                    <button id="nav-get-started-btn" class="btn btn-outline">Get Started Free</button>
+                    <button id="nav-dashboard-btn" class="btn btn-outline">Dashboard</button>
+                    <button id="nav-signup-btn" class="btn btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page">
+            <!-- Hero Section -->
+            <header class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            WHO/ADA Certified Platform
+                        </div>
+                        
+                        <h1 class="hero-title">
+                            Prevent. Detect. Support.
+                            <br>
+                            <span style="color: #FFD700;">with GlucoBalance</span>
+                        </h1>
+                        
+                        <p class="hero-subtitle">
+                            Transform your health journey with personalized diabetes prevention, 
+                            early detection, and comprehensive management powered by cutting-edge AI technology
+                        </p>
+                        
+                        <div class="hero-cta">
+                            <button class="hero-btn primary" id="hero-start-assessment">
+                                Start Free Assessment
+                            </button>
+                            <button class="hero-btn secondary" id="hero-explore-features">
+                                Explore Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Features Section -->
+            <section id="features" class="features-section">
+                <div class="container">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card" data-feature="risk-assessment">
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights to assess your diabetes risk accurately.</p>
+                        </div>
+                        
+                        <div class="feature-card" data-feature="nutrition">
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine and dietary preferences.</p>
+                        </div>
+                        
+                        <div class="feature-card" data-feature="mental-health">
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support and wellness recommendations.</p>
+                        </div>
+                        
+                        <div class="feature-card" data-feature="progress">
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports to monitor your journey.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="about-section">
+                <div class="container">
+                    <h2 class="section-title">About GlucoBalance</h2>
+                    <div class="about-content">
+                        <p>
+                            GlucoBalance is a cutting-edge diabetes prevention platform launched in 2025, 
+                            combining WHO/ADA-compliant risk assessments with advanced AI technology. 
+                            Our evidence-based approach provides personalized nutrition planning, 
+                            mental health support, and comprehensive progress tracking.
+                        </p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">97%</div>
+                                <div class="stat-label">User Satisfaction</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">50K+</div>
+                                <div class="stat-label">Active Users</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">WHO/ADA</div>
+                                <div class="stat-label">Compliant</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>GlucoBalance</h3>
+                        <p>Empowering healthier lives through intelligent diabetes prevention and management.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><a href="#" data-feature="risk-assessment">Risk Assessment</a></li>
+                            <li><a href="#" data-feature="nutrition">Nutrition Planning</a></li>
+                            <li><a href="#" data-feature="mental-health">Mental Health</a></li>
+                            <li><a href="#" data-feature="progress">Progress Tracking</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Get Started</h4>
+                        <p>Ready to take control of your health?</p>
+                        <p>Start with our risk assessment or explore our features above.</p>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 GlucoBalance. All rights reserved.</p>
+                    <p>Made with ❤️ for better health outcomes</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Clean, Simple JavaScript - No Conflicts
+        class CleanLandingPage {
+            constructor() {
+                this.init();
+            }
+            
+            init() {
+                this.bindEvents();
+                this.setupSmoothScrolling();
+            }
+            
+            bindEvents() {
+                // Navigation buttons
+                document.getElementById('nav-get-started-btn')?.addEventListener('click', () => {
+                    this.startAssessment();
+                });
+                
+                document.getElementById('nav-dashboard-btn')?.addEventListener('click', () => {
+                    this.showDashboard();
+                });
+                
+                document.getElementById('nav-signup-btn')?.addEventListener('click', () => {
+                    this.showSignup();
+                });
+                
+                // Hero buttons
+                document.getElementById('hero-start-assessment')?.addEventListener('click', () => {
+                    this.startAssessment();
+                });
+                
+                document.getElementById('hero-explore-features')?.addEventListener('click', () => {
+                    this.scrollToFeatures();
+                });
+                
+                // Feature cards
+                document.querySelectorAll('.feature-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const feature = card.dataset.feature;
+                        this.showFeature(feature);
+                    });
+                });
+                
+                // Footer links
+                document.querySelectorAll('a[data-feature]').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const feature = link.dataset.feature;
+                        this.showFeature(feature);
+                    });
+                });
+            }
+            
+            setupSmoothScrolling() {
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = document.querySelector(anchor.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+            }
+            
+            startAssessment() {
+                this.showNotification('Starting Risk Assessment...', 'info');
+                setTimeout(() => {
+                    this.showModal('Risk Assessment', `
+                        <div style="text-align: center; padding: 20px;">
+                            <h3>🎯 Diabetes Risk Assessment</h3>
+                            <p>Take our WHO/ADA-compliant questionnaire to assess your diabetes risk.</p>
+                            <div style="margin: 20px 0;">
+                                <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove(); window.cleanLanding.showNotification('Assessment started!', 'success');">
+                                    Begin Assessment
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                }, 500);
+            }
+            
+            showDashboard() {
+                this.showNotification('Opening Dashboard...', 'info');
+                setTimeout(() => {
+                    this.showModal('Dashboard Access', `
+                        <div style="text-align: center; padding: 20px;">
+                            <h3>📊 Health Dashboard</h3>
+                            <p>Access your personalized health dashboard with comprehensive insights.</p>
+                            <div style="margin: 20px 0;">
+                                <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove(); window.cleanLanding.showNotification('Dashboard loaded!', 'success');">
+                                    Go to Dashboard
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                }, 500);
+            }
+            
+            showSignup() {
+                this.showModal('Create Account', `
+                    <div style="padding: 20px;">
+                        <h3 style="text-align: center; margin-bottom: 20px;">📝 Create Your Account</h3>
+                        <form onsubmit="event.preventDefault(); this.closest('.modal-overlay').remove(); window.cleanLanding.showNotification('Account created successfully!', 'success');">
+                            <div style="margin-bottom: 15px;">
+                                <input type="text" placeholder="Full Name" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <input type="email" placeholder="Email Address" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <input type="password" placeholder="Password" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                        </form>
+                    </div>
+                `);
+            }
+            
+            showFeature(feature) {
+                const features = {
+                    'risk-assessment': {
+                        title: '🎯 Risk Assessment',
+                        content: 'Take our comprehensive WHO/ADA-compliant questionnaire to assess your diabetes risk with AI-powered insights.'
+                    },
+                    'nutrition': {
+                        title: '🍎 Nutrition Planning',
+                        content: 'Get personalized meal plans adapted to your dietary preferences and local cuisine with nutritional analysis.'
+                    },
+                    'mental-health': {
+                        title: '💙 Mental Health',
+                        content: 'Track your daily mood and receive AI-generated support with mindfulness exercises and wellness tips.'
+                    },
+                    'progress': {
+                        title: '📊 Progress Tracking',
+                        content: 'Monitor your health journey with visual insights, comprehensive reports, and goal tracking.'
+                    }
+                };
+                
+                const featureData = features[feature];
+                if (featureData) {
+                    this.showModal(featureData.title, `
+                        <div style="text-align: center; padding: 20px;">
+                            <h3>${featureData.title}</h3>
+                            <p style="margin: 20px 0; line-height: 1.6;">${featureData.content}</p>
+                            <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove(); window.cleanLanding.showNotification('Feature accessed!', 'success');">
+                                Get Started
+                            </button>
+                        </div>
+                    `);
+                }
+            }
+            
+            scrollToFeatures() {
+                document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            showModal(title, content) {
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay active';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>${title}</h2>
+                            <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            ${content}
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Close on overlay click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+                
+                // Close on Escape key
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape') {
+                        modal.remove();
+                        document.removeEventListener('keydown', handleEscape);
+                    }
+                };
+                document.addEventListener('keydown', handleEscape);
+            }
+            
+            showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+        }
+        
+        // Initialize clean landing page
+        window.cleanLanding = new CleanLandingPage();
+        
+        console.log('✅ Clean Landing Page Loaded Successfully!');
+    </script>
+</body>
+</html>
