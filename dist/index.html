@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="theme-color" content="#007FFF">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#007FFF">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#005A9E">
+    <title>GlucoBalance - Prevent. Detect. Support.</title>
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="GlucoBalance">
+
+    <!-- Android PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="GlucoBalance">
+
+    <!-- Microsoft PWA Meta Tags -->
+    <meta name="msapplication-TileColor" content="#007FFF">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <!-- SEO and Social Meta Tags -->
+    <meta name="description"
+        content="Mobile-first PWA for comprehensive diabetes prevention, early detection, and ongoing management with AI-powered insights">
+    <meta name="keywords" content="diabetes, prevention, health, PWA, mobile, AI, wellness">
+    <meta name="author" content="GlucoBalance Team">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="GlucoBalance - Diabetes Prevention & Management">
+    <meta property="og:description"
+        content="Mobile-first PWA for comprehensive diabetes prevention with AI-powered insights">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://glucobalance.app">
+    <meta property="og:image" content="icons/icon-512x512.png">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GlucoBalance - Diabetes Prevention & Management">
+    <meta name="twitter:description"
+        content="Mobile-first PWA for comprehensive diabetes prevention with AI-powered insights">
+    <meta name="twitter:image" content="icons/icon-512x512.png">
+
+    <!-- Performance and Security -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles/main.css" as="style">
+    <link rel="preload" href="styles/components.css" as="style">
+    <link rel="preload" href="js/app.js" as="script">
+    <link rel="preload" href="js/module-loader.js" as="script">
+    <link rel="preload" href="js/performance-monitor.js" as="script">
+
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//generativelanguage.googleapis.com">
+
+    <!-- Preconnect to critical origins -->
+    <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/error-handling.css">
+    <link rel="stylesheet" href="styles/dashboard-hero.css">
+    <link rel="stylesheet" href="styles/landing-page-enhanced.css">
+    <link rel="stylesheet" href="styles/dashboard-cards-enhanced.css">
+    <link rel="stylesheet" href="styles/hero-impressive.css">
+    <link rel="stylesheet" href="enhance-hero-animations.css">
+    <link rel="stylesheet" href="styles/hero-layout-redesign.css">
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+
+    <!-- Performance optimizations -->
+    <link rel="preload" href="js/performance-monitor.js" as="script">
+    <link rel="preload" href="js/asset-optimizer.js" as="script">
+    <link rel="preload" href="js/module-loader.js" as="script">
+    
+    <!-- Resource hints -->
+    <link rel="dns-prefetch" href="//generativelanguage.googleapis.com">
+    <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin>
+    
+    <!-- Critical CSS inlined -->
+    <style>
+        /* Critical above-the-fold styles */
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .loading { opacity: 0.7; }
+        .hero-section { background: linear-gradient(135deg, #007FFF 0%, #0056CC 100%); color: white; padding: 2rem 1rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    </style>
+</head>
+
+<body>
+    <div id="app" role="application" aria-label="GlucoBalance Health Management App">
+        <!-- Top Navigation Bar - Outside page containers so it's always visible -->
+        <nav class="top-nav" role="navigation" aria-label="Main Navigation">
+            <div class="container nav-container">
+                <div class="logo">
+                    <h1>GlucoBalance</h1>
+                </div>
+
+                <!-- Desktop Menu -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+
+                <!-- Action Buttons -->
+                <div class="nav-actions">
+                    <button id="nav-get-started-btn" class="btn-outline">Get Started Free</button>
+                    <button id="nav-dashboard-btn" class="btn-outline">Dashboard</button>
+                    <button id="nav-profile-btn" class="btn-outline" style="display: none;" title="Profile">
+                        <span class="btn-text">Profile</span>
+                    </button>
+                    <button id="nav-signup-btn" class="btn-primary">Sign Up</button>
+                    <button id="nav-logout-btn" class="btn-secondary logout-btn" style="display: none;">
+                        Logout</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <header class="hero-section">
+                <!-- Advanced Background Effects -->
+                <div class="hero-background">
+                    <div class="hero-gradient"></div>
+                    <div class="hero-pattern"></div>
+                    <div class="floating-elements"></div>
+                </div>
+
+                <div class="hero-layout">
+                    <!-- Main Content Section -->
+                    <div class="hero-content">
+                        <!-- Premium Certification Badge -->
+                        <div class="hero-badge">
+                            <span class="badge-text">WHO/ADA Certified Platform</span>
+                        </div>
+
+                        <!-- Spectacular Title -->
+                        <h1 class="hero-title">
+                            <span class="title-line">
+                                <span class="title-word prevent">Prevent.</span>
+                                <span class="title-word detect">Detect.</span>
+                                <span class="title-word support">Support.</span>
+                            </span>
+                            <span class="title-main">
+                                <span class="title-with">with</span>
+                                <span class="title-brand">GlucoBalance</span>
+                            </span>
+                        </h1>
+
+                        <!-- Enhanced Trust Section -->
+                        <div class="hero-trust">
+                            <p class="trust-text">Empowering 50,000+ users worldwide with AI-driven health insights</p>
+                            <div class="trust-badges">
+                                <div class="trust-badge">
+                                    <span class="trust-label">HIPAA Secure</span>
+                                </div>
+                                <div class="trust-badge">
+                                    <span class="trust-label">Privacy First</span>
+                                </div>
+                                <div class="trust-badge">
+                                    <span class="trust-label">Evidence-Based</span>
+                                </div>
+                                <div class="trust-badge">
+                                    <span class="trust-label">FDA Recognized</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call-to-Action Buttons -->
+                        <div class="hero-cta">
+                            <button class="hero-btn primary" id="hero-start-assessment">
+                                🎯 Start Free Assessment
+                            </button>
+                            <button class="hero-btn secondary" id="hero-explore-features">
+                                ✨ Explore Features
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Revolutionary Visual Section -->
+                    <div class="hero-visual">
+                        <p class="hero-subtitle">
+                            Transform your health journey with personalized diabetes prevention, 
+                            early detection, and comprehensive management powered by 
+                            <span class="highlight-text">cutting-edge AI technology</span>
+                        </p>
+
+                        <div class="hero-illustration">
+                            <div class="illustration-circle main-circle">
+                                <div class="circle-content">
+                                    <div class="main-text">Health+</div>
+                                </div>
+                            </div>
+                            <div class="pulse-ring ring-1"></div>
+                            <div class="pulse-ring ring-2"></div>
+                            <div class="pulse-ring ring-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main id="main-content" class="container">
+                <section id="features" class="features-section" aria-label="App Features">
+                    <h2 class="section-title">Comprehensive Health Management</h2>
+                    <div class="features-grid">
+                        <div class="feature-card clickable" data-prefetch-module="risk-assessment"
+                            data-feature="risk-assessment">
+                            <h3>Risk Assessment</h3>
+                            <p>WHO/ADA-compliant questionnaire with AI-powered insights</p>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="nutrition-service"
+                            data-feature="nutrition">
+                            <h3>Nutrition Planning</h3>
+                            <p>Personalized meal plans adapted to your local cuisine</p>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="mental-health"
+                            data-feature="mental-health">
+                            <h3>Mental Health</h3>
+                            <p>Daily mood tracking with AI-generated support</p>
+                        </div>
+
+                        <div class="feature-card clickable" data-prefetch-module="progress-dashboard"
+                            data-feature="progress">
+                            <h3>Progress Tracking</h3>
+                            <p>Visual insights and comprehensive health reports</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="cta-section">
+                    <p class="cta-text">Click on any feature card above to get started with your health journey</p>
+                </div>
+
+                <!-- About Section -->
+                <section id="about" class="about-section">
+                    <div class="container">
+                        <h2 class="section-title">About GlucoBalance</h2>
+                        <div class="about-content">
+                            <p>GlucoBalance is a cutting-edge diabetes prevention platform launched in 2025, combining
+                                WHO/ADA-compliant risk assessments with advanced AI technology. Our evidence-based
+                                approach provides personalized nutrition planning, mental health support, and
+                                comprehensive progress tracking to help you prevent diabetes and maintain optimal
+                                health.</p>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number">97%</div>
+                                    <div class="stat-label">User Satisfaction</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">5K+</div>
+                                    <div class="stat-label">Active Users</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">WHO/ADA</div>
+                                    <div class="stat-label">Compliant</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer" id="contact">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <h3>GlucoBalance</h3>
+                            <p>Empowering healthier lives through intelligent diabetes prevention and management.</p>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Features</h4>
+                            <ul>
+                                <li><a href="#" data-feature="risk-assessment">Risk Assessment</a></li>
+                                <li><a href="#" data-feature="nutrition">Nutrition Planning</a></li>
+                                <li><a href="#" data-feature="mental-health">Mental Health</a></li>
+                                <li><a href="#" data-feature="progress">Progress Tracking</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-section">
+                            <h4>Get Started</h4>
+                            <p>Ready to take control of your health?</p>
+                            <p>Start with our risk assessment or explore our features above.</p>
+                        </div>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025 GlucoBalance. All rights reserved.</p>
+                        <p>Made with ❤️ for better health outcomes</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <header class="dashboard-hero">
+                <div class="hero-background">
+                    <div class="hero-pattern"></div>
+                    <div class="hero-gradient"></div>
+                </div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-main">
+                            <div class="hero-greeting">
+                                <h1 class="hero-title">
+                                    <span class="greeting-text">Good <span id="time-of-day">morning</span>,</span>
+                                    <span class="user-name" id="dashboard-user-name">User</span>
+                                </h1>
+                                <p class="hero-subtitle">Take control of your health journey with personalized insights
+                                </p>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">🎯</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-risk-score">--</div>
+                                        <div class="stat-label">Risk Score</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">💙</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-mood-avg">--</div>
+                                        <div class="stat-label">Avg Mood</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">📈</div>
+                                    <div class="stat-content">
+                                        <div class="stat-value" id="hero-progress">--</div>
+                                        <div class="stat-label">Progress</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hero actions removed - buttons moved to navigation bar -->
+                    </div>
+                </div>
+            </header>
+
+            <main class="container dashboard-main">
+                <!-- Dashboard Cards Grid -->
+                <div class="dashboard-grid" role="main" aria-label="Health Dashboard">
+                    <!-- Risk Status Card -->
+                    <div class="card risk-status-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🎯</span> Risk Status</h3>
+                            <div class="card-trend" id="risk-trend">
+                                <span class="trend-icon">📈</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="risk-display" class="risk-display">
+                                <div class="risk-score">--</div>
+                                <div class="risk-category">Take Assessment</div>
+                                <div class="risk-details">
+                                    <small class="last-updated">Never assessed</small>
+                                </div>
+                            </div>
+                            <div class="risk-info-preview">
+                                <div class="assessment-preview">
+                                    <h5>🎯 WHO/ADA Compliant Assessment</h5>
+                                    <p>Evidence-based diabetes risk questionnaire with AI-powered insights</p>
+                                    <ul class="preview-features">
+                                        <li>✓ 8 clinical risk factors</li>
+                                        <li>✓ Instant personalized results</li>
+                                        <li>✓ AI-generated recommendations</li>
+                                        <li>✓ Healthcare provider reports</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="risk-chart-mini" id="risk-chart-mini">
+                                <!-- Mini chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="take-assessment-btn">
+                                📋 Take Assessment
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mood Tracker Card -->
+                    <div class="card mood-tracker-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">💙</span> Mood Tracker</h3>
+                            <div class="card-trend" id="mood-trend">
+                                <span class="trend-icon">📊</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="mood-display">
+                                <div class="current-mood">
+                                    <div class="mood-value" id="current-mood-value">--</div>
+                                    <div class="mood-label">Today's Mood</div>
+                                </div>
+                                <div class="mood-average">
+                                    <div class="avg-value" id="avg-mood-value">--</div>
+                                    <div class="avg-label">30-day Average</div>
+                                </div>
+                            </div>
+                            <div id="mood-selector" class="mood-selector">
+                                <button class="mood-btn" data-mood="1" title="Very Sad">😢</button>
+                                <button class="mood-btn" data-mood="2" title="Sad">😕</button>
+                                <button class="mood-btn" data-mood="3" title="Neutral">😐</button>
+                                <button class="mood-btn" data-mood="4" title="Happy">😊</button>
+                                <button class="mood-btn" data-mood="5" title="Very Happy">😄</button>
+                            </div>
+                            <div class="mood-chart-mini" id="mood-chart-mini">
+                                <!-- Mini mood trend chart with trend line -->
+                                <div class="chart-placeholder">
+                                    <span class="chart-icon">📈</span>
+                                    <span class="chart-text">Trend visualization</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="log-mood-btn">
+                                💙 Log Mood
+                            </button>
+                            <button class="btn-card-action secondary" id="view-mood-history-btn">
+                                📈 View History
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nutrition Snapshot Card -->
+                    <div class="card nutrition-snapshot-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🍎</span> Nutrition Snapshot</h3>
+                            <div class="card-trend" id="nutrition-trend">
+                                <span class="trend-icon">🥗</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="nutrition-summary" class="nutrition-summary">
+                                <div class="nutrition-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="meal-plans-count">0</div>
+                                        <div class="stat-label">Meal Plans</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="adherence-rate">--%</div>
+                                        <div class="stat-label">Adherence</div>
+                                    </div>
+                                </div>
+                                <div class="nutrition-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="nutrition-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <small class="progress-text">Weekly nutrition goal</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-card-action" id="create-meal-plan-btn">
+                                🍽️ Create Plan
+                            </button>
+                            <button class="btn-card-action secondary" id="view-nutrition-btn">
+                                📋 View Plans
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Health Insights Card -->
+                    <div class="card ai-insights-card interactive-card">
+                        <div class="card-header">
+                            <h3><span class="card-icon">🤖</span> AI Health Insights</h3>
+                            <div class="card-actions-header">
+                                <button class="btn-icon refresh-insights" id="refresh-insights-btn"
+                                    title="Refresh Insights">
+                                    🔄
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div id="ai-insights" class="ai-insights-content">
+                                <div class="insights-placeholder">
+                                    <div class="placeholder-icon">🤖</div>
+                                    <p>Click to generate personalized AI health insights</p>
+                                    <button class="btn-primary" id="get-started-insights-btn">
+                                        Get Started
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Charts Section -->
+                <div class="charts-section">
+                    <div class="section-header">
+                        <h2>Health Trends</h2>
+                        <div class="chart-controls">
+                            <select id="chart-timeframe" class="chart-select">
+                                <option value="7">Last 7 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="90">Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Risk Score Trends</h4>
+                                <div class="chart-legend">
+                                    <span class="legend-item risk-low">Low</span>
+                                    <span class="legend-item risk-increased">Increased</span>
+                                    <span class="legend-item risk-high">High</span>
+                                    <span class="legend-item risk-possible">Possible Diabetes</span>
+                                </div>
+                            </div>
+                            <div id="risk-trend-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Mood Trends</h4>
+                                <div class="mood-stats">
+                                    <span id="mood-trend-stat">Stable</span>
+                                </div>
+                            </div>
+                            <div id="mood-trend-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h4>Nutrition Adherence</h4>
+                                <div class="nutrition-stats-header">
+                                    <span id="nutrition-trend-stat">Getting Started</span>
+                                </div>
+                            </div>
+                            <div id="nutrition-chart" class="interactive-chart">
+                                <!-- Chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Health Summary Section -->
+                <div class="health-summary-section">
+                    <div class="section-header">
+                        <h2>Health Summary</h2>
+                        <div class="summary-period">
+                            <span id="summary-period-text">Last 30 days</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-icon">🎯</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="total-assessments">0</div>
+                                <div class="summary-label">Risk Assessments</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">💙</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="mood-entries-count">0</div>
+                                <div class="summary-label">Mood Entries</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">🔥</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="streak-days">0</div>
+                                <div class="summary-label">Day Streak</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-card">
+                            <div class="summary-icon">📈</div>
+                            <div class="summary-content">
+                                <div class="summary-value" id="improvement-score">--%</div>
+                                <div class="summary-label">Improvement</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Feature Detail Modal -->
+        <div id="feature-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Feature Details</h2>
+                    <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="modal-cancel">Learn More</button>
+                    <button class="btn-primary" id="modal-action">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+            <div class="mobile-menu-content">
+                <ul class="mobile-nav-links">
+                    <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                    <li><a href="#about" class="mobile-nav-link">About</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    <li><a href="#privacy" class="mobile-nav-link">Privacy</a></li>
+                </ul>
+                <div class="mobile-action-buttons">
+                    <button class="btn-outline mobile-get-started" id="mobile-get-started-btn">Get Started Free</button>
+                    <button class="btn-outline mobile-dashboard" id="mobile-dashboard-btn">Dashboard</button>
+                    <button class="btn-primary mobile-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Performance and optimization scripts -->
+    <script src="js/performance-monitor.js"></script>
+    <script src="js/asset-optimizer.js"></script>
+    <script src="js/module-loader.js"></script>
+    <script src="js/demo-data-generator.js"></script>
+    <script src="js/demo-data-comprehensive.js"></script>
+    <script src="js/enhanced-demo-data.js"></script>
+    <script src="js/demo-account-setup.js"></script>
+    <script src="js/dashboard-ai-service.js"></script>
+    <script src="js/navigation-manager.js"></script>
+    <script src="js/dashboard-diagnostics.js"></script>
+    <script src="fix-gemini-ai-integration.js"></script>
+    <script src="verify-dashboard-buttons-quick.js"></script>
+
+    <!-- Critical scripts loaded immediately -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="js/landing-page-enhanced.js"></script>
+    <script src="fix-landing-page-button-functionality.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Button functionality fix -->
+    <script src="fix-all-button-functionality.js"></script>
+
+    <!-- Landing page button fix -->
+    <script src="fix-landing-page-buttons.js"></script>
+
+    <!-- Landing page button verification -->
+    <script src="verify-landing-page-button-fix.js"></script>
+
+    <!-- Enhanced Dashboard -->
+    <script src="js/enhanced-dashboard.js"></script>
+
+    <!-- Dashboard Hero Section -->
+    <script src="js/dashboard-hero.js"></script>
+
+    <!-- Enhanced Dashboard Buttons -->
+    <script src="js/enhanced-dashboard-buttons.js"></script>
+
+    <!-- Dashboard Functionality Fix -->
+    <script src="fix-dashboard-functionality.js"></script>
+
+    <!-- Enhanced Dashboard Redesign -->
+    <script src="enhanced-dashboard-redesign.js"></script>
+
+    <!-- Dashboard Buttons Fix -->
+    <script src="dashboard-buttons-fix.js"></script>
+
+    <!-- Dashboard Complete Verification -->
+    <script src="verify-dashboard-complete.js"></script>
+
+    <!-- Navigation Visibility Fix -->
+    <!-- Feature Modal -->
+    <div id="feature-modal" class="modal-overlay">
+        <div class="modal-content feature-modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Feature Details</h2>
+                <button class="close-btn" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Feature details will be populated by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="modal-cancel">Cancel</button>
+                <button class="btn-primary" id="modal-action">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Application Scripts - CRITICAL FOR FUNCTIONALITY -->
+    <script src="js/error-handler.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Signup and Login Functionality Fix -->
+    <script src="fix-signup-login-functionality.js"></script>
+    
+    <!-- Impressive Hero Section -->
+    <script src="js/hero-impressive.js"></script>
+
+    <!-- Verification Scripts -->
+    <script src="fix-navigation-visibility.js"></script>
+    <script src="verify-enhanced-landing-page.js"></script>
+    <script src="verify-hero-improvements.js"></script>
+    <script src="verify-modal-centering-fix.js"></script>
+
+    <!-- Application Initialization -->
+    <script>
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Initializing GlucoBalance Application...');
+
+            // Wait a bit for all scripts to load
+            setTimeout(() => {
+                try {
+                    // Initialize main app
+                    if (typeof GlucoBalanceApp !== 'undefined' && !window.glucoApp) {
+                        window.glucoApp = new GlucoBalanceApp();
+                        console.log('✅ Main app initialized');
+                    }
+
+                    // Initialize landing page manager
+                    if (typeof LandingPageManager !== 'undefined' && !window.landingPageManager) {
+                        window.landingPageManager = new LandingPageManager();
+                        console.log('✅ Landing page manager initialized');
+                    }
+
+                    console.log('🎉 Application initialization complete!');
+                } catch (error) {
+                    console.error('❌ Application initialization failed:', error);
+                }
+            }, 1000);
+        });
+    </script>
+
+    <!-- Non-critical scripts loaded lazily -->
+    <script>
+        // Lazy load non-critical modules
+        if (window.moduleLoader) {
+            // Load modules based on user interaction
+            document.addEventListener('DOMContentLoaded', () => {
+                // Preload modules that might be needed soon
+                window.moduleLoader.preload([
+                    'offline-manager',
+                    'offline-ui',
+                    'auth-ui',
+                    'ai'
+                ]);
+            });
+        } else {
+            // Fallback: load all scripts immediately
+            const scripts = [
+                'js/offline-manager.js',
+                'js/offline-ui.js',
+                'js/auth-ui.js',
+                'js/ai.js',
+                'js/risk-assessment.js',
+                'js/nutrition-service.js',
+                'js/nutrition-ui.js',
+                'js/mental-health.js',
+                'js/mental-health-ui.js',
+                'js/progress-dashboard.js',
+                'js/pdf-export.js',
+                'js/doctor-report.js',
+                'js/doctor-report-ui.js',
+                'js/notification-service.js',
+                'js/notification-ui.js',
+                'js/security.js',
+                'js/security-config.js',
+                'js/security-integration.js',
+                'js/privacy-ui.js'
+            ];
+
+            scripts.forEach(src => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = true;
+                document.head.appendChild(script);
+            });
+        }
+    </script>
+
+    <script>
+        // Initialize performance monitoring
+        if (window.performanceMonitor) {
+            window.performanceMonitor.mark('app-start');
+        }
+        
+        // Track page load performance
+        window.addEventListener('load', () => {
+            if (window.performanceMonitor) {
+                window.performanceMonitor.measure('app-start');
+                window.performanceMonitor.trackCustomEvent('page-load', {
+                    loadTime: performance.now(),
+                    resources: performance.getEntriesByType('resource').length
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

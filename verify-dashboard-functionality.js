@@ -474,8 +474,6 @@ if (typeof window !== 'undefined') {
 }
 
 // Export for Node.js environments
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = DashboardFunctionalityVerifier;
-}
+export default DashboardFunctionalityVerifier;
 
 console.log('✅ Dashboard Functionality Verifier loaded successfully!');

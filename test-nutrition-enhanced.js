@@ -373,7 +373,7 @@ if (typeof window !== 'undefined') {
             new EnhancedNutritionTestSuite();
         }, 2000);
     });
-} else {
-    // Node.js environment
-    module.exports = EnhancedNutritionTestSuite;
 }
+
+// Export for ES modules
+export default EnhancedNutritionTestSuite;

@@ -524,9 +524,10 @@ class SecurityVerification {
 }
 
 // Export for use in other contexts
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SecurityVerification;
-} else if (typeof window !== 'undefined') {
+export default SecurityVerification;
+
+// Also make available globally for browser compatibility
+if (typeof window !== 'undefined') {
     window.SecurityVerification = SecurityVerification;
 }
 

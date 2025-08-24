@@ -1,0 +1,600 @@
+/**
+ * Privacy and Security UI Styles for GlucoBalance
+ */
+
+/* Privacy Banner */
+.privacy-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 3px solid #007FFF;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 20px;
+    animation: slideUp 0.3s ease-out;
+}
+
+.privacy-banner-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.privacy-banner-text h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.privacy-banner-text p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.privacy-banner-actions {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.privacy-banner-actions .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.privacy-banner-actions .btn-primary {
+    background: #007FFF;
+    color: white;
+}
+
+.privacy-banner-actions .btn-primary:hover {
+    background: #0066CC;
+}
+
+.privacy-banner-actions .btn-secondary {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #dee2e6;
+}
+
+.privacy-banner-actions .btn-secondary:hover {
+    background: #e9ecef;
+}
+
+.privacy-banner-actions .btn-outline {
+    background: transparent;
+    color: #007FFF;
+    border: 1px solid #007FFF;
+}
+
+.privacy-banner-actions .btn-outline:hover {
+    background: #007FFF;
+    color: white;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+.privacy-modal {
+    max-width: 700px;
+}
+
+.privacy-policy-modal {
+    max-width: 800px;
+}
+
+.modal-header {
+    padding: 24px 24px 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.modal-body {
+    padding: 0 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 24px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+/* Consent Sections */
+.consent-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.consent-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.consent-section h3 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.consent-section p {
+    margin: 0 0 16px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Consent Toggle */
+.consent-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.consent-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    width: 48px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.consent-toggle input[type="checkbox"]:checked + .toggle-slider {
+    background: #007FFF;
+}
+
+.consent-toggle input[type="checkbox"]:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+.consent-toggle input[type="checkbox"]:disabled + .toggle-slider {
+    background: #e9ecef;
+    cursor: not-allowed;
+}
+
+.consent-toggle input[type="checkbox"]:disabled + .toggle-slider::before {
+    background: #6c757d;
+}
+
+.toggle-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Privacy Information */
+.privacy-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 24px;
+}
+
+.privacy-info h4 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.privacy-info ul {
+    margin: 0 0 16px 0;
+    padding-left: 20px;
+}
+
+.privacy-info li {
+    margin-bottom: 4px;
+    color: #666;
+    font-size: 14px;
+}
+
+.privacy-info p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.privacy-info a {
+    color: #007FFF;
+    text-decoration: none;
+}
+
+.privacy-info a:hover {
+    text-decoration: underline;
+}
+
+/* Privacy Settings Page */
+.privacy-settings {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.privacy-settings h2 {
+    margin: 0 0 32px 0;
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.settings-section {
+    margin-bottom: 40px;
+    padding: 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section h3 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Consent Status */
+.consent-status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Data Actions */
+.data-actions,
+.privacy-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.data-actions .btn,
+.privacy-actions .btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Policy Content */
+.policy-content {
+    line-height: 1.6;
+}
+
+.policy-content h3 {
+    margin: 24px 0 12px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.policy-content p {
+    margin: 0 0 16px 0;
+    color: #666;
+}
+
+.policy-content ul {
+    margin: 0 0 16px 0;
+    padding-left: 20px;
+}
+
+.policy-content li {
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.policy-content strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Audit Log */
+.audit-log {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.audit-entry {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.audit-entry:last-child {
+    border-bottom: none;
+}
+
+.audit-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.audit-action {
+    font-size: 14px;
+    color: #333;
+}
+
+.audit-status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+    color: #495057;
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 3000;
+    animation: slideInRight 0.3s ease-out;
+    max-width: 400px;
+}
+
+.notification-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.notification-error {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .privacy-banner-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    
+    .privacy-banner-actions {
+        justify-content: center;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 16px;
+    }
+    
+    .data-actions,
+    .privacy-actions {
+        flex-direction: column;
+    }
+    
+    .consent-status {
+        gap: 8px;
+    }
+    
+    .status-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .audit-entry {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .privacy-banner {
+        padding: 16px;
+    }
+    
+    .privacy-banner-text h3 {
+        font-size: 16px;
+    }
+    
+    .privacy-banner-text p {
+        font-size: 13px;
+    }
+    
+    .privacy-banner-actions .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .modal-header h2 {
+        font-size: 20px;
+    }
+    
+    .consent-section h3 {
+        font-size: 16px;
+    }
+}

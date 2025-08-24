@@ -1,5 +1,8 @@
 import 'fake-indexeddb/auto';
 import { vi } from 'vitest';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 // Mock global objects and APIs
 global.indexedDB = require('fake-indexeddb');

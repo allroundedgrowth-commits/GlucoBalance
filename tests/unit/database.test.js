@@ -15,6 +15,8 @@ describe('KiroDatabase', () => {
 
   beforeEach(async () => {
     // Reset IndexedDB
+    const { createRequire } = await import('module');
+    const require = createRequire(import.meta.url);
     global.indexedDB = require('fake-indexeddb');
     
     // Setup mock offline manager

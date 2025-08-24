@@ -206,7 +206,7 @@ if (typeof window !== 'undefined') {
             console.error('❌ Verification failed:', error);
         });
     }, 2000);
-} else {
-    // Node.js environment
-    module.exports = { verifyButtonFunctionality };
 }
+
+// Export for ES modules
+export { verifyButtonFunctionality };

@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "buildTime": "2025-08-24T00:04:20.771Z",
+  "environment": "production",
+  "features": {
+    "pwa": true,
+    "offline": true,
+    "performance": true,
+    "security": true
+  },
+  "optimization": {
+    "codesplitting": true,
+    "lazyLoading": true,
+    "assetOptimization": true,
+    "caching": true
+  }
+}

@@ -702,6 +702,4 @@ if (typeof window !== 'undefined') {
 }
 
 // Export for module use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ErrorHandlingVerification;
-}
+export default ErrorHandlingVerification;

@@ -286,9 +286,10 @@ async function runAllTests() {
 }
 
 // Export for use in browser or Node.js
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { runAllTests };
-} else if (typeof window !== 'undefined') {
+export { runAllTests };
+
+// Also make available globally for browser compatibility
+if (typeof window !== 'undefined') {
     window.verifyEnhancedAIDashboard = runAllTests;
 }
 

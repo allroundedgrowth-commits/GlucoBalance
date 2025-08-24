@@ -486,10 +486,10 @@ if (typeof window !== 'undefined') {
         const verifier = new PWAVerifier();
         await verifier.runAllTests();
     });
-} else {
-    // Node.js environment
-    module.exports = PWAVerifier;
 }
+
+// Export for ES modules
+export default PWAVerifier;
 
 // Make available globally for manual testing
 if (typeof window !== 'undefined') {

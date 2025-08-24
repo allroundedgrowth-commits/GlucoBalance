@@ -1,7 +1,11 @@
 // Deployment Script for GlucoBalance
-const { BuildConfig, BuildProcessor } = require('./build.config.js');
-const fs = require('fs').promises;
-const path = require('path');
+import { BuildConfig, BuildProcessor } from './build.config.js';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class DeploymentManager {
     constructor() {
@@ -83,7 +87,7 @@ class DeploymentManager {
     async runTests() {
         console.log('Running test suite...');
         
-        const { spawn } = require('child_process');
+        const { spawn } = await import('child_process');
         
         return new Promise((resolve, reject) => {
             const testProcess = spawn('npm', ['test'], {
@@ -142,7 +146,7 @@ class DeploymentManager {
 
     async getGitCommit() {
         try {
-            const { exec } = require('child_process');
+            const { exec } = await import('child_process');
             return new Promise((resolve) => {
                 exec('git rev-parse HEAD', (error, stdout) => {
                     resolve(error ? 'unknown' : stdout.trim());
@@ -154,7 +158,7 @@ class DeploymentManager {
     }
 
     async generateChecksums() {
-        const crypto = require('crypto');
+        const crypto = await import('crypto');
         const checksums = {};
         
         const distDir = path.join(process.cwd(), 'dist');
@@ -451,9 +455,10 @@ class DeploymentManager {
 }
 
 // CLI interface
-if (require.main === module) {
+const isMainModule = process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]));
+if (isMainModule) {
     const deployment = new DeploymentManager();
     deployment.deploy().catch(console.error);
 }
 
-module.exports = DeploymentManager;
+export default DeploymentManager;

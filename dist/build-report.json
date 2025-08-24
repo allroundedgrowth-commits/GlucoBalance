@@ -1,0 +1,339 @@
+{
+  "buildTime": "2025-08-24T00:04:20.805Z",
+  "duration": 555,
+  "totalFiles": 61,
+  "totalSize": 2146677,
+  "totalSizeFormatted": "2.05 MB",
+  "files": [
+    {
+      "path": "styles\\components.css",
+      "size": 176234,
+      "sizeFormatted": "172.1 KB"
+    },
+    {
+      "path": "js\\enhanced-dashboard.js",
+      "size": 103380,
+      "sizeFormatted": "100.96 KB"
+    },
+    {
+      "path": "js\\landing-page.js",
+      "size": 95921,
+      "sizeFormatted": "93.67 KB"
+    },
+    {
+      "path": "js\\landing-page-enhanced.js",
+      "size": 91745,
+      "sizeFormatted": "89.59 KB"
+    },
+    {
+      "path": "js\\app.js",
+      "size": 83131,
+      "sizeFormatted": "81.18 KB"
+    },
+    {
+      "path": "styles\\main.css",
+      "size": 80572,
+      "sizeFormatted": "78.68 KB"
+    },
+    {
+      "path": "js\\progress-dashboard.js",
+      "size": 77619,
+      "sizeFormatted": "75.8 KB"
+    },
+    {
+      "path": "js\\risk-assessment.js",
+      "size": 71480,
+      "sizeFormatted": "69.8 KB"
+    },
+    {
+      "path": "js\\notification-service.js",
+      "size": 64281,
+      "sizeFormatted": "62.77 KB"
+    },
+    {
+      "path": "js\\notification-service-enhanced.js",
+      "size": 63359,
+      "sizeFormatted": "61.87 KB"
+    },
+    {
+      "path": "js\\mental-health-ui.js",
+      "size": 60475,
+      "sizeFormatted": "59.06 KB"
+    },
+    {
+      "path": "js\\offline-manager.js",
+      "size": 55737,
+      "sizeFormatted": "54.43 KB"
+    },
+    {
+      "path": "js\\doctor-report-ui.js",
+      "size": 54375,
+      "sizeFormatted": "53.1 KB"
+    },
+    {
+      "path": "js\\nutrition-service.js",
+      "size": 51745,
+      "sizeFormatted": "50.53 KB"
+    },
+    {
+      "path": "js\\enhanced-demo-data.js",
+      "size": 50534,
+      "sizeFormatted": "49.35 KB"
+    },
+    {
+      "path": "js\\nutrition-ui.js",
+      "size": 44032,
+      "sizeFormatted": "43 KB"
+    },
+    {
+      "path": "js\\error-handler.js",
+      "size": 43139,
+      "sizeFormatted": "42.13 KB"
+    },
+    {
+      "path": "js\\enhanced-dashboard-buttons.js",
+      "size": 42723,
+      "sizeFormatted": "41.72 KB"
+    },
+    {
+      "path": "index.html",
+      "size": 42487,
+      "sizeFormatted": "41.49 KB"
+    },
+    {
+      "path": "js\\notification-ui.js",
+      "size": 40333,
+      "sizeFormatted": "39.39 KB"
+    },
+    {
+      "path": "js\\offline-ui.js",
+      "size": 39383,
+      "sizeFormatted": "38.46 KB"
+    },
+    {
+      "path": "styles\\enhanced-dashboard.css",
+      "size": 38932,
+      "sizeFormatted": "38.02 KB"
+    },
+    {
+      "path": "js\\demo-data-comprehensive.js",
+      "size": 35595,
+      "sizeFormatted": "34.76 KB"
+    },
+    {
+      "path": "js\\demo-data-generator.js",
+      "size": 35476,
+      "sizeFormatted": "34.64 KB"
+    },
+    {
+      "path": "styles\\landing-page-enhanced.css",
+      "size": 33775,
+      "sizeFormatted": "32.98 KB"
+    },
+    {
+      "path": "js\\doctor-report.js",
+      "size": 33253,
+      "sizeFormatted": "32.47 KB"
+    },
+    {
+      "path": "js\\mental-health.js",
+      "size": 33163,
+      "sizeFormatted": "32.39 KB"
+    },
+    {
+      "path": "sw.js",
+      "size": 32850,
+      "sizeFormatted": "32.08 KB"
+    },
+    {
+      "path": "js\\pdf-export.js",
+      "size": 32042,
+      "sizeFormatted": "31.29 KB"
+    },
+    {
+      "path": "js\\ai.js",
+      "size": 31934,
+      "sizeFormatted": "31.19 KB"
+    },
+    {
+      "path": "js\\security.js",
+      "size": 31497,
+      "sizeFormatted": "30.76 KB"
+    },
+    {
+      "path": "js\\database.js",
+      "size": 28388,
+      "sizeFormatted": "27.72 KB"
+    },
+    {
+      "path": "js\\privacy-ui.js",
+      "size": 24938,
+      "sizeFormatted": "24.35 KB"
+    },
+    {
+      "path": "js\\auth.js",
+      "size": 24135,
+      "sizeFormatted": "23.57 KB"
+    },
+    {
+      "path": "js\\performance-monitor.js",
+      "size": 21442,
+      "sizeFormatted": "20.94 KB"
+    },
+    {
+      "path": "js\\dashboard-hero.js",
+      "size": 21389,
+      "sizeFormatted": "20.89 KB"
+    },
+    {
+      "path": "js\\auth-ui.js",
+      "size": 20248,
+      "sizeFormatted": "19.77 KB"
+    },
+    {
+      "path": "js\\navigation-manager.js",
+      "size": 17251,
+      "sizeFormatted": "16.85 KB"
+    },
+    {
+      "path": "js\\security-integration.js",
+      "size": 17076,
+      "sizeFormatted": "16.68 KB"
+    },
+    {
+      "path": "styles\\hero-impressive.css",
+      "size": 16511,
+      "sizeFormatted": "16.12 KB"
+    },
+    {
+      "path": "styles\\offline.css",
+      "size": 15379,
+      "sizeFormatted": "15.02 KB"
+    },
+    {
+      "path": "styles\\risk-assessment.css",
+      "size": 14642,
+      "sizeFormatted": "14.3 KB"
+    },
+    {
+      "path": "js\\asset-optimizer.js",
+      "size": 13282,
+      "sizeFormatted": "12.97 KB"
+    },
+    {
+      "path": "js\\hero-impressive.js",
+      "size": 13035,
+      "sizeFormatted": "12.73 KB"
+    },
+    {
+      "path": "styles\\dashboard-cards-enhanced.css",
+      "size": 12947,
+      "sizeFormatted": "12.64 KB"
+    },
+    {
+      "path": "js\\dashboard-diagnostics.js",
+      "size": 12904,
+      "sizeFormatted": "12.6 KB"
+    },
+    {
+      "path": "styles\\dashboard-hero.css",
+      "size": 12119,
+      "sizeFormatted": "11.83 KB"
+    },
+    {
+      "path": "js\\dashboard-ai-service.js",
+      "size": 12087,
+      "sizeFormatted": "11.8 KB"
+    },
+    {
+      "path": "styles\\privacy.css",
+      "size": 10667,
+      "sizeFormatted": "10.42 KB"
+    },
+    {
+      "path": "styles\\hero-enhanced.css",
+      "size": 10524,
+      "sizeFormatted": "10.28 KB"
+    },
+    {
+      "path": "js\\module-loader.js",
+      "size": 9506,
+      "sizeFormatted": "9.28 KB"
+    },
+    {
+      "path": "js\\security-config.js",
+      "size": 9258,
+      "sizeFormatted": "9.04 KB"
+    },
+    {
+      "path": "styles\\hero-layout-redesign.css",
+      "size": 7555,
+      "sizeFormatted": "7.38 KB"
+    },
+    {
+      "path": "js\\demo-account-setup.js",
+      "size": 7408,
+      "sizeFormatted": "7.23 KB"
+    },
+    {
+      "path": "js\\infrastructure-test.js",
+      "size": 7403,
+      "sizeFormatted": "7.23 KB"
+    },
+    {
+      "path": "styles\\error-handling.css",
+      "size": 7282,
+      "sizeFormatted": "7.11 KB"
+    },
+    {
+      "path": "README.md",
+      "size": 3894,
+      "sizeFormatted": "3.8 KB"
+    },
+    {
+      "path": "manifest.json",
+      "size": 2714,
+      "sizeFormatted": "2.65 KB"
+    },
+    {
+      "path": "icons\\placeholder.txt",
+      "size": 782,
+      "sizeFormatted": "782 Bytes"
+    },
+    {
+      "path": "browserconfig.xml",
+      "size": 378,
+      "sizeFormatted": "378 Bytes"
+    },
+    {
+      "path": "deploy-config.json",
+      "size": 331,
+      "sizeFormatted": "331 Bytes"
+    }
+  ],
+  "performance": {
+    "bundleSize": 2146677,
+    "compressionRatio": "N/A",
+    "cacheableResources": 55
+  },
+  "recommendations": [
+    {
+      "type": "optimization",
+      "message": "2 files are larger than 100KB. Consider code splitting or compression.",
+      "files": [
+        "styles\\components.css",
+        "js\\enhanced-dashboard.js"
+      ]
+    },
+    {
+      "type": "performance",
+      "message": "Total bundle size exceeds 1MB. Consider implementing lazy loading and code splitting.",
+      "impact": "high"
+    },
+    {
+      "type": "bundling",
+      "message": "42 JavaScript files detected. Consider bundling to reduce HTTP requests.",
+      "impact": "medium"
+    }
+  ]
+}

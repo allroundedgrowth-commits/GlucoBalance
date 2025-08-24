@@ -469,6 +469,4 @@ if (typeof window !== 'undefined') {
 }
 
 // Export for Node.js environments
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EnhancedNotificationSystemVerifier;
-}
+export default EnhancedNotificationSystemVerifier;

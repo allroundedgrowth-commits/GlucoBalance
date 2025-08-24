@@ -195,14 +195,14 @@ class BuildProcessor {
 
     async prepareBuild() {
         // Create build directory structure
-        const fs = require('fs').promises;
-        const path = require('path');
+        const fs = await import('fs/promises');
+        const path = await import('path');
         
         const buildDir = path.join(process.cwd(), 'dist');
         
         // Clean and create build directory
         try {
-            await fs.rmdir(buildDir, { recursive: true });
+            await fs.rm(buildDir, { recursive: true, force: true });
         } catch (error) {
             // Directory doesn't exist, ignore
         }
@@ -256,8 +256,8 @@ class BuildProcessor {
     }
 
     async generateManifest() {
-        const fs = require('fs').promises;
-        const path = require('path');
+        const fs = await import('fs/promises');
+        const path = await import('path');
         
         const manifest = {
             ...this.config.pwa,
@@ -279,8 +279,8 @@ class BuildProcessor {
             return;
         }
         
-        const fs = require('fs').promises;
-        const path = require('path');
+        const fs = await import('fs/promises');
+        const path = await import('path');
         
         const swContent = this.generateServiceWorkerContent();
         
@@ -422,8 +422,8 @@ async function handleApiRequest(request) {
     }
 
     async generateReport() {
-        const fs = require('fs').promises;
-        const path = require('path');
+        const fs = await import('fs/promises');
+        const path = await import('path');
         
         const report = {
             environment: this.env,
@@ -443,9 +443,4 @@ async function handleApiRequest(request) {
 }
 
 // Export configuration and processor
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { BuildConfig, BuildProcessor };
-} else {
-    window.BuildConfig = BuildConfig;
-    window.BuildProcessor = BuildProcessor;
-}
+export { BuildConfig, BuildProcessor };

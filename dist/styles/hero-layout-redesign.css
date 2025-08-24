@@ -1,0 +1,370 @@
+/* Hero Section Layout Redesign - Two Column Layout */
+
+/* Override existing hero section styles for new layout */
+.hero-section {
+    background: linear-gradient(135deg, var(--azure-blue) 0%, var(--azure-dark) 100%);
+    color: white;
+    padding: 8rem 0 4rem;
+    margin-top: 70px;
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+    pointer-events: none;
+}
+
+/* Two-column layout container */
+.hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: 60vh;
+    width: 100%;
+}
+
+/* Left column - Main content */
+.hero-content {
+    text-align: left;
+    padding-right: 2rem;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+}
+
+.title-line {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.title-word {
+    display: inline-block;
+    margin-right: 0.5rem;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.title-word.prevent {
+    animation-delay: 0.2s;
+    color: #FFD700;
+}
+
+.title-word.detect {
+    animation-delay: 0.4s;
+    color: #40E0FF;
+}
+
+.title-word.support {
+    animation-delay: 0.6s;
+    color: #90EE90;
+}
+
+.title-main {
+    display: block;
+    font-size: 3.8rem;
+    margin-top: 0.5rem;
+}
+
+.title-with {
+    font-size: 2.2rem;
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.title-brand {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+}
+
+/* Right column - Visual and subtitle */
+.hero-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-left: 2rem;
+}
+
+/* Subtitle styling for right side */
+.hero-visual .hero-subtitle {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    opacity: 0.95;
+    margin-bottom: 3rem;
+    max-width: 500px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: slideInRight 1s ease forwards;
+    transform: translateX(50px);
+    opacity: 0;
+}
+
+.hero-visual .hero-subtitle .highlight-text {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+}
+
+/* Trust indicators styling */
+.hero-trust {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.trust-text {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.trust-badges {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.trust-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Hero illustration adjustments */
+.hero-illustration {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Tablet layout adjustments */
+@media (max-width: 1024px) {
+    .hero-layout {
+        gap: 2rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .title-main {
+        font-size: 3.2rem;
+    }
+    
+    .hero-visual .hero-subtitle {
+        font-size: 1.2rem;
+        padding: 1.5rem;
+    }
+    
+    .hero-illustration {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Mobile layout - stack vertically */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 6rem 1rem 3rem;
+        min-height: auto;
+    }
+    
+    .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .hero-content {
+        text-align: center;
+        padding-right: 0;
+        order: 1;
+    }
+    
+    .hero-visual {
+        padding-left: 0;
+        order: 2;
+    }
+    
+    .hero-visual .hero-subtitle {
+        text-align: center;
+        margin-bottom: 2rem;
+        max-width: 100%;
+        font-size: 1.1rem;
+        padding: 1.5rem;
+        animation: fadeInUp 1s ease forwards;
+        transform: translateY(30px);
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .title-main {
+        font-size: 2.8rem;
+    }
+    
+    .title-with {
+        font-size: 1.8rem;
+    }
+    
+    .hero-illustration {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .hero-trust {
+        text-align: center;
+    }
+    
+    .trust-badges {
+        justify-content: center;
+    }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 5rem 1rem 2rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .title-main {
+        font-size: 2.3rem;
+    }
+    
+    .title-with {
+        font-size: 1.5rem;
+    }
+    
+    .hero-visual .hero-subtitle {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+    
+    .hero-illustration {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .hero-layout {
+        gap: 2rem;
+    }
+}
+
+/* High-resolution display optimizations */
+@media (min-width: 1200px) {
+    .hero-layout {
+        gap: 6rem;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .title-main {
+        font-size: 4.5rem;
+    }
+    
+    .hero-visual .hero-subtitle {
+        font-size: 1.4rem;
+        padding: 2.5rem;
+        max-width: 550px;
+    }
+    
+    .hero-illustration {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .title-word,
+    .hero-visual .hero-subtitle {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .hero-visual .hero-subtitle {
+        background: rgba(0, 0, 0, 0.3);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .trust-badge {
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
